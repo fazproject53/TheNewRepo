@@ -8,7 +8,6 @@ import 'package:celepraty/celebrity/Requests/ReguistMainPage.dart';
 import 'package:celepraty/celebrity/TechincalSupport/contact_with_us.dart';
 import 'package:celepraty/celebrity/blockList.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
-import 'package:celepraty/celebrity/chat/chatsList.dart';
 import 'package:celepraty/celebrity/setting/profileInformation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -75,7 +74,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: drowAppBar('حسابي', context),
+        appBar: AppBarNoIcon("حسابي"),
         body: Center(
           child: SingleChildScrollView(
             child: Column(children: [
@@ -159,7 +158,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
               //========================== social media icons row =======================================
 
               SizedBox(
-                height: 50,
+                height: 50.h,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 padding(

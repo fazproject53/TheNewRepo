@@ -12,7 +12,7 @@ class ActivityScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: drowAppBar("التفاعلات", context),
+        appBar: AppBarNoIcon("التفاعلات"),
         body: const ActivityScreenMain(),
       ),
     );

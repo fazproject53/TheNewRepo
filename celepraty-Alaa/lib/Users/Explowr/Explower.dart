@@ -22,7 +22,7 @@ class _ExplowerState extends State<Explower> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          appBar: drowAppBar("اكسبلور", context),
+          appBar: AppBarNoIcon("اكسبلور"),
           body: Padding(
               padding: EdgeInsets.all(12.h),
               child: Column(

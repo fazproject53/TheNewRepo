@@ -10,8 +10,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -22,82 +20,75 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int index = 2;
   final items = <Widget>[
-    GradientIcon(nameIcon, 30.w,
+    ///explore icon
+    GradientIcon(
+        exploreIcon,
+        30.w,
         const LinearGradient(
           begin: Alignment(0.7, 2.0),
           end: Alignment(-0.69, -1.0),
-          colors: [
-            Color(0xff0ab3d0),
-            Color(0xffe468ca)
-          ],
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
           stops: [0.0, 1.0],
         )),
-    ///
-    GradientIcon(chatIcon, 30.w,
+    ///notification icon
+    GradientIcon(
+        notificationIcon,
+        30.w,
         const LinearGradient(
           begin: Alignment(0.7, 2.0),
           end: Alignment(-0.69, -1.0),
-          colors: [
-            Color(0xff0ab3d0),
-            Color(0xffe468ca)
-          ],
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
           stops: [0.0, 1.0],
         )),
-    ///
-    GradientIcon(homeIcon, 30.w,
+    ///home icon
+    GradientIcon(
+        homeIcon,
+        30.w,
         const LinearGradient(
           begin: Alignment(0.7, 2.0),
           end: Alignment(-0.69, -1.0),
-          colors: [
-            Color(0xff0ab3d0),
-            Color(0xffe468ca)
-          ],
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
           stops: [0.0, 1.0],
         )),
-    ///
-    GradientIcon(exploreIcon, 30.w,
+    ///chat icon
+    GradientIcon(
+        chatIcon,
+        30.w,
         const LinearGradient(
           begin: Alignment(0.7, 2.0),
           end: Alignment(-0.69, -1.0),
-          colors: [
-            Color(0xff0ab3d0),
-            Color(0xffe468ca)
-          ],
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
           stops: [0.0, 1.0],
         )),
-    ///
-    GradientIcon(notificationIcon, 30.w,
+    ///account icon
+    GradientIcon(
+        nameIcon,
+        30.w,
         const LinearGradient(
           begin: Alignment(0.7, 2.0),
           end: Alignment(-0.69, -1.0),
-          colors: [
-            Color(0xff0ab3d0),
-            Color(0xffe468ca)
-          ],
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
           stops: [0.0, 1.0],
         )),
-
   ];
-
-  final Screens = [
-    /// Celebrity Profile
-    celebratyProfile(),
-    /// Chats
-    chatsList(),
+  final screens = [
+    /// Explore
+    const Explower(),
+    /// Activity page
+    const ActivityScreen(),
     /// Home Screen
     celebrityHomePage(),
-    /// Explore
-    Explower(),
-    /// Activity page
-    ActivityScreen()
-
+    /// Chats
+    chatsList(),
+    /// Celebrity Profile
+    celebratyProfile(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Screens[index],
+      body: screens[index],
       bottomNavigationBar: CurvedNavigationBar(
-       backgroundColor: deepwhite,
+        backgroundColor: deepwhite,
         color: white,
         index: index,
         items: items,
@@ -107,11 +98,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-

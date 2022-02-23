@@ -1,7 +1,6 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variabls/varaibles.dart';
 import 'package:celepraty/celebrity/chat/chat_Screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,7 +17,7 @@ class _chatsListState extends State<chatsList> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: drowAppBar( 'المحادثات',  context),
+        appBar: AppBarNoIcon( 'المحادثات'),
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.only(top: 10.h, right: 15.w),
