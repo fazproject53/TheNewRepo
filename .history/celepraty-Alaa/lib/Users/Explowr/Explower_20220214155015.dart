@@ -1,6 +1,6 @@
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variabls/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -1,4 +1,4 @@
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variabls/Variables.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 
 import 'package:flutter/material.dart';
