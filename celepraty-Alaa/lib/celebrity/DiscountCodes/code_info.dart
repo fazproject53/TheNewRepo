@@ -1,6 +1,8 @@
 class CodeInfo {
   final int id;
-  final String  numberOfUsers, code, typeOfCode, codeGoTo, description, status, duration;
+  final String numberOfUsers, code, typeOfCode, codeGoTo, description, status,
+      duration;
+
   //final DateTime duration;
 
   CodeInfo({

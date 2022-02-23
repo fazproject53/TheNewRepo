@@ -1,5 +1,6 @@
 ///import section
 import 'package:flutter/material.dart';
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variabls/varaibles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,19 +45,53 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
   ///formKey
   final _formKey = GlobalKey<FormState>();
 
-  ///Type
-  String typeOfSupport = 'أختر نوع الشكوى';
-
   ///Type of discount drop down list
-  var items = [
-    'أختر نوع الشكوى',
-    'استفسار',
-    'استفسار',
+  final List _testList = [
+    {'no': 1, 'keyword': 'دعم فني'},
+    {'no': 2, 'keyword': 'إستفسار'},
+    {'no': 3, 'keyword': 'صيانة'},
+    {'no': 3, 'keyword': 'سوال'},
+    {'no': 3, 'keyword': 'إستفسار'}
   ];
 
+  ///
+  List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+
   ///_value
-  int? _value = 1;
-  bool isVisible = false;
+  var _selectedTest;
+  onChangeDropdownTests(selectedTest) {
+    print(selectedTest);
+    setState(() {
+      _selectedTest = selectedTest;
+    });
+  }
+
+  @override
+  void initState() {
+    _dropdownTestItems = buildDropdownTestItems(_testList);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
+    List<DropdownMenuItem<Object?>> items = [];
+    for (var i in _testList) {
+      items.add(
+        DropdownMenuItem(
+          alignment: Alignment.centerRight,
+          value: i,
+          child: Text(i['keyword']),
+
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -133,117 +168,41 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                           }, false),
                         ),
 
-                        ///Select The Type of Support
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10.h, right: 20.w),
-                            child: text(
-                                context, "اختر نوع الشكوى", 18, ligthtBlack,
-                                family: 'DINNextLTArabic'),
-                          ),
-                        ),
-
-                        ///The Radio Buttons
-                        Container(
-                          margin: EdgeInsets.only(top: 5.h, right: 5.w),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 0.9,
-                                    child: Radio<int>(
-                                        value: 1,
-                                        groupValue: _value,
-                                        activeColor: pink,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _value = value;
-                                            isVisible = false;
-                                          });
-                                        }),
-                                  ),
-                                  text(context, "استفسار", 12, ligthtBlack,
-                                      family: 'DINNextLTArabic'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 0.9,
-                                    child: Radio<int>(
-                                        value: 2,
-                                        groupValue: _value,
-                                        activeColor: pink,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _value = value;
-                                            isVisible = false;
-                                          });
-                                        }),
-                                  ),
-                                  text(context, "استفسار", 12, ligthtBlack,
-                                      family: 'DINNextLTArabic'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 0.9,
-                                    child: Radio<int>(
-                                        value: 3,
-                                        groupValue: _value,
-                                        activeColor: pink,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _value = value;
-                                            isVisible = false;
-                                          });
-                                        }),
-                                  ),
-                                  text(context, "استفسار", 12, ligthtBlack,
-                                      family: 'DINNextLTArabic'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 0.9,
-                                    child: Radio<int>(
-                                      value: 4,
-                                      groupValue: _value,
-                                      activeColor: pink,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _value = value;
-                                          isVisible = true;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  text(context, "اخرى", 12, ligthtBlack,
-                                      family: 'DINNextLTArabic'),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        ///the text field show
-                        Visibility(
-                          visible: isVisible,
-                          child: paddingg(
-                            15,
-                            15,
-                            12,
-                            textFieldNoIcon(context, 'ادخل شكوتك الخاصة ', 12,
-                                false, supportAddNew, (String? value) {
-                              /// Validation text field
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            }, false, ),
+                        ///Dropdown Below
+                        paddingg(
+                          15,
+                          15,
+                          12,
+                          DropdownBelow(
+                            itemWidth: 380.w,
+                            itemTextstyle: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: black,
+                                fontFamily: 'Cairo',),
+                            boxTextstyle: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: grey,
+                                fontFamily: 'Cairo'),
+                            boxPadding:
+                                EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                            boxWidth: 500.w,
+                            boxHeight: 40.h,
+                            boxDecoration: BoxDecoration(
+                                color: textFieldBlack2.withOpacity(0.70),
+                                borderRadius: BorderRadius.circular(8.r)),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white54,
+                            ),
+                            hint: const Text(
+                              'اختر نوع الشكوى',
+                              textDirection: TextDirection.rtl,
+                            ),
+                            value: _selectedTest,
+                            items: _dropdownTestItems,
+                            onChanged: onChangeDropdownTests,
                           ),
                         ),
 

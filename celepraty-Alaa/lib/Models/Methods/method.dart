@@ -3,11 +3,9 @@ import 'dart:core';
 import 'dart:io';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variabls/varaibles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:image_picker/image_picker.dart';
 
 
@@ -80,7 +78,7 @@ Widget gradientContainer(double width, Widget child,{bool gradient =false,double
     height: height.h,
     child: child,
     decoration: BoxDecoration(
-     
+
       border: Border.all(color: deepBlack, width: 1.5),
       borderRadius: BorderRadius.circular(4.0),
       gradient:  gradient==false? const LinearGradient(
@@ -312,9 +310,7 @@ Widget textFieldNoIcon(
         labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
-
         hintText: key,
-
         contentPadding: EdgeInsets.all(10.h)),
   );
 
@@ -513,7 +509,7 @@ Widget buildCkechboxList2(list){
 divider({double thickness= 2, double indent=15,double endIndent=15,}){
   return Align(
       alignment: Alignment.topCenter,
-     
+
         child: VerticalDivider(
           color: Colors.grey[400],
           thickness: thickness,
@@ -604,7 +600,7 @@ drowAppBar(String title, BuildContext context, { color = deepwhite}){
   );
 }
 
-drawAppBar(Widget title, BuildContext context ,{ Color color = deepwhite }){
+drawAppBar(Widget title, BuildContext context ,{Color color = deepwhite}){
   return AppBar(
     title: title,
     centerTitle: true,
@@ -619,5 +615,19 @@ drawAppBar(Widget title, BuildContext context ,{ Color color = deepwhite }){
     backgroundColor: color,
     elevation: 0,
 
+  );
+}
+///app bar without back icon
+AppBarNoIcon(String title,{Color color = deepwhite}){
+  return AppBar(
+    title: Text(title,style:TextStyle(
+      fontSize:22.sp,
+      fontFamily: 'Cairo',
+      color: black
+  ),
+    ),
+    centerTitle: true,
+    backgroundColor: color,
+    elevation: 0,
   );
 }
