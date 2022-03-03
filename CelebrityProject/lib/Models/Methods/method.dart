@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc
 //================ convert hex colors to rgb colors================
 import 'dart:core';
 import 'dart:io';
@@ -96,22 +93,14 @@ Widget gradientContainer(double width, Widget child,{bool gradient =false,double
   );
 }
 
-<<<<<<< HEAD
 Widget gradientContainerNoborder(double width,Widget child, {height = 40.0,double reids=8.0}) {
-=======
-Widget gradientContainerNoborder(double width,Widget child, {height = 40.0}) {
->>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc
 
   return Container(
     width: width.w,
     child:child,
     decoration: BoxDecoration(
       boxShadow: const [BoxShadow(color: darkWhite, blurRadius: 5, offset: Offset(2,3))],
-<<<<<<< HEAD
       borderRadius: BorderRadius.circular(reids.r),
-=======
-      borderRadius: BorderRadius.circular(8.0),
->>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc
       gradient: const LinearGradient(
         begin: Alignment(0.7, 2.0),
         end: Alignment(-0.69, -1.0),
@@ -645,7 +634,6 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
   );
 }
 
-
 /*
 //show buttom showBottomSheett
 
@@ -849,11 +837,6 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
 
 
 */
-=======
-<<<<<<<< HEAD:.history/celepraty-Alaa/lib/Models/Methods/method_20220302092337.dart
-//
-========
->>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc
 
 
 
@@ -878,7 +861,3 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
 
 
 
-<<<<<<< HEAD
-=======
->>>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc:CelebrityProject/lib/Models/Methods/method.dart
->>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc

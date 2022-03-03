@@ -2,7 +2,7 @@
 import 'dart:core';
 import 'dart:io';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
-import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/Models/Variabls/varaibles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -631,31 +631,4 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
     elevation: 0,
   );
 }
-<<<<<<<< HEAD:.history/celepraty-Alaa/lib/Models/Methods/method_20220302092337.dart
 //
-========
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc:CelebrityProject/lib/Models/Methods/method.dart
