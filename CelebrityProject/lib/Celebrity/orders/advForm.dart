@@ -61,13 +61,9 @@ class _advFormState extends State<advForm>{
 
                           SizedBox(height: 30,),
 
-                          paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'الاسم', 12.sp, true, name,(String? value) {if (value == null || value.isEmpty) {
-                            return 'Please enter some text';} return null;},false),),
-                          paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'البريد الالكتروني', 12.sp, true, name,(String? value) {if (value == null || value.isEmpty) {
-                            return 'Please enter some text';} return null;},false),),
-                          paddingg(15.w, 15.w, 12.h,textFieldDesc(context, 'الوصف', 12.sp, true, name,(String? value) {if (value == null || value.isEmpty) {
+                          paddingg(15.w, 15.w, 12.h,textFieldDesc(context, ' الوصف الخاص بالاعلان', 14.sp, true, name,(String? value) {if (value == null || value.isEmpty) {
                             return 'Please enter some text';} return null;},),),
-                          paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 12.sp, true, coupon,(String? value) {if (value == null || value.isEmpty) {
+                          paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, true, coupon,(String? value) {if (value == null || value.isEmpty) {
                             return 'Please enter some text';} return null;},true),),
 
                           SizedBox(height: 20,),

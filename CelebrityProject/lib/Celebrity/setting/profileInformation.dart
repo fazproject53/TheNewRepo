@@ -1,6 +1,7 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,9 +28,63 @@ class profileInformaion extends StatefulWidget{
         String country = 'الدولة';
         String city = 'المدينة';
         String category = 'التصنيف';
-        var items = ['الدولة', 'Item 2', 'Item 3', 'Item 4', 'Item 5',];
-        var items2 = ['المدينة', 'Item 2', 'Item 3', 'Item 4', 'Item 5',];
-        var items3 = ['التصنيف', 'Item 2', 'Item 3', 'Item 4', 'Item 5',];
+        var citilist =[{'no': 1, 'keyword': 'المدينة'},
+          {'no': 2, 'keyword': 'item1'},
+          {'no': 3, 'keyword': 'item2'},
+          {'no': 3, 'keyword': 'item3'},
+          {'no': 3, 'keyword': 'item4'}];
+
+        var countrylist =[{'no': 1, 'keyword': 'الدولة'},
+          {'no': 2, 'keyword': 'item1'},
+          {'no': 3, 'keyword': 'item2'},
+          {'no': 3, 'keyword': 'item3'},
+          {'no': 3, 'keyword': 'item4'}];
+
+        var categorylist =[{'no': 1, 'keyword': 'التصنيف'},
+          {'no': 2, 'keyword': 'item1'},
+          {'no': 3, 'keyword': 'item2'},
+          {'no': 3, 'keyword': 'item3'},
+          {'no': 3, 'keyword': 'item4'}];
+
+        List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+        List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
+        List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
+        ///_value
+        var _selectedTest;
+        onChangeDropdownTests(selectedTest) {
+          print(selectedTest);
+          setState(() {
+            _selectedTest = selectedTest;
+          });
+        }
+
+        var _selectedTest2;
+        onChangeDropdownTests2(selectedTest) {
+          print(selectedTest);
+          setState(() {
+            _selectedTest2 = selectedTest;
+          });
+        }
+
+        var _selectedTest3;
+        onChangeDropdownTests3(selectedTest) {
+          print(selectedTest);
+          setState(() {
+            _selectedTest3 = selectedTest;
+          });
+        }
+        @override
+        void initState() {
+          // _dropdownTestItems =  buildDropdownTestItems(citilist);
+          // _dropdownTestItems2 = buildDropdownTestItems(categorylist);
+          // _dropdownTestItems3 = buildDropdownTestItems(countrylist);
+          super.initState();
+        }
+
+        @override
+        void dispose() {
+          super.dispose();
+        }
         @override
         Widget build(BuildContext context) {
         return Directionality(
@@ -50,51 +105,130 @@ class profileInformaion extends StatefulWidget{
 
                         SizedBox(height: 30,),
 
-                        paddingg(15, 15, 12,textFieldNoIcon(context, 'الاسم', 12, false, name,(String? value) {if (value == null || value.isEmpty) {
+                        paddingg(15, 15, 12,textFieldNoIcon(context, 'الاسم', 14, false, name,(String? value) {if (value == null || value.isEmpty) {
                             return 'Please enter some text';} return null;},false),),
-                        paddingg(15, 15, 12,textFieldNoIcon(context, 'البريد الالكتروني', 12, false, email,(String? value) {if (value == null || value.isEmpty) {
+                        paddingg(15, 15, 12,textFieldNoIcon(context, 'البريد الالكتروني', 14, false, email,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},false),),
-                        paddingg(15, 15, 12,textFieldNoIcon(context, 'كلمة المرور', 12, true, password,(String? value) {if (value == null || value.isEmpty) {
+                        paddingg(15, 15, 12,textFieldNoIcon(context, 'كلمة المرور', 14, true, password,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},false),),
-                        paddingg(15, 15, 12,textFieldNoIcon(context, 'رقم الجوال', 12, false, phone,(String? value) {if (value == null || value.isEmpty) {
+                        paddingg(15, 15, 12,textFieldNoIcon(context, 'رقم الجوال', 14, false, phone,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},false),),
 
                         //===========dropdown lists ==================
 
-                        paddingg(15, 15, 12, Container(
-                          decoration: BoxDecoration(   color: textFieldBlack2.withOpacity(0.70),  borderRadius: BorderRadius.circular(10),),
-                          child: SizedBox(
-                            height: 45.h,
-                            child: DropdownButtonFormField(decoration: InputDecoration.collapsed(hintText: country,),
-                                  value: country, dropdownColor: textBlack, icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,), items: items.map((String items) {
-                                  return DropdownMenuItem(value: items, child: paddingg(15, 15, 5,Text(items),),);}).toList(),
-                                           onChanged: (String? newValue) {setState(() {country = newValue!;});},
-                                           style: TextStyle(color: grey, fontSize: 14.sp),
-                                           isExpanded: true, ),
+                        paddingg(15, 15, 12,
+                          DropdownBelow(
+                            itemWidth: 380.w,
+                            ///text style inside the menu
+                            itemTextstyle: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: black,
+                              fontFamily: 'Cairo',),
+                            ///hint style
+                            boxTextstyle: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: grey,
+                                fontFamily: 'Cairo'),
+                            ///box style
+                            boxPadding:
+                            EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                            boxWidth: 500.w,
+                            boxHeight: 40.h,
+                            boxDecoration: BoxDecoration(
+                                color: textFieldBlack2.withOpacity(0.70),
+                                borderRadius: BorderRadius.circular(8.r)),
+                            ///Icons
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white54,
+                            ),
+                            hint:  Text(
+                              country,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            value: _selectedTest3,
+                            items: _dropdownTestItems3,
+                            onChanged: onChangeDropdownTests3,
                           ),
-                        ),),
+                        ),
+                        paddingg(15, 15, 12,
+                          DropdownBelow(
+                            itemWidth: 380.w,
+                            ///text style inside the menu
+                            itemTextstyle: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: black,
+                              fontFamily: 'Cairo',),
+                            ///hint style
+                            boxTextstyle: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: grey,
+                                fontFamily: 'Cairo'),
+                            ///box style
+                            boxPadding:
+                            EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                            boxWidth: 500.w,
+                            boxHeight: 40.h,
+                            boxDecoration: BoxDecoration(
+                                color: textFieldBlack2.withOpacity(0.70),
+                                borderRadius: BorderRadius.circular(8.r)),
+                            ///Icons
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white54,
+                            ),
+                            hint:  Text(
+                              city,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            value: _selectedTest,
+                            items: _dropdownTestItems,
+                            onChanged: onChangeDropdownTests,
+                          ),
+                        ),
 
-                        paddingg(15, 15, 12,SizedBox(
-                          height: 45.h,
-                          child: Container(
-                            decoration: BoxDecoration(   color: textFieldBlack2.withOpacity(0.70),  borderRadius: BorderRadius.circular(10),),
-                            child: DropdownButtonFormField(  decoration: InputDecoration.collapsed(hintText: city,),value: city,dropdownColor: textBlack, icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,), items: items2.map((String items) {
-                              return DropdownMenuItem(value: items, child: paddingg(15, 15, 5,Text(items),),);}).toList(),
-                              onChanged: (String? newValue) {setState(() {city = newValue!;});},
-                              style: TextStyle(color: grey, fontSize: 14.sp),
-                              isExpanded: true,),),
-                        ),),
+                        paddingg(15, 15, 12,
+                          DropdownBelow(
+                            itemWidth: 380.w,
+                            ///text style inside the menu
+                            itemTextstyle: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                              color: black,
+                              fontFamily: 'Cairo',),
+                            ///hint style
+                            boxTextstyle: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                                color: grey,
+                                fontFamily: 'Cairo'),
+                            ///box style
+                            boxPadding:
+                            EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                            boxWidth: 500.w,
+                            boxHeight: 40.h,
+                            boxDecoration: BoxDecoration(
+                                color: textFieldBlack2.withOpacity(0.70),
+                                borderRadius: BorderRadius.circular(8.r)),
+                            ///Icons
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.white54,
+                            ),
+                            hint:  Text(
+                              category,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            value: _selectedTest2,
+                            items: _dropdownTestItems2,
+                            onChanged: onChangeDropdownTests2,
+                          ),
+                        ),
 
-                          paddingg(15, 15, 12, SizedBox(
-                            height: 45.h,
-                            child: Container(
-                              decoration: BoxDecoration(   color: textFieldBlack2.withOpacity(0.70),  borderRadius: BorderRadius.circular(10),),
-                            child: DropdownButtonFormField( decoration: InputDecoration.collapsed(hintText: category,),value: category,dropdownColor: textBlack, icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,), items: items3.map((String items) {
-                              return DropdownMenuItem(value: items, child: paddingg(15, 15, 5,Text(items),),);}).toList(),
-                              onChanged: (String? newValue) {setState(() {category = newValue!;});},
-                              style: TextStyle(color: grey, fontSize: 14.sp),
-                              isExpanded: true,),),
-                          ),),
 
                        //=========== end dropdown ==================================
 
@@ -105,26 +239,22 @@ class profileInformaion extends StatefulWidget{
                         //===================================== اضافة روابط الصفحات =======================================================
                         textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة سناب شات', 14, true, snapchat,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4, 47 ,
-                               Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white, align: TextAlign.center))),),),
+                               Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, black, align: TextAlign.center))),),),
                         textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة تيك توك', 14, true, tiktok,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47 ,
-                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white, align: TextAlign.center))),),),),
+                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, black, align: TextAlign.center))),),),),
                         textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة يوتيوب', 14, true, youtube,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47 ,
-                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white,align: TextAlign.center))),),),),
+                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, black,align: TextAlign.center))),),),),
                         textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة الانستجرام', 14, true, instagram,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47 ,
-                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white,align: TextAlign.center))),),),),
-                        textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة الفيسبوك', 14, true, facebook,(String? value) {if (value == null || value.isEmpty) {
-                          return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47 ,
-                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white,align: TextAlign.center))),),),),
+                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, black,align: TextAlign.center))),),),),
                         textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة تويتر', 14, true, twitter,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47 ,
-                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white,align: TextAlign.center))),),),),
-                        textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة لينكدان', 14, true, linkedin,(String? value) {if (value == null || value.isEmpty) {
-                          return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47,
-                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, white,align: TextAlign.center))),),),),
-
+                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, black,align: TextAlign.center))),),),),
+                        textFeildWithButton(context, textFieldNoIcon2(context, 'رابط صفحة الفيسبوك', 14, true, facebook,(String? value) {if (value == null || value.isEmpty) {
+                          return 'Please enter some text';} return null;},), gradientContainerWithHeight(getSize(context).width/4,47 ,
+                          Container(child: Center(child: InkWell(onTap: (){}, child: text(context, 'اضافة', 14, black,align: TextAlign.center))),),),),
 
                         //===================== button ================================
 
@@ -142,4 +272,9 @@ class profileInformaion extends StatefulWidget{
         ),
         ),
     );
-  }}
+  }
+
+
+
+}
+

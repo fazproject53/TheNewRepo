@@ -107,7 +107,7 @@ class _SingUpState extends State<SingUp> {
                       SizedBox(
                         height: 14.h,
                       ),
-                      text(context, "او التسجيل من خلال", 9, darkWhite,
+                      text(context, "او التسجيل من خلال", 11, darkWhite,
                       align: TextAlign.center,
                       ),
                       SizedBox(
@@ -138,12 +138,12 @@ class _SingUpState extends State<SingUp> {
                         children: [
                           Wrap(
                             children: [
-                              text(context, "هل لديك حساب بالفعل؟", 12,
+                              text(context, "هل لديك حساب بالفعل؟", 13,
                                   darkWhite),
                               SizedBox(
                                 width: 7.w,
                               ),
-                              InkWell(child: text(context, "تسجيل الدخول",12, purple),onTap: (){goTopageReplacement(context,  Logging());},),
+                              InkWell(child: text(context, "تسجيل الدخول",13, purple),onTap: (){goTopageReplacement(context,  Logging());},),
                             ],
                           )
                         ],

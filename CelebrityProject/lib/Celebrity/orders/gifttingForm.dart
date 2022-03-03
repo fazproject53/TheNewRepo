@@ -1,5 +1,7 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,11 +14,17 @@ class _gifttingFormState extends State<gifttingForm>{
   final _formKey = GlobalKey<FormState>();
   final TextEditingController mycontroller = new TextEditingController();
   DateTime current = DateTime.now();
-  String ocassion = 'المناسبة';
+  String ocassion = 'اختر المناسبة الخاصة';
   String type = 'نوع الاهداء';
-  var items2 = ['المناسبة', 'Item 2', 'Item 3', 'Item 4', 'Item 5',];
-  var items3 = ['نوع الاهداء', 'فيديو', 'صوت', 'صورة'];
-   static bool check =false;
+  var ocassionlist =[{'no': 1, 'keyword': 'item'},
+    {'no': 2, 'keyword': 'item2'},
+    {'no': 3, 'keyword': 'item3'},
+    {'no': 3, 'keyword': 'item4'},];
+
+  var typelist =[{'no': 1, 'keyword': 'فيديو'},
+    {'no': 2, 'keyword': 'صوت'},
+    {'no': 3, 'keyword': 'صورة'},];
+  static bool check =false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,46 +60,99 @@ class _gifttingFormState extends State<gifttingForm>{
 
                 const SizedBox(height: 30,),
 
+                paddingg(15, 15, 12,
+                  DropdownBelow(
+                    itemWidth: 380.w,
+                    ///text style inside the menu
+                    itemTextstyle: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: black,
+                      fontFamily: 'Cairo',),
+                    ///hint style
+                    boxTextstyle: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: grey,
+                        fontFamily: 'Cairo'),
+                    ///box style
+                    boxPadding:
+                    EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                    boxWidth: 500.w,
+                    boxHeight: 40.h,
+                    boxDecoration: BoxDecoration(
+                        color: textFieldBlack2.withOpacity(0.70),
+                        borderRadius: BorderRadius.circular(8.r)),
+                    ///Icons
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white54,
+                    ),
+                    hint:  Text(
+                      ocassion,
+                      textDirection: TextDirection.rtl,
+                    ),
+                    value: _selectedTest,
+                    items: _dropdownTestItem,
+                    onChanged: onChangeDropdownTests,
+                  ),
+                ),
+                paddingg(15, 15, 12,
+                  DropdownBelow(
+                    itemWidth: 380.w,
+                    ///text style inside the menu
+                    itemTextstyle: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: black,
+                      fontFamily: 'Cairo',),
+                    ///hint style
+                    boxTextstyle: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: grey,
+                        fontFamily: 'Cairo'),
+                    ///box style
+                    boxPadding:
+                    EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                    boxWidth: 500.w,
+                    boxHeight: 40.h,
+                    boxDecoration: BoxDecoration(
+                        color: textFieldBlack2.withOpacity(0.70),
+                        borderRadius: BorderRadius.circular(8.r)),
+                    ///Icons
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white54,
+                    ),
+                    hint:  Text(
+                      type,
+                      textDirection: TextDirection.rtl,
+                    ),
+                    value: _selectedTest2,
+                    items: _dropdownTestItem2,
+                    onChanged: onChangeDropdownTests2,
+                  ),
+                ),
 
-                paddingg(15, 15, 12,SizedBox(
-                  height: 45.h,
-                  child: Container(
-                    decoration: BoxDecoration( color: textFieldBlack2.withOpacity(0.70),  borderRadius: BorderRadius.circular(8),),
-                    child: DropdownButtonFormField( decoration: InputDecoration.collapsed(hintText: ocassion,),value: ocassion, dropdownColor: textBlack, icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,), items: items2.map((String items) {
-                      return DropdownMenuItem(value: items, child: paddingg(15.w, 15.w, 5.h,Text(items),),);}).toList(),
-                      onChanged: (String? newValue) {setState(() {ocassion = newValue!;});},
-                      style: TextStyle(color: grey, fontSize: 14.sp),
-                      isExpanded: true,),),
-                ),),
-
-                paddingg(15, 15, 12,SizedBox(
-                  height: 45.h,
-                  child: Container(
-                    decoration: BoxDecoration( color: textFieldBlack2.withOpacity(0.70),  borderRadius: BorderRadius.circular(8),),
-                    child: DropdownButtonFormField( decoration: InputDecoration.collapsed(hintText: type,),value: type, dropdownColor: textBlack, icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white,), items: items3.map((String items) {
-                      return DropdownMenuItem(value: items, child: paddingg(15.w, 15.w, 5.h,Text(items),),);}).toList(),
-                      onChanged: (String? newValue) {setState(() {type = newValue!;});},
-                      style: TextStyle(color: grey, fontSize: 14.sp),
-                      isExpanded: true,),),
-                ),),
 
                 Row(
                   children: [
                     Expanded(
-                        child: paddingg(3.w, 15.w, 12.h,textFieldNoIcon(context, 'من', 12.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
+                        child: paddingg(3.w, 15.w, 12.h,textFieldNoIcon(context, 'من', 14.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
                           return 'Please enter some text';} return null;},false),),),
                     Expanded(
-                      child: paddingg(15.w, 3.w, 12.h,textFieldNoIcon(context, 'الى', 12.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
+                      child: paddingg(15.w, 3.w, 12.h,textFieldNoIcon(context, 'الى', 14.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
                         return 'Please enter some text';} return null;}, false),),
                     ),
 
                   ],
                 ),
 
-                paddingg(15.w, 15.w, 12.h,textFieldDesc(context, 'تفاصيل الاهداء', 12.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
+                paddingg(15.w, 15.w, 12.h,textFieldDesc(context, 'تفاصيل الاهداء', 14.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
                   return 'Please enter some text';} return null;},),),
-                paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 12.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
-                  return 'Please enter some text';} return null;},false),),
+                paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, mycontroller,(String? value) {if (value == null || value.isEmpty) {
+                  return 'Please enter some text';} return null;},true),),
 
 
                 paddingg(15.w, 15.w, 15.h,SizedBox(height: 45.h,child: InkWell(
@@ -134,5 +195,34 @@ class _gifttingFormState extends State<gifttingForm>{
 
 
   }
+  List<DropdownMenuItem<Object?>> _dropdownTestItem = [];
+  List<DropdownMenuItem<Object?>> _dropdownTestItem2 = [];
+  ///_value
+  var _selectedTest;
+  onChangeDropdownTests(selectedTest) {
+    print(selectedTest);
+    setState(() {
+      _selectedTest = selectedTest;
+    });
+  }
 
+  var _selectedTest2;
+  onChangeDropdownTests2(selectedTest) {
+    print(selectedTest);
+    setState(() {
+      _selectedTest2 = selectedTest;
+    });
+  }
+
+  @override
+  void initState() {
+    // _dropdownTestItem = buildDropdownTestItems(ocassionlist);
+    // _dropdownTestItem2 = buildDropdownTestItems(typelist);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }

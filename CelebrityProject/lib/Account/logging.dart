@@ -88,12 +88,12 @@ class _LoggingState extends State<Logging> {
                         children: [
                           Wrap(
                             children: [
-                              text(context, "ليس لديك حساب بالفعل؟", 12,
+                              text(context, "ليس لديك حساب بالفعل؟", 13,
                                   darkWhite),
                               SizedBox(
                                 width: 7.w,
                               ),
-                           InkWell( child:text(context, "انشاء حساب", 12, purple),onTap: (){goTopageReplacement(context,  SingUp());}),
+                           InkWell( child:text(context, "انشاء حساب", 13, purple),onTap: (){goTopageReplacement(context,  SingUp());}),
                             ],
                           )
                         ],
@@ -127,13 +127,13 @@ class _LoggingState extends State<Logging> {
             SizedBox(
               width: 4.w,
             ),
-            text(context, 'تزكرني', 13.sp, textBlack),
+            text(context, 'تزكرني', 18.sp, textBlack),
           ],
         ),
         // SizedBox(
         //   width: 180.w,
         // ),
-        text(context, 'هل نسيت كلمة المرور؟', 12.sp, purple),
+        text(context, 'هل نسيت كلمة المرور؟', 15.sp, purple),
       ],
     );
   }

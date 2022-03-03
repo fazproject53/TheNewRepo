@@ -1,3 +1,5 @@
+
+import 'package:celepraty/Celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -11,6 +13,7 @@ import 'package:celepraty/celebrity/TechincalSupport/contact_with_us.dart';
 import 'package:celepraty/celebrity/blockList.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 import 'package:celepraty/celebrity/setting/profileInformation.dart';
+import 'package:celepraty/invoice/invoice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Account/logging.dart';
@@ -53,7 +56,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
   final List<Widget> page = [
     profileInformaion(),
 
-    Explower(),
+    invoiceScreen(),
     profileInformaion(),
     celebrityHomePage(),
 
@@ -62,14 +65,14 @@ class _celebratyProfileState extends State<celebratyProfile> {
     DiscountCodes(),
 
     CelebrityCalenderMain(),
-    profileInformaion(),
-
+    ActivityScreen(),
     PrivacyPolicyMain(),
     blockList(),
 
     ContactWithUsMain(),
     Logging()
   ];
+
 
   @override
   Widget build(BuildContext context) {
