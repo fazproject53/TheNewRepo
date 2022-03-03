@@ -120,6 +120,7 @@ List<String>giftImage=[
 ];
 
 
+<<<<<<< HEAD
 List<String>sliderImage=[
  "assets/image/mainback.jpeg" ,
   "assets/image/mainback.jpeg" ,
@@ -127,6 +128,8 @@ List<String>sliderImage=[
 
 ];
 
+=======
+>>>>>>> 2d0a882f0303dd9dc0c7784723a1eeb918f6c0cc
 List<String>giftType=[
  "عيد ميلاد" ,
  "تخرج" ,

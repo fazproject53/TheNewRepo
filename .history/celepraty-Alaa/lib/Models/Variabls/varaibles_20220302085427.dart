@@ -1,4 +1,4 @@
-import 'package:celepraty/Models/Methods/method.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -59,7 +59,6 @@ IconData clander = Icons.calendar_today_rounded;
 IconData send = Icons.send;
 Icon back=Icon(Icons.arrow_back_ios_sharp,color: black,size:30.w);
 IconData image = Icons.image;
-
 IconData addNew = Icons.add_circle_rounded;
 IconData typeOfDiscount = Icons.local_offer_outlined;
 IconData numberOfUsers = Icons.people_outlined;
@@ -79,6 +78,11 @@ IconData chatIcon = Icons.chat;
 IconData homeIcon = Icons.home;
 IconData exploreIcon = Icons.explore_outlined;
 IconData notificationIcon = Icons.notifications;
+IconData time = Icons.watch_later_outlined;
+IconData share = Icons.share_outlined;
+IconData info = Icons.info_outlined;
+IconData invoiceIcon = Icons.receipt;
+IconData dateRange = Icons.date_range_outlined;
 //controller name----------------------------------------------------------------
 TextEditingController nameConttroller= TextEditingController();
 TextEditingController passConttroller=TextEditingController();
