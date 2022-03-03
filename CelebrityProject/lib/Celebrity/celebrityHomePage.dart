@@ -3,6 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
+import 'package:celepraty/user/buildAdvOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -233,12 +234,11 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-        child: InkWell(
-            onTap: () {},
             child: SizedBox(
                 height: 60.h,
                 width: 60.w,
-                child: GradientIcon(Icons.add, 40, gradient()))),
+                child: InkWell(child: GradientIcon(Icons.add, 40, gradient()),onTap: (){
+                  goTopagepush(context, buildAdvOrder());},)),
       ),
       Spacer(),
       Padding(

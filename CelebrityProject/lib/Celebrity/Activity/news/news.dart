@@ -61,7 +61,7 @@ class _newsState extends State<news> {
                           height: edit? 200.h: 150,
                           width: 300.w,
                           child: Card(
-                            elevation: 10,
+                            elevation: 5,
                             color: white,
                             child: paddingg(
                               0,

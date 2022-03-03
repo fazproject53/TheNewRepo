@@ -1,3 +1,4 @@
+
 import 'package:celepraty/Celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -64,7 +65,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     DiscountCodes(),
 
     CelebrityCalenderMain(),
-
+    ActivityScreen(),
     PrivacyPolicyMain(),
     blockList(),
 

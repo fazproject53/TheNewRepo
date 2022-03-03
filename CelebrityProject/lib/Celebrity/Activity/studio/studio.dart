@@ -45,7 +45,7 @@ class _StudioState extends State<Studio> {
                        height: 150.h,
                        width: 300.w,
                        child: Card(
-                         elevation: 10,
+                         elevation: 5,
                          color: white,
                          child: paddingg(
                            0,
