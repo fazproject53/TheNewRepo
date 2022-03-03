@@ -44,49 +44,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome> {
   ///_value
   int? _value = 1;
 
-  ///Type of discount drop down list
-  final List _testList = [
-    {'no': 1, 'keyword': 'مئوي'},
-    {'no': 2, 'keyword': 'نسبي'},
-  ];
-
-  ///
-  List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
-
-  ///_value
-  var _selectedTest;
-  onChangeDropdownTests(selectedTest) {
-    print(selectedTest);
-    setState(() {
-      _selectedTest = selectedTest;
-    });
-  }
-
-  @override
-  void initState() {
-    _dropdownTestItems = buildDropdownTestItems(_testList);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
-    List<DropdownMenuItem<Object?>> items = [];
-    for (var i in _testList) {
-      items.add(
-        DropdownMenuItem(
-          alignment: Alignment.centerRight,
-          value: i,
-          child: Text(i['keyword']),
-        ),
-      );
-    }
-    return items;
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

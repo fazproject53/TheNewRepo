@@ -289,7 +289,6 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> {
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       )

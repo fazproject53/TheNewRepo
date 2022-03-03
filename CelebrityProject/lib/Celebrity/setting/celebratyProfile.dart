@@ -1,6 +1,7 @@
 
 import 'package:celepraty/Celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
+import 'package:celepraty/Celebrity/Pricing/pricing.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Explowr/Explower.dart';
@@ -58,7 +59,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
 
     invoiceScreen(),
     profileInformaion(),
-    celebrityHomePage(),
+    PricingMain(),
 
     RequestMainPage(),
     YourBrandMain(),

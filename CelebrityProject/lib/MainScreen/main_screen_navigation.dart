@@ -73,9 +73,9 @@ class _MainScreenState extends State<MainScreen> {
   ];
   final screens = [
     /// Explore
-    const Explower(),
+    Explower(),
     /// Activity page
-    const ActivityScreen(),
+    ActivityScreen(),
     /// Home Screen
     celebrityHomePage(),
     /// Chats

@@ -43,6 +43,7 @@ class _YourBrandHomeState extends State<YourBrandHome> {
                   Container(
                     alignment: Alignment.topRight,
                     child: Padding(
+                      ///Main title
                       padding: EdgeInsets.only(top: 25.h, right: 20.w),
                       child: text(
                         context,
@@ -52,14 +53,14 @@ class _YourBrandHomeState extends State<YourBrandHome> {
                       ),
                     ),
                   ),
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 15.h,right: 20.w,left: 50.w),
-                      child: text(context,'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',14,ligthtBlack,
-                          align: TextAlign.justify),
-                    ),
+
+                  ///Text Description
+                  Padding(
+                    padding: EdgeInsets.only(top: 15.h,right: 20.w,left: 50.w),
+                    child: text(context,'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',14,ligthtBlack,
+                        align: TextAlign.justify),
                   ),
-                  ///Buttons to go to ALmattager app
+                  ///Buttons to go to ALmattager app (outside api)
                   Container(
                     alignment: Alignment.topRight,
                     child: Padding(

@@ -58,7 +58,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                           15,
                           white,
                               () {
-                            //Go to create a new discount code screen
+                            ///Go to create a new discount code screen
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

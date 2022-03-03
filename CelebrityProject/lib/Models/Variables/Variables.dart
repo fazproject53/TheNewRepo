@@ -15,6 +15,9 @@ const Color textBlack = Color(0xFF5C5E6F);
 const Color darkWhite = Color(0xFF7B7B8B);
 const Color deepBlack = Color(0xFF7477A0);
 const Color border = Color(0xFFCED0D2);
+const Color textColor = Color(0xFFF7F2FF);
+//F7F2FF
+
 
 var deepblue = Colors.pink[900];
 var grey = Colors.grey[500];

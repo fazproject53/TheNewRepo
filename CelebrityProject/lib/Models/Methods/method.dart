@@ -248,7 +248,7 @@ Widget textField(
     decoration: InputDecoration(
         isDense: true,
         filled: true,
-        suffixIcon:suffixIcon,
+        suffixIcon: suffixIcon,
         hintStyle: TextStyle(color: deepBlack, fontSize: (textScaling+fontSize).sp),
         fillColor: ligthtBlack,
         labelStyle: TextStyle(color: deepBlack, fontSize: (textScaling+fontSize).sp),
@@ -311,6 +311,40 @@ Widget textFieldNoIcon(
   );
 
 }
+///Text Field small
+Widget textFieldSmall(
+    context,
+    String key,
+    double fontSize,
+    bool hintPass,
+    TextEditingController mycontroller,
+    myvali,
+    {Widget? suffixIcon,void Function()? onTap})
+    ///The icons will be optional
+
+    {
+  return SizedBox(
+    height: 30.h,
+    width: 130.w,
+    child: TextField(
+      controller: mycontroller,
+      style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      decoration: InputDecoration(
+          isDense: false,
+          filled: true,
+          suffixIcon:suffixIcon,
+          hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          fillColor: textColor,
+          labelStyle: TextStyle(color: white, fontSize: fontSize.sp,),
+          alignLabelWithHint: true,
+          border: const OutlineInputBorder(borderSide: BorderSide.none),
+          hintText: key,
+          contentPadding: EdgeInsets.all(10.h)),
+    ),
+  );
+
+}
+
 //======================== for description multiline ====================
 Widget textFieldDesc(
     context,
@@ -626,6 +660,33 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
     backgroundColor: color,
     elevation: 0,
   );
+}
+///
+///
+class MyTooltip extends StatelessWidget {
+  final Widget child;
+  final String message;
+
+  MyTooltip({required this.message, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final key = GlobalKey<State<Tooltip>>();
+    return Tooltip(
+      key: key,
+      message: message,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _onTap(key),
+        child: child,
+      ),
+    );
+  }
+
+  void _onTap(GlobalKey key) {
+    final dynamic tooltip = key.currentState;
+    tooltip?.ensureTooltipVisible();
+  }
 }
 
 

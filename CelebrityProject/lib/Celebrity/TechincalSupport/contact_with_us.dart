@@ -40,7 +40,6 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
   final TextEditingController supportPhone = TextEditingController();
   final TextEditingController supportTitle = TextEditingController();
   final TextEditingController supportDescription = TextEditingController();
-  final TextEditingController supportAddNew = TextEditingController();
 
   ///formKey
   final _formKey = GlobalKey<FormState>();
@@ -50,11 +49,10 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
     {'no': 1, 'keyword': 'دعم فني'},
     {'no': 2, 'keyword': 'إستفسار'},
     {'no': 3, 'keyword': 'صيانة'},
-    {'no': 3, 'keyword': 'سوال'},
-    {'no': 3, 'keyword': 'إستفسار'}
+    {'no': 4, 'keyword': 'سوال'},
+    {'no': 5, 'keyword': 'إستفسار'}
   ];
 
-  ///
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
 
   ///_value
@@ -246,6 +244,8 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                             },
                           ),
                         ),
+
+                        ///SizedBox
                         SizedBox(
                           height: 15.h,
                         ),
