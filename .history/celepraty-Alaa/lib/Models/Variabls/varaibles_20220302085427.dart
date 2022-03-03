@@ -13,6 +13,7 @@ const Color ligthtBlack = Color(0xFF1D192C);
 const Color darkBlue = Color(0xFF39579A);
 const Color textBlack = Color(0xFF5C5E6F);
 const Color darkWhite = Color(0xFF7B7B8B);
+const Color lightGrey = Color(0xF0BBBBBB);
 const Color deepBlack = Color(0xFF7477A0);
 const Color border = Color(0xFFCED0D2);
 
@@ -26,9 +27,7 @@ const Color deepwhite = Color(0xFFFAFAFA);
 const Color fillWhite = Color(0xFFFAFAFA);
 const Color transparent=Colors.transparent;
 Color textFieldBlack2 = Color(0xFF0B0B15);
-
 var green = Colors.green;
-
 var normalGrey = Colors.grey;
 
 //Icons name----------------------------------------------------------------
@@ -52,6 +51,7 @@ IconData chat = Icons.chat_bubble_outline;
 IconData logout = Icons.logout;
 IconData copyRight = Icons.copyright;
 IconData ad = Icons.add_box;
+IconData add = Icons.add;
 IconData adArea = Icons.input;
 IconData arrow = Icons.arrow_back_ios;
 IconData attach = Icons.attach_file;
@@ -59,7 +59,7 @@ IconData clander = Icons.calendar_today_rounded;
 IconData send = Icons.send;
 Icon back=Icon(Icons.arrow_back_ios_sharp,color: black,size:30.w);
 IconData image = Icons.image;
-
+IconData cam = Icons.camera_alt;
 IconData addNew = Icons.add_circle_rounded;
 IconData typeOfDiscount = Icons.local_offer_outlined;
 IconData numberOfUsers = Icons.people_outlined;

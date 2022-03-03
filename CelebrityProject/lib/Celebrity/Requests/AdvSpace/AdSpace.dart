@@ -1,4 +1,5 @@
 import 'package:celepraty/Models/Methods/method.dart';
+import 'package:celepraty/Models/Variabls/varaibles.dart';
 import 'package:flutter/material.dart';
 class AdSpace extends StatefulWidget {
  const  AdSpace({Key? key}) : super(key: key);

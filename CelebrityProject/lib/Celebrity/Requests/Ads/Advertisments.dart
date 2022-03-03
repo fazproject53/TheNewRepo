@@ -26,7 +26,11 @@ class _AdvertismentState extends State<Advertisment> {
               onTap: (){
                goTopagepush(context, AdvDetials(i:i));
               },
-              child: body(i));
+              child: Column(
+                children: [
+                  body(i),
+                ],
+              ));
           }),
     );
   }
@@ -41,6 +45,7 @@ class _AdvertismentState extends State<Advertisment> {
         Column(
           children: [
 //image-----------------------------------------
+
             Expanded(
               flex: 2,
               child: Container(

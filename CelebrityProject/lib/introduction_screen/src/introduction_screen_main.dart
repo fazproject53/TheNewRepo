@@ -65,18 +65,18 @@ class _MyHomePageState extends State<MyHomePage> {
             body: "يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو, يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو",
             image: _buildFullscreenImage("intro1.png"),
             decoration: pageDecoration.copyWith(
-              titleTextStyle: const TextStyle(
-                  fontSize: 25,
+              titleTextStyle:  TextStyle(
+                  fontSize: 25.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'Cairo'),
-              bodyTextStyle: const TextStyle(
-                  fontSize: 13,
+              bodyTextStyle:  TextStyle(
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.normal,
                   color: Colors.white70,
                   fontFamily: 'Cairo'
               ),
-              contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+              contentMargin:  EdgeInsets.symmetric(horizontal: 16.w),
               fullScreen: true,
               bodyFlex: 2,
               imageFlex: 3,
@@ -86,18 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
             body: "يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو, يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو",
             image: _buildFullscreenImage("intro2.png"),
             decoration: pageDecoration.copyWith(
-              titleTextStyle: const TextStyle(
-                  fontSize: 25,
+              titleTextStyle:  TextStyle(
+                  fontSize: 25.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'Cairo'),
-              bodyTextStyle: const TextStyle(
-                  fontSize: 13,
+              bodyTextStyle:  TextStyle(
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.normal,
                   color: Colors.white70,
                   fontFamily: 'Cairo'
               ),
-              contentMargin:  const EdgeInsets.symmetric(horizontal: 16),
+              contentMargin:   EdgeInsets.symmetric(horizontal: 16.w),
               fullScreen: true,
               bodyFlex: 2,
               imageFlex: 3,
@@ -107,18 +107,18 @@ class _MyHomePageState extends State<MyHomePage> {
             body: "يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو, يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو",
             image: _buildFullscreenImage("intro3.png"),
             decoration: pageDecoration.copyWith(
-              titleTextStyle: const TextStyle(
-                  fontSize: 25,
+              titleTextStyle:  TextStyle(
+                  fontSize: 25.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'Cairo'),
-              bodyTextStyle: const TextStyle(
-                  fontSize: 13,
+              bodyTextStyle:  TextStyle(
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.normal,
                   color: Colors.white70,
                   fontFamily: 'Cairo'
               ),
-              contentMargin: const EdgeInsets.symmetric(horizontal: 16),
+              contentMargin:  EdgeInsets.symmetric(horizontal: 16.w),
               fullScreen: true,
               bodyFlex: 2,
               imageFlex: 3,

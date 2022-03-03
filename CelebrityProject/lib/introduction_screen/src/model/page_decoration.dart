@@ -42,7 +42,7 @@ class PageDecoration {
     this.bodyFlex = 1,
     this.imagePadding =  const EdgeInsets.only(bottom: 24.0),
     this.contentMargin = const EdgeInsets.all(20.0),
-    this.titlePadding = const EdgeInsets.only(top: 150.0),
+    this.titlePadding = const EdgeInsets.only(top: 110.0),
     this.bodyPadding,
     this.footerPadding = const EdgeInsets.symmetric(vertical: 50.0),
     this.bodyAlignment = Alignment.topCenter,
