@@ -3,21 +3,36 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/build" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/image_picker/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/image_picker/build" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/image_picker/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/example/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/example/build" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/example/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/image_picker/example/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/image_picker/example/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/image_picker/example/build" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/build" />
-      <excludeFolder url="file://$MODULE_DIR$/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/shared_preferences_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/shared_preferences_ios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/shared_preferences_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/shared_preferences_ios/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/shared_preferences_ios/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/shared_preferences_ios/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/image_picker/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/image_picker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/image_picker/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/image_picker/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/image_picker/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/image_picker/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/build" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/image_picker/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/image_picker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/image_picker/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/image_picker/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/image_picker/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/image_picker/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

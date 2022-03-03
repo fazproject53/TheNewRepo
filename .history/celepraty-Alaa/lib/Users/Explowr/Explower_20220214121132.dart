@@ -1,5 +1,5 @@
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variabls/Variables.dart';
 import 'package:flutter/material.dart';
 class Explower extends StatefulWidget {
   const Explower({Key? key}) : super(key: key);

@@ -1,0 +1,320 @@
+import 'package:celepraty/Models/Methods/method.dart';
+import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
+import 'package:celepraty/celebrity/orders/advArea.dart';
+import 'package:celepraty/celebrity/orders/gifttingForm.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:celepraty/celebrity/orders/advForm.dart';
+import 'package:card_swiper/card_swiper.dart';
+
+class celebrityHomePage extends StatefulWidget {
+  _celebrityHomePageState createState() => _celebrityHomePageState();
+}
+
+int currentIndex = 0;
+
+class _celebrityHomePageState extends State<celebrityHomePage> {
+  List textList = [
+    "1الفنان ابيوسف عندنا",
+    "2 الفنان ابيوسف عندنا",
+    "3 الفنان ابيوسف عندنا"
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primaryColor: purple),
+        home: Saf(
+          child: Scaffold(
+              body: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                    height: 360.h,
+                    width: double.infinity,
+                    child: Stack(
+                      children: [
+//slider image---------------------------------------------------------
+                        imageSlider(),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: 20.h, left: 10.h, right: 10.h),
+                          //text in image-------------------
+                          child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: text(
+                                  context, "${textList[currentIndex]}", 30, white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+//icone lang logo--------------------------------------------------------------
+                        heroLogo()
+                      ],
+                    )),
+
+                SizedBox(
+                    height: 280.h, width: double.infinity, child: Placeholder()),
+                SizedBox(
+                    height: 280.h, width: double.infinity, child: Placeholder()),
+              ],
+            ),
+          )),
+        ),
+      ),
+    );
+  }
+
+
+//-------------bottomSheet-----------------------------------------------------------
+  Widget bottomSheetMenue() {
+    return SingleChildScrollView(
+      child: Column(children: [
+        SizedBox(
+          height: 50.h,
+        ),
+        text(context, 'قم باختيار ما يناسبك من التالي', 22, white),
+        SizedBox(
+          height: 30.h,
+        ),
+        SizedBox(
+          height: 80.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[pink, blue],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight),
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    height: 40.h,
+                    width: 40.h,
+                    child:
+                        Center(child: Icon(arrow, size: 25.w, color: white))),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => gifttingForm()),
+                  );
+                },
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  text(context, ' طلب اهداء', 14, white,
+                      fontWeight: FontWeight.bold),
+                  text(
+                    context,
+                    'اطلب اهداءك الان من مشهورك المفضل',
+                    10,
+                    darkWhite,
+                  ),
+                ],
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: border),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  height: 70.h,
+                  width: 70.w,
+                  child: Center(
+                      child: GradientIcon(
+                          copun,
+                          40.0.w,
+                          const LinearGradient(
+                              colors: <Color>[pink, blue],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight))))
+            ],
+          ),
+        ),
+        const Divider(
+          color: darkWhite,
+        ),
+        SizedBox(
+          height: 80.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[pink, blue],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(70))),
+                    height: 40.h,
+                    width: 40.h,
+                    child:
+                        Center(child: Icon(arrow, size: 25.w, color: white))),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => advForm()),
+                  );
+                },
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  text(context, ' طلب اعلان', 14, white,
+                      fontWeight: FontWeight.bold),
+                  text(
+                    context,
+                    'اطلب اعلانك الان من مشهورك المفضل  ',
+                    10,
+                    darkWhite,
+                  ),
+                ],
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: border),
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(10))),
+                  alignment: Alignment.centerRight,
+                  height: 70.h,
+                  width: 70.w,
+                  child: Center(
+                      child: GradientIcon(
+                          ad,
+                          40.0.w,
+                          const LinearGradient(
+                              colors: <Color>[pink, blue],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight))))
+            ],
+          ),
+        ),
+        const Divider(color: darkWhite),
+        SizedBox(
+          height: 80.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                child: Container(
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: <Color>[pink, blue],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight),
+                        borderRadius:
+                            BorderRadius.all(const Radius.circular(50))),
+                    height: 40.h,
+                    width: 40.h,
+                    child:
+                        Center(child: Icon(arrow, size: 25.w, color: white))),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => advArea()),
+                  );
+                },
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  text(context, 'طلب مساحة اعلانية', 14, white,
+                      fontWeight: FontWeight.bold),
+                  text(
+                    context,
+                    '                اطلب مساحتك الاعلانية الان',
+                    10,
+                    darkWhite,
+                  ),
+                ],
+              ),
+              Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: border),
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(10))),
+                  alignment: Alignment.centerRight,
+                  height: 70.h,
+                  width: 70.w,
+                  child: Center(
+                      child: GradientIcon(
+                          adArea,
+                          40.0.w,
+                          const LinearGradient(
+                              colors: <Color>[pink, blue],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight))))
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
+//------------------------------Slider image-------------------------------------------
+  Widget imageSlider() {
+    return Swiper(
+      itemBuilder: (context, index) {
+        final image = sliderImage[index];
+        return Image.asset(
+          image,
+          fit: BoxFit.cover,
+          
+        );
+      },
+      onIndexChanged: (int index) {
+        setState(() {
+          currentIndex = index;
+        });
+      },
+      indicatorLayout: PageIndicatorLayout.COLOR,
+      autoplay: true,
+      axisDirection: AxisDirection.left,
+      itemCount: sliderImage.length,
+      pagination: const SwiperPagination(),
+      control: SwiperControl(
+          color: grey,
+
+          padding: EdgeInsets.only(left: 15.w, right: 15.w)),
+    );
+  }
+
+//+ icon + logo ------------------------------------------------------------
+  Widget heroLogo() {
+    return Row(mainAxisSize: MainAxisSize.min, 
+    children: [
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        child: InkWell(
+            onTap: () {
+             
+            },
+            child: Container(
+                // color: Colors.red,
+                margin: const EdgeInsets.all(0.0),
+                child: GradientIcon(Icons.add, 30, gradient()))),
+      ),
+      
+      Spacer(),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        child: GradientIcon(Icons.language, 30, gradient()),
+      ),
+    ]);
+  }
+  //-------------------------------------------------------------
+}
