@@ -135,6 +135,7 @@ Widget gradientContainerNoborder2(double width,double height,Widget child) {
 
   );
 }
+
 Widget gradientContainerWithHeight(double width, double height, Widget child) {
 
   return Container(
@@ -142,15 +143,8 @@ Widget gradientContainerWithHeight(double width, double height, Widget child) {
     height: height.h,
     child:child,
     decoration:  BoxDecoration(
-      borderRadius: BorderRadius.only( bottomLeft: Radius.circular(10.0.r), topLeft: Radius.circular(10.0.r),),
-      gradient: const LinearGradient(
-        begin: Alignment(0.7, 2.0),
-        end: Alignment(-0.69, -1.0),
-        colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-        stops: [0.0, 1.0],
-
-      ),
-
+        borderRadius: BorderRadius.only( bottomLeft: Radius.circular(10.0.r), topLeft: Radius.circular(10.0.r),),
+        color: lightGrey
     ),
 
 
@@ -634,6 +628,49 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
   );
 }
 
+
+void showBottomSheettInvoice(context,  buttomMenue){
+  showModalBottomSheet(
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft:  Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      context: context, builder:(context){
+    return Container(
+      height: 670.h,
+      child: buttomMenue,
+    );
+  });
+}
+void showBottomSheett2(context,  buttomMenue){
+  showModalBottomSheet(
+      isScrollControlled: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      context: context, builder:(context){
+    return Container(
+      decoration: BoxDecoration( borderRadius: BorderRadius.circular(20)),
+      // margin: EdgeInsets.only(right: 10, left: 10),
+      // color: Colors.transparent.withOpacity(0.5),
+      height: 250.h,
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 5, right:  5),
+            height: 180.h,
+            child: buttomMenue,
+            decoration: BoxDecoration(  color: white, borderRadius: BorderRadius.circular(8)),
+          ),
+          SizedBox(height: 10.h,),
+          InkWell(
+              child: Container(alignment: Alignment.center, height:45.h, width: 400.w, child: text(context, 'الغاء', 20, purple, align: TextAlign.center),
+                decoration: BoxDecoration(color: fillWhite , borderRadius: BorderRadius.circular(8)),),
+              onTap: (){Navigator.pop(context);}),
+        ],
+      ),
+    );
+  });
+}
 /*
 //show buttom showBottomSheett
 
@@ -837,7 +874,6 @@ AppBarNoIcon(String title,{Color color = deepwhite}){
 
 
 */
-
 
 
 

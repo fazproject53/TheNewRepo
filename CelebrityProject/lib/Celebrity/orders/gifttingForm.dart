@@ -1,5 +1,6 @@
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
+
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -215,8 +216,8 @@ class _gifttingFormState extends State<gifttingForm>{
 
   @override
   void initState() {
-    _dropdownTestItem = buildDropdownTestItems(ocassionlist);
-    _dropdownTestItem2 = buildDropdownTestItems(typelist);
+    // _dropdownTestItem = buildDropdownTestItems(ocassionlist);
+    // _dropdownTestItem2 = buildDropdownTestItems(typelist);
     super.initState();
   }
 

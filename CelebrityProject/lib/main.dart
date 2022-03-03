@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:device_preview/device_preview.dart';
 
+import 'MainScreen/main_screen_navigation.dart';
 import 'celebrity/celebrityHomePage.dart';
 
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(fontFamily: "Cairo",
               colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),),
-            home:  celebrityHomePage()
+            home: MainScreen()
             //----------------------------------
           ),
       ),

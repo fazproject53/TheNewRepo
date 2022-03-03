@@ -3,15 +3,17 @@ import 'dart:io';
 
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
-import 'package:celepraty/celebrity/invoice/ivoice_info_list.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/invoice/ivoice_info_list.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+//import 'package:pdf/widgets.dart' as pw;
+
 
 class invoiceScreen extends StatefulWidget{
   _invoiceScreenState createState() => _invoiceScreenState();

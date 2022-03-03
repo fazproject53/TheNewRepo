@@ -45,6 +45,46 @@ class profileInformaion extends StatefulWidget{
           {'no': 3, 'keyword': 'item2'},
           {'no': 3, 'keyword': 'item3'},
           {'no': 3, 'keyword': 'item4'}];
+
+        List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+        List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
+        List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
+        ///_value
+        var _selectedTest;
+        onChangeDropdownTests(selectedTest) {
+          print(selectedTest);
+          setState(() {
+            _selectedTest = selectedTest;
+          });
+        }
+
+        var _selectedTest2;
+        onChangeDropdownTests2(selectedTest) {
+          print(selectedTest);
+          setState(() {
+            _selectedTest2 = selectedTest;
+          });
+        }
+
+        var _selectedTest3;
+        onChangeDropdownTests3(selectedTest) {
+          print(selectedTest);
+          setState(() {
+            _selectedTest3 = selectedTest;
+          });
+        }
+        @override
+        void initState() {
+          // _dropdownTestItems =  buildDropdownTestItems(citilist);
+          // _dropdownTestItems2 = buildDropdownTestItems(categorylist);
+          // _dropdownTestItems3 = buildDropdownTestItems(countrylist);
+          super.initState();
+        }
+
+        @override
+        void dispose() {
+          super.dispose();
+        }
         @override
         Widget build(BuildContext context) {
         return Directionality(
@@ -233,45 +273,7 @@ class profileInformaion extends StatefulWidget{
         ),
     );
   }
-        List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
-        List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
-        List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
-        ///_value
-        var _selectedTest;
-        onChangeDropdownTests(selectedTest) {
-          print(selectedTest);
-          setState(() {
-            _selectedTest = selectedTest;
-          });
-        }
 
-        var _selectedTest2;
-        onChangeDropdownTests2(selectedTest) {
-          print(selectedTest);
-          setState(() {
-            _selectedTest2 = selectedTest;
-          });
-        }
-
-        var _selectedTest3;
-        onChangeDropdownTests3(selectedTest) {
-          print(selectedTest);
-          setState(() {
-            _selectedTest3 = selectedTest;
-          });
-        }
-        @override
-        void initState() {
-          _dropdownTestItems = buildDropdownTestItems(citilist);
-          _dropdownTestItems2 = buildDropdownTestItems(categorylist);
-          _dropdownTestItems3 = buildDropdownTestItems(countrylist);
-          super.initState();
-        }
-
-        @override
-        void dispose() {
-          super.dispose();
-        }
 
 
 }

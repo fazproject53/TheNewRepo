@@ -1,10 +1,10 @@
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/celebrity/Activity/news/news.dart';
 import 'package:celepraty/celebrity/Activity/studio/studio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'studio/studio.dart';
+
 
 
 class ActivityScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class ActivityScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBarNoIcon("التفاعلات"),
+        appBar: drowAppBar("التفاعلات", context),
         body: const ActivityScreenMain(),
       ),
     );

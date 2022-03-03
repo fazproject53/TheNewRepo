@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,9 +26,9 @@ class _addNewsState extends State<addNews> {
         body: SafeArea(
             child: SingleChildScrollView(
               child: Container(
-                  child: Form(
-                    key: _formKey,
-                    child: paddingg(12, 12, 5, Column(
+                  child: Form(        key: _formKey,
+
+                  child: paddingg(12, 12, 5, Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           padding(10, 12, Container( alignment : Alignment.topRight,child:  Text(' اضافة خبر جديد', style: TextStyle(fontSize: 18.sp, color: textBlack , fontFamily: 'Cairo'), )),),

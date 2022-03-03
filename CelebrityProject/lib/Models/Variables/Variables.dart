@@ -28,7 +28,7 @@ const Color transparent=Colors.transparent;
 Color textFieldBlack2 = Color(0xFF0B0B15);
 
 var green = Colors.green;
-
+const Color lightGrey = Color(0xF0BBBBBB);
 var normalGrey = Colors.grey;
 
 //Icons name----------------------------------------------------------------
@@ -83,6 +83,9 @@ IconData share = Icons.share_outlined;
 IconData info = Icons.info_outlined;
 IconData invoiceIcon = Icons.receipt;
 IconData dateRange = Icons.date_range_outlined;
+IconData cam = Icons.camera_alt;
+IconData add = Icons.add;
+IconData save = Icons.done;
 //controller name----------------------------------------------------------------
 TextEditingController nameConttroller= TextEditingController();
 TextEditingController passConttroller=TextEditingController();

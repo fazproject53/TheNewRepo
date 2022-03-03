@@ -1,6 +1,7 @@
+import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/varaibles.dart';
-import 'package:celepraty/celebrity/Activity/news/addNews.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -70,7 +71,7 @@ class _newsState extends State<news> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   paddingg(
-                                  0,
+                                  5,
                                     5,
                                     0,
                                     Container(
@@ -80,15 +81,14 @@ class _newsState extends State<news> {
                                         child: Image.asset(
                                           'assets/image/celebrityimg.png',
                                           fit: BoxFit.fill,
-                                          height: 130.h,
+                                          height: edit?150.h :130.h,
                                           width: 100.w,
                                         ),
                                       ),
+                                      margin: EdgeInsets.only(bottom: 5.h),
                                     ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
+
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -134,7 +134,24 @@ class _newsState extends State<news> {
                                     ],
                                   ),
 
-                                  Padding(
+                                  edit? Padding(
+                                        padding:  EdgeInsets.only(top:100.0.h, left: 10.w, right: 15.w),
+                                    child: InkWell(
+                                      child: Container(child: Icon(save,color: white, size: 18,),
+                                        decoration: BoxDecoration( borderRadius: BorderRadius.circular(50),gradient:  const LinearGradient(
+                                          begin: Alignment(0.7, 2.0),
+                                          end: Alignment(-0.69, -1.0),
+                                          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+                                          stops: [0.0, 1.0],
+                                        ) ),
+                                        height: 28.h,
+                                        width: 32.w,
+                                      ),
+                                      onTap: (){setState(() {
+                                        edit = false;
+                                      });},
+                                    ),
+                                  ):Padding(
                                     padding:  EdgeInsets.only(top:30.0.h, left: 10.w, right: 15.w),
                                     child: Column(children: [
                                       InkWell(
