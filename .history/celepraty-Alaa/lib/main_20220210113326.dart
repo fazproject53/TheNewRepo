@@ -1,11 +1,11 @@
-import 'package:celepraty/Models/Variabls/varaibles.dart';
+import 'package:celepraty/Models/Variabls/Variables.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:device_preview/device_preview.dart';
 
-import 'celebrity/Requests/ReguistMainPage.dart';
+import 'Celebrity/Requests/ReguistMainPage.dart';
 
 
 void main() => runApp(
