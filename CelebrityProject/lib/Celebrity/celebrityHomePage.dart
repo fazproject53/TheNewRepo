@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -471,8 +472,13 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                           0,
                           yallow,
                           Center(
-                              child: text(context, "انضم الان", 17, black,
-                                  fontWeight: FontWeight.bold)),
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SingUp()));
+                                },
+                                child: text(context, "انضم الان", 17, black,
+                                    fontWeight: FontWeight.bold),
+                              )),
                           bottomLeft: 19,
                           bottomRight: 19,
                           topLeft: 19,
