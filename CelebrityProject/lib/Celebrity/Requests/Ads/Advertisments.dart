@@ -85,11 +85,11 @@ class _AdvertismentState extends State<Advertisment> {
                       
                          Align(
                             alignment: Alignment.bottomLeft,
-                            child:text(context, "12/12/2022", 15, white,fontWeight:FontWeight.bold,)
+                            child:text(context, "12/12/2022", 18, white,fontWeight:FontWeight.bold,)
                             ),
-                        Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Icon(clander,color:deepblue) ),
+                        // Align(
+                        //     alignment: Alignment.bottomLeft,
+                        //     child: Icon(clander,color:deepblue) ),
                              SizedBox(width:10.w),
                       ],
                       )

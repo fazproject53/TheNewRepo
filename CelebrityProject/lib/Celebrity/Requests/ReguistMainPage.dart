@@ -44,20 +44,24 @@ class _RequestMainPageState extends State<RequestMainPage> {
 
              Padding(
                padding: EdgeInsets.only(left: 28.w, right: 28.w),
-               child: text(context,
-                isSelected == 1
-                   ?  "طلبات الاعلانات الخاصة بك"
-                   : isSelected == 2
-                       ? "طلبات الاهداءات الخاصة بك"
-                       : "طلبات المساحة الاعلانية الخاصة بك",
-                //,
-                 18,
-                  black,
-                   fontWeight: FontWeight.bold),
+               child: Align(
+                 alignment: Alignment.topRight,
+                 child: text(context,
+                  isSelected == 1
+                     ?  "طلبات الاعلانات الخاصة بك"
+                     : isSelected == 2
+                         ? "طلبات الاهداءات الخاصة بك"
+                         : "طلبات المساحة الاعلانية الخاصة بك",
+                  //,
+                   18,
+                    black,
+
+                     fontWeight: FontWeight.bold),
+               ),
              ),
 
              SizedBox(
-               height: 32.h,
+               height: 20.h,
             ),
 
  //الطلبات وفق التصنيف-------------------------------

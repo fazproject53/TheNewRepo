@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'GiftDetials.dart';
+
 class Gift extends StatefulWidget {
   const Gift({Key? key}) : super(key: key);
 
@@ -13,17 +14,17 @@ class Gift extends StatefulWidget {
 
 class _GiftState extends State<Gift> {
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
           itemCount: 4,
           itemBuilder: (context, i) {
             return InkWell(
-              onTap: (){
-               goTopagepush(context, GiftDetials(i:i));
-              },
-              child: body(i));
+                onTap: () {
+                  goTopagepush(context, GiftDetials(i: i));
+                },
+                child: body(i));
           }),
     );
   }
@@ -41,87 +42,99 @@ class _GiftState extends State<Gift> {
             Expanded(
               flex: 2,
               child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.h),
-                      topRight: Radius.circular(10.h),
-                    ),
-                    image: DecorationImage(
-                        image: AssetImage(
-                          giftImage[i],
-                        ),
-                        fit: BoxFit.cover,
-                        colorFilter:
-                            ColorFilter.mode(Colors.black45, BlendMode.darken)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.h),
+                    topRight: Radius.circular(10.h),
                   ),
+                  image: DecorationImage(
+                      image: AssetImage(
+                        giftImage[i],
+                      ),
+                      fit: BoxFit.cover,
+                      colorFilter:
+                          ColorFilter.mode(Colors.black45, BlendMode.darken)),
+                ),
 // مناسبه الاهداء-----------------------------------------
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
 
-                      Align(
-
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 10.w),
-                            child:text(context, "اهداء ل"+giftType[i], 18, white,fontWeight:FontWeight.bold,)
-                        )
-                        ),
+                            padding: EdgeInsets.only(right: 10.w),
+                            child: text(
+                              context,
+                              "اهداء ل" + giftType[i],
+                              18,
+                              white,
+                              fontWeight: FontWeight.bold,
+                            ))),
 
-//date and icon-------------------------------------------------------------
+//icon-------------------------------------------------------------
 
-                     Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Icon(vieduoIcon,color:deepwhite,size:40.sp) ),
-                     ),
-
-                    ],
-                  )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child:
+                              Icon(vieduoIcon, color: deepwhite, size: 40.sp)),
+                    ),
+                  ],
+                ),
+              ),
             ),
 
 //detaiels-----------------------------------------
 
-   Expanded(flex: 1, child:
-   Row(
-   children: [
-//type-------------------------------------------------
-     Expanded(flex: 1,child:Column(
-     children: [
-     Expanded(flex: 1, child:text(context, "من", 12, black,)
-),
-     Expanded(flex: 1, child:text(context, "محمد علي", 12, pink,fontWeight:FontWeight.bold)
-   )],
-     )),
-     divider(),
-//owner-------------------------------------------------
-
-   Expanded(flex: 1,child:Column(
-   children: [
-     Expanded(flex: 1, child:text(context, "الى", 12, black,)
-),
-     Expanded(flex: 1, child:text(context, "احمد عمر", 12, pink,fontWeight:FontWeight.bold)
-   )],
-     )),      divider(),
-//time-------------------------------------------------
-
-   Expanded(flex: 1,child:Column(
-   children: [
-     Expanded(flex: 1, child:text(context, "التاريخ", 12, black,)
-),
-     Expanded(flex: 1, child:text(context, "12/12/2021", 12, pink,fontWeight:FontWeight.bold)
-   )],
-     )),   ],
-   ))
-
-
-
-
-
-
-
+            Expanded(
+                flex: 1,
+                child: Row(
+                  children: [
+                    //from to------------------------------------------
+                    Expanded(
+                        flex: 3,
+                        child: Row(
+                          children: [
+                            Expanded(child: Icon(Icons.volunteer_activism,color: blue,)),
+                            Expanded(
+                              flex: 2,
+                              child: text(context, "عبد العزيز احمد", 14, blue,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Expanded(
+                                child: Icon(Icons.face_retouching_natural,color: pink,)),
+                            Expanded(flex: 2, child: text(context, "عبد العزيز احمد", 14, pink,
+                                fontWeight: FontWeight.bold)),
+                          ],
+                        )),
+                    //date------------------------------------------
+                    Expanded(
+                      flex: 1,
+                      child: gradientContainer(
+                          double.infinity,
+                          Padding(
+                            padding: EdgeInsets.only(top: 8.0.h),
+                            child: text(
+                                context,
+                                "يناير\n23",
+                                //,
+                                15,
+                                white,
+                                align: TextAlign.center,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          height: double.infinity,
+                          color: Colors.transparent,
+                          topLeft: 0,
+                          topRight: 0,
+                          bottomLeft: 10,
+                          bottomRight: 0),
+                    ),
+                  ],
+                ))
           ],
         ),
         bottomLeft: 10,
@@ -133,3 +146,7 @@ class _GiftState extends State<Gift> {
         marginT: 5);
   }
 }
+/*
+*
+*
+* */

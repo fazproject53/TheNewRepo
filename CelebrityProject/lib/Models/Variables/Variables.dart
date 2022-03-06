@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //colors----------------------------------------------------------------
 const Color blue = Color(0xFF0AB3D0);
+const Color whiteBlue = Color(0xFFAADCE4);
 const Color white = Color(0xFFFFFFFF);
 const Color pink = Color(0xFFE468CA);
 const Color pinkLigth = Color(0xFFFB6580);

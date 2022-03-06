@@ -74,15 +74,22 @@ Widget container(double height, double width, double marginL, double marginR,
   );
 }
 //gradient contaner------------------------------------------------------------------
-Widget gradientContainer(double width, Widget child,{bool gradient =false,double height=45}) {
+Widget gradientContainer(double width, Widget child,{bool gradient =false,double height=45,Color color=deepBlack, double bottomLeft = 4.0,
+  double topRight = 4.0,
+  double topLeft = 4.0,
+  double bottomRight = 4.0}) {
   return Container(
     width: width.w,
     height: height.h,
     child: child,
     decoration: BoxDecoration(
 
-      border: Border.all(color: deepBlack, width: 1.5),
-      borderRadius: BorderRadius.circular(4.0),
+      border: Border.all(color: color, width: 1.5),
+      borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(bottomLeft),
+          topRight: Radius.circular(topRight),
+          topLeft: Radius.circular(topLeft),
+          bottomRight: Radius.circular(bottomRight)),
       gradient:  gradient==false? const LinearGradient(
         begin: Alignment(0.7, 2.0),
         end: Alignment(-0.69, -1.0),
