@@ -1,18 +1,18 @@
 
 import 'package:celepraty/Celebrity/Activity/activity_screen.dart';
+import 'package:celepraty/Celebrity/Balance/balance.dart';
 import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
 import 'package:celepraty/Celebrity/Pricing/pricing.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Exploer/Explower.dart';
+import 'package:celepraty/Users/Setting/user_balance.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
-
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
 import 'package:celepraty/celebrity/PrivacyPolicy/privacy_policy.dart';
 import 'package:celepraty/celebrity/Requests/ReguistMainPage.dart';
 import 'package:celepraty/celebrity/TechincalSupport/contact_with_us.dart';
 import 'package:celepraty/celebrity/blockList.dart';
-import 'package:celepraty/celebrity/celebrityHomePage.dart';
+
 import 'package:celepraty/celebrity/setting/profileInformation.dart';
 import 'package:celepraty/invoice/invoice_screen.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +58,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     profileInformaion(),
 
     invoiceScreen(),
-    profileInformaion(),
+    UserBalance(),
     PricingMain(),
 
     RequestMainPage(),

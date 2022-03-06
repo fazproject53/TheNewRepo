@@ -19,8 +19,9 @@ const Color border = Color(0xFFCED0D2);
 const Color textColor = Color(0xFFF7F2FF);
 const Color black_ = Color(0xFF494646);
 const Color yallow = Color(0xFFFFE500);
-//F7F2FF
 
+///#53535A
+const Color newGrey = Color(0xFF53535A);
 
 var deepblue = Colors.pink[900];
 var grey = Colors.grey[500];
@@ -92,6 +93,8 @@ IconData dateRange = Icons.date_range_outlined;
 IconData cam = Icons.camera_alt;
 IconData add = Icons.add;
 IconData save = Icons.done;
+IconData payment = Icons.payments_outlined;
+IconData suspended = Icons.pending_outlined;
 //controller name----------------------------------------------------------------
 TextEditingController nameConttroller= TextEditingController();
 TextEditingController passConttroller=TextEditingController();

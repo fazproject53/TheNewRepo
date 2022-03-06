@@ -3,7 +3,8 @@ import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
-import 'package:celepraty/CreateOrder/buildAdvOrder.dart';
+import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -427,7 +428,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   angle: 45,
                   child: container(
                     80,
-                    80,
+                    90,
                     0,
                     0,
                     white,
