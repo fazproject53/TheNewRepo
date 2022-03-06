@@ -130,7 +130,7 @@ strip_invalid_archs() {
   binary_archs="$(lipo -info "$binary" | rev | cut -d ':' -f1 | awk '{$1=$1;print}' | rev)"
   # Intersect them with the architectures we are building for
   intersected_archs="$(echo ${ARCHS[@]} ${binary_archs[@]} | tr ' ' '\n' | sort | uniq -d)"
-  # If there are no archs supported by this binary then warn the user
+  # If there are no archs supported by this binary then warn the CreateOrder
   if [[ -z "$intersected_archs" ]]; then
     if [[ "$warn_missing_arch" == "true" ]]; then
       echo "warning: [CP] Vendored binary '$binary' contains architectures ($binary_archs) none of which match the current build architectures ($ARCHS)."

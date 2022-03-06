@@ -2,7 +2,7 @@
 import 'package:celepraty/Celebrity/celebrityHomePage.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Explowr/Explower.dart';
+import 'package:celepraty/Users/Exploer/Explower.dart';
 import 'package:celepraty/celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 import 'package:celepraty/celebrity/chat/chatsList.dart';

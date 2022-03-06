@@ -4,7 +4,7 @@ import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
 import 'package:celepraty/Celebrity/Pricing/pricing.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Explowr/Explower.dart';
+import 'package:celepraty/Users/Exploer/Explower.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
 
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
