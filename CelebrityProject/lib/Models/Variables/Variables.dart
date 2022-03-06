@@ -92,22 +92,15 @@ IconData invoiceIcon = Icons.receipt;
 IconData dateRange = Icons.date_range_outlined;
 IconData cam = Icons.camera_alt;
 IconData add = Icons.add;
-IconData hide = Icons.visibility_off_sharp;
-IconData show = Icons.visibility_sharp;
 IconData save = Icons.done;
 IconData payment = Icons.payments_outlined;
 IconData suspended = Icons.pending_outlined;
-
-
 //controller name----------------------------------------------------------------
 TextEditingController nameConttroller= TextEditingController();
 TextEditingController passConttroller=TextEditingController();
 TextEditingController emailConttroller=TextEditingController();
 TextEditingController countryConttroller=TextEditingController();
 TextEditingController catogaryConttroller=TextEditingController();
-
-TextEditingController lgoingEmailConttroller=TextEditingController();
-TextEditingController lgoingPassConttroller=TextEditingController();
 
 //image path------------------------------------------------------
 String staticPath="assets/image/";

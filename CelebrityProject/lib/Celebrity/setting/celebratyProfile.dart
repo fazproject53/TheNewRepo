@@ -5,8 +5,6 @@ import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
 import 'package:celepraty/Celebrity/Pricing/pricing.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Setting/userInformation.dart';
-import 'package:celepraty/Users/Setting/userProfile.dart';
 import 'package:celepraty/Users/Setting/user_balance.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
@@ -52,6 +50,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     studio,
     pages,
     block,
+    chat,
     support,
     logout
   ];
@@ -59,7 +58,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     profileInformaion(),
 
     invoiceScreen(),
-    BalanceMain(),
+    UserBalance(),
     PricingMain(),
 
     RequestMainPage(),
@@ -72,7 +71,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     blockList(),
 
     ContactWithUsMain(),
-    userProfile()
+    Logging()
   ];
 
 
