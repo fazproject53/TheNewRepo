@@ -16,6 +16,8 @@ const Color darkWhite = Color(0xFF7B7B8B);
 const Color deepBlack = Color(0xFF7477A0);
 const Color border = Color(0xFFCED0D2);
 const Color textColor = Color(0xFFF7F2FF);
+const Color black_ = Color(0xFF494646);
+const Color yallow = Color(0xFFFFE500);
 //F7F2FF
 
 

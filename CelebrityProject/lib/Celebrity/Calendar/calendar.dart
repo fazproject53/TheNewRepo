@@ -1,3 +1,11 @@
+import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
+import 'package:celepraty/Models/Methods/method.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'calendar_info.dart';
+
 class CelebrityCalenderMain extends StatelessWidget {
   const CelebrityCalenderMain({Key? key}) : super(key: key);
 

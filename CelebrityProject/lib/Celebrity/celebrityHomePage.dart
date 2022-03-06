@@ -1,13 +1,11 @@
-
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/user/buildAdvOrder.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
 
 class celebrityHomePage extends StatefulWidget {
   _celebrityHomePageState createState() => _celebrityHomePageState();
@@ -72,7 +70,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                 SizedBox(
                   height: 30.h,
                 ),
-//كوميديا----------------------------------------------------------
+//comedy----------------------------------------------------------
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -93,7 +91,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   height: 15.h,
                 ),
 
-//رياضي----------------------------------------------------------
+//sport----------------------------------------------------------
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -113,8 +111,10 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                 SizedBox(
                   height: 15.h,
                 ),
-
-//اطفال----------------------------------------------------------
+//adv panel--------------------------------------------------------
+                SizedBox(
+                    width: double.infinity, height: 196.h, child: advPanel()),
+//-children---------------------------------------------------------
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -135,7 +135,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   height: 15.h,
                 ),
 
-//سياحة----------------------------------------------------------
+//سياحة----------------------------------------------------------culture
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -155,8 +155,10 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                 SizedBox(
                   height: 15.h,
                 ),
-
-//مطربين----------------------------------------------------------
+//adv panel--------------------------------------------------------
+                SizedBox(
+                    width: double.infinity, height: 196.h, child: advPanel()),
+//-singer---------------------------------------------------------
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -177,7 +179,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   height: 15.h,
                 ),
 
-//انضم الينا----------------------------------------------------------
+//-join us---------------------------------------------------------
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: SizedBox(
@@ -187,15 +189,45 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                         padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
                         child: Row(
                           children: [
-                            jouinFaums(),
+                            Expanded(
+                                child: jouinFaums(
+                                    "انضم الان كنجم",
+                                    "اضم الينا الان\nوكن جزء منا",
+                                    "انضم كنجم")),
                             SizedBox(
-                              width: 15.w,
+                              width: 32.w,
                             ),
-                            jouinFaums(),
+                            Expanded(
+                                child: jouinFaums(
+                                    "انضم الان كمستخدم",
+                                    "اضم الينا الان\nوكن جزء منا",
+                                    "انضم كمستخدم")),
                           ],
                         ),
                       )),
-                )
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+
+//---------------------------------------------------------------------------------الرعاة الرسميين-
+                Padding(
+                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: text(context, "الرعاة الرسميين", 18, black,
+                          fontWeight: FontWeight.bold)),
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    height: 60.h,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16.h, right: 16.h),
+                      child: sponsors(),
+                    )),
               ],
             ),
           )),
@@ -234,11 +266,15 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            child: SizedBox(
-                height: 60.h,
-                width: 60.w,
-                child: InkWell(child: GradientIcon(Icons.add, 40, gradient()),onTap: (){
-                  goTopagepush(context, buildAdvOrder());},)),
+        child: SizedBox(
+            height: 60.h,
+            width: 60.w,
+            child: InkWell(
+              child: GradientIcon(Icons.add, 40, gradient()),
+              onTap: () {
+                goTopagepush(context, buildAdvOrder());
+              },
+            )),
       ),
       Spacer(),
       Padding(
@@ -251,7 +287,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     ]);
   }
 
-//اكسبلور صور بيكسل--------------------------------------------------------------
+//explorer bottom image--------------------------------------------------------------
   Widget drowButtom() {
     return Row(
       children: [
@@ -287,7 +323,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             reids: 20));
   }
 
-//-catogary-------------------------------------------------------------------
+//category-------------------------------------------------------------------
   Widget catogary(String catoName, String famusName, String famusImage) {
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -306,7 +342,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                     alignment: Alignment.bottomRight,
                     child: Padding(
                       padding: EdgeInsets.all(10.0.w),
-                      child: text(context, famusName, 18, white,fontWeight: FontWeight.bold),
+                      child: text(context, famusName, 18, white,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -318,22 +355,137 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 
   BoxDecoration decoration(String famusImage) {
     return BoxDecoration(
-      
       borderRadius: BorderRadius.all(Radius.circular(4.r)),
       image: DecorationImage(
         image: AssetImage(famusImage),
-        colorFilter:ColorFilter.mode(black.withOpacity(0.4),BlendMode.darken ) ,
+        colorFilter: ColorFilter.mode(black.withOpacity(0.4), BlendMode.darken),
         fit: BoxFit.cover,
       ),
     );
   }
 
-  Widget jouinFaums() {
+  Widget jouinFaums(String title, String contint, String buttomText) {
     return gradientContainerNoborder(
         184.5,
         Column(
-          children: [],
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 26.h,
+            ),
+            text(context, title, 18, white, fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 11.h,
+            ),
+            text(context, contint, 14, white, fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 26.h,
+            ),
+            container(
+              28.92,
+              87,
+              0,
+              0,
+              black_,
+              Center(
+                  child: text(context, buttomText, 10, white,
+                      fontWeight: FontWeight.bold)),
+              bottomLeft: 10,
+              bottomRight: 10,
+              topLeft: 10,
+              topRight: 10,
+              pL: 10,
+              pR: 10,
+            ),
+            SizedBox(
+              height: 44.h,
+            ),
+          ],
         ));
   }
+
+//-------------------------------------------------------------------------------
+  Widget sponsors() {
+    return Image(
+        image: const AssetImage("assets/image/ro3a.jpeg"),
+        height: 26.h,
+        width: 82.w);
+  }
+
   //-------------------------------------------------------------
+  Widget advPanel() {
+    return gradientContainerNoborder(
+        double.infinity,
+        Row(
+          children: [
+            //logo-----------------------------------------
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Transform.rotate(
+                  angle: 45,
+                  child: container(
+                    80,
+                    80,
+                    0,
+                    0,
+                    white,
+                    Transform.rotate(
+                        angle: -45,
+                        child: Image(
+                          image: AssetImage("assets/image/log.png"),
+                          fit: BoxFit.cover,
+                          height: 52.h,
+                          width: 52.w,
+                        )),
+                    bottomLeft: 25,
+                    bottomRight: 25,
+                    topLeft: 25,
+                    topRight: 25,
+                  ),
+                ),
+              ),
+            ),
+            //join now+text--------------------------------------------------------------
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 28.w, right: 28.w),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //text----------------------------------------
+                        text(context, "منصة المشاهير", 21, white,
+                            fontWeight: FontWeight.bold),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        //buttom----------------------------------------
+                        container(
+                          34,
+                          101,
+                          0,
+                          0,
+                          yallow,
+                          Center(
+                              child: text(context, "انضم الان", 17, black,
+                                  fontWeight: FontWeight.bold)),
+                          bottomLeft: 19,
+                          bottomRight: 19,
+                          topLeft: 19,
+                          topRight: 19,
+                          pL: 10,
+                          pR: 10,
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+          ],
+        ),
+        height: 120.h);
+  }
 }
