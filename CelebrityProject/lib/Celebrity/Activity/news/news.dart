@@ -14,20 +14,18 @@ class _newsState extends State<news> {
    bool add= false;
    bool edit = false;
 
+   int? theindex;
    String? title = "عنوان الخبر",des = "هذا وصف الخبر الذي قام بنشره المشهور.", date= 'وقت النشر: 12/10/2021';
     TextEditingController newstitle =new TextEditingController();
     TextEditingController newsdesc =new TextEditingController();
-    TextEditingController newsdate =new TextEditingController();
   @override
   Widget build(BuildContext context) {
     edit?setState(() {
      title = newstitle.text;
      des = newsdesc.text;
-     date = newsdate.text;
     }): setState((){
      newstitle.text = title!;
      newsdesc.text = des!;
-     newsdate.text = date!;
     });
 
     return Directionality(
@@ -58,7 +56,7 @@ class _newsState extends State<news> {
                         8,
                         5,
                         SizedBox(
-                          height: edit? 200.h: 150,
+                          height: edit&& theindex == index? 180.h: 150,
                           width: 300.w,
                           child: Card(
                             elevation: 5,
@@ -68,74 +66,71 @@ class _newsState extends State<news> {
                               0,
                               8,
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  paddingg(
-                                  5,
-                                    5,
-                                    0,
-                                    Container(
-                                      alignment: Alignment.centerRight,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(2.0),
-                                        child: Image.asset(
-                                          'assets/image/celebrityimg.png',
-                                          fit: BoxFit.fill,
-                                          height: edit?150.h :130.h,
-                                          width: 100.w,
+                                  Row(
+                                    children: [
+                                      paddingg(
+                                      5,
+                                        5,
+                                        0,
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(2.0),
+                                            child: Image.asset(
+                                              'assets/image/celebrityimg.png',
+                                              fit: BoxFit.fill,
+                                              height: edit?150.h :130.h,
+                                              width: 100.w,
+                                            ),
+                                          ),
+                                          margin: EdgeInsets.only(bottom: 5.h),
                                         ),
                                       ),
-                                      margin: EdgeInsets.only(bottom: 5.h),
-                                    ),
-                                  ),
-
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 15.h,
-                                      ),
-                                      Container(
-                                        width: 190.w,
-                                        height: 30.h,
-                                        child:edit?
-                                           TextFormField( controller: newstitle,
-                                            style: TextStyle(color: black, fontSize: 12, fontFamily: 'Cairo'),
-                                          decoration: InputDecoration(fillColor: lightGrey, border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                                          contentPadding: EdgeInsets.all(0.h)),)
-                                        : text(
-                                            context, title!, 14, black),
-                                      ),
-                                      SizedBox(
-                                        height: edit?5.h: 0.h,
-                                      ),
-                                      Container(
-                                        width: 190.w,
-                                        child:edit?
-                                        TextFormField( controller: newsdesc,
-                                            maxLines: 3,
-                                            style: TextStyle(color: black, fontSize: 12, fontFamily: 'Cairo'),
-                                            decoration: InputDecoration(fillColor: lightGrey, border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                                                contentPadding: EdgeInsets.all(0.h)), ): text(
-                                            context, des!, 14, black),
-                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 20.h,
+                                          ),
+                                          Container(
+                                            width: 190.w,
+                                            height: 40.h,
+                                            child:edit && theindex == index?
+                                            TextFormField( cursorColor: black,controller: newstitle,
+                                              style: TextStyle(color: black, fontSize: 12, fontFamily: 'Cairo'),
+                                              decoration: InputDecoration(fillColor: lightGrey,
+                                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: pink)),
+                                                  contentPadding: EdgeInsets.all(0.h)),)
+                                                : text(
+                                                context, title!, 14, black),
+                                          ),
+                                          SizedBox(
+                                            height: edit&& theindex == index?8.h: 0.h,
+                                          ),
+                                          Container(
+                                            width: 190.w,
+                                            child:edit&& theindex == index?
+                                            TextFormField( cursorColor: black,controller: newsdesc,
+                                              maxLines: 3,
+                                              style: TextStyle(color: black, fontSize: 12, fontFamily: 'Cairo'),
+                                              decoration: InputDecoration(fillColor: lightGrey,
+                                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: pink)),
+                                                  contentPadding: EdgeInsets.all(0.h)), ): text(
+                                                context, des!, 14, black),
+                                          ),
 
 
-                                      SizedBox(height: 5.h,),
-                                      Container(
-                                        width: 190.w,
-                                        child:edit? TextFormField( controller: newsdate,
-                                          style: TextStyle(color: black, fontSize: 12, fontFamily: 'Cairo'),
-                                          decoration: InputDecoration(fillColor: lightGrey, border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                                              contentPadding: EdgeInsets.all(0.h)), ): text(
-                                            context, date!, 14, black),
+                                        ],
                                       ),
 
                                     ],
                                   ),
 
-                                  edit? Padding(
-                                        padding:  EdgeInsets.only(top:100.0.h, left: 10.w, right: 15.w),
+
+                                  edit&& theindex == index? Padding(
+                                        padding:  EdgeInsets.only(top:110.0.h, left: 15.w, right: 15.w),
                                     child: InkWell(
                                       child: Container(child: Icon(save,color: white, size: 18,),
                                         decoration: BoxDecoration( borderRadius: BorderRadius.circular(50),gradient:  const LinearGradient(
@@ -167,6 +162,7 @@ class _newsState extends State<news> {
                                         ),
                                         onTap: (){setState(() {
                                           edit = true;
+                                          theindex = index;
                                         });},
                                       ),
                                       SizedBox(height: 15.h,),
