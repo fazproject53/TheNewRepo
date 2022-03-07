@@ -18,201 +18,221 @@ class _GiftDetialsState extends State<GiftDetials> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          // appBar: drowAppBar("تفاصيل الطلب"),
-          body: Column(children: [
-//image-----------------------------------------------------
-        Expanded(
-          flex: 3,
-          child: Container(
-            width: double.infinity,
-            // height: double.infinity,
-            margin: EdgeInsets.all(9.w),
-            decoration: BoxDecoration(
-                boxShadow: const [BoxShadow(blurRadius: 2)],
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(50.r),
+          appBar: drowAppBar("تفاصيل الطلب",context),
+          body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 15.h,
                 ),
-                image: DecorationImage(
-                  image: AssetImage(
-                    giftImage[widget.i!],
-                  ),
-                  fit: BoxFit.cover,
-                )),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-//price--------------------------------------------------------------
-              child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: CircleAvatar(
-                      radius: 40.r,
-                      backgroundColor: pink,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 15.r,
-                          ),
-                          text(context, "5200", 15, white,
-                              fontWeight: FontWeight.bold),
-                          SizedBox(
-                            width: 3.r,
-                          ),
-                          Icon(Icons.paid, size: 20.r),
-                        ],
-                      ))),
-            ),
-          ),
-        ),
-//ad titel-----------------------------------------------------
-
+//image-----------------------------------------------------
         Container(
-          //color: black,
           width: double.infinity,
-          height: 50.h,
-          margin:
-              EdgeInsets.only(left: 9.w, right: 15.w, bottom: 0.w, top: 8.w),
-          child: Align(
-              alignment: Alignment.bottomRight,
-              child: Row(
-                children: [
-//ايقونه الاهداء-------------------------------------------------
-                  Icon(gift, color: amber),
-//نص الاهداء-------------------------------------------------
+          // height: double.infinity,
+          margin: EdgeInsets.all(9.w),
+          decoration: BoxDecoration(
+              boxShadow: const [BoxShadow(blurRadius: 1)],
 
-                  text(
-                    context,
-                    " اهداء ل${giftType[widget.i!]}",
-                    20,
-                    deepgrey!,
-                    fontWeight: FontWeight.bold,
-                    align: TextAlign.justify,
-                    space: 3,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  divider(),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-//ايقونه نوع الاهداء-------------------------------------------------
-
-                  Icon(voiceIcon, color: amber),
-//نوع الاهداء-------------------------------------------------
-
-                  text(
-                    context,
-                    " اهداء صوتي",
-                    20,
-                    deepgrey!,
-                    fontWeight: FontWeight.bold,
-                    align: TextAlign.justify,
-                    space: 3,
-                  ),
-                ],
-              )),
-        ),
-
-//description----------------------------------------------------------------------
-        Container(
-          //color: black,
-          width: double.infinity,
-          height: 130.h,
-          margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.w),
-          child: Align(
-              alignment: Alignment.center,
-              child: Flex(
-                direction: isScreenWide ? Axis.horizontal : Axis.vertical,
-                children: [
-                  text(
-                    context,
-                    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                    13,
-                    deepgrey!,
-
-                    fontWeight: FontWeight.bold,
-                    //align: TextAlign.justify,
-                    space: 3,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                ],
-              )
-
+              color: deepwhite,
+              borderRadius: BorderRadius.all(
+                Radius.circular(30.r),
 
               ),
-        ),
+
+          ),
+          child: Column(
+            children: [
+              //ad titel-----------------------------------------------------
+
+              Container(
+               // color: black,
+                width: double.infinity,
+                height: 50.h,
+                margin:
+                EdgeInsets.only(left: 9.w, right: 15.w, bottom: 0.w, top: 8.w),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+//ايقونه الاهداء-------------------------------------------------
+                        Icon(gift, color: pink),
+//نص الاهداء-------------------------------------------------
+
+                        text(
+                          context,
+                          " اهداء ل${giftType[widget.i!]}",
+                          20,
+                          deepgrey!,
+                          fontWeight: FontWeight.bold,
+                          align: TextAlign.justify,
+                          space: 3,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        divider(),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+//ايقونه نوع الاهداء-------------------------------------------------
+
+                        Icon(voiceIcon, color: pink),
+//نوع الاهداء-------------------------------------------------
+
+                        text(
+                          context,
+                          " اهداء صوتي",
+                          20,
+                          deepgrey!,
+                          fontWeight: FontWeight.bold,
+                          align: TextAlign.justify,
+                          space: 3,
+                        ),
+                      ],
+                    )),
+              ),
+              SizedBox(
+                height: 20.w,
+              ),
+//description----------------------------------------------------------------------
+              Container(
+                //color: black,
+                width: double.infinity,
+                height: 130.h,
+                margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.w),
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Flex(
+                      direction: isScreenWide ? Axis.horizontal : Axis.vertical,
+                      children: [
+                        text(
+                          context,
+                          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                          13,
+                          deepgrey!,
+
+                          fontWeight: FontWeight.bold,
+                          //align: TextAlign.justify,
+                          space: 3,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                      ],
+                    )
+
+
+                ),
+              ),
 
 //accapt buttom-----------------------------------------------------
 
-        Container(
-            width: double.infinity,
-            height: 50,
-            margin: EdgeInsets.all(20),
-            child: Row(children: [
-              Expanded(
-                flex: 2,
-                child: gradientContainer(
-                  double.infinity,
-                  buttoms(
-                    context,
-                    "قبول",
-                    15,
-                    white,
-                    () {},
-                    evaluation: 0,
-                  ),
-                  height: 50,
-                ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+//price--------------------------------------------------------------
+                child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: CircleAvatar(
+                        radius: 40.r,
+                        backgroundColor: pink,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 15.r,
+                            ),
+                            text(context, "5200", 15, white,
+                                fontWeight: FontWeight.bold),
+                            SizedBox(
+                              width: 3.r,
+                            ),
+                            Icon(Icons.paid, size: 20.r),
+                          ],
+                        ))),
               ),
-              SizedBox(
-                width: 10.w,
-              ),
+            ],
+          )
+
+        ),
+                Spacer(),
+                Container(
+                    width: double.infinity,
+                    height: 50,
+                    //color: Colors.red,
+                    margin: EdgeInsets.all(20),
+                    child: Row(children: [
+                      Expanded(
+                        flex: 2,
+                        child: gradientContainer(
+                          double.infinity,
+                          buttoms(
+                            context,
+                            "قبول",
+                            15,
+                            white,
+                                () {},
+                            evaluation: 0,
+                          ),
+                          height: 50,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
 
 //chat icon-------------------------------------------------
 
-              Expanded(
-                flex: 2,
-                child: gradientContainer(
-                  double.infinity,
-                  InkWell(
-                    onTap: () {
-                      print("go to chat home");
-                    },
-                    child: buttoms(
-                      context,
-                      "رفض ",
-                      15,
-                      pink,
-                      () {},
-                      //evaluation: 1,
-                    ),
-                  ),
-                  height: 50,
-                  gradient: true,
-                ),
-              ),
-              SizedBox(
-                width: 10.w,
-              ),
+                      Expanded(
+                        flex: 2,
+                        child: gradientContainer(
+                          double.infinity,
+                          InkWell(
+                            onTap: () {
+                              print("go to chat home");
+                            },
+                            child: buttoms(
+                              context,
+                              "رفض ",
+                              15,
+                              pink,
+                                  () {},
+                              //evaluation: 1,
+                            ),
+                          ),
+                          height: 50,
+                          gradient: true,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
 //---------------------------------------------------------
-              const Expanded(
-                  flex: 1,
-                  //child:
-                  //  gradientContainer(
-                  //   double.infinity,
-                  //   InkWell(
-                  //       onTap: () {
-                  //         print("go to chat home");
-                  //       },
-                  child: Icon(Icons.textsms_outlined, color: pink)),
-              //height: 50,
-              //gradient: true,
-              //),
-              //)
-            ]))
-      ])),
+                      const Expanded(
+                          flex: 1,
+                          //child:
+                          //  gradientContainer(
+                          //   double.infinity,
+                          //   InkWell(
+                          //       onTap: () {
+                          //         print("go to chat home");
+                          //       },
+                          child: Icon(Icons.textsms_outlined, color: pink)
+                      ),
+                      //height: 50,
+                      //gradient: true,
+                      //),
+                      //)
+                    ]
+                    )
+                ),
+
+
+
+
+      ]
+          )
+      )
+      ,
     );
   }
 }

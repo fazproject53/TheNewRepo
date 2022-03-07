@@ -84,12 +84,12 @@ Widget gradientContainer(double width, Widget child,{bool gradient =false,double
     child: child,
     decoration: BoxDecoration(
 
-      border: Border.all(color: color, width: 1.5),
+      border: Border.all(color: color, width: 1.5.w),
       borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(bottomLeft),
-          topRight: Radius.circular(topRight),
+          bottomLeft: Radius.circular(bottomLeft.r),
+          topRight: Radius.circular(topRight.r),
           topLeft: Radius.circular(topLeft),
-          bottomRight: Radius.circular(bottomRight)),
+          bottomRight: Radius.circular(bottomRight.r)),
       gradient:  gradient==false? const LinearGradient(
         begin: Alignment(0.7, 2.0),
         end: Alignment(-0.69, -1.0),
@@ -280,7 +280,7 @@ Widget singWthisButtom(
       SizedBox(
         width: 16.92.w,
       ),
-      text(context, key, 11.sp, textColor)
+      text(context, key, 14.sp, textColor)
     ]),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(backColor),

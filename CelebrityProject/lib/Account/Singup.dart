@@ -34,9 +34,9 @@ class _SingUpState extends State<SingUp> {
             children: [
               SizedBox(height: 170.h),
 //استمتع يالتواصل--------------------------------------------------
-              text(context, "استمتع بالتواصل", 18, white),
+              text(context, "استمتع بالتواصل", 20, white),
 //انشاء حساب--------------------------------------------------
-              text(context, "انشاء حساب", 13, darkWhite),
+              text(context, "انشاء حساب", 15, darkWhite),
               SizedBox(
                 height: 22.h,
               ),
@@ -102,12 +102,12 @@ class _SingUpState extends State<SingUp> {
                               : userForm(context, false),
 //create account------------------------------
                       gradientContainer(347,
-                          buttoms(context, 'انشاء حساب', 13, white, () {})),
+                          buttoms(context, 'انشاء حساب', 14, white, () {})),
 //singup with-----------------------------------------------------------
                       SizedBox(
                         height: 14.h,
                       ),
-                      text(context, "او التسجيل من خلال", 11, darkWhite,
+                      text(context, "او التسجيل من خلال", 12, darkWhite,
                       align: TextAlign.center,
                       ),
                       SizedBox(

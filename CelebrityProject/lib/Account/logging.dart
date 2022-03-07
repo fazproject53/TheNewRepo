@@ -38,9 +38,9 @@ class _LoggingState extends State<Logging> {
             children: [
               SizedBox(height: 170.h),
 //مرحبا بك مره اخري--------------------------------------------------
-              text(context, "مرحبا بك مرة اخري", 18, white),
+              text(context, "مرحبا بك مرة اخري", 20, white),
 //تسجيل الدخول--------------------------------------------------
-              text(context, "تسجيل الدخول", 13, darkWhite),
+              text(context, "تسجيل الدخول", 15, darkWhite),
               SizedBox(
                 height: 22.h,
               ),
@@ -55,7 +55,7 @@ class _LoggingState extends State<Logging> {
 //====================================TextFields=========================================================
 
 //email------------------------------------------
-                      textField(context, emailIcon, "البريد الالكتروني", 10,
+                      textField(context, emailIcon, "البريد الالكتروني او اسم المستخدم", 10,
                           false, emailConttroller, (val) {}),
                       SizedBox(
                         height: 15.h,
@@ -74,7 +74,7 @@ class _LoggingState extends State<Logging> {
 //logging buttom------------------------------
                       gradientContainer(
                           347,
-                          buttoms(context, 'تسجيل الدخول', 13, white, () {
+                          buttoms(context, 'تسجيل الدخول', 14, white, () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (_) => MainScreen()));
                           })),

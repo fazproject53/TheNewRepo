@@ -58,7 +58,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     profileInformaion(),
 
     invoiceScreen(),
-    UserBalance(),
+    BalanceMain(),
     PricingMain(),
 
     RequestMainPage(),
@@ -71,7 +71,8 @@ class _celebratyProfileState extends State<celebratyProfile> {
     blockList(),
 
     ContactWithUsMain(),
-    Logging()
+    UserBalance()
+
   ];
 
 

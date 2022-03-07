@@ -4,7 +4,6 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class Explower extends StatefulWidget {
   const Explower({Key? key}) : super(key: key);
 
@@ -31,12 +30,38 @@ class _ExplowerState extends State<Explower> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                        text(context, "اكسبلور المشاهير", 18, black),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            filter,
-                            size: 34.sp,
+                        Expanded(
+                            flex: 3,
+                            child:
+                                text(context, "اكسبلور المشاهير", 18, black)),
+                        //filter----------------------------------------------
+                         Expanded(
+                          flex:1,
+                          child: gradientContainer(
+                            double.infinity,
+                            Row(
+                              children: [
+                                Expanded(
+                                    flex:2,
+                                    child: Padding(
+                                      padding:  EdgeInsets.only(right:8.0,bottom: 2),
+                                      child: text(context, "فرز حسب", 13, textBlack),
+                                    )),
+                                Expanded(
+
+                                  child: Padding(
+                                    padding:  EdgeInsets.only(left:8.0,bottom: 2),
+                                    child: Icon(
+                                      filter,
+                                      size: 25.sp,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            gradient: true,
+                            color: blue,
+                            height: 30,
                           ),
                         )
                       ])),
@@ -67,12 +92,10 @@ class _ExplowerState extends State<Explower> {
     return Card(
         elevation: 10,
         color: black,
-
         child: Container(
-
           decoration: BoxDecoration(
               color: black,
-              borderRadius: BorderRadius.all(Radius.circular(4.r) ),
+              borderRadius: BorderRadius.all(Radius.circular(4.r)),
               image: DecorationImage(
                 image: AssetImage(
                   videoImage,
@@ -87,12 +110,8 @@ class _ExplowerState extends State<Explower> {
                 child: Align(
                     alignment: Alignment.topRight,
                     child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage(explorImage),
-                        radius: 25.h,
-                      ),
-                      title: text(context, "ليجسي", 14, white),
-                      subtitle: text(context, "# مطرب", 12, white),
+                      title: text(context, "ليجسي ليجسي", 15, white),
+                      subtitle: text(context, "مطرب", 12, white),
                     )),
               ),
 //play viduo--------------------------------------------------------
@@ -120,26 +139,52 @@ class _ExplowerState extends State<Explower> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: CircleAvatar(
-                      backgroundColor: white.withOpacity(0.88),
+                      backgroundColor: white.withOpacity(0.0),
                       radius: 20.h,
                       child: IconButton(
-                          onPressed: () {
+                        onPressed: () {
+                          setState(() {
+                            isSelect = !isSelect;
+                          });
+                          if (isSelect) {
                             setState(() {
-                              isSelect = !isSelect;
+                              liksCounter++;
                             });
-                            if (isSelect) {
-                              setState(() {
-                                liksCounter++;
-                              });
-                            }
-                          },
-                          icon: GradientIcon(
-                              isSelect ? like : disLike, 27.sp, gradient())),
+                          }
+                        },
+                        icon: GradientIcon(Icons.share, 27.sp, gradient()),
+                      ),
                     ),
                   ),
                 ),
               ),
-//conuter of like------------------------------------------
+//share----------------------------------------------------------------------
+              Padding(
+                padding: EdgeInsets.only(left: 10.r, right: 10.r),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: CircleAvatar(
+                    backgroundColor: white.withOpacity(0.0),
+                    radius: 20.h,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isSelect = !isSelect;
+                        });
+                        if (isSelect) {
+                          setState(() {
+                            liksCounter++;
+                          });
+                        }
+                      },
+                      icon: GradientIcon(
+                          isSelect ? like : disLike, 27.sp, gradient()),
+                    ),
+                  ),
+                ),
+              ),
+
+//conuter of like number------------------------------------------
               Padding(
                 padding: EdgeInsets.only(left: 20.r, right: 20.r),
                 child: Align(
