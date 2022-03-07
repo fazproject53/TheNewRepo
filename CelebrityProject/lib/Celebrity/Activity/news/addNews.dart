@@ -14,8 +14,8 @@ class addNews extends StatefulWidget{
 class _addNewsState extends State<addNews> {
 
   final _formKey = GlobalKey<FormState>();
-  static TextEditingController controlnewstitle = new TextEditingController();
-  static TextEditingController controlnewsdesc = new TextEditingController();
+   TextEditingController controlnewstitle = new TextEditingController();
+   TextEditingController controlnewsdesc = new TextEditingController();
 
   File? newsimage;
   @override
