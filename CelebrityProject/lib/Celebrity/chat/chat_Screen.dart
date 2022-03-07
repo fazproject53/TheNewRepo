@@ -40,7 +40,7 @@ class _chatScreenState extends State<chatScreen> {
           resizeToAvoidBottomInset: false,
           appBar: drawAppBar( Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [ text(context, 'مروان بابلو', 15, white),SizedBox(width: 10.w,),   CircleAvatar(backgroundColor: white, foregroundImage:  imagee == null? Image.asset('assets/image/user.png', fit: BoxFit.fill,).image : Image.file(imagee!).image,
+            children: [ text(context, 'مروان بابلو', 15, white),SizedBox(width: 10.w,),   CircleAvatar(backgroundColor: white, foregroundImage:  imagee == null? Image.asset('assets/image/CreateOrder.png', fit: BoxFit.fill,).image : Image.file(imagee!).image,
             )],) , context, color: purple),
           body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

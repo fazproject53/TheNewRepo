@@ -33,6 +33,21 @@
       <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/new/celepraty-Alaa/ios/.symlinks/plugins/shared_preferences_ios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/share_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/share_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/share_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/new/CelebrityProject/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/new/CelebrityProject/build" />
+      <excludeFolder url="file://$MODULE_DIR$/new/CelebrityProject/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/share_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/share_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/share_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/url_launcher_ios/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/url_launcher_ios/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/url_launcher_ios/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/url_launcher_ios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/url_launcher_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/url_launcher_ios/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

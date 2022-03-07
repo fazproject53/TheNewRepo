@@ -95,7 +95,7 @@ String avd2=staticPath+"avd2.jpg";
 String avd3=staticPath+"avd3.jpg";
 String avd4=staticPath+"avd4.jpg";
 String discount =staticPath+"coupon.png";
-String explorImage=staticPath+"user.png";
+String explorImage=staticPath+"CreateOrder.png";
 String videoImage=staticPath+"featured.png";
 
 //lists-------------------------------------------------------------

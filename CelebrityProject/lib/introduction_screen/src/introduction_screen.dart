@@ -31,7 +31,7 @@ class IntroductionScreen extends StatefulWidget {
   final bool isProgress; //is the progress indicator should be display
   final bool isProgressTap; //enable or not onTap feature on progress indicator
 
-  final bool freeze; //is the user is allow to change page
+  final bool freeze; //is the CreateOrder is allow to change page
 
   final Color? globalBackgroundColor;
   final DotsDecorator dotsDecorator;

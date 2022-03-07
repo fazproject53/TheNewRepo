@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:device_preview/device_preview.dart';
 
-import 'Users/Explowr/Explower.dart';
+import 'Users/Exploer/Explower.dart';
 import 'Celebrity/Requests/ReguistMainPage.dart';
 
 
