@@ -36,7 +36,7 @@ class _blockListState extends State<blockList> {
             paddingg(
               10,
               10,
-              20,
+              10,
               ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
@@ -46,27 +46,27 @@ class _blockListState extends State<blockList> {
                     5,
                     SizedBox(
                       height: 150.h,
-                      width: 300.w,
+                      width: 100.w,
                       child: Card(
                         elevation: 10,
                         color: white,
                         child: paddingg(
                           0,
                           0,
-                          12,
+                          10,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               paddingg(
                                 15,
-                                35,
+                                30,
                                 0,
                                 Container(
                                   alignment: Alignment.centerRight,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: Image.asset(
-                                      'assets/image/CreateOrder.png',
+                                      'assets/image/user.png',
                                       fit: BoxFit.fill,
                                       height: 90.h,
                                     ),

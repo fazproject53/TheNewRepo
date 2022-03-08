@@ -1,4 +1,5 @@
 ///import section
+import 'package:celepraty/Celebrity/notificationList.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/Explower.dart';
@@ -75,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
     /// Explore
     Explower(),
     /// Activity page
-    ActivityScreen(),
+    notificationList(),
     /// Home Screen
     celebrityHomePage(),
     /// Chats

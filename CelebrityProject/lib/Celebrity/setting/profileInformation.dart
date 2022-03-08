@@ -75,15 +75,29 @@ class profileInformaion extends StatefulWidget{
         }
         @override
         void initState() {
-          // _dropdownTestItems =  buildDropdownTestItems(citilist);
-          // _dropdownTestItems2 = buildDropdownTestItems(categorylist);
-          // _dropdownTestItems3 = buildDropdownTestItems(countrylist);
+          _dropdownTestItems =  buildDropdownTestItems(citilist);
+          _dropdownTestItems2 = buildDropdownTestItems(categorylist);
+          _dropdownTestItems3 = buildDropdownTestItems(countrylist);
           super.initState();
         }
 
         @override
         void dispose() {
           super.dispose();
+        }
+        List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
+          List<DropdownMenuItem<Object?>> items = [];
+          for (var i in _testList) {
+            items.add(
+              DropdownMenuItem(
+                alignment: Alignment.centerRight,
+                value: i,
+                child: Text(i['keyword']),
+
+              ),
+            );
+          }
+          return items;
         }
         @override
         Widget build(BuildContext context) {

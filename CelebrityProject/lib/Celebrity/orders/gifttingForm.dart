@@ -216,13 +216,27 @@ class _gifttingFormState extends State<gifttingForm>{
 
   @override
   void initState() {
-    // _dropdownTestItem = buildDropdownTestItems(ocassionlist);
-    // _dropdownTestItem2 = buildDropdownTestItems(typelist);
+    _dropdownTestItem = buildDropdownTestItems(ocassionlist);
+    _dropdownTestItem2 = buildDropdownTestItems(typelist);
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+  List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
+    List<DropdownMenuItem<Object?>> items = [];
+    for (var i in _testList) {
+      items.add(
+        DropdownMenuItem(
+          alignment: Alignment.centerRight,
+          value: i,
+          child: Text(i['keyword']),
+
+        ),
+      );
+    }
+    return items;
   }
 }

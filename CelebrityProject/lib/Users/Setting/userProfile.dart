@@ -28,13 +28,8 @@ class _celebratyProfileState extends State<celebratyProfile> {
     'المعلومات الشخصية',
     'الفوترة',
     'الرصيد',
-    'التسعير',
     'الطلبات',
-    'علامتك التجارية',
-    'اكواد الخصم',
     'جدول المواعيد',
-    'التفاعلات',
-    'الشروط والاحكام',
     'قائمة الحظر',
     'الدعم',
     'تسجيل الخروج'
@@ -43,33 +38,20 @@ class _celebratyProfileState extends State<celebratyProfile> {
     nameIcon,
     invoice,
     money,
-    price,
     orders,
-    store,
-    copun,
     scheduale,
-    studio,
-    pages,
     block,
     support,
     logout
   ];
   final List<Widget> page = [
-    profileInformaion(),
+    userInformation(),
 
     invoiceScreen(),
     UserBalance(),
-    PricingMain(),
-
     RequestMainPage(),
-    YourBrandMain(),
-    DiscountCodes(),
-
     CelebrityCalenderMain(),
-    ActivityScreen(),
-    PrivacyPolicyMain(),
     blockList(),
-
     ContactWithUsMain(),
     userInformation()
   ];
@@ -108,19 +90,13 @@ class _celebratyProfileState extends State<celebratyProfile> {
                     text(context, 'مروان بابلو', 20, black,
                         fontWeight: FontWeight.bold, family: 'Cairo'),
                   ),
-                  padding(
-                    8,
-                    8,
-                    text(context, 'الفئة : مطرب ', 12, textBlack,
-                        family: 'Cairo'),
-                  ),
                   paddingg(
                     20,
                     20,
                     3,
                     text(
                         context,
-                        ' ليجسي مطرب يعيش بمصر اشتهر مؤخرا باغاني الراب الممزوجة واشتهر مؤخرا باغنيتة مفيش مانع التي حققت نجاح كبير جدا',
+                        ' مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم  مستخدم مستخدم',
                         12,
                         textBlack,
                         family: 'Cairo',
