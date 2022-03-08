@@ -1,8 +1,12 @@
 ///import section
+import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Celebrity/notificationList.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/Explower.dart';
+import 'package:celepraty/Users/Setting/userProfile.dart';
+import 'package:celepraty/Users/chat/chatListUser.dart';
+import 'package:celepraty/Users/notifications.dart';
 import 'package:celepraty/celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 import 'package:celepraty/celebrity/chat/chatsList.dart';
@@ -72,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
           stops: [0.0, 1.0],
         )),
   ];
-  final screens = [
+  final Famousscreens = [
     /// Explore
     Explower(),
     /// Activity page
@@ -84,10 +88,22 @@ class _MainScreenState extends State<MainScreen> {
     /// Celebrity Profile
     celebratyProfile(),
   ];
+  final userScreen = [
+    /// Explore
+    Explower(),
+    /// Activity page
+    notifications(),
+    /// Home Screen
+    celebrityHomePage(),
+    /// Chats
+    chatsListUser(),
+    /// Celebrity Profile
+    userProfile(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[index],
+      body:currentuser=="famous"?Famousscreens[index]:userScreen[index],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: deepwhite,
         color: white,

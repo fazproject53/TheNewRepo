@@ -26,7 +26,7 @@ class _notificationListState extends State<notificationList> {
               return
                 InkWell(
                   child: SizedBox(
-                    height: 72.h,
+                    height: 75.h,
                     width: 340.w,
                     child: Container(
                       child: Row(

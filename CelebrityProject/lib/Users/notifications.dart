@@ -26,9 +26,10 @@ class _notificationsState extends State<notifications> {
               return
                 InkWell(
                   child: SizedBox(
-                    height: 72.h,
+                    height: 75.h,
                     width: 340.w,
                     child: Container(
+                      height: double.infinity,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

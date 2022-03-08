@@ -11,7 +11,9 @@ import 'Celebrity/Requests/ReguistMainPage.dart';
 void main() => runApp(
       DevicePreview(
         enabled: true,
-        builder: (context) => const MyApp(), // Wrap your app
+        builder: (context) =>
+        const MyApp(),
+        // Wrap your app
       ),
     );
 

@@ -55,8 +55,8 @@ class _userProfileState extends State<userProfile> {
     RequestMainPage(),
     CelebrityCalenderMain(),
     blockList(),
-    notifications(),
-    chatsListUser()
+    ContactWithUsMain(),
+    Logging()
   ];
 
 

@@ -1,11 +1,11 @@
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Singup.dart';
+String? currentuser;
 
 class Logging extends StatefulWidget {
   const Logging({Key? key}) : super(key: key);
@@ -18,6 +18,7 @@ class Logging extends StatefulWidget {
 
 class _LoggingState extends State<Logging> {
   bool isChckid = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +57,13 @@ class _LoggingState extends State<Logging> {
 
 //email------------------------------------------
                       textField(context, emailIcon, "البريد الالكتروني او اسم المستخدم", 10,
-                          false, emailConttroller, (val) {}),
+                          false, lgoingEmailConttroller, (val) {}),
                       SizedBox(
                         height: 15.h,
                       ),
 //pass------------------------------------------
                       textField(context, passIcon, "كلمة المرور", 10, true,
-                          passConttroller, (val) {}),
+                          lgoingPassConttroller, (val) {}),
                       SizedBox(
                         height: 15.h,
                       ),
@@ -75,8 +76,25 @@ class _LoggingState extends State<Logging> {
                       gradientContainer(
                           347,
                           buttoms(context, 'تسجيل الدخول', 14, white, () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => MainScreen()));
+                            //user logging-------------------------------
+                         if(lgoingPassConttroller.text=="1"&& lgoingEmailConttroller.text=="1"){
+                          setState(() {
+                            currentuser="user";
+                          });
+                          print(currentuser);
+                           Navigator.push(context,
+                               MaterialPageRoute(builder: (_) => const MainScreen()));
+                           //famous logging-------------------------------
+                         }else if(lgoingPassConttroller.text=="2"&& lgoingEmailConttroller.text=="2"){
+                           setState(() {
+                             currentuser="famous";
+                           });
+                           print(currentuser);
+                           Navigator.push(context,
+                               MaterialPageRoute(builder: (_) => const MainScreen()));
+                         }else{
+                           print("امممممممممممممممممل الحقول");
+                         }
                           })),
                       SizedBox(
                         height: 34.h,
@@ -118,7 +136,7 @@ class _LoggingState extends State<Logging> {
       children: [
         Row(
           children: [
-            InkWell(child: Icon(Icons.check_circle_rounded, color: isChckid?pink:ligthtBlack, size: 25.sp),onTap:(){
+            InkWell(child: Icon(Icons.check_circle_rounded, color: isChckid?purple:ligthtBlack, size: 23.sp),onTap:(){
              
               setState(() {
                  isChckid=!isChckid;
@@ -127,13 +145,13 @@ class _LoggingState extends State<Logging> {
             SizedBox(
               width: 4.w,
             ),
-            text(context, 'تزكرني', 18.sp, textBlack),
+            text(context, 'تزكرني', 17.sp, textBlack),
           ],
         ),
         // SizedBox(
         //   width: 180.w,
         // ),
-        text(context, 'هل نسيت كلمة المرور؟', 15.sp, purple),
+        text(context, 'هل نسيت كلمة المرور؟', 14.sp, purple),
       ],
     );
   }

@@ -106,6 +106,9 @@ TextEditingController emailConttroller=TextEditingController();
 TextEditingController countryConttroller=TextEditingController();
 TextEditingController catogaryConttroller=TextEditingController();
 
+TextEditingController lgoingEmailConttroller=TextEditingController();
+TextEditingController lgoingPassConttroller=TextEditingController();
+
 //image path------------------------------------------------------
 String staticPath="assets/image/";
 String googelImage=staticPath+"google-logo.png";
