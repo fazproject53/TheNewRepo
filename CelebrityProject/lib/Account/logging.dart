@@ -61,7 +61,7 @@ class _LoggingState extends State<Logging> {
                         height: 15.h,
                       ),
 //pass------------------------------------------
-                      textField(context, passIcon, "كلمة المرور", 10, false,
+                      textField(context, passIcon, "كلمة المرور", 10, true,
                           passConttroller, (val) {}),
                       SizedBox(
                         height: 15.h,

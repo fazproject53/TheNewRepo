@@ -17,7 +17,7 @@ class _AdvDetialsState extends State<AdvDetials> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          // appBar: drowAppBar("تفاصيل الطلب"),
+     // appBar: drowAppBar("تفاصيل الطلب",context),
           body: Column(children: [
 //image-----------------------------------------------------
         Expanded(
@@ -72,7 +72,7 @@ class _AdvDetialsState extends State<AdvDetials> {
               alignment: Alignment.bottomRight,
               child: Row(
                 children: [
-                  Icon(Icons.star_border_outlined, color: amber),
+                  const Icon(Icons.star_border_outlined, color: pink),
                   text(
                     context,
                     "اعلان لمنتجات تجميل",
@@ -156,7 +156,7 @@ class _AdvDetialsState extends State<AdvDetials> {
                 width: 10.w,
               ),
 //---------------------------------------------------------              
-              Expanded(
+              const Expanded(
                 flex: 1,
                 //child:
                 //  gradientContainer(
@@ -165,7 +165,7 @@ class _AdvDetialsState extends State<AdvDetials> {
                 //       onTap: () {
                 //         print("go to chat home");
                 //       },
-                      child: const Icon(Icons.textsms_outlined, color: pink)),
+                      child: Icon(Icons.textsms_outlined, color: pink)),
                   //height: 50,
                   //gradient: true,
                 //),

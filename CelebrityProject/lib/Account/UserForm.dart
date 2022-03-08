@@ -49,7 +49,7 @@ userForm(context, bool isVisable) {
     ),
 //pass------------------------------------------
     textField(
-        context, passIcon, "كلمة المرور", 10, false, passConttroller, (val) {}),
+        context, passIcon, "كلمة المرور", 10, true, passConttroller, (val) {}),
     SizedBox(
       height: 15.h,
     ),
