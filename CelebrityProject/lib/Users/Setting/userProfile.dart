@@ -93,18 +93,7 @@ class _userProfileState extends State<userProfile> {
                     text(context, 'مروان بابلو', 20, black,
                         fontWeight: FontWeight.bold, family: 'Cairo'),
                   ),
-                  paddingg(
-                    20,
-                    20,
-                    3,
-                    text(
-                        context,
-                        ' مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم مستخدم  مستخدم مستخدم',
-                        12,
-                        textBlack,
-                        family: 'Cairo',
-                        align: TextAlign.center),
-                  ),
+
                 ],
               ), //profile image
 
@@ -115,7 +104,7 @@ class _userProfileState extends State<userProfile> {
                   child: paddingg(
                     8,
                     0,
-                    8,
+                    20,
                     ListView.separated(
                       primary: false,
                       shrinkWrap: true,
