@@ -7,6 +7,9 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Setting/userInformation.dart';
 import 'package:celepraty/Users/Setting/user_balance.dart';
+import 'package:celepraty/Users/chat/chatListUser.dart';
+import 'package:celepraty/Users/invoice/invoice.dart';
+import 'package:celepraty/Users/notifications.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
 import 'package:celepraty/celebrity/PrivacyPolicy/privacy_policy.dart';
@@ -19,11 +22,11 @@ import 'package:celepraty/invoice/invoice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Account/logging.dart';
-class celebratyProfile extends StatefulWidget {
-  _celebratyProfileState createState() => _celebratyProfileState();
+class userProfile extends StatefulWidget {
+  _userProfileState createState() => _userProfileState();
 }
 
-class _celebratyProfileState extends State<celebratyProfile> {
+class _userProfileState extends State<userProfile> {
   final labels = [
     'المعلومات الشخصية',
     'الفوترة',
@@ -47,13 +50,13 @@ class _celebratyProfileState extends State<celebratyProfile> {
   final List<Widget> page = [
     userInformation(),
 
-    invoiceScreen(),
+    Invoice(),
     UserBalance(),
     RequestMainPage(),
     CelebrityCalenderMain(),
     blockList(),
-    ContactWithUsMain(),
-    userInformation()
+    notifications(),
+    chatsListUser()
   ];
 
 
