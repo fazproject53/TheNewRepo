@@ -95,6 +95,9 @@ IconData add = Icons.add;
 IconData save = Icons.done;
 IconData payment = Icons.payments_outlined;
 IconData suspended = Icons.pending_outlined;
+
+IconData show = Icons.visibility_sharp;
+IconData hide = Icons.visibility_off_sharp;
 //controller name----------------------------------------------------------------
 TextEditingController nameConttroller= TextEditingController();
 TextEditingController passConttroller=TextEditingController();

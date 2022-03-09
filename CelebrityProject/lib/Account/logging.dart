@@ -18,7 +18,8 @@ class Logging extends StatefulWidget {
 
 class _LoggingState extends State<Logging> {
   bool isChckid = false;
-
+  final TextEditingController lgoingEmailConttroller = new TextEditingController();
+  final TextEditingController lgoingPassConttroller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {

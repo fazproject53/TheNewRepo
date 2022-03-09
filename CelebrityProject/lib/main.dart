@@ -1,10 +1,9 @@
+import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/Celebrity/celebrityHomePage.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:device_preview/device_preview.dart';
-
-import 'Account/logging.dart';
-import 'Celebrity/Requests/ReguistMainPage.dart';
 
 
 
