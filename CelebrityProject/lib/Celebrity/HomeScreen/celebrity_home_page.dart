@@ -36,138 +36,184 @@ class CelebrityHome extends StatefulWidget {
 }
 
 class _CelebrityHomeState extends State<CelebrityHome> {
-  static double ww = 0.0;
+  bool isSelect = false;
+  int liksCounter = 100;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           ///Stack for image and there information
-          Stack(
-            alignment: Alignment.centerRight,
+          Column(
             children: [
-              SizedBox(
-                width: 500.w,
-                height: 400.h,
-                child: Image.asset(
-                  'assets/image/featured.png',
-                  fit: BoxFit.fill,
-                ),
-              ),
-              Column(
+              Stack(
                 children: [
+                  SizedBox(
+                    width: 500.w,
+                    height: 400.h,
+                    child: Image.asset(
+                      'assets/image/featured.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(top: 165.h, right: 25.w),
-                    child: Row(children: [
-                      text(context, 'مروان بابلو', 35, white,
-                          fontWeight: FontWeight.bold),
+                    padding: EdgeInsets.only(top: 30.h, right: 20.w),
+                    child: Row(
+                      children: [
+                        ///back icon to the main screen
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios),
+                          color: white,
+                          iconSize: 30,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+
+                        ///SizedBox
+                        SizedBox(
+                          width: 240.w,
+                        ),
+
+                        ///notification icon
+                        IconButton(
+                          icon: const Icon(Icons.chat),
+                          color: white,
+                          iconSize: 30,
+                          onPressed: () {},
+                        ),
+
+                        ///conversation icon
+                        IconButton(
+                          icon: const Icon(Icons.notifications),
+                          color: white,
+                          iconSize: 30,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 165.h, right: 25.w),
+                        child: Row(children: [
+                          text(context, 'مروان بابلو', 35, white,
+                              fontWeight: FontWeight.bold),
+
+                          ///SizedBox
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Icon(
+                              verified,
+                              color: blue.withOpacity(0.6),
+                              size: 25,
+                            ),
+                          )
+                        ]),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 25.w),
+                        child: Row(
+                          children: [
+                            text(context, 'مطرب', 14, white),
+
+                            ///SizedBox
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            CircleAvatar(
+                              backgroundImage: Image.asset(
+                                'assets/image/Flag_of_Egypt.png',
+                              ).image,
+                              radius: 10.r,
+                            ),
+
+                            ///SizedBox
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            text(context, 'مصر', 14, white),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: 12.h, right: 25.w, left: 25.w),
+                        child: text(
+                            context,
+                            'مروان بابلو مطرب يعيش مصر اشتهر مؤخرا باغاني الراب الممزوجة بالطابع واشتهر مؤخرا باغنيتة مفيش مانع التي حققت نجاح كبير جدا',
+                            14,
+                            white.withOpacity(0.7),
+                            align: TextAlign.justify),
+                      ),
+                      Container(
+                          alignment: Alignment.centerRight,
+                          margin: EdgeInsets.only(right: 25.w),
+                          child: InkWell(
+                              onTap: () {
+                                goTopagepush(context, userProfile());
+                              },
+                              child: text(context,
+                                  'سياسة التعامل مع مروان بابلو', 14, purple))),
 
                       ///SizedBox
                       SizedBox(
-                        width: 10.w,
+                        height: 10.h,
                       ),
+
+                      ///Social media icons
                       Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: Icon(
-                          verified,
-                          color: blue.withOpacity(0.6),
-                          size: 25,
-                        ),
-                      )
-                    ]),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 25.w),
-                    child: Row(
-                      children: [
-                        text(context, 'مطرب', 14, white),
-
-                        ///SizedBox
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Icon(flag),
-
-                        ///SizedBox
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        text(context, 'مصر', 14, white),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(top: 12.h, right: 25.w, left: 25.w),
-                    child: text(
-                        context,
-                        'مروان بابلو مطرب يعيش مصر اشتهر مؤخرا باغاني الراب الممزوجة بالطابع واشتهر مؤخرا باغنيتة مفيش مانع التي حققت نجاح كبير جدا',
-                        14,
-                        white.withOpacity(0.7),
-                        align: TextAlign.justify),
-                  ),
-                  Container(
-                      alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(right: 25.w),
-                      child: InkWell(
-                          onTap: () {
-                            goTopagepush(context, userProfile());
-                          },
-                          child: text(context, 'سياسة التعامل مع مروان بابلو',
-                              14, purple))),
-
-                  ///SizedBox
-                  SizedBox(
-                    height: 10.h,
-                  ),
-
-                  ///Social media icons
-                  Padding(
-                    padding: EdgeInsets.only(right: 25.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.w),
-                          child: SizedBox(
+                        padding: EdgeInsets.only(right: 25.w),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.w),
+                              child: SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: Image.asset(
+                                    'assets/image/icon- faceboock.png',
+                                  )),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.w),
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(
+                                  'assets/image/icon- insta.png',
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.w),
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(
+                                  'assets/image/icon- snapchat.png',
+                                ),
+                              ),
+                            ),
+                            SizedBox(
                               width: 30,
                               height: 30,
                               child: Image.asset(
-                                'assets/image/icon- faceboock.png',
-                              )),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.w),
-                          child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: Image.asset(
-                              'assets/image/icon- insta.png',
+                                'assets/image/icon- twitter.png',
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 8.w),
-                          child: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: Image.asset(
-                              'assets/image/icon- snapchat.png',
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: Image.asset(
-                            'assets/image/icon- twitter.png',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    ],
+                  )
                 ],
-              )
+              ),
             ],
           ),
 
@@ -282,29 +328,24 @@ class _CelebrityHomeState extends State<CelebrityHome> {
           Padding(
             padding: EdgeInsets.only(right: 10.w, left: 10.w),
             child: SizedBox(
-              height: 400.h,
-              child: GridView.count(
+              height: 350.h,
+              width: 400.w,
+              child: GridView.builder(
+                itemCount: 20,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, //عدد العناصر في كل صف
+                  crossAxisSpacing: 15.h, // المسافات الراسية
+                  childAspectRatio: 0.90, //حجم العناصر
+                  mainAxisSpacing: 5.w,
+                ),
                 scrollDirection: Axis.horizontal,
-                physics: ScrollPhysics(),
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 5,
-                shrinkWrap: true,
-                children: List.generate(20, (index) {
-                  return InkWell(
-                    onTap: () {},
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.r),
-                        child: Image.asset(
-                          'assets/image/featured.png',fit: BoxFit.fill, height: 100.h,
-                        ),
-                      ),
-
-                  );
-                }),
+                itemBuilder: (context, i) {
+                  return viewCard();
+                },
               ),
             ),
           ),
+
           SizedBox(
             height: 20.h,
           ),
@@ -312,20 +353,20 @@ class _CelebrityHomeState extends State<CelebrityHome> {
           padding(
             15,
             15,
-            gradientContainerNoborder(getSize(context).width,
+            gradientContainerNoborder(
+                getSize(context).width,
                 buttoms(context, 'اطلب حالا', 20, white, () {
-                  showBottomSheett(context,bottomSheetMenue());
+                  showBottomSheett(context, bottomSheetMenue());
                 })),
           ),
           SizedBox(
             height: 20.h,
           ),
-
-
         ],
       ),
     );
   }
+
   ///
   Widget bottomSheetMenue() {
     return SingleChildScrollView(
@@ -353,7 +394,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                     height: 40.h,
                     width: 40.h,
                     child:
-                    Center(child: Icon(arrow, size: 25.w, color: white))),
+                        Center(child: Icon(arrow, size: 25.w, color: white))),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -381,7 +422,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                   decoration: BoxDecoration(
                       border: Border.all(color: border),
                       borderRadius:
-                      const BorderRadius.all(Radius.circular(10))),
+                          const BorderRadius.all(Radius.circular(10))),
                   height: 70.h,
                   width: 70.w,
                   child: Center(
@@ -411,11 +452,11 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight),
                         borderRadius:
-                        BorderRadius.all(const Radius.circular(70))),
+                            BorderRadius.all(const Radius.circular(70))),
                     height: 40.h,
                     width: 40.h,
                     child:
-                    Center(child: Icon(arrow, size: 25.w, color: white))),
+                        Center(child: Icon(arrow, size: 25.w, color: white))),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -443,7 +484,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                   decoration: BoxDecoration(
                       border: Border.all(color: border),
                       borderRadius:
-                      const BorderRadius.all(const Radius.circular(10))),
+                          const BorderRadius.all(const Radius.circular(10))),
                   alignment: Alignment.centerRight,
                   height: 70.h,
                   width: 70.w,
@@ -472,11 +513,11 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight),
                         borderRadius:
-                        BorderRadius.all(const Radius.circular(50))),
+                            BorderRadius.all(const Radius.circular(50))),
                     height: 40.h,
                     width: 40.h,
                     child:
-                    Center(child: Icon(arrow, size: 25.w, color: white))),
+                        Center(child: Icon(arrow, size: 25.w, color: white))),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -504,7 +545,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                   decoration: BoxDecoration(
                       border: Border.all(color: border),
                       borderRadius:
-                      const BorderRadius.all(const Radius.circular(10))),
+                          const BorderRadius.all(const Radius.circular(10))),
                   alignment: Alignment.centerRight,
                   height: 70.h,
                   width: 70.w,
@@ -523,5 +564,53 @@ class _CelebrityHomeState extends State<CelebrityHome> {
     );
   }
 
-
+  Widget viewCard() {
+    return Card(
+        elevation: 10,
+        color: black,
+        child: Container(
+          decoration: BoxDecoration(
+              color: black,
+              borderRadius: BorderRadius.all(Radius.circular(4.r)),
+              image: DecorationImage(
+                image: AssetImage(
+                  videoImage,
+                ),
+                fit: BoxFit.fill,
+              )),
+          child: Column(
+            children: [
+              ///play video
+              Expanded(
+                flex: 1,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CircleAvatar(
+                    backgroundColor: white.withOpacity(0.1),
+                    radius: 25.h,
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {});
+                        },
+                        icon: Center(
+                          child: GradientIcon(
+                              playViduo,
+                              40,
+                              const LinearGradient(
+                                begin: Alignment(0.7, 2.0),
+                                end: Alignment(-0.69, -1.0),
+                                colors: [
+                                  Color(0xff0ab3d0),
+                                  Color(0xffe468ca)
+                                ],
+                                stops: [0.0, 1.0],
+                              )),
+                        ),),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
 }
