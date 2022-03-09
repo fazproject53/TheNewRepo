@@ -24,7 +24,7 @@ class _notificationListState extends State<notificationList> {
               return
                 InkWell(
                   child: Container(
-                    height: 140.h,
+                    height: 115.h,
                     child: Card(
                       elevation: 3,
                       child:  Row(
@@ -38,8 +38,8 @@ class _notificationListState extends State<notificationList> {
                                     child: Image.asset(
                                       'assets/image/user.png',
                                       fit: BoxFit.fill,
-                                      height: 80.h,
-                                      width: 90.w,
+                                      height: 75.h,
+                                      width: 80.w,
                                     ),
                                   ),
                                   SizedBox(width: 15.w,),
@@ -47,19 +47,17 @@ class _notificationListState extends State<notificationList> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        height: 18.h,
+                                        height: 10.h,
                                       ),
-                                      text(context, 'مروان بابلو', 15, black, fontWeight: FontWeight.w500),
-                                      text(context, ' 12/10/2021', 14,
+                                      text(context, 'مروان بابلو', 15, black, fontWeight: FontWeight.normal),
+                                      text(context, ' 12/10/2021', 13,
                                          black.withOpacity(0.80)),
-                                      SizedBox(
-                                        height: 3.h,
-                                      ),
+
                                       Container(
                                         height: 45.h,
                                         width: 250.w,
                                         child: text(
-                                            context, ' هذا هو محتوى التنبيه للمشهور هذا هو محتوى التنبيه للمشهور', 14, black.withOpacity(0.80)),
+                                            context, ' هذا هو محتوى التنبيه للمشهور هذا هو محتوى التنبيه للمشهور', 15, black.withOpacity(0.80)),
                                       ),
 
 
