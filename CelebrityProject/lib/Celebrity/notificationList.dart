@@ -25,9 +25,7 @@ class _notificationListState extends State<notificationList> {
 
               return
                 InkWell(
-                  child: SizedBox(
-                    height: 75.h,
-                    width: 340.w,
+                  child: Card(
                     child: Container(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,13 +34,10 @@ class _notificationListState extends State<notificationList> {
                               children: [
                                 Container(
                                   alignment: Alignment.centerRight,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                    child: Image.asset(
-                                      'assets/image/user.png',
-                                      fit: BoxFit.fill,
-                                      height: 48.h,
-                                    ),
+                                  child: Image.asset(
+                                    'assets/image/user.png',
+                                    fit: BoxFit.fill,
+                                    height: 48.h,
                                   ),
                                 ),
                                 SizedBox(width: 10.w,),
@@ -53,7 +48,14 @@ class _notificationListState extends State<notificationList> {
                                       height: 8.h,
                                     ),
                                     text(context, 'مروان بابلو', 14, black),
-
+                                    SizedBox(
+                                      height: 2.h,
+                                    ),
+                                    text(context, ' 12/10/2021', 13,
+                                        grey!),
+                                    SizedBox(
+                                      height: 3.h,
+                                    ),
                                     Container(
                                       height: 40.h,
                                       width: 250.w,
@@ -69,11 +71,7 @@ class _notificationListState extends State<notificationList> {
 
 
 
-                            Padding(
-                              padding:  EdgeInsets.only(bottom: 10.0.h),
-                              child: text(context, ' 12/10/2021', 13,
-                                    grey!),
-                            ),
+
 
                           ],
                         ),

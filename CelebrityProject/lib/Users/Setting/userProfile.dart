@@ -104,7 +104,7 @@ class _userProfileState extends State<userProfile> {
                   child: paddingg(
                     8,
                     0,
-                    20,
+                    25,
                     ListView.separated(
                       primary: false,
                       shrinkWrap: true,

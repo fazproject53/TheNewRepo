@@ -92,56 +92,7 @@ class _chatRoomState extends State<chatRoom> {
                             child: Row(
                               children: [
                                 SizedBox(width: 10.w,),
-                                GestureDetector(child: isWritting
-                                    ? SizedBox(width: 1.w,)
-                                    : CircleAvatar(
-                                    backgroundColor: isPressed
-                                        ? fillWhite
-                                        : null,
-                                    child: Container(
-                                      height: 50.h,
-                                      width: 50.w,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              30),
-                                          gradient: !isPressed
-                                              ? const LinearGradient(
-                                            begin: Alignment(0.7, 2.0),
-                                            end: Alignment(-0.69, -1.0),
-                                            colors: [
-                                              Color(0xff0ab3d0),
-                                              Color(0xffe468ca)
-                                            ],
-                                            stops: [0.0, 1.0],
-                                          )
-                                              : const LinearGradient(
-                                            colors: [white, white],)),
-                                      child: !isPressed
-                                          ? Icon(voiceIcon, color: white,
-                                        size: isPressed ? 30 : 25,)
-                                          : GradientIcon(
-                                        voiceIcon, 30, const LinearGradient(
-                                        begin: Alignment(0.2, 3.0),
-                                        end: Alignment(-0.69, -1.0),
-                                        colors: [
-                                          Color(0xff0ab3d0),
-                                          Color(0xffe468ca)
-                                        ],
-                                        stops: [0.0, 1.0],
-                                      ),),)),
-                                  onLongPress: () {
-                                    setState(() {
-                                      isPressed = true;
-                                    });
-                                  },
-                                  onLongPressUp: () {
-                                    setState(() {
-                                      isPressed = false;
-                                    });
-                                  },),
-                                isWritting ? SizedBox(width: 1.w,) : SizedBox(
-                                  width: 15.w,),
-                                isWritting ?
+
                                 Container(
                                   margin: isWritting ? EdgeInsets.only(
                                       right: 20.w) : EdgeInsets.only(
@@ -155,7 +106,7 @@ class _chatRoomState extends State<chatRoom> {
                                     });
                                   },
                                     child: GradientIcon(
-                                      send, 30, const LinearGradient(
+                                      send, 35, const LinearGradient(
                                       begin: Alignment(0.7, 2.0),
                                       end: Alignment(-0.69, -1.0),
                                       colors: [
@@ -164,7 +115,7 @@ class _chatRoomState extends State<chatRoom> {
                                       ],
                                       stops: [0.0, 1.0],
                                     ),),),
-                                ) : SizedBox(width: 0.w,)
+                                )
 
                               ],
                             ),
@@ -175,7 +126,7 @@ class _chatRoomState extends State<chatRoom> {
                               height: 35.h,
                               margin: EdgeInsets.only(top: 10.h,
                                   bottom: 10.h,
-                                  left: 5.w),
+                                  left: 20.w),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   border: const Border(
@@ -218,10 +169,6 @@ class _chatRoomState extends State<chatRoom> {
 
                           ),
 
-                          isWritting ? SizedBox(width: 1.w,) : InkWell(
-                            child: Icon(add, color: grey,), onTap: () {
-                            showBottomSheett2(context, BottomSheetMenue());
-                          },)
 
 
                         ]),
@@ -280,61 +227,4 @@ class _chatRoomState extends State<chatRoom> {
     }
   }
 
-  Widget BottomSheetMenue() {
-    return SingleChildScrollView(
-      child: Column(
-          children: [
-            SizedBox(height: 20.h,),
-            SizedBox(
-              height: 20.h,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    SizedBox(width: 20.h,),
-                    text(context, 'الكاميرا', 15, black),
-                    SizedBox(width: 10.h,),
-                    Container(margin: EdgeInsets.only(right: 8.w),
-                        child: Icon(cam, color: purple)),
-
-                  ]
-              ),
-            ),
-            SizedBox(height: 10.h,),
-            const Divider(color: darkWhite,),
-            SizedBox(height: 10.h,),
-            SizedBox(
-              height: 20.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(width: 20.h,),
-                  Container(width: 200.w,
-                      child: text(
-                          context, 'مكتبة الصور والفيديوهات', 15, black)),
-                  SizedBox(width: 10.h,),
-                  Container(margin: EdgeInsets.only(right: 8.w),
-                      child: Icon(imageIcon, color: purple)),
-                ],),
-            ),
-            SizedBox(height: 10.h,),
-            const Divider(color: darkWhite),
-            SizedBox(height: 10.h,),
-            Container(
-              alignment: Alignment.centerRight,
-              height: 20.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(width: 30.h,),
-                  text(context, 'مستند', 15, black),
-                  SizedBox(width: 20.h,),
-                  Container(margin: EdgeInsets.only(right: 10.w),
-                      child: Icon(discountDes, color: purple,)),
-                ],),
-            ),
-
-          ]),
-
-    );
-  }
 }
