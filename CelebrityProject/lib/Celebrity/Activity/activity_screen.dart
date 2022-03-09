@@ -99,7 +99,7 @@ class _ActivityScreenMainState extends State<ActivityScreenMain> {
                     print("adv$isSelected");
                   },
                 ),
-                gradient: grandientStudio
+                gradient: grandientStudio ,color: grey!, height: 50,
             ),
           ),
 
@@ -122,7 +122,7 @@ class _ActivityScreenMainState extends State<ActivityScreenMain> {
                     print("gift$isSelected");
                   },
                 ),
-                gradient: grandientnews
+                gradient: grandientnews,color: grey!, height: 50,
             ),
           ),
 

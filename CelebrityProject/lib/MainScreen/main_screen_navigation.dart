@@ -6,7 +6,6 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/Explower.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart';
 import 'package:celepraty/Users/chat/chatListUser.dart';
-import 'package:celepraty/Users/notifications.dart';
 import 'package:celepraty/celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 import 'package:celepraty/celebrity/chat/chatsList.dart';
@@ -92,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
     /// Explore
     Explower(),
     /// Activity page
-    notifications(),
+    notificationList(),
     /// Home Screen
     celebrityHomePage(),
     /// Chats

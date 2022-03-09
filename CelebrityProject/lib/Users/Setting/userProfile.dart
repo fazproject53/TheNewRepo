@@ -9,7 +9,6 @@ import 'package:celepraty/Users/Setting/userInformation.dart';
 import 'package:celepraty/Users/Setting/user_balance.dart';
 import 'package:celepraty/Users/chat/chatListUser.dart';
 import 'package:celepraty/Users/invoice/invoice.dart';
-import 'package:celepraty/Users/notifications.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
 import 'package:celepraty/celebrity/DiscountCodes/discount_codes_main.dart';
 import 'package:celepraty/celebrity/PrivacyPolicy/privacy_policy.dart';

@@ -58,7 +58,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     profileInformaion(),
 
     invoiceScreen(),
-    UserBalance(),
+    BalanceHome(),
     PricingMain(),
 
     RequestMainPage(),

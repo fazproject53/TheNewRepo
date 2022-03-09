@@ -18,63 +18,62 @@ class _notificationListState extends State<notificationList> {
           10.w,
           10.w,
           20.h,
-          ListView.separated(
+          ListView.builder(
             itemCount: 3,
-            separatorBuilder: (BuildContext context, int index) { return Divider(color: black,);},
             itemBuilder: (BuildContext context, int index) {
-
               return
                 InkWell(
-                  child: Card(
-                    child: Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Image.asset(
-                                    'assets/image/user.png',
-                                    fit: BoxFit.fill,
-                                    height: 48.h,
+                  child: Container(
+                    height: 140.h,
+                    child: Card(
+                      elevation: 3,
+                      child:  Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 25.w),
+                                    alignment: Alignment.centerRight,
+                                    child: Image.asset(
+                                      'assets/image/user.png',
+                                      fit: BoxFit.fill,
+                                      height: 80.h,
+                                      width: 90.w,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 10.w,),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    text(context, 'مروان بابلو', 14, black),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
-                                    text(context, ' 12/10/2021', 13,
-                                        grey!),
-                                    SizedBox(
-                                      height: 3.h,
-                                    ),
-                                    Container(
-                                      height: 40.h,
-                                      width: 250.w,
-                                      child: text(
-                                          context, 'هذا هو محتوى التنبيه للمشهور', 13, black),
-                                    ),
+                                  SizedBox(width: 15.w,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 18.h,
+                                      ),
+                                      text(context, 'مروان بابلو', 15, black, fontWeight: FontWeight.w500),
+                                      text(context, ' 12/10/2021', 14,
+                                         black.withOpacity(0.80)),
+                                      SizedBox(
+                                        height: 3.h,
+                                      ),
+                                      Container(
+                                        height: 45.h,
+                                        width: 250.w,
+                                        child: text(
+                                            context, ' هذا هو محتوى التنبيه للمشهور هذا هو محتوى التنبيه للمشهور', 14, black.withOpacity(0.80)),
+                                      ),
 
 
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    ],
+                                  ),
+                                ],
+                              ),
 
 
 
 
 
-                          ],
-                        ),
+                            ],
+                          ),
 
                     ),
                   ),
