@@ -58,7 +58,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     profileInformaion(),
 
     invoiceScreen(),
-    BalanceHome(),
+    BalanceMain(),
     PricingMain(),
 
     RequestMainPage(),
@@ -166,7 +166,8 @@ class _celebratyProfileState extends State<celebratyProfile> {
               SizedBox(
                 height: 50.h,
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center, children: [
                 padding(
                   8,
                   8,

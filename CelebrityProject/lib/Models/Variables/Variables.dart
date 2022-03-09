@@ -98,6 +98,9 @@ IconData suspended = Icons.pending_outlined;
 
 IconData show = Icons.visibility_sharp;
 IconData hide = Icons.visibility_off_sharp;
+
+IconData flag = Icons.flag_rounded;
+IconData verified = Icons.verified_sharp;
 //controller name----------------------------------------------------------------
 TextEditingController nameConttroller= TextEditingController();
 TextEditingController passConttroller=TextEditingController();

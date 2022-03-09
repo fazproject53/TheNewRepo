@@ -97,7 +97,6 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                             ///Inside each list
                             children: [
                               Container(
-
                                 margin:
                                 EdgeInsets.only(top: 10.h, right: 15.w),
                                 height: 180.h,

@@ -37,7 +37,8 @@ class _gifttingFormState extends State<gifttingForm>{
             children: [
               Stack(
                 alignment: Alignment.bottomRight,
-                children: [Container(height: 365.h,
+                children: [
+                  Container(height: 365.h,
                  width: 1000.w,
                  child: Image.asset('assets/image/featured.png', color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
                    const Padding(

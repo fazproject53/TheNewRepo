@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'HomeScreen/celebrity_home_page.dart';
+
 class celebrityHomePage extends StatefulWidget {
   _celebrityHomePageState createState() => _celebrityHomePageState();
 }
@@ -329,29 +331,34 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
   Widget catogary(String catoName, String famusName, String famusImage) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 7,
-          itemBuilder: (context, int itemPosition) {
-            return SizedBox(
-              width: 160.w,
-              height: 196.h,
-              child: Card(
-                elevation: 5,
-                child: Container(
-                  decoration: decoration(famusImage),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0.w),
-                      child: text(context, famusName, 18, white,
-                          fontWeight: FontWeight.bold),
+      child: InkWell(
+        onTap: (){
+          goTopagepush(context, CelebrityHomePage());
+        },
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 7,
+            itemBuilder: (context, int itemPosition) {
+              return SizedBox(
+                width: 160.w,
+                height: 196.h,
+                child: Card(
+                  elevation: 5,
+                  child: Container(
+                    decoration: decoration(famusImage),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0.w),
+                        child: text(context, famusName, 18, white,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 
