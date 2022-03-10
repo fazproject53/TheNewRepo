@@ -72,7 +72,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
 
                         ///SizedBox
                         SizedBox(
-                          width: 240.w,
+                          width: 220.w,
                         ),
 
                         ///notification icon
