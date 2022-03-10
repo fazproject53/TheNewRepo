@@ -3,7 +3,7 @@ import 'package:celepraty/Models/Variabls/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'GiftDetials.dart';
+import 'UserGiftDetials.dart';
 class Gift extends StatefulWidget {
   const Gift({Key? key}) : super(key: key);
 

@@ -1,23 +1,24 @@
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/Variables.dart';
-import 'package:celepraty/celebrity/Requests/UserGift/UserGift.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
+
+import 'package:celepraty/celebrity/Requests/Gift/Gift.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'UserAdvSpace/UserAdSpace.dart';
 import 'UserAds/UserAdvertisments.dart';
-import 'UserGift/UserGift.dart';
+import 'UserAdvSpace/UserAdSpace.dart';
 import 'UserGift/UserGift.dart';
 
-class RequestMainPage extends StatefulWidget {
-  RequestMainPage({Key? key}) : super(key: key);
+
+class UserRequestMainPage extends StatefulWidget {
+  UserRequestMainPage({Key? key}) : super(key: key);
 
   @override
-  State<RequestMainPage> createState() => _RequestMainPageState();
+  State<UserRequestMainPage> createState() => _UserRequestMainPageState();
 }
 
-class _RequestMainPageState extends State<RequestMainPage> {
+class _UserRequestMainPageState extends State<UserRequestMainPage> {
   int? isSelected = 1;
   bool grandiedAds=false;
   bool grandiedAdsSpace=true;
@@ -25,52 +26,56 @@ class _RequestMainPageState extends State<RequestMainPage> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: drowAppBar(requestBar),
+          appBar: drowAppBar(requestBar, context),
           body:
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            SizedBox(
-              height: 26.h,
-            ),
-//صف الاختيارات-------------------------------
-            drowRowButton(context),
-            SizedBox(
-              height: 42.h,
-            ),
-//النص-------------------------------
+          Column( children: [
 
-            Padding(
-              padding: EdgeInsets.only(left: 28.w, right: 28.w),
-              child: text(context,
-               isSelected == 1
-                  ?  "طلبات الاعلانات الخاصة بك"
-                  : isSelected == 2
-                      ? "طلبات الاهداءات الخاصة بك"
-                      : "طلبات المساحة الاعلانية الخاصة بك",
-               //,
-                18,
-                 black,
-                  fontWeight: FontWeight.bold),
+             SizedBox(
+               height: 26.h,
+             ),
+ //صف الاختيارات-------------------------------
+             drowRowButton(context),
+             SizedBox(
+               height: 42.h,
+             ),
+ //النص-------------------------------
+
+             Padding(
+               padding: EdgeInsets.only(left: 28.w, right: 28.w),
+               child: Align(
+                 alignment: Alignment.topRight,
+                 child: text(context,
+                  isSelected == 1
+                     ?  "طلبات الاعلانات الخاصة بك"
+                     : isSelected == 2
+                         ? "طلبات الاهداءات الخاصة بك"
+                         : "طلبات المساحة الاعلانية الخاصة بك",
+                  //,
+                   18,
+                    black,
+
+                     fontWeight: FontWeight.bold),
+               ),
+             ),
+
+             SizedBox(
+               height: 20.h,
             ),
 
-            SizedBox(
-              height: 32.h,
-            ),
+ //الطلبات وفق التصنيف-------------------------------
 
-//الطلبات وفق التصنيف-------------------------------
-
-            Expanded(
+             Expanded(
               flex: 4,
               child: isSelected == 1
-                  ? const Advertisment()
-                  : isSelected == 2
-                      ? const Gift()
-                      : const AdSpace(),
+                   ? const UserAdvertisment()
+                   : isSelected == 2
+                       ? const UserGift()
+                       : const UserAdSpace(),
             ),
-          ]),
+           ]),
         ));
   }
 
@@ -155,5 +160,7 @@ class _RequestMainPageState extends State<RequestMainPage> {
           ),
 //-------------------------------------------------------
         ],
-      );
-  
+      ),
+    );
+  }
+}

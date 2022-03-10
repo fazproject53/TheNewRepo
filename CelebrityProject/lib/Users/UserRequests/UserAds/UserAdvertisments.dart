@@ -1,19 +1,22 @@
+import 'dart:ui';
+
 import 'package:celepraty/Models/Methods/method.dart';
-import 'package:celepraty/Models/Variabls/Variables.dart';
+import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'UserGiftDetials.dart';
-class Gift extends StatefulWidget {
-  const Gift({Key? key}) : super(key: key);
+import 'UserAdvDetials.dart';
+
+class UserAdvertisment extends StatefulWidget {
+  const UserAdvertisment({Key? key}) : super(key: key);
 
   @override
-  State<Gift> createState() => _GiftState();
+  State<UserAdvertisment> createState() => _UserAdvertismentState();
 }
 
-class _GiftState extends State<Gift> {
+class _UserAdvertismentState extends State<UserAdvertisment> {
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
@@ -21,9 +24,13 @@ class _GiftState extends State<Gift> {
           itemBuilder: (context, i) {
             return InkWell(
               onTap: (){
-               goTopagepush(context, GiftDetials(i:i));
+               goTopagepush(context, UserAdvDetials(i:i));
               },
-              child: body(i));
+              child: Column(
+                children: [
+                  body(i),
+                ],
+              ));
           }),
     );
   }
@@ -38,6 +45,7 @@ class _GiftState extends State<Gift> {
         Column(
           children: [
 //image-----------------------------------------
+
             Expanded(
               flex: 2,
               child: Container(
@@ -49,13 +57,13 @@ class _GiftState extends State<Gift> {
                     ),
                     image: DecorationImage(
                         image: AssetImage(
-                          giftImage[i],
+                          adsImage[i],
                         ),
                         fit: BoxFit.cover,
                         colorFilter:
                             ColorFilter.mode(Colors.black45, BlendMode.darken)),
                   ),
-// مناسبه الاهداء-----------------------------------------
+// 7odory-----------------------------------------
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -65,19 +73,26 @@ class _GiftState extends State<Gift> {
                         alignment: Alignment.bottomRight,
                         child: Padding(
                           padding: EdgeInsets.only(right: 10.w),
-                            child:text(context, "اهداء ل"+giftType[i], 18, white,fontWeight:FontWeight.bold,)
+                            child:text(context, "مروان بابلو", 18, white,fontWeight:FontWeight.bold,)
                         )
                         ),
                        
 //date and icon-------------------------------------------------------------
 
-                     Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Icon(ve,color:deepwhite,size:40.sp) ),
-                     ),
-                           
+                     Row(
+                      
+                      children: [
+                      
+                         Align(
+                            alignment: Alignment.bottomLeft,
+                            child:text(context, "12/12/2022", 18, white,fontWeight:FontWeight.bold,)
+                            ),
+                        // Align(
+                        //     alignment: Alignment.bottomLeft,
+                        //     child: Icon(clander,color:deepblue) ),
+                             SizedBox(width:10.w),
+                      ],
+                      )
                     ],
                   )),
             ),
@@ -90,9 +105,9 @@ class _GiftState extends State<Gift> {
 //type-------------------------------------------------
      Expanded(flex: 1,child:Column(
    children: [
-     Expanded(flex: 1, child:text(context, "من", 12, black,)
+     Expanded(flex: 1, child:text(context, "النوع", 12, black,)
 ),
-     Expanded(flex: 1, child:text(context, "محمد علي", 12, pink,fontWeight:FontWeight.bold)
+     Expanded(flex: 1, child:text(context, "منتج", 12, pink,fontWeight:FontWeight.bold)
    )],
      )),
      divider(),
@@ -100,18 +115,18 @@ class _GiftState extends State<Gift> {
 
    Expanded(flex: 1,child:Column(
    children: [
-     Expanded(flex: 1, child:text(context, "الى", 12, black,)
+     Expanded(flex: 1, child:text(context, "المالك", 12, black,)
 ),
-     Expanded(flex: 1, child:text(context, "احمد عمر", 12, pink,fontWeight:FontWeight.bold)
+     Expanded(flex: 1, child:text(context, "فرد", 12, pink,fontWeight:FontWeight.bold)
    )],
      )),      divider(),
 //time-------------------------------------------------
 
    Expanded(flex: 1,child:Column(
    children: [
-     Expanded(flex: 1, child:text(context, "التاريخ", 12, black,)
+     Expanded(flex: 1, child:text(context, "الوقت", 12, black,)
 ),
-     Expanded(flex: 1, child:text(context, "12/12/2021", 12, pink,fontWeight:FontWeight.bold)
+     Expanded(flex: 1, child:text(context, "مساء", 12, pink,fontWeight:FontWeight.bold)
    )],
      )),   ],
    ))

@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 
-class GiftDetials extends StatefulWidget {
+class UserGiftDetials extends StatefulWidget {
   int? i;
-  GiftDetials({this.i});
+  UserGiftDetials({this.i});
 
   @override
-  State<GiftDetials> createState() => _GiftDetialsState();
+  State<UserGiftDetials> createState() => _UserGiftDetialsState();
 }
 
 
-class _GiftDetialsState extends State<GiftDetials> {
+class _UserGiftDetialsState extends State<UserGiftDetials> {
 
   @override
   void initState() {

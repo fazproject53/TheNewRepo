@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Setting/userInformation.dart';
 import 'package:celepraty/Users/Setting/user_balance.dart';
+import 'package:celepraty/Users/UserRequests/UserReguistMainPage.dart';
 import 'package:celepraty/Users/chat/chatListUser.dart';
 import 'package:celepraty/Users/invoice/invoice.dart';
 import 'package:celepraty/celebrity/Brand/create_your_brand.dart';
@@ -50,12 +51,12 @@ class _userProfileState extends State<userProfile> {
     userInformation(),
 
     Invoice(),
-    UserBalance(),
-    RequestMainPage(),
-    CelebrityCalenderMain(),
+    const UserBalance(),
+    UserRequestMainPage(),
+    const CelebrityCalenderMain(),
     blockList(),
-    ContactWithUsMain(),
-    Logging()
+    const ContactWithUsMain(),
+    const Logging()
   ];
 
 

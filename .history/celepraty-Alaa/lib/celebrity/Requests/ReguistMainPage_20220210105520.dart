@@ -1,14 +1,14 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variabls/Variables.dart';
-import 'package:celepraty/celebrity/Requests/Gift/Gift.dart';
+import 'package:celepraty/celebrity/Requests/Gift/User.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'AdvSpace/AdSpace.dart';
-import 'Ads/Advertisments.dart';
-import 'Gift/Gift.dart';
-import 'Gift/Gift.dart';
+import 'UserAdvSpace/UserAdSpace.dart';
+import 'UserAds/UserAdvertisments.dart';
+import 'UserGift/UserGift.dart';
+import 'UserGift/UserGift.dart';
 
 class RequestMainPage extends StatefulWidget {
   RequestMainPage({Key? key}) : super(key: key);
