@@ -1,6 +1,7 @@
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/Users/Exploer/viewData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -125,7 +126,7 @@ class _ExplowerState extends State<Explower> {
                     radius: 25.h,
                     child: IconButton(
                         onPressed: () {
-                          setState(() {});
+                        setState(() {goTopagepush(context, viewData());});
                         },
                         icon: GradientIcon(playViduo, 35.sp, gradient())),
                   ),
