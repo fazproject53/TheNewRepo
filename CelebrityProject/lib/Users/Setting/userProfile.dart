@@ -32,8 +32,6 @@ class _userProfileState extends State<userProfile> {
     'الفوترة',
     'الرصيد',
     'الطلبات',
-    'جدول المواعيد',
-    'قائمة الحظر',
     'الدعم',
     'تسجيل الخروج'
   ];
@@ -42,8 +40,6 @@ class _userProfileState extends State<userProfile> {
     invoice,
     money,
     orders,
-    scheduale,
-    block,
     support,
     logout
   ];
@@ -53,8 +49,6 @@ class _userProfileState extends State<userProfile> {
     Invoice(),
     const UserBalance(),
     UserRequestMainPage(),
-    const CelebrityCalenderMain(),
-    blockList(),
     const ContactWithUsMain(),
     const Logging()
   ];
