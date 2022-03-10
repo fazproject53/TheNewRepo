@@ -70,26 +70,6 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                           },
                         ),
 
-                        ///SizedBox
-                        SizedBox(
-                          width: 220.w,
-                        ),
-
-                        ///notification icon
-                        IconButton(
-                          icon: const Icon(Icons.chat),
-                          color: white,
-                          iconSize: 30,
-                          onPressed: () {},
-                        ),
-
-                        ///conversation icon
-                        IconButton(
-                          icon: const Icon(Icons.notifications),
-                          color: white,
-                          iconSize: 30,
-                          onPressed: () {},
-                        ),
                       ],
                     ),
                   ),
@@ -219,22 +199,22 @@ class _CelebrityHomeState extends State<CelebrityHome> {
 
           ///SizedBox
           SizedBox(
-            height: 10.h,
+            height:5.h,
           ),
 
           ///horizontal listView for news
           SizedBox(
-            height: 100.h,
+            height: 80.h,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Row(children: [
                     Padding(
                       padding: EdgeInsets.only(right: 8.r),
                       child: Container(
-                        height: 90.h,
-                        width: 229.w,
+                        height: 65.h,
+                        width: 208.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(50.r),
@@ -250,48 +230,50 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.only(right: 7.w),
+                          padding: EdgeInsets.only(right: 8.w),
                           child: Row(
                             children: [
                               CircleAvatar(
                                 backgroundImage: Image.asset(
                                   'assets/image/celebrityimg.png',
                                 ).image,
-                                radius: 35.r,
+                                radius: 30.r,
                               ),
                               SizedBox(
-                                width: 15.w,
+                                width: 10.w,
                               ),
-                              SizedBox(
-                                height: 80.h,
-                                width: 137.w,
-                                child: text(
-                                    context,
-                                    'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
-                                    16,
-                                    white),
-                              )
+                              Padding(
+                                padding: EdgeInsets.only(right: 10.w, left: 10.w, bottom: 5.h),
+                                child: SizedBox(
+                                    height: 55.h,
+                                    width: 110.w,
+                                    child: text(
+                                        context,
+                                        'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
+                                        12,
+                                        white,),
+                                  ),
+                              ),
+
                             ],
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 7.w,
-                    ),
+
                   ]);
                 }),
           ),
 
           ///SizedBox
           SizedBox(
-            height: 10.h,
+            height: 5.h,
           ),
 
           ///Container for celebrity store
           Container(
             margin: EdgeInsets.only(right: 10.w, left: 10.w),
-            height: 100.h,
+            height: 90.h,
             width: 440.w,
             decoration: BoxDecoration(
                 color: black, borderRadius: BorderRadius.circular(7.r)),
@@ -304,8 +286,8 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      text(context, 'قم بزيارة المتجر الان', 16, white),
-                      text(context, 'المتجر الخاص بمروان بابلو', 21, white),
+                      text(context, 'قم بزيارة المتجر الان', 12, white),
+                      text(context, 'المتجر الخاص بمروان بابلو', 16, white),
                     ],
                   ),
                 ),
@@ -323,7 +305,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
 
           ///
           SizedBox(
-            height: 20.h,
+            height: 10.h,
           ),
           Padding(
             padding: EdgeInsets.only(right: 10.w, left: 10.w),
