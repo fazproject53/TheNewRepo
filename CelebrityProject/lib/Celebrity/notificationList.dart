@@ -24,7 +24,7 @@ class _notificationListState extends State<notificationList> {
               return
                 InkWell(
                   child: Container(
-                    height: 115.h,
+                    height: 125.h,
                     child: Card(
                       elevation: 3,
                       child:  Row(
@@ -54,10 +54,11 @@ class _notificationListState extends State<notificationList> {
                                          black.withOpacity(0.80)),
 
                                       Container(
-                                        height: 45.h,
+                                        margin: EdgeInsets.only(bottom: 10.h),
+                                        height: 50.h,
                                         width: 250.w,
                                         child: text(
-                                            context, ' هذا هو محتوى التنبيه للمشهور هذا هو محتوى التنبيه للمشهور', 15, black.withOpacity(0.80)),
+                                            context, ' هذا هو محتوى التنبيه للمشهور هذا هو محتوى التنبيه للمشهور', 14, black.withOpacity(0.80)),
                                       ),
 
 
