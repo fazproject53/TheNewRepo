@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
+import 'Explower.dart';
+
 class viewData extends StatefulWidget {
   const viewData({Key? key}) : super(key: key);
 
@@ -41,41 +43,63 @@ class _viewDataState extends State<viewData> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      backgroundColor: black.withOpacity(0.30),
-        appBar: drowAppBar('', context,color:black.withOpacity(0.02) ),
-    body: Stack(
-      alignment: Alignment.center,
-      children: [
-        InkWell(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
+    return  Directionality(
+      textDirection: TextDirection.rtl,
+      child:  Scaffold(
+        backgroundColor: black.withOpacity(0.80),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 30.h, right: 20.w),
+            child: Row(
+              children: [
+                ///back icon to the main screen
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  color: white,
+                  iconSize: 30,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+          Stack(
+            alignment: Alignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.only(top: getSize(context).height/9),
-                  height: 400.h,child: _videoPlayerController.value.isInitialized ? VideoPlayer(_videoPlayerController) : Container()),
+              InkWell(
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: getSize(context).height/9),
+                        height: 400.h,child: _videoPlayerController.value.isInitialized ? VideoPlayer(_videoPlayerController) : Container()),
 
-              VideoProgressIndicator(
-                _videoPlayerController,
-                allowScrubbing: true,
-                colors: const VideoProgressColors(
-                    backgroundColor: pink,
-                    bufferedColor: black,
-                    playedColor: purple),
-              )
+                    VideoProgressIndicator(
+                      _videoPlayerController,
+                      allowScrubbing: true,
+                      colors: const VideoProgressColors(
+                          backgroundColor: pink,
+                          bufferedColor: black,
+                          playedColor: purple),
+                    )
+                  ],
+                ),
+                onTap: (){setState(() {
+                  clicked? _videoPlayerController.play(): _videoPlayerController.pause();
+                  clicked = clicked? false: true;
+                });},
+              ),
+              clicked? Padding(
+                padding:  EdgeInsets.only(left: 120.w),
+                child: IconButton(onPressed: (){
+                }, icon: Icon(playViduo, size:120,color: white,),),
+              ): const SizedBox()
             ],
           ),
-          onTap: (){setState(() {
-            clicked? _videoPlayerController.play(): _videoPlayerController.pause();
-            clicked = clicked? false: true;
-          });},
-        ),
-        clicked? Padding(
-          padding:  EdgeInsets.only(right: 70.w),
-          child: IconButton(onPressed: (){
-          }, icon: Icon(playViduo, size:120,color: white,),),
-        ): const SizedBox()
-      ],
-    ), );
+        ],
+      ), ),
+    );
   }
 }

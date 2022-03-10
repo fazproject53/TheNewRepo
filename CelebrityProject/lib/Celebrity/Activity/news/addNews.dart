@@ -17,7 +17,6 @@ class _addNewsState extends State<addNews> {
    TextEditingController controlnewstitle = new TextEditingController();
    TextEditingController controlnewsdesc = new TextEditingController();
 
-  File? newsimage;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -39,10 +38,6 @@ class _addNewsState extends State<addNews> {
                             return 'Please enter some text';} return null;},false),),
                           paddingg(15, 15, 12,textFieldDesc(context, 'وصف الخبر', 14, false, controlnewsdesc,(String? value) {if (value == null || value.isEmpty) {
                             return 'Please enter some text';} return null;}),),
-
-
-                          SizedBox(height: 20.h),
-                          paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع صورة الخبر', 12, black),(){pickImage(image);}),),
 
                           SizedBox(height: 20.h),
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة الخبر', 15, white, (){})),),
