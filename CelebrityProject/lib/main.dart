@@ -9,7 +9,10 @@ import 'package:device_preview/device_preview.dart';
 
 
 void main() => runApp(
+
         const MyApp(),
+        // Wrap your app
+      
     );
 
 class MyApp extends StatelessWidget {

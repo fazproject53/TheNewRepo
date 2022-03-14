@@ -83,7 +83,7 @@ class _LoggingState extends State<Logging> {
                             currentuser="user";
                           });
                           print(currentuser);
-                           Navigator.push(context,
+                           Navigator.pushReplacement(context,
                                MaterialPageRoute(builder: (_) => const MainScreen()));
                            //famous logging-------------------------------
                          }else if(lgoingPassConttroller.text=="2"&& lgoingEmailConttroller.text=="2"){
@@ -91,7 +91,7 @@ class _LoggingState extends State<Logging> {
                              currentuser="famous";
                            });
                            print(currentuser);
-                           Navigator.push(context,
+                           Navigator.pushReplacement(context,
                                MaterialPageRoute(builder: (_) => const MainScreen()));
                          }else{
                            print("امممممممممممممممممل الحقول");

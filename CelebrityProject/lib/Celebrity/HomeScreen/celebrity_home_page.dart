@@ -243,15 +243,17 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                                 width: 10.w,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 10.w, left: 10.w, bottom: 5.h),
+                                padding: EdgeInsets.only(right: 6.w, left: 10.w, bottom: 7.h,top: 2.h),
                                 child: SizedBox(
-                                    height: 55.h,
+                                    height: 60.h,
                                     width: 110.w,
                                     child: text(
                                         context,
                                         'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
-                                        12,
-                                        white,),
+                                        11,
+                                        white,
+                                    align: TextAlign.justify,
+                                    ),
                                   ),
                               ),
 

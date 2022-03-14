@@ -20,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const MainPage()),
     );
   }
