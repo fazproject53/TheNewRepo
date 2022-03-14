@@ -267,7 +267,9 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 
 //+ icon + logo ------------------------------------------------------------
   Widget heroLogo() {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
+    return Row(
+        //mainAxisSize: MainAxisSize.min,
+        children: [
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         child: SizedBox(
@@ -284,9 +286,14 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         child: SizedBox(
-            height: 68.h,
-            width: 68.w,
-            child: const Image(image: AssetImage("assets/image/log.png"))),
+          height: 60.h,
+          width: 140.w,
+          child:  Image(
+            image: AssetImage("assets/image/logo.png"),
+            // height: 70.0.h,
+            // width: 70.w,
+          ),
+        ),
       ),
     ]);
   }
@@ -332,7 +339,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: InkWell(
-        onTap: (){
+        onTap: () {
           goTopagepush(context, const CelebrityHomePage());
         },
         child: ListView.builder(
@@ -481,12 +488,15 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                           yallow,
                           Center(
                               child: InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SingUp()));
-                                },
-                                child: text(context, "انضم الان", 17, black,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SingUp()));
+                            },
+                            child: text(context, "انضم الان", 17, black,
+                                fontWeight: FontWeight.bold),
+                          )),
                           bottomLeft: 19,
                           bottomRight: 19,
                           topLeft: 19,
