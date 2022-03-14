@@ -62,7 +62,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                                     fontWeight: FontWeight.bold)),
                           ),
                         ),
-//icone lang logo--------------------------------------------------------------
+//icon lang logo--------------------------------------------------------------
                         heroLogo()
                       ],
                     )),
@@ -280,13 +280,13 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
               },
             )),
       ),
-      Spacer(),
+      const Spacer(),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         child: SizedBox(
-            height: 60.h,
-            width: 60.w,
-            child: const Image(image: AssetImage("assets/image/log.png"))),
+            height: 80.h,
+            width: 80.w,
+            child: const Image(image: AssetImage("assets/image/log1.png"))),
       ),
     ]);
   }
@@ -333,7 +333,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
       textDirection: TextDirection.rtl,
       child: InkWell(
         onTap: (){
-          goTopagepush(context, CelebrityHomePage());
+          goTopagepush(context, const CelebrityHomePage());
         },
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
