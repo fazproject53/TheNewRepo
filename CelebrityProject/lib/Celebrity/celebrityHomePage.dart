@@ -62,7 +62,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                                     fontWeight: FontWeight.bold)),
                           ),
                         ),
-//icon lang logo--------------------------------------------------------------
+//icone lang logo--------------------------------------------------------------
                         heroLogo()
                       ],
                     )),
@@ -282,18 +282,13 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
               },
             )),
       ),
-      const Spacer(),
+      Spacer(),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         child: SizedBox(
-          height: 60.h,
-          width: 140.w,
-          child:  Image(
-            image: AssetImage("assets/image/logo.png"),
-            // height: 70.0.h,
-            // width: 70.w,
-          ),
-        ),
+            height: 60.h,
+            width: 60.w,
+            child: const Image(image: AssetImage("assets/image/log.png"))),
       ),
     ]);
   }
@@ -339,8 +334,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: InkWell(
-        onTap: () {
-          goTopagepush(context, const CelebrityHomePage());
+        onTap: (){
+          goTopagepush(context, CelebrityHomePage());
         },
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -488,15 +483,12 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                           yallow,
                           Center(
                               child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SingUp()));
-                            },
-                            child: text(context, "انضم الان", 17, black,
-                                fontWeight: FontWeight.bold),
-                          )),
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SingUp()));
+                                },
+                                child: text(context, "انضم الان", 17, black,
+                                    fontWeight: FontWeight.bold),
+                              )),
                           bottomLeft: 19,
                           bottomRight: 19,
                           topLeft: 19,
