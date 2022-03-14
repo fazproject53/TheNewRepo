@@ -284,9 +284,9 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         child: SizedBox(
-            height: 80.h,
-            width: 80.w,
-            child: const Image(image: AssetImage("assets/image/log1.png"))),
+            height: 68.h,
+            width: 68.w,
+            child: const Image(image: AssetImage("assets/image/log.png"))),
       ),
     ]);
   }

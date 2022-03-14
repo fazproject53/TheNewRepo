@@ -31,7 +31,6 @@ dependencies:
     sdk: flutter
   flutter_svg: ^1.0.3
   flutter_screenutil: ^5.1.1
-  shared_preferences: ^2.0.12
   adobe_xd: ^2.0.1
   device_preview: ^1.0.0
   auto_size_text: ^3.0.0
@@ -56,7 +55,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "@mipmap/ic_launcher"
+  image_path_android: "@mipmap/ic_launcher"
+  image_path_ios: "@mipmap/ic_launcher"
+
   flutter_test:
     sdk: flutter
 
