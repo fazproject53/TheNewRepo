@@ -52,9 +52,14 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.9.2
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "@mipmap/ic_launcher"
   flutter_test:
     sdk: flutter
-  
+
 
   
   flutter_lints: ^1.0.0
