@@ -7,6 +7,8 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../activity_screen.dart';
+
 class addVideo extends StatefulWidget{
 
   _addVideoState createState() => _addVideoState();
@@ -46,7 +48,7 @@ class _addVideoState extends State<addVideo> {
                             paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع فيديو ', 12, black),(){pickImage(image);}),),
 
                             SizedBox(height: 20.h),
-                            padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة ', 15, white, (){})),),
+                            padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة ', 15, white, (){goTopageReplacement(context, ActivityScreen()) ;})),),
                             const SizedBox(height: 30,),
                           ]),
                       ),

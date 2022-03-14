@@ -76,13 +76,16 @@ class _viewDataState extends State<viewData> {
                       margin: EdgeInsets.only(top: getSize(context).height/9),
                         height: 400.h,child: _videoPlayerController.value.isInitialized ? VideoPlayer(_videoPlayerController) : Container()),
 
-                    VideoProgressIndicator(
-                      _videoPlayerController,
-                      allowScrubbing: true,
-                      colors: const VideoProgressColors(
-                          backgroundColor: pink,
-                          bufferedColor: black,
-                          playedColor: purple),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: VideoProgressIndicator(
+                        _videoPlayerController,
+                        allowScrubbing: true,
+                        colors: const VideoProgressColors(
+                            backgroundColor: pink,
+                            bufferedColor: black,
+                            playedColor: purple),
+                      ),
                     )
                   ],
                 ),

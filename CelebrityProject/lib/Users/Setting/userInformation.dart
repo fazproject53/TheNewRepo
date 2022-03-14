@@ -19,6 +19,7 @@ class _userInformationState extends State<userInformation>{
   final TextEditingController phone = new TextEditingController();
 
 bool hidden = true;
+bool hidden2 = true;
   String country = 'الدولة';
   String city = 'المدينة';
 
@@ -107,7 +108,7 @@ bool hidden = true;
                       return 'Please enter some text';} return null;},false),),
                     paddingg(15, 15, 12,textFieldPassword(context, 'كلمة المرور', 14, hidden, password,(String? value) {if (value == null || value.isEmpty) {
                       return 'Please enter some text';} return null;},false),),
-                    paddingg(15, 15, 12,textFieldPassword(context, 'اعادة ضبط كلمة المرور ', 14, hidden, repassword,(String? value) {if (value == null || value.isEmpty) {
+                    paddingg(15, 15, 12,textFieldPassword2(context, 'اعادة ضبط كلمة المرور ', 14, hidden2, repassword,(String? value) {if (value == null || value.isEmpty) {
                       return 'Please enter some text';} return null;},false),),
 
                     //===========dropdown lists ==================
@@ -216,7 +217,7 @@ bool hidden = true;
       bool hintPass,
       TextEditingController mycontroller,
       myvali,
-      isOptional
+      isOptional,
       ) {
     return TextFormField(
       obscureText: hintPass? true :false ,
@@ -237,6 +238,41 @@ bool hidden = true;
             hidden = false;
           });}, icon: Icon(hide, color: lightGrey,)):IconButton(onPressed: (){setState(() {
             hidden = true;
+          });}, icon: Icon(show, color: lightGrey)),
+          hintText: key,
+          contentPadding: EdgeInsets.all(10.h)),
+    );
+
+  }
+
+  Widget textFieldPassword2(
+      context,
+      String key,
+      double fontSize,
+      bool hintPass,
+      TextEditingController mycontroller,
+      myvali,
+      isOptional,
+      ) {
+    return TextFormField(
+      obscureText: hintPass? true :false ,
+      validator: myvali,
+      controller: mycontroller,
+      style: TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      decoration: InputDecoration(
+          isDense: false,
+          filled: true,
+          helperText: isOptional? 'اختياري': null,
+          helperStyle: TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          fillColor: textFieldBlack2.withOpacity(0.70),
+          labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
+          suffixIcon: hidden2? IconButton(onPressed: (){setState(() {
+            hidden2 = false;
+          });}, icon: Icon(hide, color: lightGrey,)):IconButton(onPressed: (){setState(() {
+            hidden2 = true;
           });}, icon: Icon(show, color: lightGrey)),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),

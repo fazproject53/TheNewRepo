@@ -14,11 +14,12 @@ class Studio extends StatefulWidget{
 }
 
 class _StudioState extends State<Studio> {
-  bool addp= false;
+  bool addp = false;
   bool addv= false;
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(

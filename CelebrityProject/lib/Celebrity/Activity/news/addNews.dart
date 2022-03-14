@@ -6,6 +6,8 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../activity_screen.dart';
+
 class addNews extends StatefulWidget{
 
   _addNewsState createState() => _addNewsState();
@@ -40,7 +42,7 @@ class _addNewsState extends State<addNews> {
                             return 'Please enter some text';} return null;}),),
 
                           SizedBox(height: 20.h),
-                          padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة الخبر', 15, white, (){})),),
+                          padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة الخبر', 15, white, (){goTopageReplacement(context, ActivityScreen()) ;})),),
                           const SizedBox(height: 30,),
                         ]),
                     ),
