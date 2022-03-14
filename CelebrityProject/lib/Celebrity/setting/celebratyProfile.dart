@@ -142,7 +142,11 @@ class _celebratyProfileState extends State<celebratyProfile> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return MaterialButton(
-                            onPressed: () {
+                            onPressed: index == labels.length-1? (){  Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => page[index]),
+                            );}: (){
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

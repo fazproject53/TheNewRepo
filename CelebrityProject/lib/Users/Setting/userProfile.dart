@@ -104,7 +104,13 @@ class _userProfileState extends State<userProfile> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return MaterialButton(
-                            onPressed: () {
+                            onPressed: index == labels.length-1? (){
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => page[index]),
+                              );
+                            }: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
