@@ -48,7 +48,7 @@ dependencies:
   video_player: ^2.3.0
 
 
-
+  flutter_lints: ^1.0.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
@@ -58,16 +58,12 @@ flutter_icons:
   image_path_android: "@mipmap/ic_launcher"
   image_path_ios: "@mipmap/ic_launcher"
 
+
   flutter_test:
     sdk: flutter
 
-
-  
-  flutter_lints: ^1.0.0
-
 flutter:
 
-  
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:

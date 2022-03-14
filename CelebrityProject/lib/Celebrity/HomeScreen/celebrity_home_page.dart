@@ -243,7 +243,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                                 width: 10.w,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 6.w, left: 10.w, bottom: 7.h,top: 2.h),
+                                padding: EdgeInsets.only(right: 6.w, left: 6.w, bottom: 7.h,top: 2.h),
                                 child: SizedBox(
                                     height: 60.h,
                                     width: 110.w,
@@ -251,9 +251,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                                         context,
                                         'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
                                         11,
-                                        white,
-                                    align: TextAlign.justify,
-                                    ),
+                                        white,align: TextAlign.justify),
                                   ),
                               ),
 
@@ -262,7 +260,6 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                         ),
                       ),
                     ),
-
                   ]);
                 }),
           ),
