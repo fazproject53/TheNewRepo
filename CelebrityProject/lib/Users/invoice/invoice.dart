@@ -11,7 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 //import 'package:pdf/widgets.dart' as pw;
 
@@ -128,7 +127,6 @@ class _InvoiceState extends State<Invoice> {
                                                 //   imagePaths.add(file);
                                                 // }
                                                 imagePaths.add(file.path);
-                                                Share.share(imagePaths[0]);
                                               },
                                             ),
 
