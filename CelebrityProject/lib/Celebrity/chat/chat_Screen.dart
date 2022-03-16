@@ -37,7 +37,6 @@ class _chatScreenState extends State<chatScreen> {
           isWritting = false;
         });},
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           appBar: drawAppBar( Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [ text(context, 'مروان بابلو', 15, white),SizedBox(width: 10.w,),   CircleAvatar(backgroundColor: white, foregroundImage:  imagee == null? Image.asset('assets/image/user.png', fit: BoxFit.fill,).image : Image.file(imagee!).image,
@@ -58,7 +57,7 @@ class _chatScreenState extends State<chatScreen> {
 
 
               Padding(
-                padding:  MediaQuery.of(context).viewInsets.bottom != 0?  EdgeInsets.only(bottom: 260.h): EdgeInsets.only(bottom: 0.h),
+                padding:  MediaQuery.of(context).viewInsets.bottom != 0?  EdgeInsets.only(bottom: 0.h): EdgeInsets.only(bottom: 0.h),
                 child: Container(
                   height: 60.h,
                   decoration:  const BoxDecoration(   border: Border(top: BorderSide(color: purple , width: 2))),
