@@ -45,7 +45,6 @@ class _chatRoomState extends State<chatRoom> {
           });
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           appBar: drawAppBar(Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -78,7 +77,7 @@ class _chatRoomState extends State<chatRoom> {
                   padding: MediaQuery
                       .of(context)
                       .viewInsets
-                      .bottom != 0 ? EdgeInsets.only(bottom: 260.h) : EdgeInsets
+                      .bottom != 0 ? EdgeInsets.only(bottom: 0.h) : EdgeInsets
                       .only(bottom: 0.h),
                   child: Container(
                     height: 60.h,
