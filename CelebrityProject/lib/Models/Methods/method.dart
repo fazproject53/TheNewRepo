@@ -34,8 +34,6 @@ Widget text(
       fontWeight: fontWeight,
       ),
   );
-
-
 }
 
 //===============================Continer===============================
@@ -83,14 +81,13 @@ Widget gradientContainer(double width, Widget child,{bool gradient =false,double
     height: height.h,
     child: child,
     decoration: BoxDecoration(
-
       border: Border.all(color: color, width: 1.5.w),
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(bottomLeft.r),
           topRight: Radius.circular(topRight.r),
           topLeft: Radius.circular(topLeft),
           bottomRight: Radius.circular(bottomRight.r)),
-      gradient:  gradient==false? const LinearGradient(
+      gradient:  gradient ==false? const LinearGradient(
         begin: Alignment(0.7, 2.0),
         end: Alignment(-0.69, -1.0),
         colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
@@ -244,7 +241,8 @@ Widget textField(
   bool hintPass,
   TextEditingController mycontroller,
   myvali,
-  {Widget? suffixIcon,void Function()? onTap}
+  {
+    Widget? suffixIcon,void Function()? onTap}
 ) {
   return TextFormField(
     obscureText: hintPass,
@@ -316,7 +314,6 @@ Widget textFieldNoIcon(
         hintText: key,
         contentPadding: EdgeInsets.all(10.h)),
   );
-
 }
 ///Text Field small
 Widget textFieldSmall(
@@ -383,7 +380,6 @@ Widget textFieldDesc(
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );
-
 }
 
 //============================ text feild curved from one side ==================================

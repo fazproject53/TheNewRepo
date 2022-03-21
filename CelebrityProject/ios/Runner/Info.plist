@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>منصة المشاهير</string>
+	<key></key>
+	<string></string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -46,8 +48,8 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To take image</string>
 	<key>NSCameraUsageDescription</key>
-    <string>To choose image</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>To capture audio for image picker plugin</string>
+	<string>To choose image</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To capture audio for image picker plugin</string>
 </dict>
 </plist>

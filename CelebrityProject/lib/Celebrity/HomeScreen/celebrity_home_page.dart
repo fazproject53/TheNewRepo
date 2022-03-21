@@ -69,7 +69,6 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                             Navigator.pop(context);
                           },
                         ),
-
                       ],
                     ),
                   ),
@@ -135,7 +134,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                           margin: EdgeInsets.only(right: 25.w),
                           child: InkWell(
                               onTap: () {
-                                goTopagepush(context, userProfile());
+                                showDialogFunc(context, 'tttt');
                               },
                               child: text(context,
                                   'سياسة التعامل مع مروان بابلو', 14, purple))),
@@ -199,7 +198,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
 
           ///SizedBox
           SizedBox(
-            height:5.h,
+            height: 5.h,
           ),
 
           ///horizontal listView for news
@@ -243,18 +242,22 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                                 width: 10.w,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 6.w, left: 6.w, bottom: 7.h,top: 2.h),
+                                padding: EdgeInsets.only(
+                                    right: 6.w,
+                                    left: 6.w,
+                                    bottom: 7.h,
+                                    top: 2.h),
                                 child: SizedBox(
-                                    height: 60.h,
-                                    width: 110.w,
-                                    child: text(
-                                        context,
-                                        'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
-                                        11,
-                                        white,align: TextAlign.justify),
-                                  ),
+                                  height: 60.h,
+                                  width: 110.w,
+                                  child: text(
+                                      context,
+                                      'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
+                                      11,
+                                      white,
+                                      align: TextAlign.justify),
+                                ),
                               ),
-
                             ],
                           ),
                         ),
@@ -570,23 +573,21 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                     backgroundColor: white.withOpacity(0.1),
                     radius: 25.h,
                     child: IconButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        icon: Center(
-                          child: GradientIcon(
-                              playViduo,
-                              40,
-                              const LinearGradient(
-                                begin: Alignment(0.7, 2.0),
-                                end: Alignment(-0.69, -1.0),
-                                colors: [
-                                  Color(0xff0ab3d0),
-                                  Color(0xffe468ca)
-                                ],
-                                stops: [0.0, 1.0],
-                              )),
-                        ),),
+                      onPressed: () {
+                        setState(() {});
+                      },
+                      icon: Center(
+                        child: GradientIcon(
+                            playViduo,
+                            40,
+                            const LinearGradient(
+                              begin: Alignment(0.7, 2.0),
+                              end: Alignment(-0.69, -1.0),
+                              colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+                              stops: [0.0, 1.0],
+                            )),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -594,4 +595,102 @@ class _CelebrityHomeState extends State<CelebrityHome> {
           ),
         ));
   }
+}
+
+showDialogFunc(context, title) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              color: white,
+            ),
+            padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
+            height: 410.h,
+            width: 380.w,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              textDirection: TextDirection.rtl,
+              children: [
+                ///Title
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ///text
+                    text(context, 'تفاصيل سياسة التعامل', 14, grey!),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+
+                ///Adv Title
+                text(context, 'سياسة الاعلان', 16, black,
+                    fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 5.h,
+                ),
+
+                ///Adv Details
+                text(
+                  context,
+                  'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                  14,
+                  ligthtBlack,
+                ),
+
+                ///---------------------
+                SizedBox(
+                  height: 15.h,
+                ),
+
+                ///---------------------
+
+                ///Gifting Title
+                text(context, 'سياسة الاهداء', 16, black,
+                    fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 5.h,
+                ),
+
+                ///Gifting Details
+                text(
+                  context,
+                  'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                  14,
+                  ligthtBlack,
+                ),
+
+                ///---------------------
+                SizedBox(
+                  height: 15.h,
+                ),
+
+                ///---------------------
+
+                ///Area Title
+                text(context, 'سياسة المساحة الاعلانية', 16, black,
+                    fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 5.h,
+                ),
+
+                ///Area Details
+                text(
+                  context,
+                  'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                  14,
+                  ligthtBlack,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

@@ -118,7 +118,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                       children: [
                         ///Icon
                         GradientIcon(
-                            suspended,
+                            payment,
                             27.w,
                             const LinearGradient(
                               begin: Alignment(0.7, 2.0),
