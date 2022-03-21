@@ -71,7 +71,7 @@ bool hidden2 = true;
     for (var i in _testList) {
       items.add(
         DropdownMenuItem(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.topRight,
           value: i,
           child: Text(i['keyword']),
 
@@ -115,12 +115,13 @@ bool hidden2 = true;
 
                     paddingg(15, 15, 12,
                       DropdownBelow(
-                        itemWidth: 380.w,
+                        dropdownColor: newGrey,
+                        itemWidth: 370.w,
                         ///text style inside the menu
                         itemTextstyle: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: black,
+                          color: white,
                           fontFamily: 'Cairo',),
                         ///hint style
                         boxTextstyle: TextStyle(
@@ -132,7 +133,7 @@ bool hidden2 = true;
                         boxPadding:
                         EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                         boxWidth: 500.w,
-                        boxHeight: 40.h,
+                        boxHeight: 45.h,
                         boxDecoration: BoxDecoration(
                             color: textFieldBlack2.withOpacity(0.70),
                             borderRadius: BorderRadius.circular(8.r)),
@@ -152,12 +153,13 @@ bool hidden2 = true;
                     ),
                     paddingg(15, 15, 12,
                       DropdownBelow(
-                        itemWidth: 380.w,
+                        dropdownColor: newGrey,
+                        itemWidth: 370.w,
                         ///text style inside the menu
                         itemTextstyle: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
-                          color: black,
+                          color: white,
                           fontFamily: 'Cairo',),
                         ///hint style
                         boxTextstyle: TextStyle(
@@ -169,7 +171,7 @@ bool hidden2 = true;
                         boxPadding:
                         EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                         boxWidth: 500.w,
-                        boxHeight: 40.h,
+                        boxHeight: 45.h,
                         boxDecoration: BoxDecoration(
                             color: textFieldBlack2.withOpacity(0.70),
                             borderRadius: BorderRadius.circular(8.r)),
