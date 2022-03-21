@@ -284,8 +284,8 @@ List<Step> getSteps(){
                                    mainAxisAlignment: MainAxisAlignment.end,
                                    children:  [
                                      Container( child: FittedBox(fit: BoxFit.fitWidth,child: text(context,'مروان بابلو'  , ww > 400? 30: 12, white, fontWeight: FontWeight.bold)), alignment: Alignment.centerRight, margin: EdgeInsets.only(right: 8.w),),
-                                     Container(child: text(context,'تصنيف : مطرب' , 12, white), alignment: Alignment.centerRight, margin: EdgeInsets.only(right: 8.w)),
-                                     Container(child: text(context,'سعرالاعلان : ابتداءا من ***' , 12, white), alignment: Alignment.centerRight, margin: EdgeInsets.only(right: 8.w)),
+                                     Container(child: text(context,'تصنيف : مطرب' , 10, white), alignment: Alignment.centerRight, margin: EdgeInsets.only(right: 8.w)),
+                                     Container(child: text(context,'سعرالاعلان : ابتداءا من ***' , 10, white), alignment: Alignment.centerRight, margin: EdgeInsets.only(right: 8.w)),
                                    SizedBox(height: 10.h,)],
                                  ),
                                ),

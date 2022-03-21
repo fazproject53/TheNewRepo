@@ -309,6 +309,7 @@ class _InvoiceState extends State<Invoice> {
                           children: [
                             SizedBox(width: 20.w,),
                             Container(
+                              width: 150.w,
                               child: text(context, invoiceListInfo[index].desc, 15, black),),
                             // SizedBox(width: 10.w,),
                             // Image.asset('assets/image/logo.png', height: 50.h, width: 50.w,),
