@@ -24,7 +24,7 @@ class _notificationListState extends State<notificationList> {
               return
                 InkWell(
                   child: Container(
-                    height: 137.h,
+                    height: 140.h,
                     child: Card(
                       elevation: 3,
                       child:  Row(
