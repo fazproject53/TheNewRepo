@@ -104,40 +104,51 @@ class _AdSpaceState extends State<AdSpace> {
                                 ),
 //date--------------------------------------------------------------------------
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(
-                                      Icons.today,
-                                      color: white,
-                                      size: 22.h,
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.today,
+                                          color: white,
+                                          size: 22.h,
+                                        ),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        text(context, "26/02/2022", 16, white),
+                                        SizedBox(
+                                          width: 120.w,
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 10.w,
+
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.copy,
+                                          color: white,
+                                          size: 22.h,
+                                        ),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        Icon(
+                                          Icons.check_circle,
+                                          color: white,
+                                          size: 22.h,
+                                        ),
+                                        SizedBox(
+                                          width: 10.w,
+                                        ),
+                                        Icon(
+                                          Icons.chat,
+                                          color: white,
+                                          size: 22.h,
+                                        ),
+                                      ],
                                     ),
-                                    text(context, "26/02/2022", 16, white),
-                                    SizedBox(
-                                      width: 120.w,
-                                    ),
-                                    Icon(
-                                      Icons.copy,
-                                      color: white,
-                                      size: 22.h,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Icon(
-                                      Icons.check_circle,
-                                      color: white,
-                                      size: 22.h,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    Icon(
-                                      Icons.chat,
-                                      color: white,
-                                      size: 22.h,
-                                    ),
+
                                   ],
                                 ),
                               ],

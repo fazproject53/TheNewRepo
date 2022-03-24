@@ -210,7 +210,7 @@ showDialogFunc(context, personalName, invoices, date2, typeOfOrder) {
               color: white,
             ),
             padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
-            height: 200.h,
+            height: 210.h,
             width: 300.w,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

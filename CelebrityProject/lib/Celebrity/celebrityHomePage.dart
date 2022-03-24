@@ -188,7 +188,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   textDirection: TextDirection.rtl,
                   child: SizedBox(
                       width: double.infinity,
-                      height: 219.5.h,
+                      height: 222.5.h,
                       child: Padding(
                         padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
                         child: Row(

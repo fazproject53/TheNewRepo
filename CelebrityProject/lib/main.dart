@@ -1,18 +1,16 @@
-import 'package:celepraty/Account/logging.dart';
-import 'package:celepraty/Celebrity/celebrityHomePage.dart';
+///import section
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/introduction_screen/src/introduction_screen_main.dart';
+import 'package:celepraty/introduction_screen/screen_four.dart';
+import 'package:celepraty/introduction_screen/screen_three.dart';
+import 'package:celepraty/introduction_screen/screen_two.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:device_preview/device_preview.dart';
-
-
+import 'introduction_screen/introduction_screen.dart';
+import 'introduction_screen/screen_one.dart';
 
 void main() => runApp(
-
         const MyApp(),
         // Wrap your app
-      
     );
 
 class MyApp extends StatelessWidget {
@@ -31,8 +29,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(fontFamily: "Cairo",
               colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),),
-            home:  const MyHomePage()
-            //----------------------------------
+            home:  const IntroductionScreen()
           ),
       ),
     );

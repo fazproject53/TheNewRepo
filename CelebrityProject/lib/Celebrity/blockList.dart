@@ -45,7 +45,7 @@ class _blockListState extends State<blockList> {
                     8,
                     5,
                     SizedBox(
-                      height: 150.h,
+                      height: 160.h,
                       width: 100.w,
                       child: Card(
                         elevation: 10,

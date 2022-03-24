@@ -189,7 +189,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                             boxPadding:
                                 EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                             boxWidth: 500.w,
-                            boxHeight: 40.h,
+                            boxHeight: 46.h,
                             boxDecoration: BoxDecoration(
                                 color: textFieldBlack2.withOpacity(0.70),
                                 borderRadius: BorderRadius.circular(8.r)),

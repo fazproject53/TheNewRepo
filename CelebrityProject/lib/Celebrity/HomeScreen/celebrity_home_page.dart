@@ -50,7 +50,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                 children: [
                   SizedBox(
                     width: 500.w,
-                    height: 400.h,
+                    height: 430.h,
                     child: Image.asset(
                       'assets/image/featured.png',
                       fit: BoxFit.fill,
@@ -610,83 +610,85 @@ showDialogFunc(context, title) {
               color: white,
             ),
             padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
-            height: 410.h,
+            height: 415.h,
             width: 380.w,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              textDirection: TextDirection.rtl,
-              children: [
-                ///Title
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ///text
-                    text(context, 'تفاصيل سياسة التعامل', 14, grey!),
-                  ],
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                textDirection: TextDirection.rtl,
+                children: [
+                  ///Title
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ///text
+                      text(context, 'تفاصيل سياسة التعامل', 14, grey!),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
 
-                ///Adv Title
-                text(context, 'سياسة الاعلان', 16, black,
-                    fontWeight: FontWeight.bold),
-                SizedBox(
-                  height: 5.h,
-                ),
+                  ///Adv Title
+                  text(context, 'سياسة الاعلان', 16, black,
+                      fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 5.h,
+                  ),
 
-                ///Adv Details
-                text(
-                  context,
-                  'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
-                  14,
-                  ligthtBlack,
-                ),
+                  ///Adv Details
+                  text(
+                    context,
+                    'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                    14,
+                    ligthtBlack,
+                  ),
 
-                ///---------------------
-                SizedBox(
-                  height: 15.h,
-                ),
+                  ///---------------------
+                  SizedBox(
+                    height: 15.h,
+                  ),
 
-                ///---------------------
+                  ///---------------------
 
-                ///Gifting Title
-                text(context, 'سياسة الاهداء', 16, black,
-                    fontWeight: FontWeight.bold),
-                SizedBox(
-                  height: 5.h,
-                ),
+                  ///Gifting Title
+                  text(context, 'سياسة الاهداء', 16, black,
+                      fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 5.h,
+                  ),
 
-                ///Gifting Details
-                text(
-                  context,
-                  'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
-                  14,
-                  ligthtBlack,
-                ),
+                  ///Gifting Details
+                  text(
+                    context,
+                    'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                    14,
+                    ligthtBlack,
+                  ),
 
-                ///---------------------
-                SizedBox(
-                  height: 15.h,
-                ),
+                  ///---------------------
+                  SizedBox(
+                    height: 15.h,
+                  ),
 
-                ///---------------------
+                  ///---------------------
 
-                ///Area Title
-                text(context, 'سياسة المساحة الاعلانية', 16, black,
-                    fontWeight: FontWeight.bold),
-                SizedBox(
-                  height: 5.h,
-                ),
+                  ///Area Title
+                  text(context, 'سياسة المساحة الاعلانية', 16, black,
+                      fontWeight: FontWeight.bold),
+                  SizedBox(
+                    height: 5.h,
+                  ),
 
-                ///Area Details
-                text(
-                  context,
-                  'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
-                  14,
-                  ligthtBlack,
-                ),
-              ],
+                  ///Area Details
+                  text(
+                    context,
+                    'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                    14,
+                    ligthtBlack,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
