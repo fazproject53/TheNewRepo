@@ -309,7 +309,8 @@ Widget invoice(index){
                           children: [
                             SizedBox(width: 20.w,),
                             Container(
-                                child: text(context, 'طلب اهداء/ صورة بمناسبة\n عيد ميلاد', 15, black),),
+                              width: 150.w,
+                                child: text(context, 'طلب اهداء/ صورة بمناسبة\n عيد ميلاد', 13.5, black),),
                             // SizedBox(width: 10.w,),
                             // Image.asset('assets/image/logo.png', height: 50.h, width: 50.w,),
 

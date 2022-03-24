@@ -45,7 +45,7 @@ class _blockListState extends State<blockList> {
                     8,
                     5,
                     SizedBox(
-                      height: 150.h,
+                      height: 155.h,
                       width: 100.w,
                       child: Card(
                         elevation: 10,
@@ -53,7 +53,7 @@ class _blockListState extends State<blockList> {
                         child: paddingg(
                           0,
                           0,
-                          10,
+                          5,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [

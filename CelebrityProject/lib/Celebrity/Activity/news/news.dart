@@ -92,11 +92,11 @@ class _newsState extends State<news> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            height: 20.h,
+                                            height: 10.h,
                                           ),
                                           Container(
                                             width: 190.w,
-                                            height: 40.h,
+                                            height: 35.h,
                                             child:edit && theindex == index?
                                             TextFormField( cursorColor: black,controller: newstitle,
                                               style: TextStyle(color: black, fontSize: 12, fontFamily: 'Cairo'),
