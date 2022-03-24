@@ -119,53 +119,6 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                         ),
 
                         ///--------------------------Text Field Section--------------------------
-                        ///Enter Your Name
-                        paddingg(
-                          15,
-                          15,
-                          15,
-                          textFieldNoIcon(
-                              context, 'الاسم', 12, false, supportName,
-                              (String? value) {
-                            /// Validation text field
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          }, false),
-                        ),
-
-                        ///Enter Your Email
-                        paddingg(
-                          15,
-                          15,
-                          12,
-                          textFieldNoIcon(context, 'البريد الالكتروني', 12,
-                              false, supportEmail, (String? value) {
-                            /// Validation text field
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          }, false),
-                        ),
-
-                        ///Enter Your Phone Number
-                        paddingg(
-                          15,
-                          15,
-                          12,
-                          textFieldNoIcon(
-                              context, 'رقم الجوال', 12, false, supportPhone,
-                              (String? value) {
-                            /// Validation text field
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          }, false),
-                        ),
-
                         ///Dropdown Below
                         paddingg(
                           15,

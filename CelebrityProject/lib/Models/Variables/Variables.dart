@@ -139,9 +139,9 @@ List<String>giftImage=[
 
 
 List<String>sliderImage=[
- "assets/image/mainback.jpeg" ,
-  "assets/image/mainback.jpeg" ,
-  "assets/image/mainback.jpeg" 
+ "assets/image/image1.jpg" ,
+  "assets/image/image2.jpg" ,
+  "assets/image/image3.jpg"
 
 ];
 

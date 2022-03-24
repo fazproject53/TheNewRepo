@@ -1,5 +1,4 @@
 
-
 //================ convert hex colors to rgb colors================
 import 'dart:core';
 import 'dart:io';
@@ -36,7 +35,7 @@ Widget text(
   );
 }
 
-//===============================Continer===============================
+//===============================container===============================
 Widget container(double height, double width, double marginL, double marginR,
     Color color, Widget child,
     {double blur = 0.0,
@@ -111,10 +110,7 @@ Widget gradientContainerNoborder(double width,Widget child, {height = 40.0,doubl
         colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
         stops: [0.0, 1.0],
       ),
-
     ),
-
-
   );
 }
 //==================== container with no shadow ===========================

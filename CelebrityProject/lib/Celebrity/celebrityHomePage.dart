@@ -4,8 +4,6 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,8 +24,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Directionality(
+    return Directionality(
         textDirection: TextDirection.rtl,
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -56,9 +53,9 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 40.0.h, horizontal: 15.w),
                             child: Align(
-                                alignment: Alignment.bottomRight,
+                                alignment: Alignment.bottomCenter,
                                 child: text(context,
-                                    "${textList[currentIndex]}", 36, white,
+                                    "${textList[currentIndex]}", 32, white,
                                     fontWeight: FontWeight.bold)),
                           ),
                         ),
@@ -67,7 +64,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                       ],
                     )),
                 SizedBox(
-                  height: 20.h,
+                  height: 30.h,
                 ),
 //3 buttoms-----------------------------------------------
                 SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
@@ -119,6 +116,9 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                 SizedBox(
                     width: double.infinity, height: 196.h, child: advPanel()),
 //-children---------------------------------------------------------
+                SizedBox(
+                  height: 15.h,
+                ),
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -163,6 +163,9 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                 SizedBox(
                     width: double.infinity, height: 196.h, child: advPanel()),
 //-singer---------------------------------------------------------
+                SizedBox(
+                  height: 15.h,
+                ),
                 Padding(
                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
                   child: Align(
@@ -236,8 +239,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             ),
           )),
         ),
-      ),
-    );
+      );
+
   }
 
 //------------------------------Slider image-------------------------------------------
@@ -268,6 +271,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 //+ icon + logo ------------------------------------------------------------
   Widget heroLogo() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //mainAxisSize: MainAxisSize.min,
         children: [
       Padding(
@@ -284,11 +288,11 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
       ),
       Spacer(),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+        padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
         child: SizedBox(
-            height: 70.h,
-            width: 70.w,
-            child: const Image(image: AssetImage("assets/image/log.png"))),
+            height: 105.h,
+            width: 190.w,
+            child: const Image(image: AssetImage("assets/image/final-logo.png",), fit: BoxFit.cover,)),
       ),
     ]);
   }

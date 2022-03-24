@@ -37,7 +37,6 @@ class CelebrityHome extends StatefulWidget {
 
 class _CelebrityHomeState extends State<CelebrityHome> {
   bool isSelect = false;
-  int liksCounter = 100;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -102,7 +101,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
 
                             ///SizedBox
                             SizedBox(
-                              width: 5.w,
+                              width: 7.w,
                             ),
                             CircleAvatar(
                               backgroundImage: Image.asset(
@@ -113,7 +112,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
 
                             ///SizedBox
                             SizedBox(
-                              width: 5.w,
+                              width: 7.w,
                             ),
                             text(context, 'مصر', 14, white),
                           ],
@@ -134,7 +133,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                           margin: EdgeInsets.only(right: 25.w),
                           child: InkWell(
                               onTap: () {
-                                showDialogFunc(context, 'tttt');
+                                showDialogFunc(context, '');
                               },
                               child: text(context,
                                   'سياسة التعامل مع مروان بابلو', 14, purple))),
@@ -212,7 +211,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                     Padding(
                       padding: EdgeInsets.only(right: 8.r),
                       child: Container(
-                        height: 65.h,
+                        height: 70.h,
                         width: 208.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
@@ -254,7 +253,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                                       context,
                                       'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
                                       11,
-                                      white,
+                                      black,
                                       align: TextAlign.justify),
                                 ),
                               ),
@@ -458,7 +457,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                       fontWeight: FontWeight.bold),
                   text(
                     context,
-                    'اطلب اعلانك الان من مشهورك المفضل  ',
+                    'اطلب اعلانك الان من مشهورك المفضل',
                     10,
                     darkWhite,
                   ),
@@ -491,13 +490,13 @@ class _CelebrityHomeState extends State<CelebrityHome> {
             children: [
               InkWell(
                 child: Container(
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
+                    decoration:  BoxDecoration(
+                        gradient: const LinearGradient(
                             colors: <Color>[pink, blue],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight),
                         borderRadius:
-                            BorderRadius.all(const Radius.circular(50))),
+                            BorderRadius.all( Radius.circular(50.r))),
                     height: 40.h,
                     width: 40.h,
                     child:
@@ -610,7 +609,7 @@ showDialogFunc(context, title) {
               color: white,
             ),
             padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
-            height: 415.h,
+            height: 420.h,
             width: 380.w,
             child: SingleChildScrollView(
               child: Column(
