@@ -1,6 +1,5 @@
 ///import section
 import 'package:celepraty/Account/logging.dart';
-import 'package:celepraty/Celebrity/setting/profileInformation.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/screen_four.dart';
 import 'package:celepraty/introduction_screen/screen_one.dart';
@@ -9,8 +8,6 @@ import 'package:celepraty/introduction_screen/screen_two.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../MainScreen/main_screen_navigation.dart';
 import '../Models/Methods/method.dart';
 
 class IntroductionScreen extends StatefulWidget {
@@ -54,7 +51,6 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +62,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               children: pages,
             ),
           Padding(
-            padding: EdgeInsets.only(bottom: 50.h, right: 20.w, left: 20.w),
+            padding: EdgeInsets.only(bottom: 50.h, right: 30.w, left: 20.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -108,7 +104,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     },
                     child:  Visibility(
                       visible: currentIndex == 3 ? true : false,
-                      child: text(context, "بدء", 14, purple,
+                      child: text(context, "بدء", 16, purple,
                           fontWeight: FontWeight.bold),
                     )
                   ),
