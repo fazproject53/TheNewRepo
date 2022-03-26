@@ -56,7 +56,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: isCompleted? null : drowAppBar('انشاء طلب اعلان', context),
-        body: isCompleted? MainScreen() :Stepper(
+        body: isCompleted? buildCompleted() : Stepper(
           margin: EdgeInsets.symmetric(horizontal: 24),
           steps: getSteps(),
           type: StepperType.horizontal,
@@ -426,6 +426,7 @@ List<Step> getSteps(){
     );
   }
   buildCompleted() {
+    Navigator.pop(context);
   }
 
 }
