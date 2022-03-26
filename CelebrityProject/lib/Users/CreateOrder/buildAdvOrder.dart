@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -54,8 +55,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: drowAppBar('انشاء طلب اعلان', context),
-        body: isCompleted? buildCompleted() :Stepper(
+        appBar: isCompleted? null : drowAppBar('انشاء طلب اعلان', context),
+        body: isCompleted? MainScreen() :Stepper(
           margin: EdgeInsets.symmetric(horizontal: 24),
           steps: getSteps(),
           type: StepperType.horizontal,
@@ -64,7 +65,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
             if(isLastStep){ setState(() {
               isCompleted = true;
             }); }
-            setState(() { current +=1;});},
+            setState(() {
+              current == 1? selectedIndex.isEmpty? null: current +=1:current +=1;});},
           onStepCancel:  (){ current == 0? null : setState(() { current -=1;selectedIndex.clear();});},
           currentStep: current,
           onStepTapped: (value) => setState(() {
@@ -74,10 +76,10 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
             return Row(
               children: [
                 TextButton(onPressed: controls.onStepContinue,
-                child:(current != getSteps().length-1 && current != getSteps().length-3)?const Text('متابعة'):current != getSteps().length-3? const Text('تاكيد'):
-                checkit == true?const Text('متابعة'):const Text(''), ),
+                child:(current != getSteps().length-1 && current != getSteps().length-3)?const Text('متابعة'):current != getSteps().length-3 && checkit2? const Text('تاكيد'):
+                checkit == true && current != getSteps().length-1?const Text('متابعة'): const Text(''), ),
                 TextButton(onPressed: controls.onStepCancel,
-                child: current != getSteps().length-3? const Text('الغاء'): const Text(''),
+                child: current != getSteps().length-3? const Text('رجوع'): const Text(''),
                   ),
               ],
             );
@@ -396,7 +398,14 @@ List<Step> getSteps(){
 
                     paddingg(0,0,12, CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: text(context,'عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
+                      title: RichText(
+                          text: const TextSpan(children: [
+                            TextSpan(text: ' عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', style: TextStyle(color: black, fontFamily: 'Cairo',fontSize: 12)),
+                            TextSpan(text: 'الشروط والاحكام', style: TextStyle(color: blue, fontFamily: 'Cairo',fontSize: 12))
+                          ]
+                          )
+                      ),
+
                       value: checkit2,
                       selectedTileColor: black,
                       onChanged: (value) {
@@ -417,9 +426,6 @@ List<Step> getSteps(){
     );
   }
   buildCompleted() {
-    return Container(
-
-    );
   }
 
 }
