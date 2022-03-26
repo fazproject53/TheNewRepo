@@ -44,6 +44,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   List human =['انثى','ذكر'];
   List period =['صباحا','مساء'];
   bool checkit = false;
+  bool checkit2 = false;
   File? img;
   @override
   Widget build(BuildContext context) {
@@ -73,9 +74,10 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
             return Row(
               children: [
                 TextButton(onPressed: controls.onStepContinue,
-                child:(current !=getSteps().length-1)?const Text('متابعة'): const Text('تاكيد'), ),
+                child:(current != getSteps().length-1 && current != getSteps().length-3)?const Text('متابعة'):current != getSteps().length-3? const Text('تاكيد'):
+                checkit == true?const Text('متابعة'):const Text(''), ),
                 TextButton(onPressed: controls.onStepCancel,
-                child: const Text('الغاء'),
+                child: current != getSteps().length-3? const Text('الغاء'): const Text(''),
                   ),
               ],
             );
@@ -236,7 +238,14 @@ List<Step> getSteps(){
 
               paddingg(0,0,12, CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
-                title: text(context,'عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
+                title: RichText(
+                  text: const TextSpan(children: [
+                    TextSpan(text: ' عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', style: TextStyle(color: black, fontFamily: 'Cairo',fontSize: 12)),
+                    TextSpan(text: 'الشروط والاحكام', style: TextStyle(color: blue, fontFamily: 'Cairo',fontSize: 12))
+                  ]
+                )
+                ),
+
                 value: checkit,
                 selectedTileColor: black,
                 onChanged: (value) {
@@ -388,12 +397,12 @@ List<Step> getSteps(){
                     paddingg(0,0,12, CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
                       title: text(context,'عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
-                      value: checkit,
+                      value: checkit2,
                       selectedTileColor: black,
                       onChanged: (value) {
                         setState(() {
                           setState(() {
-                            checkit = value!;
+                            checkit2 = value!;
                           });
                         });
                       },),),

@@ -167,19 +167,21 @@ class _InvoiceState extends State<Invoice> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image .asset('assets/image/logo.png', height: 100.h, width: 100.w,),
-                  SizedBox(width: 5.w,),
-                  GradientText(
-                    'منصة المشاهير',
-                    style: const TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: "Cairo",
-                        fontWeight: FontWeight.bold
+                  Padding(
+                    padding:  EdgeInsets.only(left: 20.w),
+                    child: GradientText(
+                      'منصة المشاهير',
+                      style: const TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: "Cairo",
+                          fontWeight: FontWeight.bold
+                      ),
+                      colors: const [
+                        Color(0xff0ab3d0), Color(0xffe468ca)
+                      ],
                     ),
-                    colors: const [
-                      Color(0xff0ab3d0), Color(0xffe468ca)
-                    ],
                   ),
+                  Image .asset('assets/image/log.png', height: 90.h, width: 90.w,),
                 ],
               ),
 
