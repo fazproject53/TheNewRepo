@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       // splitScreenMode: true,
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter_ScreenUtil',
+        title: 'منصة المشاهير',
         theme: ThemeData(fontFamily: "Cairo",
           colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),),
         builder: (context, widget) {
