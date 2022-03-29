@@ -18,19 +18,25 @@ class MyApp extends StatelessWidget {
   // i cant hear u
   @override
   Widget build(BuildContext context) {
-    
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ScreenUtilInit(
-        designSize: const Size(413, 763),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: () => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(fontFamily: "Cairo",
-              colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),),
-            home:  const IntroductionScreen()
-          ),
+
+    return ScreenUtilInit(
+      designSize: const Size(413, 763),
+      // minTextAdapt: true,
+      // splitScreenMode: true,
+      builder: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter_ScreenUtil',
+        theme: ThemeData(fontFamily: "Cairo",
+          colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),),
+        builder: (context, widget) {
+          ScreenUtil.setContext(context);
+          return MediaQuery(
+            //Setting font does not change with system font size
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: widget!,
+          );
+        },
+        home: const IntroductionScreen()
       ),
     );
   }
