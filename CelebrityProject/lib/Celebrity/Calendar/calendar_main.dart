@@ -142,7 +142,7 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
                                 child: Row(children: [
                                   InkWell(
                                     child: Icon(
-                                      info,
+                                      infoIcon,
                                       size: 23,
                                       color: black,
                                     ),

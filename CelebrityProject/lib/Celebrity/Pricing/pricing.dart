@@ -229,7 +229,7 @@ class _PricingHomeState extends State<PricingHome> {
                               },
                               suffixIcon: MyTooltip(
                                   message: 'التسعير الخاص بصورة واحدة',
-                                  child: Icon(info, size: 15,)
+                                  child: Icon(infoIcon, size: 15,)
                               ),
                             ),
                             SizedBox(
@@ -269,7 +269,7 @@ class _PricingHomeState extends State<PricingHome> {
                               },
                               suffixIcon: MyTooltip(
                                   message: 'التسعير الخاص بفيديو مدته ٤٥ ثانية',
-                                  child: Icon(info, size: 15,)
+                                  child: Icon(infoIcon, size: 15,)
                               ),
                             ),
                             SizedBox(
@@ -309,7 +309,7 @@ class _PricingHomeState extends State<PricingHome> {
                               },
                               suffixIcon: MyTooltip(
                                   message: 'التسعير الخاص بصوت مدته ٣٠ ثانية',
-                                  child: Icon(info, size: 15,)
+                                  child: Icon(infoIcon, size: 15,)
                               ),
                             ),
                             SizedBox(
@@ -400,7 +400,7 @@ class _PricingHomeState extends State<PricingHome> {
                               },
                               suffixIcon: MyTooltip(
                                   message: 'التسعير الخاص بمساحة اعلانية لمدة ٢٤ ساعة',
-                                  child: Icon(info, size: 15,)
+                                  child: Icon(infoIcon, size: 15,)
                               ),
                             ),
                             SizedBox(

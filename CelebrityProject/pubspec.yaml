@@ -46,8 +46,9 @@ dependencies:
   simple_gradient_text: ^1.2.2
   video_player: ^2.3.0
   smooth_page_indicator: ^1.0.0+2
-
-
+  http:
+  cached_network_image: ^3.2.0
+  path_provider: ^2.0.9
   flutter_lints: ^1.0.0
 
 dev_dependencies:

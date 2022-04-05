@@ -1,8 +1,16 @@
 ///import section
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
+
+import 'introduction_screen.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ScreenFour extends StatefulWidget {
   const ScreenFour({Key? key}) : super(key: key);
@@ -12,32 +20,79 @@ class ScreenFour extends StatefulWidget {
 }
 
 class _ScreenFourState extends State<ScreenFour> {
+  late Future<IntroData> getData;
+  Future<IntroData> getIntroData() async {
+    final data =
+        await http.get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
+    if (data.statusCode == 200) {
+      return IntroData.fromJson(jsonDecode(data.body));
+    } else {
+      throw Exception('Failed to load activity');
+    }
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      getData = getIntroData();
+    });
+    super.initState();
+  }
+
+  Future<Directory> getApplicationDocumentsDirectory() async {
+    final String? path = (await getApplicationDocumentsDirectory()) as String?;
+    if (path == null) {
+      throw MissingPlatformDirectoryException(
+          'Unable to get application documents directory');
+    }
+    return Directory(path);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/image/intro4.png'),
-                    fit: BoxFit.cover)),
-            child: Padding(
-              padding:  EdgeInsets.only(top: 500.h,left: 20.w, right: 20.w),
-              child: ListTile(
-                title: text(context, 'ابدأ تجربتك الان', 25, white,
-                    fontWeight: FontWeight.bold, align: TextAlign.center),
-                subtitle: text(
-                    context,
-                    'يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو, يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو',
-                    13,
-                    white, align: TextAlign.center),
-              ),
-            ),
-          )
-        ],
+      body: FutureBuilder<IntroData>(
+        future: getData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Stack(
+              children: [
+              ClipRRect(
+                child: CachedNetworkImage(
+                imageUrl: "${snapshot.data!.data![3].image}",
+                imageBuilder: (context, imageProvider) => Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration:  BoxDecoration(
+                        image: DecorationImage(
+                            image:  imageProvider,
+                            fit: BoxFit.cover,
+                          ),),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(top: 500.h, left: 20.w, right: 20.w),
+                      child: ListTile(
+                        title: text(context, "${snapshot.data!.data![3].title}", 25, white,
+                            fontWeight: FontWeight.bold, align: TextAlign.center),
+                        subtitle: text(
+                            context,
+                            "${snapshot.data!.data![3].text}",
+                            13,
+                            white,
+                            align: TextAlign.center),
+                      ),
+                    ),
+                  ),
+
+                ),
+              )
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return Text('');
+        },
       ),
     );
   }
