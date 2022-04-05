@@ -1,8 +1,12 @@
 ///import section
+import 'dart:convert';
+
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
+import 'introduction_screen.dart';
 
 class ScreenOne extends StatefulWidget {
   const ScreenOne({Key? key}) : super(key: key);
@@ -12,33 +16,65 @@ class ScreenOne extends StatefulWidget {
 }
 
 class _ScreenOneState extends State<ScreenOne> {
+
+  
+
+  late Future<IntroData> getdata;
+  Future<IntroData> getPackeg() async {
+    final data = await http
+        .get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
+    if (data.statusCode == 200) {
+      return IntroData.fromJson(jsonDecode(data.body));
+    } else {
+      throw Exception('Failed to load activity');
+    }
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      getdata = getPackeg();
+    });
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/image/intro1.png'),
-                    fit: BoxFit.cover)),
-            child: Padding(
-              padding:  EdgeInsets.only(top: 500.h,left: 20.w, right: 20.w),
-              child: ListTile(
-                title: text(context, 'تواصل بالفيديو', 25, white,
-                    fontWeight: FontWeight.bold, align: TextAlign.center),
-                subtitle: text(
-                    context,
-                    'يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو, يمكنك الان التواصل مع المشاهير والمؤثرين عن طريق الفيديو',
-                    13,
-                    white, align: TextAlign.center),
+      body: FutureBuilder<IntroData>(
+        future: getdata,
+        builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        return Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration:  BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage("${snapshot.data!.data![0].image}"),
+                      fit: BoxFit.cover)),
+              child: Padding(
+                padding:  EdgeInsets.only(top: 500.h,left: 20.w, right: 20.w),
+                child: ListTile(
+                  title: text(context,"${snapshot.data!.data![0].title}", 25, white,
+                      fontWeight: FontWeight.bold, align: TextAlign.center),
+                  subtitle: text(
+                      context,
+                      "${snapshot.data!.data![0].text}",
+                      13,
+                      white, align: TextAlign.center),
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        );
+      }else if (snapshot.hasError) {
+        return Text('${snapshot.error}');
+      }
+      return const CircularProgressIndicator();}
       ),
     );
   }
 }
+//
