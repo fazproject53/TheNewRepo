@@ -85,12 +85,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           PageView(
             physics: CustomPageViewScrollPhysics(),
             controller: pageController,
-            children: [
-              ScreenOne(),
-              ScreenTwo(),
-              ScreenThree(),
-              ScreenFour()
-            ],
+            children: pages,
 
           ),
           Padding(

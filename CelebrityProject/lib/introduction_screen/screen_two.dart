@@ -57,28 +57,30 @@ class _ScreenTwoState extends State<ScreenTwo> {
             return Stack(
               children: [
                 ClipRRect(
-                    child: Container(
+                    child: CachedNetworkImage(
+                      imageUrl: "${snapshot.data!.data![1].image}",
+                      imageBuilder: (context, imageProvider) => Container(
                     height: double.infinity,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: NetworkImage('https://media.istockphoto.com/photos/blurred-abstract-photo-of-light-burst-among-trees-and-glitter-golden-picture-id1061974994?s=612x612'),
+                            image: imageProvider,
                             fit: BoxFit.cover)),
                     child: Padding(
                       padding:
                           EdgeInsets.only(top: 500.h, left: 20.w, right: 20.w),
                       child: ListTile(
-                        title: text(context, "",
+                        title: text(context, "${snapshot.data!.data![1].title}",
                             25, white,
                             fontWeight: FontWeight.bold,
                             align: TextAlign.center),
                         subtitle: text(context,
-                            "", 13, white,
+                            "${snapshot.data!.data![1].text}", 13, white,
                             align: TextAlign.center),
                       ),
                     ),
                   ),
-                )
+                ))
               ],
             );
           } else if (snapshot.hasError) {
