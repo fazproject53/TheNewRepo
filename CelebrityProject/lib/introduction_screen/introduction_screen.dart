@@ -1,5 +1,6 @@
 ///import section
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:celepraty/Account/logging.dart';
@@ -11,7 +12,7 @@ import 'package:celepraty/introduction_screen/screen_two.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Models/Methods/method.dart';
@@ -27,7 +28,7 @@ class IntroductionScreen extends StatefulWidget {
 
 class _IntroductionScreenState extends State<IntroductionScreen> {
   ///Page Controller
-  PageController pageController = PageController();
+  PageController pageController = PageController(viewportFraction: 0.8);
   ///selected index
   int selectedIndex = 0;
 
@@ -41,6 +42,17 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     ScreenThree(),
     ScreenFour()
   ];
+
+  late Future<IntroData> getData;
+  Future<IntroData> getIntroData() async {
+    final data = await http
+        .get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
+    if (data.statusCode == 200) {
+      return IntroData.fromJson(jsonDecode(data.body));
+    } else {
+      throw Exception('Failed to load activity');
+    }
+  }
 
   @override
   void dispose() {
@@ -58,8 +70,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       });
     });
 
+    setState(() {
+      getData = getIntroData();
+    });
+    super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +85,12 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           PageView(
             physics: CustomPageViewScrollPhysics(),
             controller: pageController,
-            children: pages,
+            children: [
+              ScreenOne(),
+              ScreenTwo(),
+              ScreenThree(),
+              ScreenFour()
+            ],
 
           ),
           Padding(

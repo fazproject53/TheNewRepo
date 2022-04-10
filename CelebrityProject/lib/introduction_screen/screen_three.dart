@@ -58,30 +58,28 @@ class _ScreenThreeState extends State<ScreenThree> {
               return Stack(
                 children: [
                   ClipRRect(
-                      child: CachedNetworkImage(
-                        imageUrl: "${snapshot.data!.data![2].image}",
-                        imageBuilder: (context, imageProvider) => Container(
+                      child: Container(
                           height: double.infinity,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: imageProvider,
+                                  image: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
                                   fit: BoxFit.cover)),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 500.h, left: 20.w, right: 20.w),
                             child: ListTile(
                               title: text(context,
-                              "${snapshot.data!.data![2].title}", 25, white,
+                              "", 25, white,
                               fontWeight: FontWeight.bold,
                               align: TextAlign.center),
                               subtitle: text(context,
-                              "${snapshot.data!.data![2].text}", 13, white,
+                              "", 13, white,
                               align: TextAlign.center),
                         ),
                       ),
                     ),
-                  ))
+                  )
                 ],
               );
             } else if (snapshot.hasError) {
