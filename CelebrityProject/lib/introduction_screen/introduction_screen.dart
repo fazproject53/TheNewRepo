@@ -1,5 +1,7 @@
 ///import section
 
+import 'dart:io';
+
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/screen_four.dart';
@@ -7,9 +9,13 @@ import 'package:celepraty/introduction_screen/screen_one.dart';
 import 'package:celepraty/introduction_screen/screen_three.dart';
 import 'package:celepraty/introduction_screen/screen_two.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Models/Methods/method.dart';
+
 
 
 class IntroductionScreen extends StatefulWidget {
@@ -22,9 +28,10 @@ class IntroductionScreen extends StatefulWidget {
 class _IntroductionScreenState extends State<IntroductionScreen> {
   ///Page Controller
   PageController pageController = PageController();
-  ///Index
+  ///selected index
   int selectedIndex = 0;
 
+  ///current index
   int currentIndex = 0;
 
   ///List of Pages
@@ -50,6 +57,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         currentIndex = pageController.page!.toInt();
       });
     });
+
   }
 
 
@@ -60,8 +68,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         alignment: Alignment.bottomCenter,
         children: [
           PageView(
+            physics: CustomPageViewScrollPhysics(),
             controller: pageController,
             children: pages,
+
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 50.h, right: 30.w, left: 20.w),
@@ -118,7 +128,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
   }
 }
-
+///API Section
 class IntroData {
   bool? success;
   List<Data>? data;
@@ -146,24 +156,6 @@ class IntroData {
     if (message != null) {
       data['message'] = message!.toJson();
     }
-    return data;
-  }
-}
-class Message {
-  String? en;
-  String? ar;
-
-  Message({this.en, this.ar});
-
-  Message.fromJson(Map<String, dynamic> json) {
-    en = json['en'];
-    ar = json['ar'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['en'] = en;
-    data['ar'] = ar;
     return data;
   }
 }
@@ -195,3 +187,41 @@ class Data {
     return data;
   }
 }
+class Message {
+  String? en;
+  String? ar;
+
+  Message({this.en, this.ar});
+
+  Message.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+    ar = json['ar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['en'] = en;
+    data['ar'] = ar;
+    return data;
+  }
+}
+
+class CustomPageViewScrollPhysics extends ScrollPhysics {
+  const CustomPageViewScrollPhysics({ScrollPhysics? parent})
+      : super(parent: parent);
+
+  @override
+  CustomPageViewScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomPageViewScrollPhysics(parent: buildParent(ancestor)!);
+  }
+  @override
+  SpringDescription get spring => const SpringDescription(
+    mass: 100,
+    stiffness: 100,
+    damping: 0.1,
+  );
+}
+
+
+
+

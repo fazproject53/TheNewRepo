@@ -38,14 +38,7 @@ class _ScreenOneState extends State<ScreenOne> {
     super.initState();
   }
 
-  Future<Directory> getApplicationDocumentsDirectory() async {
-    final String? path = (await getApplicationDocumentsDirectory()) as String?;
-    if (path == null) {
-      throw MissingPlatformDirectoryException(
-          'Unable to get application documents directory');
-    }
-    return Directory(path);
-  }
+
   
   @override
   Widget build(BuildContext context) {
