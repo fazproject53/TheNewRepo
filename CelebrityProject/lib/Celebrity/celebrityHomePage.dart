@@ -6,8 +6,10 @@ import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'HomeScreen/celebrity_home_page.dart';
+import 'Models.dart';
 
 class celebrityHomePage extends StatefulWidget {
   _celebrityHomePageState createState() => _celebrityHomePageState();
@@ -15,7 +17,13 @@ class celebrityHomePage extends StatefulWidget {
 
 int currentIndex = 0;
 
+
 class _celebrityHomePageState extends State<celebrityHomePage> {
+   Future<Section>? futureSections;
+   Future<link>? futureLinks;
+   Future<header>? futureHeader;
+   Future<Partner>? futurePartners;
+
   List textList = [
     "1الفنان ابيوسف عندنا",
     "2 الفنان ابيوسف عندنا",
@@ -24,6 +32,12 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      futureSections = fetchSections();
+      futurePartners = fetchPartners();
+      futureLinks = fetchLinks();
+      futureHeader = fetchHeader();
+    });
     return Directionality(
         textDirection: TextDirection.rtl,
         child: MaterialApp(
@@ -31,218 +45,292 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
           theme: ThemeData(primaryColor: purple),
           home: Scaffold(
               body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                    height: 360.h,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-//slider image---------------------------------------------------------
-                        imageSlider(),
-//text---------------------------------------------------------
-                        Container(
-//margin: EdgeInsets.only(bottom:25),
-                          decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.center,
-                            colors: [Colors.black26, Colors.transparent],
-                          )),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 40.0.h, horizontal: 15.w),
-                            child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: text(context,
-                                    "${textList[currentIndex]}", 32, white,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                        ),
-//icone lang logo--------------------------------------------------------------
-                        heroLogo()
-                      ],
-                    )),
-                SizedBox(
-                  height: 30.h,
-                ),
-//3 buttoms-----------------------------------------------
-                SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
-                SizedBox(
-                  height: 30.h,
-                ),
-//comedy----------------------------------------------------------
-                Padding(
-                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: text(context, "كوميديا", 18, black,
-                          fontWeight: FontWeight.bold)),
-                ),
+                 child: FutureBuilder<Section>(
+                    future: futureSections,
+                    builder: (
+                        BuildContext context,
+                        AsyncSnapshot<Section> snapshot,
+                        ) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.connectionState == ConnectionState.active
+                          || snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          return Center(child: const Text('Error'));
+                        } else if (snapshot.hasData) {
+                          return Center(
+                            child: Column(
+                              children: [
+                                for(int i =0; i <snapshot.data!.data!.length; i=i+1 )
+                                Column(
+                                  children: [
+                                    Text(
+                                        '${snapshot.data!.data![i].sectionName}',
+                                        style: const TextStyle(color: Colors.teal, fontSize: 36)
+                                    ),
 
-                SizedBox(
-                    width: double.infinity,
-                    height: 196.h,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: catogary(
-                          "كوميديا", "مروان بابلو", "assets/image/comp.jpg"),
-                    )),
-                SizedBox(
-                  height: 15.h,
-                ),
+                                    // FutureBuilder<Partner>(
+                                    //   future: futurePartners,
+                                    //   builder: (context, snapshot) {
+                                    //     return Text(
+                                    //         '${snapshot.data!.message!.ar}',
+                                    //         style: const TextStyle(color: Colors.teal, fontSize: 36)
+                                    //     );
+                                    //   },
+                                    //
+                                    // ),
 
-//sport----------------------------------------------------------
-                Padding(
-                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: text(context, "رياضة", 18, black,
-                          fontWeight: FontWeight.bold)),
-                ),
+                                    if('${snapshot.data!.data![i].sectionName}' == 'category')
+                                      FutureBuilder<Category>(
+                                      future: fetchCategories('${snapshot.data!.data![i].categoryId}'),
+                                      builder: (context, snapshot) {
+                                        return Text(
+                                            '${snapshot.data!.data!.category!.name}',
+                                            style: const TextStyle(color: Colors.red, fontSize: 36)
+                                        );
+                                      },
 
-                SizedBox(
-                    width: double.infinity,
-                    height: 196.h,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: catogary(
-                          "رياضة", "مروان بابلو", "assets/image/sport.jpg"),
-                    )),
-                SizedBox(
-                  height: 15.h,
-                ),
-//adv panel--------------------------------------------------------
-                SizedBox(
-                    width: double.infinity, height: 196.h, child: advPanel()),
-//-children---------------------------------------------------------
-                SizedBox(
-                  height: 15.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: text(context, "اطفال", 18, black,
-                          fontWeight: FontWeight.bold)),
-                ),
+                                    ),
+                                  ],
+                                ),
 
-                SizedBox(
-                    width: double.infinity,
-                    height: 196.h,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: catogary(
-                          "اطفال", "مروان بابلو", "assets/image/child.jpg"),
-                    )),
-                SizedBox(
-                  height: 15.h,
-                ),
 
-//سياحة----------------------------------------------------------culture
-                Padding(
-                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: text(context, "سياحة", 18, black,
-                          fontWeight: FontWeight.bold)),
-                ),
-
-                SizedBox(
-                    width: double.infinity,
-                    height: 196.h,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: catogary(
-                          "كوميديا", "مروان بابلو", "assets/image/cult.jpg"),
-                    )),
-                SizedBox(
-                  height: 15.h,
-                ),
-//adv panel--------------------------------------------------------
-                SizedBox(
-                    width: double.infinity, height: 196.h, child: advPanel()),
-//-singer---------------------------------------------------------
-                SizedBox(
-                  height: 15.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: text(context, "مطربين", 18, black,
-                          fontWeight: FontWeight.bold)),
-                ),
-
-                SizedBox(
-                    width: double.infinity,
-                    height: 196.h,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: catogary(
-                          "كوميديا", "مروان بابلو", "assets/image/singer.jpg"),
-                    )),
-                SizedBox(
-                  height: 15.h,
-                ),
-
-//-join us---------------------------------------------------------
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: SizedBox(
-                      width: double.infinity,
-                      height: 222.5.h,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: jouinFaums(
-                                    "انضم الان كنجم",
-                                    "اضم الينا الان\nوكن جزء منا",
-                                    "انضم كنجم")),
-                            SizedBox(
-                              width: 32.w,
+                              ],
                             ),
-                            Expanded(
-                                child: jouinFaums(
-                                    "انضم الان كمستخدم",
-                                    "اضم الينا الان\nوكن جزء منا",
-                                    "انضم كمستخدم")),
-                          ],
-                        ),
-                      )),
-                ),
-                SizedBox(
-                  height: 24.h,
-                ),
+                          );
+                        } else {
+                          return Center(child: const Text('Empty data'));
+                        }
+                      } else {
+                        return Center(child: Text('State: ${snapshot.connectionState}'));
+                      }
+                    },
+                  )
+              // child: Column(
+              //   children: [
+//                 SizedBox(
+//                     height: 360.h,
+//                     width: double.infinity,
+//                     child: Stack(
+//                       children: [
+// //slider image---------------------------------------------------------
+//                         imageSlider(),
+// //text---------------------------------------------------------
+//                         Container(
+// //margin: EdgeInsets.only(bottom:25),
+//                           decoration: const BoxDecoration(
+//                               gradient: LinearGradient(
+//                             begin: Alignment.bottomCenter,
+//                             end: Alignment.center,
+//                             colors: [Colors.black26, Colors.transparent],
+//                           )),
+//                           child: Padding(
+//                             padding: EdgeInsets.symmetric(
+//                                 vertical: 40.0.h, horizontal: 15.w),
+//                             child: Align(
+//                                 alignment: Alignment.bottomCenter,
+//                                 child: text(context,
+//                                     "${textList[currentIndex]}", 32, white,
+//                                     fontWeight: FontWeight.bold)),
+//                           ),
+//                         ),
+// //icone lang logo--------------------------------------------------------------
+//                         heroLogo()
+//                       ],
+//                     )),
+//                 SizedBox(
+//                   height: 30.h,
+//                 ),
+// //3 buttoms-----------------------------------------------
+//                 SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
+//                 SizedBox(
+//                   height: 30.h,
+//                 ),
+// //comedy----------------------------------------------------------
+//                 Padding(
+//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                   child: Align(
+//                       alignment: Alignment.centerRight,
+//                       child: text(context, "كوميديا", 18, black,
+//                           fontWeight: FontWeight.bold)),
+//                 ),
+//
+//                 SizedBox(
+//                     width: double.infinity,
+//                     height: 196.h,
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8.0.h),
+//                       child: catogary(
+//                           "كوميديا", "مروان بابلو", "assets/image/comp.jpg"),
+//                     )),
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+//
+// //sport----------------------------------------------------------
+//                 Padding(
+//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                   child: Align(
+//                       alignment: Alignment.centerRight,
+//                       child: text(context, "رياضة", 18, black,
+//                           fontWeight: FontWeight.bold)),
+//                 ),
+//
+//                 SizedBox(
+//                     width: double.infinity,
+//                     height: 196.h,
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8.0.h),
+//                       child: catogary(
+//                           "رياضة", "مروان بابلو", "assets/image/sport.jpg"),
+//                     )),
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+// //adv panel--------------------------------------------------------
+//                 SizedBox(
+//                     width: double.infinity, height: 196.h, child: advPanel()),
+// //-children---------------------------------------------------------
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+//                 Padding(
+//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                   child: Align(
+//                       alignment: Alignment.centerRight,
+//                       child: text(context, "اطفال", 18, black,
+//                           fontWeight: FontWeight.bold)),
+//                 ),
+//
+//                 SizedBox(
+//                     width: double.infinity,
+//                     height: 196.h,
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8.0.h),
+//                       child: catogary(
+//                           "اطفال", "مروان بابلو", "assets/image/child.jpg"),
+//                     )),
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+//
+// //سياحة----------------------------------------------------------culture
+//                 Padding(
+//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                   child: Align(
+//                       alignment: Alignment.centerRight,
+//                       child: text(context, "سياحة", 18, black,
+//                           fontWeight: FontWeight.bold)),
+//                 ),
+//
+//                 SizedBox(
+//                     width: double.infinity,
+//                     height: 196.h,
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8.0.h),
+//                       child: catogary(
+//                           "كوميديا", "مروان بابلو", "assets/image/cult.jpg"),
+//                     )),
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+// //adv panel--------------------------------------------------------
+//                 SizedBox(
+//                     width: double.infinity, height: 196.h, child: advPanel()),
+// //-singer---------------------------------------------------------
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+//                 Padding(
+//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                   child: Align(
+//                       alignment: Alignment.centerRight,
+//                       child: text(context, "مطربين", 18, black,
+//                           fontWeight: FontWeight.bold)),
+//                 ),
+//
+//                 SizedBox(
+//                     width: double.infinity,
+//                     height: 196.h,
+//                     child: Padding(
+//                       padding: EdgeInsets.all(8.0.h),
+//                       child: catogary(
+//                           "كوميديا", "مروان بابلو", "assets/image/singer.jpg"),
+//                     )),
+//                 SizedBox(
+//                   height: 15.h,
+//                 ),
+//
+// //-join us---------------------------------------------------------
+//                 Directionality(
+//                   textDirection: TextDirection.rtl,
+//                   child: SizedBox(
+//                       width: double.infinity,
+//                       height: 222.5.h,
+//                       child: Padding(
+//                         padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
+//                         child: Row(
+//                           children: [
+//                             Expanded(
+//                                 child: jouinFaums(
+//                                     "انضم الان كنجم",
+//                                     "اضم الينا الان\nوكن جزء منا",
+//                                     "انضم كنجم")),
+//                             SizedBox(
+//                               width: 32.w,
+//                             ),
+//                             Expanded(
+//                                 child: jouinFaums(
+//                                     "انضم الان كمستخدم",
+//                                     "اضم الينا الان\nوكن جزء منا",
+//                                     "انضم كمستخدم")),
+//                           ],
+//                         ),
+//                       )),
+//                 ),
+//                 SizedBox(
+//                   height: 24.h,
+//                 ),
+//
+// //---------------------------------------------------------------------------------الرعاة الرسميين-
+//                 Padding(
+//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                   child: Align(
+//                       alignment: Alignment.centerRight,
+//                       child: text(context, "الرعاة الرسميين", 18, black,
+//                           fontWeight: FontWeight.bold)),
+//                 ),
+//                 SizedBox(
+//                   height: 24.h,
+//                 ),
+//                 SizedBox(
+//                     width: double.infinity,
+//                     height: 60.h,
+//                     child: Padding(
+//                       padding: EdgeInsets.only(left: 16.h, right: 16.h),
+//                       child: sponsors(),
+//                     )),
+//                 ],
+//               ),
 
-//---------------------------------------------------------------------------------الرعاة الرسميين-
-                Padding(
-                  padding: EdgeInsets.only(right: 18.w, left: 18.w),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: text(context, "الرعاة الرسميين", 18, black,
-                          fontWeight: FontWeight.bold)),
-                ),
-                SizedBox(
-                  height: 24.h,
-                ),
-                SizedBox(
-                    width: double.infinity,
-                    height: 60.h,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 16.h, right: 16.h),
-                      child: sponsors(),
-                    )),
-              ],
-            ),
           )),
         ),
       );
 
   }
+  Future<Section> fetchSections() async {
+    final response = await http.get(Uri.parse('http://mobile.celebrityads.net/api/sections'));
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Section.fromJson(jsonDecode(response.body));
 
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
 //------------------------------Slider image-------------------------------------------
   Widget imageSlider() {
     return Swiper(
