@@ -5,9 +5,11 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
@@ -44,7 +46,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
         .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
     if (getSections.statusCode == 200) {
       Section sections = Section.fromJson(jsonDecode(getSections.body));
-      print((jsonDecode(getSections.body)));
+      // print((jsonDecode(getSections.body)));
       return sections;
     } else {
       throw Exception('Failed to load activity');
@@ -86,6 +88,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                               categorySection(
                                   snapshot.data?.data![sectionIndex].categoryId,
                                   snapshot.data?.data![sectionIndex].active),
+
 //header--------------------------------------------------------------------------
                             if (snapshot
                                     .data!.data![sectionIndex].sectionName ==
@@ -119,41 +122,6 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                           ],
                         )
 
-//-------------------------------------------------------------------------------------------
-
-//                       SizedBox(
-//                           height: 360.h,
-//                           width: double.infinity,
-//                           child: Stack(
-//                             children: [
-// //slider image---------------------------------------------------------
-//                               imageSlider(),
-// //text---------------------------------------------------------
-//                               Container(
-// //margin: EdgeInsets.only(bottom:25),
-//                                 decoration: const BoxDecoration(
-//                                     gradient: LinearGradient(
-//                                   begin: Alignment.bottomCenter,
-//                                   end: Alignment.center,
-//                                   colors: [Colors.black26, Colors.transparent],
-//                                 )),
-//                                 child: Padding(
-//                                   padding: EdgeInsets.symmetric(
-//                                       vertical: 40.0.h, horizontal: 15.w),
-//                                   child: Align(
-//                                       alignment: Alignment.bottomCenter,
-//                                       child: text(context,
-//                                           "textList[currentIndex]", 32, white,
-//                                           fontWeight: FontWeight.bold)),
-//                                 ),
-//                               ),
-// //icone lang logo--------------------------------------------------------------
-//                               heroLogo()
-//                             ],
-//                           )),
-//                       SizedBox(
-//                         height: 30.h,
-//                       ),
 // //3 buttoms-----------------------------------------------
 //                       SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
 //                       SizedBox(
@@ -345,11 +313,11 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
   }
 
 //"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
-  Widget imageSlider() {
+  Widget imageSlider(List image) {
     return Swiper(
       itemBuilder: (context, index) {
         return Image.network(
-          "http://mobile.celebrityads.net/storage/images/header/male.jpg",
+          image[index],
           //getImage[index],
           fit: BoxFit.fill,
         );
@@ -362,7 +330,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
       indicatorLayout: PageIndicatorLayout.COLOR,
       autoplay: true,
       axisDirection: AxisDirection.right,
-      itemCount: 1, //getImage.length,
+      itemCount: image.length,
       pagination: const SwiperPagination(),
       control: SwiperControl(
           color: grey, padding: EdgeInsets.only(left: 20.w, right: 5.w)),
@@ -403,37 +371,35 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
   }
 
 //explorer bottom image--------------------------------------------------------------
-  Widget drowButtom() {
+  Widget drowButtom(list, int length) {
     return Row(
       children: [
-        showButton("صور", "assets/image/cam.jpeg"),
+        showButton(list[2].title, list[2].link),
         SizedBox(
           width: 10.w,
         ),
-        showButton("اكسبلور", "assets/image/search.jpeg"),
+        showButton(list[1].title, list[1].link),
         SizedBox(
           width: 10.w,
         ),
-        showButton("بيكسل 1 مليون", "assets/image/star.jpeg"),
+        showButton(list[0].title, list[2].link),
       ],
     );
   }
 
-  Widget showButton(String utext, String image) {
+  Widget showButton(String utext, String link) {
     return Expanded(
         child: gradientContainerNoborder(
             105,
-            Stack(
-              children: [
-                //  Align(
-                //    alignment: Alignment.topLeft,
-                //    child: Image(image: AssetImage(image)),
-                //  ),
-                Align(
-                    alignment: Alignment.center,
-                    child: text(context, utext, 14, white,
-                        fontWeight: FontWeight.bold)),
-              ],
+            InkWell(
+              onTap: () async {
+                var url = link;
+                await launch(url, forceWebView: true);
+              },
+              child: Align(
+                  alignment: Alignment.center,
+                  child: text(context, utext, 14, white,
+                      fontWeight: FontWeight.bold)),
             ),
             reids: 20));
   }
@@ -525,11 +491,20 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
   }
 
 //-------------------------------------------------------------------------------
-  Widget sponsors() {
-    return Image(
-        image: const AssetImage("assets/image/ro3a.jpeg"),
-        height: 26.h,
-        width: 82.w);
+  Widget sponsors(String image,String link) {
+    return Card(
+      color: Colors.pink,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2.0.r),
+        child: Image(
+          fit: BoxFit.fill,
+            image: NetworkImage(
+              image
+            ),
+            height: 26.h,
+            width: 82.w),
+      ),
+    );
   }
 
   //-------------------------------------------------------------
@@ -646,6 +621,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 //headerSection---------------------------------------------------------------------------
 
   headerSection(int? active) {
+    int headerIndex = 0;
+    List<String> image = [];
     return active == 1
         ? FutureBuilder(
             future: futureHeader,
@@ -658,7 +635,52 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   return Center(child: Text(snapshot.error.toString()));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
-                  return const Text("headerSection");
+                  for (int headerIndex = 0;
+                      headerIndex < snapshot.data!.data!.header!.length;
+                      headerIndex++) {
+                    image.add(snapshot.data!.data!.header![headerIndex].image!);
+                  }
+
+                  return Column(
+                    children: [
+                      SizedBox(
+                          height: 360.h,
+                          width: double.infinity,
+                          child: Stack(
+                            children: [
+                              //slider image---------------------------------------------------------
+                              imageSlider(image),
+                              //text---------------------------------------------------------
+                              Container(
+                                //margin: EdgeInsets.only(bottom:25),
+                                decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.center,
+                                  colors: [Colors.black26, Colors.transparent],
+                                )),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 40.0.h, horizontal: 15.w),
+                                  child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: text(
+                                          context,
+                                          "${snapshot.data?.data?.header![headerIndex].title}",
+                                          32,
+                                          white,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                              //icon+ logo--------------------------------------------------------------
+                              heroLogo()
+                            ],
+                          )),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                    ],
+                  );
                 } else {
                   return const Center(
                       child: Text('لايوجد سلايدر لعرضهم حاليا'));
@@ -685,7 +707,18 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   return Center(child: Text(snapshot.error.toString()));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
-                  return const Text("linksSection");
+                  return Column(
+                    children: [
+                      SizedBox(
+                          height: 61.h,
+                          width: 354.w,
+                          child: drowButtom(snapshot.data?.data?.links,
+                              snapshot.data!.data!.links!.length)),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                    ],
+                  );
                 } else {
                   return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
                 }
@@ -730,26 +763,34 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     return active == 1
         ? Directionality(
             textDirection: TextDirection.rtl,
-            child: SizedBox(
-                width: double.infinity,
-                height: 222.5.h,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: jouinFaums("انضم الان كنجم",
-                              "اضم الينا الان\nوكن جزء منا", "انضم كنجم")),
-                      SizedBox(
-                        width: 32.w,
+            child: Column(
+              children: [
+                SizedBox(
+                    width: double.infinity,
+                    height: 222.5.h,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: jouinFaums("انضم الان كنجم",
+                                  "اضم الينا الان\nوكن جزء منا", "انضم كنجم")),
+                          SizedBox(
+                            width: 32.w,
+                          ),
+                          Expanded(
+                              child: jouinFaums(
+                                  "انضم الان كمستخدم",
+                                  "اضم الينا الان\nوكن جزء منا",
+                                  "انضم كمستخدم")),
+                        ],
                       ),
-                      Expanded(
-                          child: jouinFaums("انضم الان كمستخدم",
-                              "اضم الينا الان\nوكن جزء منا", "انضم كمستخدم")),
-                    ],
-                  ),
-                )),
-          )
+                    )),
+                SizedBox(
+                  height: 24.h,
+                ),
+              ],
+            ))
 
         // FutureBuilder(
         //     future: fu,
@@ -789,7 +830,39 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                   return Center(child: Text(snapshot.error.toString()));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
-                  return const Text("partnersSection");
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 18.w, left: 18.w),
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: text(context, "الرعاة الرسميين", 18, black,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                        height: 24.h,
+                      ),
+                      SizedBox(
+                          width: double.infinity,
+                          height: 92.h,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.h, right: 16.h),
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.data!.partners!.length ,
+                                scrollDirection: Axis.horizontal,
+
+                                itemBuilder: (context, i) {
+                                  return sponsors(
+                                    snapshot.data!.data!.partners![i].image!,
+                                      snapshot.data!.data!.partners![i].link!
+                                  );
+                                }),
+                          )),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                    ],
+                  );
                 } else {
                   return const Center(
                       child: Text('لايوجد رعاة رسمين لعرضهم حاليا'));

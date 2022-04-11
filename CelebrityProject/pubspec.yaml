@@ -43,6 +43,7 @@ dependencies:
   dropdown_below: ^1.0.3
   card_swiper: ^2.0.1
   pdf: ^3.7.1
+  url_launcher: ^6.0.20
   simple_gradient_text: ^1.2.2
   video_player: ^2.3.0
   smooth_page_indicator: ^1.0.0+2
