@@ -58,7 +58,7 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
                     12,
                     10,
                     SizedBox(
-                      height: 80.h,
+                      height: 90.h,
                       child: Card(
                         elevation: 20,
                         color: white,

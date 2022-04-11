@@ -1,14 +1,10 @@
 ///import section
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/introduction_screen/screen_four.dart';
-import 'package:celepraty/introduction_screen/screen_three.dart';
-import 'package:celepraty/introduction_screen/screen_two.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Celebrity/celebrityHomePage.dart';
 import 'MainScreen/main_screen_navigation.dart';
 import 'introduction_screen/introduction_screen.dart';
-import 'introduction_screen/screen_one.dart';
 
 void main() => runApp(
         const MyApp(),
