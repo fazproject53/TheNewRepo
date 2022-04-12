@@ -23,7 +23,7 @@ class celebrityHomePage extends StatefulWidget {
 int currentIndex = 0;
 int pagNumber = 1;
 
-class _celebrityHomePageState extends State<celebrityHomePage> {
+class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKeepAliveClientMixin{
   Future<Section>? sections;
   Future<link>? futureLinks;
   Future<header>? futureHeader;
@@ -871,20 +871,10 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
         : const SizedBox();
   }
 
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
 //---------------------------------------------------------------------------
 
 }
-/*
-
-FutureBuilder<Category>(
-                               future: futureCategories,
-                               builder: (context,
-                                   AsyncSnapshot<Category> catSnapshot) {
-                                 return Text(
-                                     '${catSnapshot.data?.data!.category!.name}',
-                                     style: const TextStyle(
-                                         color: Colors.red, fontSize: 36));
-                               },
-                             )
-
-*/
