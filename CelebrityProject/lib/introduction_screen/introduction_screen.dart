@@ -25,6 +25,7 @@ class IntroductionScreen extends StatefulWidget {
 
   const IntroductionScreen({Key? key, this.data}) : super(key: key);
 
+
   @override
   _IntroductionScreenState createState() => _IntroductionScreenState();
 }
@@ -40,7 +41,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
   ///current index
   int currentIndex = 0;
 
-  Future<IntroData>? futureIntro;
+  // Future<IntroData>? futureIntro;
 
   @override
   void dispose() {
@@ -57,7 +58,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
         currentIndex = pageController.page!.toInt();
       });
     });
-    futureIntro = getIntroData();
+
   }
 
   @override
@@ -66,40 +67,34 @@ class _IntroductionScreenState extends State<IntroductionScreen>
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          FutureBuilder<IntroData>(
-            future: futureIntro,
-            builder: (BuildContext context, AsyncSnapshot<IntroData> snapshot) {
-              var getData= snapshot.data;
-              if(snapshot.hasData){
-                return  PageView(
+
+                  PageView(
                   controller: pageController,
                   children: [
                     ScreenOne(
-                      title: getData!.data![0].title!,
-                      image: getData.data![0].image!,
-                      subtitle: getData.data![0].text!,
+                      title: widget.data![0].title!,
+                      image: widget.data![0].image!,
+                      subtitle: widget.data![0].text!,
                     ),
                     ScreenTwo(
-                      title: getData.data![1].title!,
-                      image: getData.data![1].image!,
-                      subtitle: getData.data![1].text!,
+                      title: widget.data![1].title!,
+                      image: widget.data![1].image!,
+                      subtitle: widget.data![1].text!,
                     ),
                     ScreenThree(
-                      title: getData.data![2].title!,
-                      image: getData.data![2].image!,
-                      subtitle: getData.data![2].text!,
+                      title: widget.data![2].title!,
+                      image: widget.data![2].image!,
+                      subtitle: widget.data![2].text!,
                     ),
                     ScreenFour(
-                      title: getData.data![3].title!,
-                      image: getData.data![3].image!,
-                      subtitle: getData.data![3].text!,
+                      title: widget.data![3].title!,
+                      image: widget.data![3].image!,
+                      subtitle:widget.data![3].text!,
                     )
                   ],
-                );
-              }
-              return Center(child: CircularProgressIndicator());
-            },
-          ),
+                ),
+
+
           Padding(
             padding: EdgeInsets.only(bottom: 50.h, right: 30.w, left: 20.w),
             child: Row(

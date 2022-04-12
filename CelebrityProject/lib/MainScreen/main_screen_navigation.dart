@@ -136,6 +136,6 @@ class _MainScreenState extends State<MainScreen> {
       selectedIndex = index;
     });
     pageController!.animateToPage(selectedIndex,
-        duration: const Duration(milliseconds: 400), curve: Curves.easeInCirc);
+        duration: const Duration(milliseconds: 200), curve: Curves.easeInCirc);
   }
 }

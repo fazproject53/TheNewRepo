@@ -8,12 +8,29 @@ import 'MainScreen/main_screen_navigation.dart';
 import 'introduction_screen/introduction_screen.dart';
 
 void main() => runApp(
-        const MyApp(),
+         MyApp(),
         // Wrap your app
     );
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+
+
+class MyApp extends StatefulWidget {
+
+   MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<IntroData>? futureIntro;
+
+  @override
+  void initState() {
+ super.initState();
+ futureIntro =   getIntroData();
+  }
+
   // i cant hear u
   @override
   Widget build(BuildContext context) {
@@ -35,7 +52,18 @@ class MyApp extends StatelessWidget {
             child: widget!,
           );
         },
-        home: IntroductionScreen()
+        home: FutureBuilder<IntroData>(
+          future:futureIntro,
+          builder: (BuildContext context, AsyncSnapshot<IntroData> snapshot) {
+            var getData= snapshot.data;
+            if(snapshot.hasData){
+              return IntroductionScreen( data:getData?.data);
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
+
+
 
 
 
