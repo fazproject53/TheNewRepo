@@ -13,7 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'HomeScreen/celebrity_home_page.dart';
 
 class celebrityHomePage extends StatefulWidget {
@@ -39,21 +39,6 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     futureCategories = fetchCategories(pagNumber);
     super.initState();
   }
-
-//get section---------------------------------------------------------
-  Future<Section> getSectionsData() async {
-    var getSections = await http
-        .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
-    if (getSections.statusCode == 200) {
-      Section sections = Section.fromJson(jsonDecode(getSections.body));
-      // print((jsonDecode(getSections.body)));
-      return sections;
-    } else {
-      throw Exception('Failed to load activity');
-    }
-  }
-
-//---------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -67,7 +52,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             future: sections,
             builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center();
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -314,7 +299,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 
 //"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
   Widget imageSlider(List image) {
-    return Swiper(
+    return
+      Swiper(
       itemBuilder: (context, index) {
         return Image.network(
           image[index],
@@ -605,7 +591,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             future: futureCategories,
             builder: ((context, AsyncSnapshot<Category> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center();
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -634,7 +620,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             future: futureHeader,
             builder: ((context, AsyncSnapshot<header> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center();
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -706,7 +692,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             future: futureLinks,
             builder: ((context, AsyncSnapshot<link> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center();
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -829,7 +815,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
             future: futurePartners,
             builder: ((context, AsyncSnapshot<Partner> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center();
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {

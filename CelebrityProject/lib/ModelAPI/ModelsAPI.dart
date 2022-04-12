@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:api_cache_manager/api_cache_manager.dart';
+import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:path_provider/path_provider.dart';
 
 class Section {
   bool? success;
@@ -18,7 +21,7 @@ class Section {
       });
     }
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,13 +47,13 @@ class Data {
   int? active;
 
   Data(
-      { this.sectionName,
-        this.title,
-        this.titleEn,
-        this.value,
-        this.valueEn,
-        this.categoryId,
-        this.active});
+      {this.sectionName,
+      this.title,
+      this.titleEn,
+      this.value,
+      this.valueEn,
+      this.categoryId,
+      this.active});
 
   Data.fromJson(Map<String, dynamic> json) {
     sectionName = json['section_name'];
@@ -106,7 +109,9 @@ class Partner {
   Partner.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new DataPartner.fromJson(json['data']) : null;
-    message = json['message'] != null ? new MessagePartner.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new MessagePartner.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -186,7 +191,6 @@ class MessagePartner {
   }
 }
 
-
 // header ============================================================================================================================================
 
 class header {
@@ -199,8 +203,9 @@ class header {
   header.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new DataHeader.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new MessageHeader.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new MessageHeader.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -295,8 +300,9 @@ class link {
   link.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new DataLink.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new MessageLink.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new MessageLink.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -390,9 +396,11 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new MessageCategory.fromJson(json['message']) : null;
+    data =
+        json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
+    message = json['message'] != null
+        ? new MessageCategory.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -504,55 +512,138 @@ class MessageCategory {
   }
 }
 
-
 // the fetch functions ===================================================================================
 
-
-
 Future<link> fetchLinks() async {
-  final response = await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return link.fromJson(jsonDecode(response.body));
+  final response =
+      await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
+  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_link");
+  if (!isCacheExist) {
+    if (response.statusCode == 200) {
+      final body = response.body;
+      APICacheDBModel cacheDBModel =
+          APICacheDBModel(key: "API_link", syncData: body);
+      await APICacheManager().addCacheData(cacheDBModel);
+      link link_ = link.fromJson(jsonDecode(body));
+      print("------------Reading link from network");
+      return link_;
+    } else {
+      throw Exception('Failed to lode link ');
+    }
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load activity');
+    var cacheDate = await APICacheManager().getCacheData("API_link");
+
+    link link_ = link.fromJson(jsonDecode(cacheDate.syncData));
+    print("------------Reading link from phone cache");
+    return link_;
   }
 }
 
+//---------------------------------------------------------------------------
 Future<header> fetchHeader() async {
-  final response = await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
-  if (response.statusCode == 200) {
+  final response =
+      await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
+  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_header");
+  if (!isCacheExist) {
+    if (response.statusCode == 200) {
+      final body = response.body;
+      APICacheDBModel cacheDBModel =
+          APICacheDBModel(key: "API_header", syncData: body);
+      await APICacheManager().addCacheData(cacheDBModel);
 
-    return header.fromJson(jsonDecode(response.body));
+      header header_ = header.fromJson(jsonDecode(body));
+      print("------------Reading header from network");
+      return header_;
+    } else {
+      throw Exception('Failed to load header');
+    }
   } else {
-    throw Exception('Failed to load activity');
+    var cacheDate = await APICacheManager().getCacheData("API_header");
+    print("------------Reading header from phone cache");
+    header header_ = header.fromJson(jsonDecode(cacheDate.syncData));
+    return header_;
   }
 }
 
+//--------------------------------------------------------------------
 Future<Partner> fetchPartners() async {
-  final response = await http.get(Uri.parse('http://mobile.celebrityads.net/api/partners'));
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Partner.fromJson(jsonDecode(response.body));
+  final response =
+      await http.get(Uri.parse('http://mobile.celebrityads.net/api/partners'));
+
+  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Partners");
+  if (!isCacheExist) {
+    if (response.statusCode == 200) {
+      final body = response.body;
+      APICacheDBModel cacheDBModel =
+          APICacheDBModel(key: "API_Partners", syncData: body);
+      await APICacheManager().addCacheData(cacheDBModel);
+
+      Partner partner = Partner.fromJson(jsonDecode(body));
+      print("------------Reading Partners from network ");
+      return partner;
+    } else {
+      throw Exception('Failed to load Partners');
+    }
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load activity');
+    var cacheDate = await APICacheManager().getCacheData("API_Partners");
+
+    Partner partner = Partner.fromJson(jsonDecode(cacheDate.syncData));
+    print("------------Reading Partners from phone cache");
+    return partner;
   }
 }
 
+//------------------------------------------------------------------------
 Future<Category> fetchCategories(int id) async {
-  final response = await http.get(Uri.parse('http://mobile.celebrityads.net/api/category/celebrities/1?page=$id'));
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    return Category.fromJson(jsonDecode(response.body));
+  final response = await http.get(Uri.parse(
+      'http://mobile.celebrityads.net/api/category/celebrities/1?page=$id'));
+
+  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Category");
+  if (!isCacheExist) {
+    if (response.statusCode == 200) {
+      final body = response.body;
+      APICacheDBModel cacheDBModel =
+          APICacheDBModel(key: "API_Category", syncData: body);
+      await APICacheManager().addCacheData(cacheDBModel);
+
+      Category category = Category.fromJson(jsonDecode(body));
+      print("------------Reading Category from network ");
+      return category;
+    } else {
+      throw Exception('Failed to load Category');
+    }
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load activity');
+    var cacheDate = await APICacheManager().getCacheData("API_Category");
+
+    Category category = Category.fromJson(jsonDecode(cacheDate.syncData));
+    print("------------Reading Category from phone cache");
+    return category;
+  }
+}
+
+//get section---------------------------------------------------------
+Future<Section> getSectionsData() async {
+  var getSections =
+      await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+
+  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Section");
+  if (!isCacheExist) {
+
+    if (getSections.statusCode == 200) {
+      final body = getSections.body;
+      APICacheDBModel cacheDBModel =
+          APICacheDBModel(key: "API_Section", syncData: body);
+      await APICacheManager().addCacheData(cacheDBModel);
+
+      Section sections = Section.fromJson(jsonDecode(body));
+      print("------------Reading from network ");
+      return sections;
+    } else {
+      throw Exception('Failed to load section');
+    }
+  } else {
+    var cacheDate = await APICacheManager().getCacheData("API_Section");
+    print("------------Reading from phone cache");
+    return Section.fromJson(jsonDecode(cacheDate.syncData));
   }
 }
