@@ -33,6 +33,7 @@ class _ScreenThreeState extends State<ScreenThree> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: black.withOpacity(0.8),
       body:  Stack(
                 children: [
                   ClipRRect(

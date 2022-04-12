@@ -35,6 +35,7 @@ class _ScreenFourState extends State<ScreenFour> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: black.withOpacity(0.8),
       body:Stack(
               children: [
               ClipRRect(

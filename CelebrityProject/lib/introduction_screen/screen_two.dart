@@ -32,6 +32,7 @@ class _ScreenTwoState extends State<ScreenTwo> with AutomaticKeepAliveClientMixi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: black.withOpacity(0.8),
       body:  Stack(
               children: [
                 ClipRRect(

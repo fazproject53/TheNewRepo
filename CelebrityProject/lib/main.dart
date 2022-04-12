@@ -1,4 +1,6 @@
 ///import section
+import 'package:celepraty/Celebrity/blockList.dart';
+import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,7 @@ class _MyAppState extends State<MyApp> {
             if(snapshot.hasData){
               return IntroductionScreen( data:getData?.data);
             }
-            return Center(child: CircularProgressIndicator());
+            return Center(child:  splash());
           },
         ),
 
@@ -69,6 +71,29 @@ class _MyAppState extends State<MyApp> {
 
       ),
     );
+  }
+
+  Widget splash() {
+    return  Scaffold(
+        backgroundColor: black,
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 100.r,
+                backgroundColor: black,
+                backgroundImage: Image.asset(
+                  'assets/image/log.png',
+                ).image,
+              ),
+              text(context, 'مرحبا بكم في منصة المشاهير', 20, white, align: TextAlign.center)
+            ],
+          ),
+        ),
+      );
+
   }
 }
 

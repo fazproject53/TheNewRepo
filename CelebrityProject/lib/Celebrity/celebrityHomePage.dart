@@ -305,7 +305,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
         return Image.network(
           image[index],
           //getImage[index],
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         );
       },
       onIndexChanged: (int index) {

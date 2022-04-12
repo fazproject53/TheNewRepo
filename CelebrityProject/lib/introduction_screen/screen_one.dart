@@ -31,6 +31,7 @@ class _ScreenOneState extends State<ScreenOne>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: black.withOpacity(0.8),
         body: Stack(
       children: [
         ClipRRect(
