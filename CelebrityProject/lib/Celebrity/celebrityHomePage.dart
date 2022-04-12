@@ -1,343 +1,310 @@
+import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+
+import '../ModelAPI/ModelsAPI.dart';
+import '../Models/Variables/Variables.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'HomeScreen/celebrity_home_page.dart';
-import 'Models.dart';
 
 class celebrityHomePage extends StatefulWidget {
   _celebrityHomePageState createState() => _celebrityHomePageState();
 }
 
 int currentIndex = 0;
+int pagNumber = 1;
 
-
-class _celebrityHomePageState extends State<celebrityHomePage> {
-   Future<Section>? futureSections;
-   Future<link>? futureLinks;
-   Future<header>? futureHeader;
-   Future<Partner>? futurePartners;
-
-  List textList = [
-    "1الفنان ابيوسف عندنا",
-    "2 الفنان ابيوسف عندنا",
-    "3 الفنان ابيوسف عندنا"
-  ];
-
+class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKeepAliveClientMixin{
+  Future<Section>? sections;
+  Future<link>? futureLinks;
+  Future<header>? futureHeader;
+  Future<Partner>? futurePartners;
+  Future<Category>? futureCategories;
+  @override
+  void initState() {
+    // TODO: implement initState
+    sections = getSectionsData();
+    futureLinks = fetchLinks();
+    futureHeader = fetchHeader();
+    futurePartners = fetchPartners();
+    futureCategories = fetchCategories(pagNumber);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      futureSections = fetchSections();
-      futurePartners = fetchPartners();
-      futureLinks = fetchLinks();
-      futureHeader = fetchHeader();
-    });
     return Directionality(
-        textDirection: TextDirection.rtl,
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(primaryColor: purple),
-          home: Scaffold(
-              body: SingleChildScrollView(
-                 child: FutureBuilder<Section>(
-                    future: futureSections,
-                    builder: (
-                        BuildContext context,
-                        AsyncSnapshot<Section> snapshot,
-                        ) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.connectionState == ConnectionState.active
-                          || snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Center(child: const Text('Error'));
-                        } else if (snapshot.hasData) {
-                          return Center(
-                            child: Column(
-                              children: [
-                                for(int i =0; i <snapshot.data!.data!.length; i=i+1 )
-                                Column(
-                                  children: [
-                                    Text(
-                                        '${snapshot.data!.data![i].sectionName}',
-                                        style: const TextStyle(color: Colors.teal, fontSize: 36)
-                                    ),
+      textDirection: TextDirection.rtl,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primaryColor: purple),
+        home: Scaffold(
+            body: SingleChildScrollView(
+          child: FutureBuilder<Section>(
+            future: sections,
+            builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center();
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      for (int sectionIndex = 0;
+                          sectionIndex < snapshot.data!.data!.length;
+                          sectionIndex++)
+                        Column(
+                          children: [
+//category--------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'category')
+                              categorySection(
+                                  snapshot.data?.data![sectionIndex].categoryId,
+                                  snapshot.data?.data![sectionIndex].active),
 
-                                    // FutureBuilder<Partner>(
-                                    //   future: futurePartners,
-                                    //   builder: (context, snapshot) {
-                                    //     return Text(
-                                    //         '${snapshot.data!.message!.ar}',
-                                    //         style: const TextStyle(color: Colors.teal, fontSize: 36)
-                                    //     );
-                                    //   },
-                                    //
-                                    // ),
+//header--------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'header')
+                              headerSection(
+                                  snapshot.data?.data![sectionIndex].active),
+//links--------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'links')
+                              linksSection(
+                                  snapshot.data?.data![sectionIndex].active),
+//Advertising-banner--------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'Advertising-banner')
+                              advertisingBannerSection(
+                                  snapshot.data?.data![sectionIndex].active),
+//join-us--------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'join-us')
+                              joinUsSection(
+                                  snapshot.data?.data![sectionIndex].active),
+//partners--------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'partners')
+                              partnersSection(
+                                  snapshot.data?.data![sectionIndex].active),
+                          ],
+                        )
 
-                                    if('${snapshot.data!.data![i].sectionName}' == 'category')
-                                      FutureBuilder<Category>(
-                                      future: fetchCategories('${snapshot.data!.data![i].categoryId}'),
-                                      builder: (context, snapshot) {
-                                        return Text(
-                                            '${snapshot.data!.data!.category!.name}',
-                                            style: const TextStyle(color: Colors.red, fontSize: 36)
-                                        );
-                                      },
-
-                                    ),
-                                  ],
-                                ),
-
-
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Center(child: const Text('Empty data'));
-                        }
-                      } else {
-                        return Center(child: Text('State: ${snapshot.connectionState}'));
-                      }
-                    },
-                  )
-              // child: Column(
-              //   children: [
-//                 SizedBox(
-//                     height: 360.h,
-//                     width: double.infinity,
-//                     child: Stack(
-//                       children: [
-// //slider image---------------------------------------------------------
-//                         imageSlider(),
-// //text---------------------------------------------------------
-//                         Container(
-// //margin: EdgeInsets.only(bottom:25),
-//                           decoration: const BoxDecoration(
-//                               gradient: LinearGradient(
-//                             begin: Alignment.bottomCenter,
-//                             end: Alignment.center,
-//                             colors: [Colors.black26, Colors.transparent],
-//                           )),
-//                           child: Padding(
-//                             padding: EdgeInsets.symmetric(
-//                                 vertical: 40.0.h, horizontal: 15.w),
-//                             child: Align(
-//                                 alignment: Alignment.bottomCenter,
-//                                 child: text(context,
-//                                     "${textList[currentIndex]}", 32, white,
-//                                     fontWeight: FontWeight.bold)),
-//                           ),
-//                         ),
-// //icone lang logo--------------------------------------------------------------
-//                         heroLogo()
-//                       ],
-//                     )),
-//                 SizedBox(
-//                   height: 30.h,
-//                 ),
 // //3 buttoms-----------------------------------------------
-//                 SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
-//                 SizedBox(
-//                   height: 30.h,
-//                 ),
+//                       SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
+//                       SizedBox(
+//                         height: 30.h,
+//                       ),
 // //comedy----------------------------------------------------------
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                   child: Align(
-//                       alignment: Alignment.centerRight,
-//                       child: text(context, "كوميديا", 18, black,
-//                           fontWeight: FontWeight.bold)),
-//                 ),
+//                       Padding(
+//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                         child: Align(
+//                             alignment: Alignment.centerRight,
+//                             child: text(context, "كوميديا", 18, black,
+//                                 fontWeight: FontWeight.bold)),
+//                       ),
 //
-//                 SizedBox(
-//                     width: double.infinity,
-//                     height: 196.h,
-//                     child: Padding(
-//                       padding: EdgeInsets.all(8.0.h),
-//                       child: catogary(
-//                           "كوميديا", "مروان بابلو", "assets/image/comp.jpg"),
-//                     )),
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: Padding(
+//                             padding: EdgeInsets.all(8.0.h),
+//                             child: catogary("كوميديا", "مروان بابلو",
+//                                 "assets/image/comp.jpg"),
+//                           )),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
 //
 // //sport----------------------------------------------------------
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                   child: Align(
-//                       alignment: Alignment.centerRight,
-//                       child: text(context, "رياضة", 18, black,
-//                           fontWeight: FontWeight.bold)),
-//                 ),
+//                       Padding(
+//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                         child: Align(
+//                             alignment: Alignment.centerRight,
+//                             child: text(context, "رياضة", 18, black,
+//                                 fontWeight: FontWeight.bold)),
+//                       ),
 //
-//                 SizedBox(
-//                     width: double.infinity,
-//                     height: 196.h,
-//                     child: Padding(
-//                       padding: EdgeInsets.all(8.0.h),
-//                       child: catogary(
-//                           "رياضة", "مروان بابلو", "assets/image/sport.jpg"),
-//                     )),
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: Padding(
+//                             padding: EdgeInsets.all(8.0.h),
+//                             child: catogary("رياضة", "مروان بابلو",
+//                                 "assets/image/sport.jpg"),
+//                           )),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
 // //adv panel--------------------------------------------------------
-//                 SizedBox(
-//                     width: double.infinity, height: 196.h, child: advPanel()),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: advPanel()),
 // //-children---------------------------------------------------------
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                   child: Align(
-//                       alignment: Alignment.centerRight,
-//                       child: text(context, "اطفال", 18, black,
-//                           fontWeight: FontWeight.bold)),
-//                 ),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
+//                       Padding(
+//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                         child: Align(
+//                             alignment: Alignment.centerRight,
+//                             child: text(context, "اطفال", 18, black,
+//                                 fontWeight: FontWeight.bold)),
+//                       ),
 //
-//                 SizedBox(
-//                     width: double.infinity,
-//                     height: 196.h,
-//                     child: Padding(
-//                       padding: EdgeInsets.all(8.0.h),
-//                       child: catogary(
-//                           "اطفال", "مروان بابلو", "assets/image/child.jpg"),
-//                     )),
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: Padding(
+//                             padding: EdgeInsets.all(8.0.h),
+//                             child: catogary("اطفال", "مروان بابلو",
+//                                 "assets/image/child.jpg"),
+//                           )),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
 //
 // //سياحة----------------------------------------------------------culture
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                   child: Align(
-//                       alignment: Alignment.centerRight,
-//                       child: text(context, "سياحة", 18, black,
-//                           fontWeight: FontWeight.bold)),
-//                 ),
+//                       Padding(
+//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                         child: Align(
+//                             alignment: Alignment.centerRight,
+//                             child: text(context, "سياحة", 18, black,
+//                                 fontWeight: FontWeight.bold)),
+//                       ),
 //
-//                 SizedBox(
-//                     width: double.infinity,
-//                     height: 196.h,
-//                     child: Padding(
-//                       padding: EdgeInsets.all(8.0.h),
-//                       child: catogary(
-//                           "كوميديا", "مروان بابلو", "assets/image/cult.jpg"),
-//                     )),
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: Padding(
+//                             padding: EdgeInsets.all(8.0.h),
+//                             child: catogary("كوميديا", "مروان بابلو",
+//                                 "assets/image/cult.jpg"),
+//                           )),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
 // //adv panel--------------------------------------------------------
-//                 SizedBox(
-//                     width: double.infinity, height: 196.h, child: advPanel()),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: advPanel()),
 // //-singer---------------------------------------------------------
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                   child: Align(
-//                       alignment: Alignment.centerRight,
-//                       child: text(context, "مطربين", 18, black,
-//                           fontWeight: FontWeight.bold)),
-//                 ),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
+//                       Padding(
+//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                         child: Align(
+//                             alignment: Alignment.centerRight,
+//                             child: text(context, "مطربين", 18, black,
+//                                 fontWeight: FontWeight.bold)),
+//                       ),
 //
-//                 SizedBox(
-//                     width: double.infinity,
-//                     height: 196.h,
-//                     child: Padding(
-//                       padding: EdgeInsets.all(8.0.h),
-//                       child: catogary(
-//                           "كوميديا", "مروان بابلو", "assets/image/singer.jpg"),
-//                     )),
-//                 SizedBox(
-//                   height: 15.h,
-//                 ),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 196.h,
+//                           child: Padding(
+//                             padding: EdgeInsets.all(8.0.h),
+//                             child: catogary("كوميديا", "مروان بابلو",
+//                                 "assets/image/singer.jpg"),
+//                           )),
+//                       SizedBox(
+//                         height: 15.h,
+//                       ),
 //
 // //-join us---------------------------------------------------------
-//                 Directionality(
-//                   textDirection: TextDirection.rtl,
-//                   child: SizedBox(
-//                       width: double.infinity,
-//                       height: 222.5.h,
-//                       child: Padding(
-//                         padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
-//                         child: Row(
-//                           children: [
-//                             Expanded(
-//                                 child: jouinFaums(
-//                                     "انضم الان كنجم",
-//                                     "اضم الينا الان\nوكن جزء منا",
-//                                     "انضم كنجم")),
-//                             SizedBox(
-//                               width: 32.w,
-//                             ),
-//                             Expanded(
-//                                 child: jouinFaums(
-//                                     "انضم الان كمستخدم",
-//                                     "اضم الينا الان\nوكن جزء منا",
-//                                     "انضم كمستخدم")),
-//                           ],
-//                         ),
-//                       )),
-//                 ),
-//                 SizedBox(
-//                   height: 24.h,
-//                 ),
+//                       Directionality(
+//                         textDirection: TextDirection.rtl,
+//                         child: SizedBox(
+//                             width: double.infinity,
+//                             height: 222.5.h,
+//                             child: Padding(
+//                               padding:
+//                                   EdgeInsets.only(left: 13.0.w, right: 13.0.w),
+//                               child: Row(
+//                                 children: [
+//                                   Expanded(
+//                                       child: jouinFaums(
+//                                           "انضم الان كنجم",
+//                                           "اضم الينا الان\nوكن جزء منا",
+//                                           "انضم كنجم")),
+//                                   SizedBox(
+//                                     width: 32.w,
+//                                   ),
+//                                   Expanded(
+//                                       child: jouinFaums(
+//                                           "انضم الان كمستخدم",
+//                                           "اضم الينا الان\nوكن جزء منا",
+//                                           "انضم كمستخدم")),
+//                                 ],
+//                               ),
+//                             )),
+//                       ),
+//                       SizedBox(
+//                         height: 24.h,
+//                       ),
 //
 // //---------------------------------------------------------------------------------الرعاة الرسميين-
-//                 Padding(
-//                   padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                   child: Align(
-//                       alignment: Alignment.centerRight,
-//                       child: text(context, "الرعاة الرسميين", 18, black,
-//                           fontWeight: FontWeight.bold)),
-//                 ),
-//                 SizedBox(
-//                   height: 24.h,
-//                 ),
-//                 SizedBox(
-//                     width: double.infinity,
-//                     height: 60.h,
-//                     child: Padding(
-//                       padding: EdgeInsets.only(left: 16.h, right: 16.h),
-//                       child: sponsors(),
-//                     )),
-//                 ],
-//               ),
-
-          )),
-        ),
-      );
-
+//                       Padding(
+//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
+//                         child: Align(
+//                             alignment: Alignment.centerRight,
+//                             child: text(context, "الرعاة الرسميين", 18, black,
+//                                 fontWeight: FontWeight.bold)),
+//                       ),
+//                       SizedBox(
+//                         height: 24.h,
+//                       ),
+//                       SizedBox(
+//                           width: double.infinity,
+//                           height: 60.h,
+//                           child: Padding(
+//                             padding: EdgeInsets.only(left: 16.h, right: 16.h),
+//                             child: sponsors(),
+//                           )),
+                    ],
+                  );
+                } else {
+                  return const Center(child: Text('Empty data'));
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            },
+          ),
+        )),
+      ),
+    );
   }
-  Future<Section> fetchSections() async {
-    final response = await http.get(Uri.parse('http://mobile.celebrityads.net/api/sections'));
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return Section.fromJson(jsonDecode(response.body));
 
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load activity');
-    }
-  }
-//------------------------------Slider image-------------------------------------------
-  Widget imageSlider() {
-    return Swiper(
+//"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
+  Widget imageSlider(List image) {
+    return
+      Swiper(
       itemBuilder: (context, index) {
-        final image = sliderImage[index];
-        return Image.asset(
-          image,
+        return Image.network(
+          image[index],
+          //getImage[index],
           fit: BoxFit.fill,
         );
       },
@@ -348,8 +315,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
       },
       indicatorLayout: PageIndicatorLayout.COLOR,
       autoplay: true,
-      axisDirection: AxisDirection.left,
-      itemCount: sliderImage.length,
+      axisDirection: AxisDirection.right,
+      itemCount: image.length,
       pagination: const SwiperPagination(),
       control: SwiperControl(
           color: grey, padding: EdgeInsets.only(left: 20.w, right: 5.w)),
@@ -358,65 +325,67 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
 
 //+ icon + logo ------------------------------------------------------------
   Widget heroLogo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //mainAxisSize: MainAxisSize.min,
         children: [
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-        child: SizedBox(
-            height: 60.h,
-            width: 60.w,
-            child: InkWell(
-              child: GradientIcon(Icons.add, 40, gradient()),
-              onTap: () {
-                goTopagepush(context, buildAdvOrder());
-              },
-            )),
-      ),
-      Spacer(),
-      Padding(
-        padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
-        child: SizedBox(
-            height: 105.h,
-            width: 190.w,
-            child: const Image(image: AssetImage("assets/image/final-logo.png",), fit: BoxFit.cover,)),
-      ),
-    ]);
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            child: SizedBox(
+                height: 60.h,
+                width: 60.w,
+                child: InkWell(
+                  child: GradientIcon(Icons.add, 40, gradient()),
+                  onTap: () {
+                    goTopagepush(context, buildAdvOrder());
+                  },
+                )),
+          ),
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
+            child: SizedBox(
+                height: 105.h,
+                width: 190.w,
+                child: const Image(
+                  image: AssetImage(
+                    "assets/image/final-logo.png",
+                  ),
+                  fit: BoxFit.cover,
+                )),
+          ),
+        ]);
   }
 
 //explorer bottom image--------------------------------------------------------------
-  Widget drowButtom() {
+  Widget drowButtom(list, int length) {
     return Row(
       children: [
-        showButton("صور", "assets/image/cam.jpeg"),
+        showButton(list[2].title, list[2].link),
         SizedBox(
           width: 10.w,
         ),
-        showButton("اكسبلور", "assets/image/search.jpeg"),
+        showButton(list[1].title, list[1].link),
         SizedBox(
           width: 10.w,
         ),
-        showButton("بيكسل 1 مليون", "assets/image/star.jpeg"),
+        showButton(list[0].title, list[2].link),
       ],
     );
   }
 
-  Widget showButton(String utext, String image) {
+  Widget showButton(String utext, String link) {
     return Expanded(
         child: gradientContainerNoborder(
             105,
-            Stack(
-              children: [
-                //  Align(
-                //    alignment: Alignment.topLeft,
-                //    child: Image(image: AssetImage(image)),
-                //  ),
-                Align(
-                    alignment: Alignment.center,
-                    child: text(context, utext, 14, white,
-                        fontWeight: FontWeight.bold)),
-              ],
+            InkWell(
+              onTap: () async {
+                var url = link;
+                await launch(url, forceWebView: true);
+              },
+              child: Align(
+                  alignment: Alignment.center,
+                  child: text(context, utext, 14, white,
+                      fontWeight: FontWeight.bold)),
             ),
             reids: 20));
   }
@@ -426,7 +395,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: InkWell(
-        onTap: (){
+        onTap: () {
           goTopagepush(context, CelebrityHomePage());
         },
         child: ListView.builder(
@@ -508,11 +477,26 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
   }
 
 //-------------------------------------------------------------------------------
-  Widget sponsors() {
-    return Image(
-        image: const AssetImage("assets/image/ro3a.jpeg"),
-        height: 26.h,
-        width: 82.w);
+  Widget sponsors(String image,String link,int index) {
+    return InkWell(
+      onTap: () async {
+        var url = link;
+        await launch(url, forceWebView: true);
+      },
+      child: Card(
+        color: blue,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(3.0.r),
+          child: Image(
+            fit: BoxFit.cover,
+              image: NetworkImage(
+                image
+              ),
+              height: 26.h,
+              width: 82.w),
+        ),
+      ),
+    );
   }
 
   //-------------------------------------------------------------
@@ -549,7 +533,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                 ),
               ),
             ),
-            //join now+text--------------------------------------------------------------
+//join now+text--------------------------------------------------------------
             Expanded(
                 flex: 2,
                 child: Padding(
@@ -575,12 +559,15 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
                           yallow,
                           Center(
                               child: InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SingUp()));
-                                },
-                                child: text(context, "انضم الان", 17, black,
-                                    fontWeight: FontWeight.bold),
-                              )),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SingUp()));
+                            },
+                            child: text(context, "انضم الان", 17, black,
+                                fontWeight: FontWeight.bold),
+                          )),
                           bottomLeft: 19,
                           bottomRight: 19,
                           topLeft: 19,
@@ -596,4 +583,298 @@ class _celebrityHomePageState extends State<celebrityHomePage> {
         ),
         height: 120.h);
   }
+
+//categorySection---------------------------------------------------------------------------
+  categorySection(int? categoryId, int? active) {
+    return active == 1
+        ? FutureBuilder(
+            future: futureCategories,
+            builder: ((context, AsyncSnapshot<Category> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center();
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  return const Text("categorySection");
+                } else {
+                  return const Center(
+                      child: Text('لايوجد مشاهير لعرضهم حاليا'));
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            }))
+        : const SizedBox();
+  }
+//headerSection---------------------------------------------------------------------------
+
+  headerSection(int? active) {
+    int headerIndex = 0;
+    List<String> image = [];
+    return active == 1
+        ? FutureBuilder(
+            future: futureHeader,
+            builder: ((context, AsyncSnapshot<header> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center();
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  for (int headerIndex = 0;
+                      headerIndex < snapshot.data!.data!.header!.length;
+                      headerIndex++) {
+                    image.add(snapshot.data!.data!.header![headerIndex].image!);
+                  }
+
+                  return Column(
+                    children: [
+                      SizedBox(
+                          height: 360.h,
+                          width: double.infinity,
+                          child: Stack(
+                            children: [
+                              //slider image---------------------------------------------------------
+                              imageSlider(image),
+                              //text---------------------------------------------------------
+                              Container(
+                                //margin: EdgeInsets.only(bottom:25),
+                                decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.center,
+                                  colors: [Colors.black26, Colors.transparent],
+                                )),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 40.0.h, horizontal: 15.w),
+                                  child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: text(
+                                          context,
+                                          "${snapshot.data?.data?.header![headerIndex].title}",
+                                          32,
+                                          white,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                              //icon+ logo--------------------------------------------------------------
+                              heroLogo()
+                            ],
+                          )),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                      child: Text('لايوجد سلايدر لعرضهم حاليا'));
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            }))
+        : const SizedBox();
+  }
+//linksSection---------------------------------------------------------------------------
+
+  linksSection(int? active) {
+    return active == 1
+        ? FutureBuilder(
+            future: futureLinks,
+            builder: ((context, AsyncSnapshot<link> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center();
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      SizedBox(
+                          height: 61.h,
+                          width: 354.w,
+                          child: drowButtom(snapshot.data?.data?.links,
+                              snapshot.data!.data!.links!.length)),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            }))
+        : const SizedBox();
+  }
+//advertisingBannerSection---------------------------------------------------------------------------
+
+  advertisingBannerSection(int? active) {
+    return active == 1
+        ? SizedBox(width: double.infinity, height: 196.h, child: advPanel())
+        // FutureBuilder(
+        //     future:f,
+        //     builder: ((context, AsyncSnapshot<Category> snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return const Center(child: CircularProgressIndicator());
+        //       } else if (snapshot.connectionState == ConnectionState.active ||
+        //           snapshot.connectionState == ConnectionState.done) {
+        //         if (snapshot.hasError) {
+        //           return Center(child: Text(snapshot.error.toString()));
+        //           //---------------------------------------------------------------------------
+        //         } else if (snapshot.hasData) {
+        //           return const Text("categorySection");
+        //         } else {
+        //           return const Center(child: Text('لايوجد مشاهير لعرضهم حاليا'));
+        //         }
+        //       } else {
+        //         return Center(
+        //             child: Text('State: ${snapshot.connectionState}'));
+        //       }
+        //
+        //     }))
+        : const SizedBox();
+  }
+//joinUsSection---------------------------------------------------------------------------
+
+  joinUsSection(int? active) {
+    return active == 1
+        ? Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              children: [
+                SizedBox(
+                    width: double.infinity,
+                    height: 222.5.h,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: jouinFaums("انضم الان كنجم",
+                                  "اضم الينا الان\nوكن جزء منا", "انضم كنجم")),
+                          SizedBox(
+                            width: 32.w,
+                          ),
+                          Expanded(
+                              child: jouinFaums(
+                                  "انضم الان كمستخدم",
+                                  "اضم الينا الان\nوكن جزء منا",
+                                  "انضم كمستخدم")),
+                        ],
+                      ),
+                    )),
+                SizedBox(
+                  height: 24.h,
+                ),
+              ],
+            ))
+
+        // FutureBuilder(
+        //     future: fu,
+        //     builder: ((context, AsyncSnapshot<Category> snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return const Center(child: CircularProgressIndicator());
+        //       } else if (snapshot.connectionState == ConnectionState.active ||
+        //           snapshot.connectionState == ConnectionState.done) {
+        //         if (snapshot.hasError) {
+        //           return Center(child: Text(snapshot.error.toString()));
+        //           //---------------------------------------------------------------------------
+        //         } else if (snapshot.hasData) {
+        //           return const Text("categorySection");
+        //         } else {
+        //           return const Center(child: Text('لايوجد مشاهير لعرضهم حاليا'));
+        //         }
+        //       } else {
+        //         return Center(
+        //             child: Text('State: ${snapshot.connectionState}'));
+        //       }
+        //
+        //     }))
+        : const SizedBox();
+  }
+//partnersSection---------------------------------------------------------------------------
+
+  partnersSection(int? active) {
+    return active == 1
+        ? FutureBuilder(
+            future: futurePartners,
+            builder: ((context, AsyncSnapshot<Partner> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center();
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 18.w, left: 18.w),
+                        child: Align(
+                            alignment: Alignment.centerRight,
+                            child: text(context, "الرعاة الرسميين", 18, black,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                        height: 24.h,
+                      ),
+                      Directionality(
+                        textDirection:TextDirection.rtl ,
+                        child: SizedBox(
+                            width: double.infinity,
+                            height: 92.h,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 13.h, right: 13.h),
+                              child: ListView.builder(
+                                itemCount: snapshot.data!.data!.partners!.length ,
+                                  scrollDirection: Axis.horizontal,
+
+                                  itemBuilder: (context, i) {
+                                    return sponsors(
+                                      snapshot.data!.data!.partners![i].image!,
+                                        snapshot.data!.data!.partners![i].link!,
+                                        i
+                                    );
+                                  }),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                      child: Text('لايوجد رعاة رسمين لعرضهم حاليا'));
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            }))
+        : const SizedBox();
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+//---------------------------------------------------------------------------
+
 }

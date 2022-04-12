@@ -13,80 +13,59 @@ import 'package:path_provider/path_provider.dart';
 import 'introduction_screen.dart';
 
 class ScreenThree extends StatefulWidget {
-  const ScreenThree({Key? key}) : super(key: key);
+  final String image;
+  final String title;
+  final String subtitle;
+
+  const ScreenThree(
+      {Key? key,
+        required this.image,
+        required this.title,
+        required this.subtitle})
+      : super(key: key);
 
   @override
   _ScreenThreeState createState() => _ScreenThreeState();
 }
 
-class _ScreenThreeState extends State<ScreenThree> {
-  late Future<IntroData> getData;
-  Future<IntroData> getIntroData() async {
-    final data =
-        await http.get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
-    if (data.statusCode == 200) {
-      return IntroData.fromJson(jsonDecode(data.body));
-    } else {
-      throw Exception('Failed to load activity');
-    }
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      getData = getIntroData();
-    });
-    super.initState();
-  }
-
-  Future<Directory> getApplicationDocumentsDirectory() async {
-    final String? path = (await getApplicationDocumentsDirectory()) as String?;
-    if (path == null) {
-      throw MissingPlatformDirectoryException(
-          'Unable to get application documents directory');
-    }
-    return Directory(path);
-  }
+class _ScreenThreeState extends State<ScreenThree> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<IntroData>(
-          future: getData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Stack(
+      body:  Stack(
                 children: [
                   ClipRRect(
-                      child: Container(
+                      child: CachedNetworkImage(
+                        imageUrl: widget.image,
+                        imageBuilder: (context, imageProvider) => Container(
                           height: double.infinity,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
+                                  image: imageProvider,
                                   fit: BoxFit.cover)),
                           child: Padding(
                             padding: EdgeInsets.only(
                                 top: 500.h, left: 20.w, right: 20.w),
                             child: ListTile(
                               title: text(context,
-                              "", 25, white,
+                              widget.title, 25, white,
                               fontWeight: FontWeight.bold,
                               align: TextAlign.center),
                               subtitle: text(context,
-                              "", 13, white,
+                              widget.subtitle, 13, white,
                               align: TextAlign.center),
                         ),
                       ),
                     ),
-                  )
+                  ))
                 ],
-              );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return Text('');
-          }),
+              )
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

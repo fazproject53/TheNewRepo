@@ -11,72 +11,54 @@ import 'package:http/http.dart' as http;
 import 'introduction_screen.dart';
 
 class ScreenOne extends StatefulWidget {
-  const ScreenOne({Key? key}) : super(key: key);
+  final String image;
+  final String title;
+  final String subtitle;
+
+  const ScreenOne(
+      {Key? key,
+      required this.image,
+      required this.title,
+      required this.subtitle})
+      : super(key: key);
 
   @override
   _ScreenOneState createState() => _ScreenOneState();
 }
 
-class _ScreenOneState extends State<ScreenOne> {
-  late Future<IntroData> getData;
-  Future<IntroData> getIntroData() async {
-    final data = await http
-        .get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
-    if (data.statusCode == 200) {
-      return IntroData.fromJson(jsonDecode(data.body));
-    } else {
-      throw Exception('Failed to load activity');
-    }
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      getData = getIntroData();
-    });
-    super.initState();
-  }
-
+class _ScreenOneState extends State<ScreenOne>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<IntroData>(
-        future: getData,
-        builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return Stack(
-          children: [
-            ClipRRect(
-              child:  Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration:  BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'),
-                        fit: BoxFit.cover)),
-                  child: Padding(
-                    padding:  EdgeInsets.only(top: 500.h,left: 20.w, right: 20.w),
-                    child: ListTile(
-                      title: text(context,"", 25, white,
-                        fontWeight: FontWeight.bold, align: TextAlign.center),
-                      subtitle: text(
-                        context,
-                        "",
-                        13,
-                        white, align: TextAlign.center),
-                  ),
-                ),
+        body: Stack(
+      children: [
+        ClipRRect(
+            child: CachedNetworkImage(
+          imageUrl:
+             widget.image,
+          imageBuilder: (context, imageProvider) => Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                image:
+                    DecorationImage(image: imageProvider, fit: BoxFit.cover)),
+            child: Padding(
+              padding: EdgeInsets.only(top: 500.h, left: 20.w, right: 20.w),
+              child: ListTile(
+                title: text(context, widget.title, 25, white,
+                    fontWeight: FontWeight.bold, align: TextAlign.center),
+                subtitle: text(context, widget.subtitle, 13, white, align: TextAlign.center),
               ),
-
-            )
-          ],
-        );
-      }else if (snapshot.hasError) {
-        return Text('${snapshot.error}');
-      }
-      return Text('');}
-      ),
-    );
+            ),
+          ),
+        ))
+      ],
+    ));
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 //

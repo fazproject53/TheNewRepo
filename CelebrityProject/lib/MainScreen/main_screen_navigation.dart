@@ -22,60 +22,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int index = 2;
-  final items = <Widget>[
-    ///explore icon
-    GradientIcon(
-        exploreIcon,
-        30.w,
-        const LinearGradient(
-          begin: Alignment(0.7, 2.0),
-          end: Alignment(-0.69, -1.0),
-          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-          stops: [0.0, 1.0],
-        )),
-    ///notification icon
-    GradientIcon(
-        notificationIcon,
-        30.w,
-        const LinearGradient(
-          begin: Alignment(0.7, 2.0),
-          end: Alignment(-0.69, -1.0),
-          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-          stops: [0.0, 1.0],
-        )),
-    ///home icon
-    GradientIcon(
-        homeIcon,
-        30.w,
-        const LinearGradient(
-          begin: Alignment(0.7, 2.0),
-          end: Alignment(-0.69, -1.0),
-          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-          stops: [0.0, 1.0],
-        )),
-    ///chat icon
-    GradientIcon(
-        chatIcon,
-        30.w,
-        const LinearGradient(
-          begin: Alignment(0.7, 2.0),
-          end: Alignment(-0.69, -1.0),
-          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-          stops: [0.0, 1.0],
-        )),
-    ///account icon
-    GradientIcon(
-        nameIcon,
-        30.w,
-        const LinearGradient(
-          begin: Alignment(0.7, 2.0),
-          end: Alignment(-0.69, -1.0),
-          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-          stops: [0.0, 1.0],
-        )),
-  ];
-  final Famousscreens = [
+  PageController? pageController;
+  int selectedIndex = 2;
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: selectedIndex);
+  }
+
+
+  List<Widget> Famousscreens = [
     /// Explore
     Explower(),
     /// Activity page
@@ -87,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
     /// Celebrity Profile
     celebratyProfile(),
   ];
-  final userScreen = [
+  List<Widget> userScreen = [
     /// Explore
     Explower(),
     /// Activity page
@@ -99,18 +54,88 @@ class _MainScreenState extends State<MainScreen> {
     /// Celebrity Profile
     userProfile(),
   ];
+  final items = <Widget>[
+    ///explore icon
+    GradientIcon(
+        exploreIcon,
+        30.w,
+        const LinearGradient(
+          begin: Alignment(0.7, 2.0),
+          end: Alignment(-0.69, -1.0),
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+          stops: [0.0, 1.0],
+        )),
+
+    ///notification icon
+    GradientIcon(
+        notificationIcon,
+        30.w,
+        const LinearGradient(
+          begin: Alignment(0.7, 2.0),
+          end: Alignment(-0.69, -1.0),
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+          stops: [0.0, 1.0],
+        )),
+
+    ///home icon
+    GradientIcon(
+        homeIcon,
+        30.w,
+        const LinearGradient(
+          begin: Alignment(0.7, 2.0),
+          end: Alignment(-0.69, -1.0),
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+          stops: [0.0, 1.0],
+        )),
+
+    ///chat icon
+    GradientIcon(
+        chatIcon,
+        30.w,
+        const LinearGradient(
+          begin: Alignment(0.7, 2.0),
+          end: Alignment(-0.69, -1.0),
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+          stops: [0.0, 1.0],
+        )),
+
+    ///account icon
+    GradientIcon(
+        nameIcon,
+        30.w,
+        const LinearGradient(
+          begin: Alignment(0.7, 2.0),
+          end: Alignment(-0.69, -1.0),
+          colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+          stops: [0.0, 1.0],
+        )),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:currentuser=="famous"?Famousscreens[index]:userScreen[index],
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: currentuser == "famous" ? Famousscreens : userScreen,
+      ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: deepwhite,
         color: white,
-        index: index,
+        index: selectedIndex,
         items: items,
         height: 50.h,
-        onTap: (index) => setState(() => this.index = index),
+        onTap: onTap,
       ),
     );
+  }
+
+  //click methos--------------------------
+  void onTap(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+    pageController!.animateToPage(selectedIndex,
+        duration: const Duration(milliseconds: 400), curve: Curves.easeInCirc);
   }
 }
