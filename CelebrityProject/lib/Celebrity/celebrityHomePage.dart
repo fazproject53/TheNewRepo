@@ -37,7 +37,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    futureCategories = fetchCategories(1, pagNumber);
+    futureCategories=fetchCategories(1, pagNumber);
     super.initState();
   }
 
@@ -74,6 +74,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                 'category')
                               categorySection(
                                   snapshot.data?.data![sectionIndex].categoryId,
+                                  snapshot.data?.data![sectionIndex].title,
                                   snapshot.data?.data![sectionIndex].active),
 
 //header--------------------------------------------------------------------------
@@ -108,7 +109,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                   snapshot.data?.data![sectionIndex].active),
                           ],
                         )
-
                     ],
                   );
                 } else {
@@ -217,62 +217,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             reids: 20));
   }
 
-//category-------------------------------------------------------------------
-  Widget catogary(String catogaryName,String famusName, String famusImage) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: InkWell(
-        onTap: () {
-          goTopagepush(context, CelebrityHomePage());
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 7.0.h,vertical: 4.h),
-              child: text(context, catogaryName, 14, black, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 5.h,),
-            Expanded(
-              child: Padding(
-                padding:  EdgeInsets.only(bottom: 10.h),
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 7,
-                    itemBuilder: (context, int itemPosition) {
-                      return SizedBox(
-                         width: 150.w,
-
-                        child: Card(
-                          elevation: 5,
-                          child: Container(
-                            decoration: decoration(famusImage),
-                            child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Padding(
-                                padding: EdgeInsets.all(10.0.w),
-                                child: text(context, famusName, 18, white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ),
-            SizedBox(height: 5.h,),
-          ],
-        )
-      ),
-    );
-  }
+// //category-------------------------------------------------------------------
+//   Widget catogary(String catogaryName,String famusName, String famusImage) {
+//     return ;
+//   }
 
   BoxDecoration decoration(String famusImage) {
     return BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4.r)),
       image: DecorationImage(
-        image: AssetImage(famusImage),
+        image: NetworkImage(famusImage),
         colorFilter: ColorFilter.mode(black.withOpacity(0.4), BlendMode.darken),
         fit: BoxFit.cover,
       ),
@@ -426,7 +380,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
 //categorySection---------------------------------------------------------------------------
-  categorySection(int? categoryId, int? active) {
+  categorySection(int? categoryId, String? title, int? active) {
     return active == 1
         ? FutureBuilder(
             future: futureCategories,
@@ -441,8 +395,63 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 } else if (snapshot.hasData) {
                   return SizedBox(
                       height: 196.h,
-
-                      child: catogary("كوميدي","مروان", "assets/image/singer.jpg"));
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: InkWell(
+                            onTap: () {
+                              goTopagepush(context, CelebrityHomePage());
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 7.0.h, vertical: 4.h),
+                                  child: text(context, title!, 14, black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 10.h),
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: 7,
+                                        itemBuilder:
+                                            (context, int itemPosition) {
+                                          return SizedBox(
+                                            width: 150.w,
+                                            child: Card(
+                                              elevation: 5,
+                                              child: Container(
+                                                decoration:
+                                                    decoration(snapshot.data!.data!.celebrities![0].image!),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10.0.w),
+                                                    child: text(context,
+                                                        snapshot.data!.data!.celebrities![1].name!, 18, white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                              ],
+                            )),
+                      ));
                 } else {
                   return const Center(
                       child: Text('لايوجد مشاهير لعرضهم حاليا'));
@@ -570,9 +579,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   advertisingBannerSection(int? active) {
     return active == 1
         ? Padding(
-          padding:  EdgeInsets.symmetric(vertical: 8.0.h,horizontal: 8.w),
-          child: SizedBox(width: double.infinity, height: 196.h, child: advPanel()),
-        )
+            padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
+            child: SizedBox(
+                width: double.infinity, height: 196.h, child: advPanel()),
+          )
         // FutureBuilder(
         //     future:f,
         //     builder: ((context, AsyncSnapshot<Category> snapshot) {
