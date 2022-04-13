@@ -594,9 +594,9 @@ Future<Partner> fetchPartners() async {
 }
 
 //------------------------------------------------------------------------
-Future<Category> fetchCategories(int id) async {
+Future<Category> fetchCategories(int id,int pagNumber) async {
   final response = await http.get(Uri.parse(
-      'http://mobile.celebrityads.net/api/category/celebrities/1?page=$id'));
+      'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
 
   var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Category");
   if (!isCacheExist) {

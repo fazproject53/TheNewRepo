@@ -23,7 +23,8 @@ class celebrityHomePage extends StatefulWidget {
 int currentIndex = 0;
 int pagNumber = 1;
 
-class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKeepAliveClientMixin{
+class _celebrityHomePageState extends State<celebrityHomePage>
+    with AutomaticKeepAliveClientMixin {
   Future<Section>? sections;
   Future<link>? futureLinks;
   Future<header>? futureHeader;
@@ -36,9 +37,10 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    futureCategories = fetchCategories(pagNumber);
+    futureCategories = fetchCategories(1, pagNumber);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -107,180 +109,6 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
                           ],
                         )
 
-// //3 buttoms-----------------------------------------------
-//                       SizedBox(height: 61.h, width: 354.w, child: drowButtom()),
-//                       SizedBox(
-//                         height: 30.h,
-//                       ),
-// //comedy----------------------------------------------------------
-//                       Padding(
-//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                         child: Align(
-//                             alignment: Alignment.centerRight,
-//                             child: text(context, "كوميديا", 18, black,
-//                                 fontWeight: FontWeight.bold)),
-//                       ),
-//
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: Padding(
-//                             padding: EdgeInsets.all(8.0.h),
-//                             child: catogary("كوميديا", "مروان بابلو",
-//                                 "assets/image/comp.jpg"),
-//                           )),
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-//
-// //sport----------------------------------------------------------
-//                       Padding(
-//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                         child: Align(
-//                             alignment: Alignment.centerRight,
-//                             child: text(context, "رياضة", 18, black,
-//                                 fontWeight: FontWeight.bold)),
-//                       ),
-//
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: Padding(
-//                             padding: EdgeInsets.all(8.0.h),
-//                             child: catogary("رياضة", "مروان بابلو",
-//                                 "assets/image/sport.jpg"),
-//                           )),
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-// //adv panel--------------------------------------------------------
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: advPanel()),
-// //-children---------------------------------------------------------
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-//                       Padding(
-//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                         child: Align(
-//                             alignment: Alignment.centerRight,
-//                             child: text(context, "اطفال", 18, black,
-//                                 fontWeight: FontWeight.bold)),
-//                       ),
-//
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: Padding(
-//                             padding: EdgeInsets.all(8.0.h),
-//                             child: catogary("اطفال", "مروان بابلو",
-//                                 "assets/image/child.jpg"),
-//                           )),
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-//
-// //سياحة----------------------------------------------------------culture
-//                       Padding(
-//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                         child: Align(
-//                             alignment: Alignment.centerRight,
-//                             child: text(context, "سياحة", 18, black,
-//                                 fontWeight: FontWeight.bold)),
-//                       ),
-//
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: Padding(
-//                             padding: EdgeInsets.all(8.0.h),
-//                             child: catogary("كوميديا", "مروان بابلو",
-//                                 "assets/image/cult.jpg"),
-//                           )),
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-// //adv panel--------------------------------------------------------
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: advPanel()),
-// //-singer---------------------------------------------------------
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-//                       Padding(
-//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                         child: Align(
-//                             alignment: Alignment.centerRight,
-//                             child: text(context, "مطربين", 18, black,
-//                                 fontWeight: FontWeight.bold)),
-//                       ),
-//
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 196.h,
-//                           child: Padding(
-//                             padding: EdgeInsets.all(8.0.h),
-//                             child: catogary("كوميديا", "مروان بابلو",
-//                                 "assets/image/singer.jpg"),
-//                           )),
-//                       SizedBox(
-//                         height: 15.h,
-//                       ),
-//
-// //-join us---------------------------------------------------------
-//                       Directionality(
-//                         textDirection: TextDirection.rtl,
-//                         child: SizedBox(
-//                             width: double.infinity,
-//                             height: 222.5.h,
-//                             child: Padding(
-//                               padding:
-//                                   EdgeInsets.only(left: 13.0.w, right: 13.0.w),
-//                               child: Row(
-//                                 children: [
-//                                   Expanded(
-//                                       child: jouinFaums(
-//                                           "انضم الان كنجم",
-//                                           "اضم الينا الان\nوكن جزء منا",
-//                                           "انضم كنجم")),
-//                                   SizedBox(
-//                                     width: 32.w,
-//                                   ),
-//                                   Expanded(
-//                                       child: jouinFaums(
-//                                           "انضم الان كمستخدم",
-//                                           "اضم الينا الان\nوكن جزء منا",
-//                                           "انضم كمستخدم")),
-//                                 ],
-//                               ),
-//                             )),
-//                       ),
-//                       SizedBox(
-//                         height: 24.h,
-//                       ),
-//
-// //---------------------------------------------------------------------------------الرعاة الرسميين-
-//                       Padding(
-//                         padding: EdgeInsets.only(right: 18.w, left: 18.w),
-//                         child: Align(
-//                             alignment: Alignment.centerRight,
-//                             child: text(context, "الرعاة الرسميين", 18, black,
-//                                 fontWeight: FontWeight.bold)),
-//                       ),
-//                       SizedBox(
-//                         height: 24.h,
-//                       ),
-//                       SizedBox(
-//                           width: double.infinity,
-//                           height: 60.h,
-//                           child: Padding(
-//                             padding: EdgeInsets.only(left: 16.h, right: 16.h),
-//                             child: sponsors(),
-//                           )),
                     ],
                   );
                 } else {
@@ -299,8 +127,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
 
 //"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
   Widget imageSlider(List image) {
-    return
-      Swiper(
+    return Swiper(
       itemBuilder: (context, index) {
         return Image.network(
           image[index],
@@ -391,36 +218,52 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
   }
 
 //category-------------------------------------------------------------------
-  Widget catogary(String catoName, String famusName, String famusImage) {
+  Widget catogary(String catogaryName,String famusName, String famusImage) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: InkWell(
         onTap: () {
           goTopagepush(context, CelebrityHomePage());
         },
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 7,
-            itemBuilder: (context, int itemPosition) {
-              return SizedBox(
-                width: 160.w,
-                height: 196.h,
-                child: Card(
-                  elevation: 5,
-                  child: Container(
-                    decoration: decoration(famusImage),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0.w),
-                        child: text(context, famusName, 18, white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 7.0.h,vertical: 4.h),
+              child: text(context, catogaryName, 14, black, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 5.h,),
+            Expanded(
+              child: Padding(
+                padding:  EdgeInsets.only(bottom: 10.h),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 7,
+                    itemBuilder: (context, int itemPosition) {
+                      return SizedBox(
+                         width: 150.w,
+
+                        child: Card(
+                          elevation: 5,
+                          child: Container(
+                            decoration: decoration(famusImage),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0.w),
+                                child: text(context, famusName, 18, white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+            ),
+            SizedBox(height: 5.h,),
+          ],
+        )
       ),
     );
   }
@@ -477,7 +320,7 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
   }
 
 //-------------------------------------------------------------------------------
-  Widget sponsors(String image,String link,int index) {
+  Widget sponsors(String image, String link, int index) {
     return InkWell(
       onTap: () async {
         var url = link;
@@ -488,10 +331,8 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
         child: ClipRRect(
           borderRadius: BorderRadius.circular(3.0.r),
           child: Image(
-            fit: BoxFit.cover,
-              image: NetworkImage(
-                image
-              ),
+              fit: BoxFit.cover,
+              image: NetworkImage(image),
               height: 26.h,
               width: 82.w),
         ),
@@ -598,7 +439,10 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
                   return Center(child: Text(snapshot.error.toString()));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
-                  return const Text("categorySection");
+                  return SizedBox(
+                      height: 196.h,
+
+                      child: catogary("كوميدي","مروان", "assets/image/singer.jpg"));
                 } else {
                   return const Center(
                       child: Text('لايوجد مشاهير لعرضهم حاليا'));
@@ -725,7 +569,10 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
 
   advertisingBannerSection(int? active) {
     return active == 1
-        ? SizedBox(width: double.infinity, height: 196.h, child: advPanel())
+        ? Padding(
+          padding:  EdgeInsets.symmetric(vertical: 8.0.h,horizontal: 8.w),
+          child: SizedBox(width: double.infinity, height: 196.h, child: advPanel()),
+        )
         // FutureBuilder(
         //     future:f,
         //     builder: ((context, AsyncSnapshot<Category> snapshot) {
@@ -835,22 +682,22 @@ class _celebrityHomePageState extends State<celebrityHomePage> with AutomaticKee
                         height: 24.h,
                       ),
                       Directionality(
-                        textDirection:TextDirection.rtl ,
+                        textDirection: TextDirection.rtl,
                         child: SizedBox(
                             width: double.infinity,
                             height: 92.h,
                             child: Padding(
                               padding: EdgeInsets.only(left: 13.h, right: 13.h),
                               child: ListView.builder(
-                                itemCount: snapshot.data!.data!.partners!.length ,
+                                  itemCount:
+                                      snapshot.data!.data!.partners!.length,
                                   scrollDirection: Axis.horizontal,
-
                                   itemBuilder: (context, i) {
                                     return sponsors(
-                                      snapshot.data!.data!.partners![i].image!,
+                                        snapshot
+                                            .data!.data!.partners![i].image!,
                                         snapshot.data!.data!.partners![i].link!,
-                                        i
-                                    );
+                                        i);
                                   }),
                             )),
                       ),

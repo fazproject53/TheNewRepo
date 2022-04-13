@@ -21,7 +21,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>with AutomaticKeepAliveClientMixin {
   PageController? pageController;
   int selectedIndex = 2;
   void initState() {
@@ -139,4 +139,8 @@ class _MainScreenState extends State<MainScreen> {
     pageController!.animateToPage(selectedIndex,
         duration: const Duration(milliseconds: 10), curve: Curves.easeInCirc);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

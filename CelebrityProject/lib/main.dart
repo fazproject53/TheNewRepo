@@ -24,7 +24,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
   Future<IntroData>? futureIntro;
 
   @override
@@ -54,16 +54,19 @@ class _MyAppState extends State<MyApp> {
             child: widget!,
           );
         },
-        home: FutureBuilder<IntroData>(
-          future:futureIntro,
-          builder: (BuildContext context, AsyncSnapshot<IntroData> snapshot) {
-            var getData= snapshot.data;
-            if(snapshot.hasData){
-              return IntroductionScreen( data:getData?.data);
-            }
-            return Center(child:  splash());
-          },
-        ),
+        home: MainScreen()
+
+
+        // FutureBuilder<IntroData>(
+        //   future:futureIntro,
+        //   builder: (BuildContext context, AsyncSnapshot<IntroData> snapshot) {
+        //     var getData= snapshot.data;
+        //     if(snapshot.hasData){
+        //       return IntroductionScreen( data:getData?.data);
+        //     }
+        //     return Center(child:  splash());
+        //   },
+        // ),
 
 
 
@@ -95,5 +98,9 @@ class _MyAppState extends State<MyApp> {
       );
 
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
