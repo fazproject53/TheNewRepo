@@ -9,14 +9,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:url_launcher/url_launcher.dart';
 
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'HomeScreen/celebrity_home_page.dart';
+import 'package:lottie/lottie.dart';
 
 class celebrityHomePage extends StatefulWidget {
+  const celebrityHomePage({Key? key}) : super(key: key);
+
+  @override
   _celebrityHomePageState createState() => _celebrityHomePageState();
 }
 
@@ -37,7 +41,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    futureCategories=fetchCategories(1, pagNumber);
+    futureCategories = fetchCategories(1, pagNumber);
     super.initState();
   }
 
@@ -54,7 +58,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             future: sections,
             builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center();
+                return Center(child: lodeing());
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -126,13 +130,24 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
 //"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
-  Widget imageSlider(List image) {
+  Widget imageSlider(List image, List title) {
     return Swiper(
       itemBuilder: (context, index) {
-        return Image.network(
-          image[index],
-          //getImage[index],
-          fit: BoxFit.cover,
+        return Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: NetworkImage(
+              image[index],
+            ),
+            fit: BoxFit.cover,
+          )),
+          child: Padding(
+            padding:  EdgeInsets.only(bottom: 30.0.h),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: text(context, title[index], 20, white,
+                    fontWeight: FontWeight.bold)),
+          ),
         );
       },
       onIndexChanged: (int index) {
@@ -142,7 +157,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       },
       indicatorLayout: PageIndicatorLayout.COLOR,
       autoplay: true,
-      axisDirection: AxisDirection.right,
+      //axisDirection: AxisDirection.right,
       itemCount: image.length,
       pagination: const SwiperPagination(),
       control: SwiperControl(
@@ -216,11 +231,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             ),
             reids: 20));
   }
-
-// //category-------------------------------------------------------------------
-//   Widget catogary(String catogaryName,String famusName, String famusImage) {
-//     return ;
-//   }
 
   BoxDecoration decoration(String famusImage) {
     return BoxDecoration(
@@ -426,16 +436,26 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             child: Card(
                                               elevation: 5,
                                               child: Container(
-                                                decoration:
-                                                    decoration(snapshot.data!.data!.celebrities![0].image!),
+                                                decoration: decoration(snapshot
+                                                    .data!
+                                                    .data!
+                                                    .celebrities![0]
+                                                    .image!),
                                                 child: Align(
                                                   alignment:
                                                       Alignment.bottomRight,
                                                   child: Padding(
                                                     padding:
                                                         EdgeInsets.all(10.0.w),
-                                                    child: text(context,
-                                                        snapshot.data!.data!.celebrities![1].name!, 18, white,
+                                                    child: text(
+                                                        context,
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .celebrities![1]
+                                                            .name!,
+                                                        18,
+                                                        white,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
@@ -468,6 +488,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   headerSection(int? active) {
     int headerIndex = 0;
     List<String> image = [];
+    List<String> titel = [];
     return active == 1
         ? FutureBuilder(
             future: futureHeader,
@@ -484,6 +505,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       headerIndex < snapshot.data!.data!.header!.length;
                       headerIndex++) {
                     image.add(snapshot.data!.data!.header![headerIndex].image!);
+                    titel.add(snapshot.data!.data!.header![headerIndex].title!);
                   }
 
                   return Column(
@@ -494,29 +516,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           child: Stack(
                             children: [
                               //slider image---------------------------------------------------------
-                              imageSlider(image),
-                              //text---------------------------------------------------------
-                              Container(
-                                //margin: EdgeInsets.only(bottom:25),
-                                decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.center,
-                                  colors: [Colors.black26, Colors.transparent],
-                                )),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 40.0.h, horizontal: 15.w),
-                                  child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: text(
-                                          context,
-                                          "${snapshot.data?.data?.header![headerIndex].title}",
-                                          32,
-                                          white,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
+                              imageSlider(image, titel),
                               //icon+ logo--------------------------------------------------------------
                               heroLogo()
                             ],
@@ -583,27 +583,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             child: SizedBox(
                 width: double.infinity, height: 196.h, child: advPanel()),
           )
-        // FutureBuilder(
-        //     future:f,
-        //     builder: ((context, AsyncSnapshot<Category> snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return const Center(child: CircularProgressIndicator());
-        //       } else if (snapshot.connectionState == ConnectionState.active ||
-        //           snapshot.connectionState == ConnectionState.done) {
-        //         if (snapshot.hasError) {
-        //           return Center(child: Text(snapshot.error.toString()));
-        //           //---------------------------------------------------------------------------
-        //         } else if (snapshot.hasData) {
-        //           return const Text("categorySection");
-        //         } else {
-        //           return const Center(child: Text('لايوجد مشاهير لعرضهم حاليا'));
-        //         }
-        //       } else {
-        //         return Center(
-        //             child: Text('State: ${snapshot.connectionState}'));
-        //       }
-        //
-        //     }))
         : const SizedBox();
   }
 //joinUsSection---------------------------------------------------------------------------
@@ -640,28 +619,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 ),
               ],
             ))
-
-        // FutureBuilder(
-        //     future: fu,
-        //     builder: ((context, AsyncSnapshot<Category> snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return const Center(child: CircularProgressIndicator());
-        //       } else if (snapshot.connectionState == ConnectionState.active ||
-        //           snapshot.connectionState == ConnectionState.done) {
-        //         if (snapshot.hasError) {
-        //           return Center(child: Text(snapshot.error.toString()));
-        //           //---------------------------------------------------------------------------
-        //         } else if (snapshot.hasData) {
-        //           return const Text("categorySection");
-        //         } else {
-        //           return const Center(child: Text('لايوجد مشاهير لعرضهم حاليا'));
-        //         }
-        //       } else {
-        //         return Center(
-        //             child: Text('State: ${snapshot.connectionState}'));
-        //       }
-        //
-        //     }))
         : const SizedBox();
   }
 //partnersSection---------------------------------------------------------------------------
@@ -695,7 +652,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         textDirection: TextDirection.rtl,
                         child: SizedBox(
                             width: double.infinity,
-                            height: 92.h,
+                            height: 90.h,
                             child: Padding(
                               padding: EdgeInsets.only(left: 13.h, right: 13.h),
                               child: ListView.builder(
@@ -731,6 +688,16 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  Widget lodeing() {
+    return SizedBox(
+      height: 250.h,
+      width: 250.w,
+      child: Center(
+        child: Lottie.asset('assets/lottie/lode.json'),
+      ),
+    );
+  }
 
 //---------------------------------------------------------------------------
 
