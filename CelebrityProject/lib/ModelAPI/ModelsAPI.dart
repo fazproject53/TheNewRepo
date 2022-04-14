@@ -5,6 +5,8 @@ import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+
+
 class Section {
   bool? success;
   List<Data>? data;
@@ -517,25 +519,15 @@ class MessageCategory {
 Future<link> fetchLinks() async {
   final response =
       await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_link");
-  if (!isCacheExist) {
-    if (response.statusCode == 200) {
-      final body = response.body;
-      APICacheDBModel cacheDBModel =
-          APICacheDBModel(key: "API_link", syncData: body);
-      await APICacheManager().addCacheData(cacheDBModel);
-      link link_ = link.fromJson(jsonDecode(body));
-      print("------------Reading link from network");
-      return link_;
-    } else {
-      throw Exception('Failed to lode link ');
-    }
-  } else {
-    var cacheDate = await APICacheManager().getCacheData("API_link");
 
-    link link_ = link.fromJson(jsonDecode(cacheDate.syncData));
-    print("------------Reading link from phone cache");
+  if (response.statusCode == 200) {
+    final body = response.body;
+
+    link link_ = link.fromJson(jsonDecode(body));
+    print("------------Reading link from network");
     return link_;
+  } else {
+    throw Exception('Failed to lode link ');
   }
 }
 
@@ -543,25 +535,15 @@ Future<link> fetchLinks() async {
 Future<header> fetchHeader() async {
   final response =
       await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_header");
-  if (!isCacheExist) {
-    if (response.statusCode == 200) {
-      final body = response.body;
-      APICacheDBModel cacheDBModel =
-          APICacheDBModel(key: "API_header", syncData: body);
-      await APICacheManager().addCacheData(cacheDBModel);
 
-      header header_ = header.fromJson(jsonDecode(body));
-      print("------------Reading header from network");
-      return header_;
-    } else {
-      throw Exception('Failed to load header');
-    }
-  } else {
-    var cacheDate = await APICacheManager().getCacheData("API_header");
-    print("------------Reading header from phone cache");
-    header header_ = header.fromJson(jsonDecode(cacheDate.syncData));
+  if (response.statusCode == 200) {
+    final body = response.body;
+
+    header header_ = header.fromJson(jsonDecode(body));
+    print("------------Reading header from network");
     return header_;
+  } else {
+    throw Exception('Failed to load header');
   }
 }
 
@@ -570,54 +552,29 @@ Future<Partner> fetchPartners() async {
   final response =
       await http.get(Uri.parse('http://mobile.celebrityads.net/api/partners'));
 
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Partners");
-  if (!isCacheExist) {
-    if (response.statusCode == 200) {
-      final body = response.body;
-      APICacheDBModel cacheDBModel =
-          APICacheDBModel(key: "API_Partners", syncData: body);
-      await APICacheManager().addCacheData(cacheDBModel);
-
-      Partner partner = Partner.fromJson(jsonDecode(body));
-      print("------------Reading Partners from network ");
-      return partner;
-    } else {
-      throw Exception('Failed to load Partners');
-    }
-  } else {
-    var cacheDate = await APICacheManager().getCacheData("API_Partners");
-
-    Partner partner = Partner.fromJson(jsonDecode(cacheDate.syncData));
-    print("------------Reading Partners from phone cache");
+  if (response.statusCode == 200) {
+    final body = response.body;
+    Partner partner = Partner.fromJson(jsonDecode(body));
+    print("------------Reading Partners from network ");
     return partner;
+  } else {
+    throw Exception('Failed to load Partners');
   }
 }
 
 //------------------------------------------------------------------------
 Future<Category> fetchCategories(int id,int pagNumber) async {
+getSectionsData();
+
   final response = await http.get(Uri.parse(
       'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
-
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Category");
-  if (!isCacheExist) {
-    if (response.statusCode == 200) {
-      final body = response.body;
-      APICacheDBModel cacheDBModel =
-          APICacheDBModel(key: "API_Category", syncData: body);
-      await APICacheManager().addCacheData(cacheDBModel);
-
-      Category category = Category.fromJson(jsonDecode(body));
-      print("------------Reading Category from network ");
-      return category;
-    } else {
-      throw Exception('Failed to load Category');
-    }
-  } else {
-    var cacheDate = await APICacheManager().getCacheData("API_Category");
-
-    Category category = Category.fromJson(jsonDecode(cacheDate.syncData));
-    print("------------Reading Category from phone cache");
+  if (response.statusCode == 200) {
+    final body = response.body;
+    Category category = Category.fromJson(jsonDecode(body));
+    print("catogary id is $id");
     return category;
+  } else {
+    throw Exception('Failed to load Category');
   }
 }
 
@@ -625,25 +582,12 @@ Future<Category> fetchCategories(int id,int pagNumber) async {
 Future<Section> getSectionsData() async {
   var getSections =
       await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+  if (getSections.statusCode == 200) {
+    final body = getSections.body;
+    Section sections = Section.fromJson(jsonDecode(body));
 
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Section");
-  if (!isCacheExist) {
-
-    if (getSections.statusCode == 200) {
-      final body = getSections.body;
-      APICacheDBModel cacheDBModel =
-          APICacheDBModel(key: "API_Section", syncData: body);
-      await APICacheManager().addCacheData(cacheDBModel);
-
-      Section sections = Section.fromJson(jsonDecode(body));
-      print("------------Reading from network ");
-      return sections;
-    } else {
-      throw Exception('Failed to load section');
-    }
+    return sections;
   } else {
-    var cacheDate = await APICacheManager().getCacheData("API_Section");
-    print("------------Reading from phone cache");
-    return Section.fromJson(jsonDecode(cacheDate.syncData));
+    throw Exception('Failed to load section');
   }
 }

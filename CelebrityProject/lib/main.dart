@@ -5,6 +5,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'MainScreen/main_screen_navigation.dart';
 import 'introduction_screen/introduction_screen.dart';
 
 void main() => runApp(
@@ -53,19 +54,19 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
           );
         },
         home:
-        //MainScreen()
+        MainScreen()
 
 
-        FutureBuilder<IntroData>(
-          future:futureIntro,
-          builder: (BuildContext context, AsyncSnapshot<IntroData> snapshot) {
-            var getData= snapshot.data;
-            if(snapshot.hasData){
-              return IntroductionScreen( data:getData?.data);
-            }
-            return Center(child:  splash());
-          },
-        ),
+        // FutureBuilder<IntroData>(
+        //   future:futureIntro,
+        //   builder: (BuildContext context, AsyncSnapshot<IntroData> snapshot) {
+        //     var getData= snapshot.data;
+        //     if(snapshot.hasData){
+        //       return IntroductionScreen( data:getData?.data);
+        //     }
+        //     return Center(child:  splash());
+        //   },
+        // ),
 
 
 

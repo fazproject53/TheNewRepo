@@ -25,7 +25,11 @@ class celebrityHomePage extends StatefulWidget {
 }
 
 int currentIndex = 0;
-int pagNumber = 1;
+int pagNumber1 = 1;
+int pagNumber2 = 1;
+int pagNumber3 = 1;
+int pagNumber4 = 1;
+int pagNumber5 = 1;
 
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
@@ -34,6 +38,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
   Future<Category>? futureCategories;
+  Future<Category>? futureCategories0;
+  Future<Category>? futureCategories1;
+  Future<Category>? futureCategories2;
+  Future<Category>? futureCategories3;
+  Future<Category>? futureCategories4;
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +50,13 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    futureCategories = fetchCategories(1, pagNumber);
+    futureCategories0 = fetchCategories(1, pagNumber1);
+    futureCategories1 = fetchCategories(2, pagNumber2);
+    futureCategories2 = fetchCategories(3, pagNumber3);
+    futureCategories3 = fetchCategories(4, pagNumber4);
+    futureCategories4 = fetchCategories(5, pagNumber5);
+    getCatogaryId();
+
     super.initState();
   }
 
@@ -142,7 +157,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             fit: BoxFit.cover,
           )),
           child: Padding(
-            padding:  EdgeInsets.only(bottom: 30.0.h),
+            padding: EdgeInsets.only(bottom: 30.0.h),
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: text(context, title[index], 20, white,
@@ -155,6 +170,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           currentIndex = index;
         });
       },
+
       indicatorLayout: PageIndicatorLayout.COLOR,
       autoplay: true,
       //axisDirection: AxisDirection.right,
@@ -393,7 +409,15 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   categorySection(int? categoryId, String? title, int? active) {
     return active == 1
         ? FutureBuilder(
-            future: futureCategories,
+            future: categoryId == 1
+                ? futureCategories0
+                : categoryId == 2
+                    ? futureCategories1
+                    : categoryId == 3
+                        ? futureCategories2
+                        : categoryId == 4
+                            ? futureCategories3
+                            : futureCategories4,
             builder: ((context, AsyncSnapshot<Category> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center();
@@ -404,7 +428,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return SizedBox(
-                      height: 196.h,
+                      height: 250.h,
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: InkWell(
@@ -428,18 +452,23 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: 7,
+                                        itemCount: 2,
                                         itemBuilder:
                                             (context, int itemPosition) {
+                                          if (snapshot.data!.data!.celebrities!
+                                                  .length ==
+                                              0) {
+                                            return SizedBox();
+                                          }
                                           return SizedBox(
-                                            width: 150.w,
+                                            width: 180.w,
                                             child: Card(
                                               elevation: 5,
                                               child: Container(
                                                 decoration: decoration(snapshot
                                                     .data!
                                                     .data!
-                                                    .celebrities![0]
+                                                    .celebrities![itemPosition]
                                                     .image!),
                                                 child: Align(
                                                   alignment:
@@ -452,7 +481,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                         snapshot
                                                             .data!
                                                             .data!
-                                                            .celebrities![1]
+                                                            .celebrities![
+                                                                itemPosition]
                                                             .name!,
                                                         18,
                                                         white,
@@ -698,6 +728,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       ),
     );
   }
+
+  void getCatogaryId() {}
 
 //---------------------------------------------------------------------------
 
