@@ -253,7 +253,7 @@ class _CelebrityHomeState extends State<CelebrityHome> {
                                       context,
                                       'لسة عامل حاجة جامدة جدا وفخور بيها بشكل كبير فرحان',
                                       11,
-                                      black,
+                                      white,
                                       align: TextAlign.justify),
                                 ),
                               ),

@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:celepraty/Celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/Celebrity/Balance/balance.dart';
 import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
@@ -16,17 +18,19 @@ import 'package:celepraty/celebrity/PrivacyPolicy/privacy_policy.dart';
 import 'package:celepraty/celebrity/Requests/ReguistMainPage.dart';
 import 'package:celepraty/celebrity/TechincalSupport/contact_with_us.dart';
 import 'package:celepraty/celebrity/blockList.dart';
-
+import 'package:path/path.dart' as Path;
 import 'package:celepraty/celebrity/setting/profileInformation.dart';
 import 'package:celepraty/invoice/invoice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Account/logging.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 class userProfile extends StatefulWidget {
   _userProfileState createState() => _userProfileState();
 }
 
-class _userProfileState extends State<userProfile> {
+class _userProfileState extends State<userProfile> with AutomaticKeepAliveClientMixin{
   final labels = [
     'المعلومات الشخصية',
     'الفوترة',
@@ -53,6 +57,8 @@ class _userProfileState extends State<userProfile> {
     const Logging()
   ];
 
+  File? userImage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,16 +76,19 @@ class _userProfileState extends State<userProfile> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  padding(
-                    8,
-                    8,
-                    Container(
-                        height: 56.h,
-                        width: 56.w,
-                        child: CircleAvatar(
-                            radius: 48.r,
-                            child: Image.network(
-                                'http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png'))),
+                  InkWell(
+                    child: padding(
+                      8,
+                      8,
+                      Container(
+                          height: 56.h,
+                          width: 56.w,
+                          child: CircleAvatar(
+                              radius: 48.r,
+                              backgroundImage: userImage ==null?Image.network(
+                                  'http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png').image: Image.file(userImage!).image)),
+                    ),
+                    onTap: (){getImage();},
                   ),
                   padding(
                     8,
@@ -202,4 +211,24 @@ class _userProfileState extends State<userProfile> {
       ),
     );
   }
+  Future<File?> getImage() async {
+    PickedFile? pickedFile =
+    await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
+      return null;
+    }
+    final File file = File(pickedFile.path);
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    final String fileName = Path.basename(pickedFile.path);
+// final String fileExtension = extension(image.path);
+    File newImage = await file.copy('$path/$fileName');
+    setState(() {
+      userImage = newImage;
+    });
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

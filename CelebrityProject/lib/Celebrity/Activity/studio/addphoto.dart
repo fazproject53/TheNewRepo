@@ -45,7 +45,7 @@ class _addphotoState extends State<addphoto> {
 
 
                             SizedBox(height: 20.h),
-                            paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع صورة ', 12, black),(){pickImage(image);}),),
+                            paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع صورة ', 12, black),(){pickImage(newsimage);}),),
 
                             SizedBox(height: 20.h),
                             padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة ', 15, white, (){  goTopageReplacement(context, ActivityScreen()) ; })),),
