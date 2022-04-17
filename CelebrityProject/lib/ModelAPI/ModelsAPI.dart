@@ -564,8 +564,6 @@ Future<Partner> fetchPartners() async {
 
 //------------------------------------------------------------------------
 Future<Category> fetchCategories(int id,int pagNumber) async {
-getSectionsData();
-
   final response = await http.get(Uri.parse(
       'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
   if (response.statusCode == 200) {
@@ -578,16 +576,21 @@ getSectionsData();
   }
 }
 
-//get section---------------------------------------------------------
-Future<Section> getSectionsData() async {
-  var getSections =
-      await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
-  if (getSections.statusCode == 200) {
-    final body = getSections.body;
-    Section sections = Section.fromJson(jsonDecode(body));
-
-    return sections;
-  } else {
-    throw Exception('Failed to load section');
-  }
-}
+// //get section---------------------------------------------------------
+// Future<Section> getSectionsData() async {
+//   var getSections =
+//       await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+//   if (getSections.statusCode == 200) {
+//     final body = getSections.body;
+//     Section sections = Section.fromJson(jsonDecode(body));
+//     sections.data!.forEach((element) {
+//       if(element.sectionName == 'category'){
+//         ids.add(element.categoryId!);
+//       }
+//     });
+//
+//     return sections;
+//   } else {
+//     throw Exception('Failed to load section');
+//   }
+// }

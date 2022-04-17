@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
@@ -31,18 +32,16 @@ int pagNumber3 = 1;
 int pagNumber4 = 1;
 int pagNumber5 = 1;
 
+
+Map<int, Future<Category>> category= HashMap<int, Future<Category>>();
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
   Future<Section>? sections;
   Future<link>? futureLinks;
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
-  Future<Category>? futureCategories;
-  Future<Category>? futureCategories0;
-  Future<Category>? futureCategories1;
-  Future<Category>? futureCategories2;
-  Future<Category>? futureCategories3;
-  Future<Category>? futureCategories4;
+  List<int> ids = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,14 +49,28 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    futureCategories0 = fetchCategories(1, pagNumber1);
-    futureCategories1 = fetchCategories(2, pagNumber2);
-    futureCategories2 = fetchCategories(3, pagNumber3);
-    futureCategories3 = fetchCategories(4, pagNumber4);
-    futureCategories4 = fetchCategories(5, pagNumber5);
-    getCatogaryId();
 
     super.initState();
+  }
+  Future<Section> getSectionsData() async {
+    var getSections =
+        await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+    if (getSections.statusCode == 200) {
+      final body = getSections.body;
+      Section sections = Section.fromJson(jsonDecode(body));
+      for (int i=0;i<sections.data!.length;i++) {
+        if(sections.data![i].sectionName== 'category'){
+
+         setState(() {
+           category.putIfAbsent( sections.data![i].categoryId!, () => fetchCategories(sections.data![i].categoryId!, pagNumber1));
+         });
+        }
+      }
+
+      return sections;
+    } else {
+      throw Exception('Failed to load section');
+    }
   }
 
   @override
@@ -88,13 +101,13 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         Column(
                           children: [
 //category--------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'category')
+
+                            if (snapshot.data!.data![sectionIndex].sectionName == 'category')
                               categorySection(
                                   snapshot.data?.data![sectionIndex].categoryId,
                                   snapshot.data?.data![sectionIndex].title,
                                   snapshot.data?.data![sectionIndex].active),
+
 
 //header--------------------------------------------------------------------------
                             if (snapshot
@@ -252,7 +265,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4.r)),
       image: DecorationImage(
-        image: NetworkImage(famusImage),
+        image: famusImage==null ? NetworkImage(famusImage):NetworkImage("https://mobile.celebrityads.net/storage/images/profiles/male.jpg"),
         colorFilter: ColorFilter.mode(black.withOpacity(0.4), BlendMode.darken),
         fit: BoxFit.cover,
       ),
@@ -409,15 +422,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   categorySection(int? categoryId, String? title, int? active) {
     return active == 1
         ? FutureBuilder(
-            future: categoryId == 1
-                ? futureCategories0
-                : categoryId == 2
-                    ? futureCategories1
-                    : categoryId == 3
-                        ? futureCategories2
-                        : categoryId == 4
-                            ? futureCategories3
-                            : futureCategories4,
+            future: category[categoryId],
             builder: ((context, AsyncSnapshot<Category> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center();
@@ -426,7 +431,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                   //---------------------------------------------------------------------------
-                } else if (snapshot.hasData) {
+                } else if (snapshot.hasData ) {
                   return SizedBox(
                       height: 250.h,
                       child: Directionality(
@@ -452,7 +457,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: 2,
+                                        itemCount:snapshot.data!.data!.celebrities!
+                                            .length ,
                                         itemBuilder:
                                             (context, int itemPosition) {
                                           if (snapshot.data!.data!.celebrities!
@@ -464,33 +470,48 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             width: 180.w,
                                             child: Card(
                                               elevation: 5,
-                                              child: Container(
+                                              child: snapshot
+                                                   .data
+                                                  ?.data
+                                                  ?.celebrities![itemPosition]
+                                                  .image!=null?
+                                              Container(
                                                 decoration: decoration(snapshot
                                                     .data!
                                                     .data!
                                                     .celebrities![itemPosition]
-                                                    .image!),
+                                                    .image!
+
+                                                ),
                                                 child: Align(
                                                   alignment:
                                                       Alignment.bottomRight,
                                                   child: Padding(
                                                     padding:
                                                         EdgeInsets.all(10.0.w),
-                                                    child: text(
+                                                    child:
+                                                    text(
                                                         context,
                                                         snapshot
                                                             .data!
                                                             .data!
                                                             .celebrities![
-                                                                itemPosition]
-                                                            .name!,
+                                                        itemPosition]
+                                                            .name==null?"no name":snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrities![
+                                                        itemPosition]
+                                                        .name!,
                                                         18,
                                                         white,
                                                         fontWeight:
                                                             FontWeight.bold),
+
+
                                                   ),
                                                 ),
-                                              ),
+                                              ):Container(color: Colors.green,),
                                             ),
                                           );
                                         }),
@@ -729,7 +750,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-  void getCatogaryId() {}
+
+
 
 //---------------------------------------------------------------------------
 
