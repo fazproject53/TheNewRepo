@@ -1,10 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:api_cache_manager/api_cache_manager.dart';
-import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-
 
 
 class Section {

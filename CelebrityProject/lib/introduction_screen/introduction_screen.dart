@@ -1,10 +1,5 @@
 ///import section
 
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:api_cache_manager/models/cache_db_model.dart';
-import 'package:api_cache_manager/utils/cache_manager.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/screen_four.dart';
@@ -12,10 +7,7 @@ import 'package:celepraty/introduction_screen/screen_one.dart';
 import 'package:celepraty/introduction_screen/screen_three.dart';
 import 'package:celepraty/introduction_screen/screen_two.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Models/Methods/method.dart';
 import 'ModelIntro.dart';

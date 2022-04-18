@@ -6,13 +6,10 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:url_launcher/url_launcher.dart';
-
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
 import 'HomeScreen/celebrity_home_page.dart';
@@ -50,7 +47,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-
     super.initState();
   }
 
@@ -72,7 +68,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           });
         }
       }
-
       return sections;
     } else {
       throw Exception('Failed to load section');
