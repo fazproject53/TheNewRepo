@@ -11,23 +11,23 @@ import 'package:lottie/lottie.dart';
 
 class profileInformaion extends StatefulWidget{ _profileInformaionState createState() => _profileInformaionState(); }
 
-class _profileInformaionState extends State<profileInformaion>   with AutomaticKeepAliveClientMixin {
+class _profileInformaionState extends State<profileInformaion>  {
 
   Future<CelebrityInformation>? celebrities;
 
         final _formKey = GlobalKey<FormState>();
-        final TextEditingController name = new TextEditingController();
-        final TextEditingController email = new TextEditingController();
-        final TextEditingController password = new TextEditingController();
-        final TextEditingController phone = new TextEditingController();
-        final TextEditingController pageLink = new TextEditingController();
-        final TextEditingController snapchat = new TextEditingController();
-        final TextEditingController tiktok = new TextEditingController();
-        final TextEditingController youtube = new TextEditingController();
-        final TextEditingController instagram = new TextEditingController();
-        final TextEditingController facebook = new TextEditingController();
-        final TextEditingController twitter = new TextEditingController();
-        final TextEditingController linkedin = new TextEditingController();
+        final TextEditingController name =  TextEditingController();
+        final TextEditingController email =  TextEditingController();
+        final TextEditingController password =  TextEditingController();
+        final TextEditingController phone =  TextEditingController();
+        final TextEditingController pageLink =  TextEditingController();
+        final TextEditingController snapchat =  TextEditingController();
+        final TextEditingController tiktok =  TextEditingController();
+        final TextEditingController youtube =  TextEditingController();
+        final TextEditingController instagram = TextEditingController();
+        final TextEditingController facebook = TextEditingController();
+        final TextEditingController twitter =  TextEditingController();
+        final TextEditingController linkedin = TextEditingController();
 
         String country = 'الدولة';
         String city = 'المدينة';
@@ -144,7 +144,7 @@ class _profileInformaionState extends State<profileInformaion>   with AutomaticK
               snapshot.data!.data!.celebrity!.country != null?
             country = snapshot.data!.data!.celebrity!.country!.name!: '',
               snapshot.data!.data!.celebrity!.city != null?
-              city = snapshot.data!.data!.celebrity!.city!: snapchat.text
+              city = snapshot.data!.data!.celebrity!.city!.toString(): snapchat.text
             }: null;
 
             return Column(
@@ -311,10 +311,9 @@ class _profileInformaionState extends State<profileInformaion>   with AutomaticK
                             //===================== button ================================
 
                             SizedBox(height: 30,),
-                            padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'حفظ', 20, white, (){Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => celebratyProfile() ),
-                            );})),),
+                            padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'حفظ', 20, white, (){
+                              updateInformation();
+                            })),),
                             SizedBox(height: 30,),
 
                           ]);
@@ -335,7 +334,44 @@ class _profileInformaionState extends State<profileInformaion>   with AutomaticK
         ),
     );
   }
+  Future<http.Response> updateInformation() async {
+          String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1y'
+              'rSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
+          final response = await http.post(
+      Uri.parse('https://mobile.celebrityads.net/api/celebrity/profile/update', ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token2'},
+      body: jsonEncode(<String, dynamic>{
+        'name': name.text,
+        'email': email.text,
+        'password': password.text,
+        'phonenumber': phone.text,
+        'country_id': 1,
+        'city_id': 1,
+        'category_id': 1,
+        'snapchat': snapchat.text,
+        'tiktok': tiktok.text,
+        'youtube': youtube.text,
+        'instagram': instagram.text,
+        'twitter': twitter.text,
+        'facebook': facebook.text,
+        'description': "new description",
 
+      }),
+    );
+     if (response.statusCode == 200) {
+            // If the server did return a 200 OK response,
+            // then parse the JSON.
+            print(response.body);
+            return response;
+          } else {
+            // If the server did not return a 200 OK response,
+            // then throw an exception.
+            throw Exception('Failed to load activity');
+          }
+  }
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -441,7 +477,7 @@ class Celebrity {
   String? email;
   String? phonenumber;
   Country? country;
-  String? city;
+  City? city;
   String? description;
   String? pageUrl;
   String? snapchat;
@@ -480,7 +516,7 @@ class Celebrity {
     phonenumber = json['phonenumber'];
     country =
     json['country'] != null ? new Country.fromJson(json['country']) : null;
-    city = json['city'];
+    city = json['city'] != null? new City.fromJson(json['city']) : null ;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -520,7 +556,12 @@ class Celebrity {
     return data;
   }
 }
+class City{
+  City();
+  City.fromJson(Map<String, dynamic> json) {
 
+  }
+}
 class Country {
   String? name;
   String? nameEn;
