@@ -33,6 +33,7 @@ int pagNumber4 = 1;
 int pagNumber5 = 1;
 
 Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
+//Map<int, Future<Category>> newSection = HashMap<int, Future<Category>>();
 
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
@@ -144,7 +145,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                             if (snapshot
                                     .data!.data![sectionIndex].sectionName ==
                                 'new_section')
-                              newSection(),
+                              newSection( snapshot.data?.data![sectionIndex].categoryId,
+                                  snapshot.data?.data![sectionIndex].title,
+                                  snapshot.data?.data![sectionIndex].active),
 //partners--------------------------------------------------------------------------
                             if (snapshot
                                     .data!.data![sectionIndex].sectionName ==
@@ -366,7 +369,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     Transform.rotate(
                         angle: -45,
                         child: Image(
-                          image: AssetImage("assets/image/log.png"),
+                          image: const AssetImage("assets/image/log.png"),
                           fit: BoxFit.cover,
                           height: 52.h,
                           width: 52.w,
@@ -482,13 +485,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             width: 180.w,
                                             child: Card(
                                                 elevation: 5,
-                                                child:
-                                                    // snapshot
-                                                    //      .data
-                                                    //     ?.data
-                                                    //     ?.celebrities![itemPosition]
-                                                    //     .image==''?
-                                                    Container(
+                                                child: Container(
                                                   decoration: decoration(
                                                       snapshot
                                                           .data!
@@ -511,7 +508,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                           itemPosition]
                                                                       .name ==
                                                                   ''
-                                                              ? "userName"
+                                                              ? "name"
                                                               : snapshot
                                                                   .data!
                                                                   .data!
@@ -756,7 +753,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   Widget lodeing() {
     return SizedBox(
-      height: 250.h,
+      height: double.infinity,
       width: 250.w,
       child: Center(
         child: Lottie.asset('assets/lottie/lode.json'),
@@ -764,8 +761,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-  newSection() {
-    return SizedBox();
+  newSection(int? secId, String? title, int? active) {
+    return active == 1
+        ? Container(color: Colors.green,height: 100.h,width: 100.w,)
+        : const SizedBox();
   }
 
 //---------------------------------------------------------------------------

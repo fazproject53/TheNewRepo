@@ -1,5 +1,7 @@
 ///import section
 
+import 'package:celepraty/Account/Singup.dart';
+import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
@@ -54,7 +56,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
           );
         },
         home:
-        MainScreen()
+        SingUp()
 
 
         // FutureBuilder<IntroData>(

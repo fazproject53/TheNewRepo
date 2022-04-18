@@ -79,6 +79,8 @@ IconData voiceIcon = Icons.keyboard_voice_sharp;
 IconData filter = Icons.filter_alt_rounded;
 IconData gift =Icons.card_giftcard_rounded;
 IconData like=Icons.favorite_outlined;
+IconData arrowDropDown=Icons.arrow_drop_down;
+
 IconData disLike = Icons.favorite_border;
 IconData playViduo = Icons.play_arrow_rounded;
 IconData chatIcon = Icons.chat;
@@ -153,7 +155,7 @@ List<String>giftType=[
 ];
 
 //font textScaling
-double textScaling = 2.7;
+double textScaling = 0;
 
 //App bar names------------------------------------------------------
 String requestBar="الطلبات";

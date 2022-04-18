@@ -1,4 +1,3 @@
-
 //================ convert hex colors to rgb colors================
 import 'dart:core';
 import 'dart:io';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 //===============================Text===============================
 
@@ -23,15 +21,15 @@ Widget text(
   FontWeight fontWeight = FontWeight.normal,
 }) {
   return Text(
-      key,
-      textAlign: align,
-      style: TextStyle(
+    key,
+    textAlign: align,
+    style: TextStyle(
       color: color,
       fontFamily: family,
       fontSize: fontSize.sp,
       letterSpacing: space.sp,
       fontWeight: fontWeight,
-      ),
+    ),
   );
 }
 
@@ -70,11 +68,16 @@ Widget container(double height, double width, double marginL, double marginR,
     child: child,
   );
 }
+
 //gradient contaner------------------------------------------------------------------
-Widget gradientContainer(double width, Widget child,{bool gradient =false,double height=45,Color color=deepBlack, double bottomLeft = 4.0,
-  double topRight = 4.0,
-  double topLeft = 4.0,
-  double bottomRight = 4.0}) {
+Widget gradientContainer(double width, Widget child,
+    {bool gradient = false,
+    double height = 45,
+    Color color = deepBlack,
+    double bottomLeft = 4.0,
+    double topRight = 4.0,
+    double topLeft = 4.0,
+    double bottomRight = 4.0}) {
   return Container(
     width: width.w,
     height: height.h,
@@ -86,23 +89,27 @@ Widget gradientContainer(double width, Widget child,{bool gradient =false,double
           topRight: Radius.circular(topRight.r),
           topLeft: Radius.circular(topLeft),
           bottomRight: Radius.circular(bottomRight.r)),
-      gradient:  gradient ==false? const LinearGradient(
-        begin: Alignment(0.7, 2.0),
-        end: Alignment(-0.69, -1.0),
-        colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-        stops: [0.0, 1.0],
-      ):null,
+      gradient: gradient == false
+          ? const LinearGradient(
+              begin: Alignment(0.7, 2.0),
+              end: Alignment(-0.69, -1.0),
+              colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
+              stops: [0.0, 1.0],
+            )
+          : null,
     ),
   );
 }
 
-Widget gradientContainerNoborder(double width,Widget child, {height = 40.0,double reids=8.0}) {
-
+Widget gradientContainerNoborder(double width, Widget child,
+    {height = 40.0, double reids = 8.0}) {
   return Container(
     width: width.w,
-    child:child,
+    child: child,
     decoration: BoxDecoration(
-      boxShadow: const [BoxShadow(color: darkWhite, blurRadius: 5, offset: Offset(2,3))],
+      boxShadow: const [
+        BoxShadow(color: darkWhite, blurRadius: 5, offset: Offset(2, 3))
+      ],
       borderRadius: BorderRadius.circular(reids.r),
       gradient: const LinearGradient(
         begin: Alignment(0.7, 2.0),
@@ -115,12 +122,11 @@ Widget gradientContainerNoborder(double width,Widget child, {height = 40.0,doubl
 }
 //==================== container with no shadow ===========================
 
-Widget gradientContainerNoborder2(double width,double height,Widget child) {
-
+Widget gradientContainerNoborder2(double width, double height, Widget child) {
   return Container(
     width: width.w,
-    child:child,
-    height:height,
+    child: child,
+    height: height,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.0),
       gradient: const LinearGradient(
@@ -129,25 +135,21 @@ Widget gradientContainerNoborder2(double width,double height,Widget child) {
         colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
         stops: [0.0, 1.0],
       ),
-
     ),
-
-
   );
 }
 
 Widget gradientContainerWithHeight(double width, double height, Widget child) {
-
   return Container(
     width: width.w,
     height: height.h,
-    child:child,
-    decoration:  BoxDecoration(
-        borderRadius: BorderRadius.only( bottomLeft: Radius.circular(10.0.r), topLeft: Radius.circular(10.0.r),),
-        color: lightGrey
-    ),
-
-
+    child: child,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10.0.r),
+          topLeft: Radius.circular(10.0.r),
+        ),
+        color: lightGrey),
   );
 }
 //solid: contaner------------------------------------------------------------------
@@ -167,24 +169,38 @@ Widget solidContainer(double width, Color color, Widget child) {
 }
 //============================profile buttons for listView ========================
 
-Widget addListViewButton(String text, IconData icon){
-  return  Row(children:[  padding(0, 5,  SizedBox( child: Icon(icon, color: purple,)),),
-    const SizedBox(width: 10,),
-    Expanded(flex:10,child: Text(text, style: TextStyle(color: black, fontSize: 14.sp),),),]);
-
+Widget addListViewButton(String text, IconData icon) {
+  return Row(children: [
+    padding(
+      0,
+      5,
+      SizedBox(
+          child: Icon(
+        icon,
+        color: purple,
+      )),
+    ),
+    const SizedBox(
+      width: 10,
+    ),
+    Expanded(
+      flex: 10,
+      child: Text(
+        text,
+        style: TextStyle(color: black, fontSize: 14.sp),
+      ),
+    ),
+  ]);
 }
 //=============================Padding Widget=================================
 
-Widget padding(
-  double left,
-  double right,
-  Widget child
-) {
+Widget padding(double left, double right, Widget child) {
   return Padding(
     padding: EdgeInsets.only(left: left.w, right: right.w),
     child: child,
   );
 }
+
 Widget paddingg(double pL, double pR, double pT, Widget child,
     {double pB = 0.0}) {
   return Padding(
@@ -214,14 +230,15 @@ Widget buttoms(context, String key, double fontSize, Color textColor, onPressed,
 
 //===============================Go To page(push)===============================
 goTopagepush(context, pageName) {
-  return Navigator.push(context, MaterialPageRoute(builder: (context) => pageName));
+  return Navigator.push(
+      context, MaterialPageRoute(builder: (context) => pageName));
 }
 
 //===============================Go To page(pushReplacement)===============================
- goTopageReplacement(BuildContext context, pageName) {
-  return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => pageName));
+goTopageReplacement(BuildContext context, pageName) {
+  return Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => pageName));
 }
-
 
 //get heghit and width===============================================================
 Size getSize(context) {
@@ -229,30 +246,24 @@ Size getSize(context) {
 }
 
 //=============================TextFields=================================
-Widget textField(
-  context,
-  icons,
-  String key,
-  double fontSize,
-  bool hintPass,
-  TextEditingController mycontroller,
-  myvali,
-  {
-    Widget? suffixIcon,void Function()? onTap}
-) {
+Widget textField(context, icons, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali,
+    {Widget? suffixIcon, void Function()? onTap}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
     onTap: onTap,
     controller: mycontroller,
-    style: TextStyle(color: white, fontSize: (textScaling+fontSize).sp),
+    style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
-        hintStyle: TextStyle(color: deepBlack, fontSize: (textScaling+fontSize).sp),
+        hintStyle:
+            TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
         fillColor: ligthtBlack,
-        labelStyle: TextStyle(color: deepBlack, fontSize: (textScaling+fontSize).sp),
+        labelStyle:
+            TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
         prefixIcon: Icon(icons, color: deepBlack, size: 25.sp),
         labelText: key,
@@ -283,15 +294,8 @@ Widget singWthisButtom(
   );
 }
 
-Widget textFieldNoIcon(
-    context,
-    String key,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    isOptional
-    ) {
+Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali, isOptional) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -300,60 +304,64 @@ Widget textFieldNoIcon(
     decoration: InputDecoration(
         isDense: false,
         filled: true,
-        helperText: isOptional? 'اختياري': null,
-        helperStyle: TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-        hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+        helperText: isOptional ? 'اختياري' : null,
+        helperStyle:
+            TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+        hintStyle:
+            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: textFieldBlack2.withOpacity(0.70),
         labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
+        focusedBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
         hintText: key,
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
-///Text Field small
-Widget textFieldSmall(
-    context,
-    String key,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    {Widget? suffixIcon,void Function()? onTap})
-    ///The icons will be optional
 
-    {
+///Text Field small
+Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali,
+    {Widget? suffixIcon, void Function()? onTap})
+
+///The icons will be optional
+
+{
   return SizedBox(
     height: 30.h,
     width: 130.w,
     child: TextField(
       controller: mycontroller,
-      style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
-          suffixIcon:suffixIcon,
-          hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          suffixIcon: suffixIcon,
+          hintStyle: TextStyle(
+              color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           fillColor: textColor,
-          labelStyle: TextStyle(color: white, fontSize: fontSize.sp,),
+          labelStyle: TextStyle(
+            color: white,
+            fontSize: fontSize.sp,
+          ),
           alignLabelWithHint: true,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );
-
 }
 
 //======================== for description multiline ====================
 Widget textFieldDesc(
-    context,
-    String key,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    ) {
+  context,
+  String key,
+  double fontSize,
+  bool hintPass,
+  TextEditingController mycontroller,
+  myvali,
+) {
   var expand = false;
   return SizedBox(
     height: 200.h,
@@ -363,15 +371,22 @@ Widget textFieldDesc(
       maxLines: null,
       minLines: 10,
       textAlignVertical: TextAlignVertical.top,
-      style: TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
-          hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          hintStyle: TextStyle(
+              color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           fillColor: textFieldBlack2.withOpacity(0.70),
-          labelStyle: TextStyle(color: white, fontSize: fontSize.sp,), alignLabelWithHint: true,
+          labelStyle: TextStyle(
+            color: white,
+            fontSize: fontSize.sp,
+          ),
+          alignLabelWithHint: true,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
     ),
@@ -381,13 +396,13 @@ Widget textFieldDesc(
 //============================ text feild curved from one side ==================================
 
 Widget textFieldNoIcon2(
-    context,
-    String key,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    ) {
+  context,
+  String key,
+  double fontSize,
+  bool hintPass,
+  TextEditingController mycontroller,
+  myvali,
+) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -396,90 +411,104 @@ Widget textFieldNoIcon2(
     decoration: InputDecoration(
         isDense: false,
         filled: true,
-        hintStyle: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+        hintStyle:
+            TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: textFieldBlack2.withOpacity(0.70),
         labelStyle: TextStyle(color: grey, fontSize: fontSize.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.only( bottomRight: Radius.circular(10.0), topRight: Radius.circular(10.0),)),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(10.0),
+          topRight: Radius.circular(10.0),
+        )),
+        focusedBorder:
+            OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
         labelText: key,
-
         contentPadding: EdgeInsets.all(10.h)),
   );
-
-
 }
+
 Widget textFeildWithButton(context, child1, child2) {
-  return paddingg(15, 15, 0, SizedBox(
-    width: getSize(context).width,
-    child: Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-
-        Expanded(
-          flex: 4,
-          child: paddingg(0, 0, 12, Container(
-              width: getSize(context).width / 1.2,
-              child: child1
-          ),),
-        ),
-
-        Expanded(
-          flex: 1,
-          child: paddingg(0, 0, 12, child2),
-
-        ),
-
-
-      ],),
-  ),);
+  return paddingg(
+    15,
+    15,
+    0,
+    SizedBox(
+      width: getSize(context).width,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 4,
+            child: paddingg(
+              0,
+              0,
+              12,
+              Container(width: getSize(context).width / 1.2, child: child1),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: paddingg(0, 0, 12, child2),
+          ),
+        ],
+      ),
+    ),
+  );
 }
-  //============================ show bottomsheet takes a column ==============================
+//============================ show bottomsheet takes a column ==============================
 
-
-  void showBottomSheett(context,  buttomMenue){
-    showModalBottomSheet(
+void showBottomSheett(context, buttomMenue) {
+  showModalBottomSheet(
       isScrollControlled: true,
-        backgroundColor: black,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft:  Radius.circular(50), topRight: Radius.circular(50)),
-        ),
-        context: context, builder:(context){
-      return Container(
-        height: 400.h,
-        child: buttomMenue,
-      );
-    });
-  }
+      backgroundColor: black,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+      ),
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 400.h,
+          child: buttomMenue,
+        );
+      });
+}
 
-  Widget uploadImg(double width, double hight, child , onTap){
+Widget uploadImg(double width, double hight, child, onTap) {
   return InkWell(
     child: Container(
       width: width.w,
       height: hight.h,
-      child:Row(
+      child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children:[GradientIcon(attach, 30.w, const LinearGradient(colors: <Color>[pink, blue])), child]),
-      decoration:  BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), border: Border.all(color: black)),
+          children: [
+            GradientIcon(attach, 30.w,
+                const LinearGradient(colors: <Color>[pink, blue])),
+            child
+          ]),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          border: Border.all(color: black)),
     ),
     onTap: onTap,
   );
+}
 
-  }
+//============================== Calendar ===========================================
 
-  //============================== Calendar ===========================================
-
-Future<void> tableCalendar(context, dateTime)async {
+Future<void> tableCalendar(context, dateTime) async {
   final DateTime picked = showDatePicker(
       context: context,
       initialDate: dateTime,
       firstDate: DateTime(2020, 1, 1),
       lastDate: DateTime(2025, 1, 1),
       builder: (context, child) {
-        return Theme(data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light(
-                primary: purple, onPrimary: white
-            )), child: child!);
+        return Theme(
+            data: ThemeData.light().copyWith(
+                colorScheme:
+                    const ColorScheme.light(primary: purple, onPrimary: white)),
+            child: child!);
       }) as DateTime;
   if (picked != null && picked != dateTime) {
     dateTime = picked;
@@ -487,73 +516,75 @@ Future<void> tableCalendar(context, dateTime)async {
 }
 
 //====================== image file picker ===================================
-Future  pickImage(imagee) async {
-  try{
+Future pickImage(imagee) async {
+  try {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if(image == null) return;
+    if (image == null) return;
     final temp = File(image.path);
     imagee = temp;
-    }on PlatformException catch (e){print('could not pick image $e');}
+  } on PlatformException catch (e) {
+    print('could not pick image $e');
+  }
 }
-Widget buildCkechboxList(list){
+
+Widget buildCkechboxList(list) {
   List<Widget> w = [];
   Widget cb;
-  for(var i =0 ; i< list.length; i++){
-    cb= Expanded(
-      child:
-      Padding(
+  for (var i = 0; i < list.length; i++) {
+    cb = Expanded(
+      child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Row(
           children: [
-            Checkbox(value: false, onChanged: (value){}),
+            Checkbox(value: false, onChanged: (value) {}),
             Text(list[i])
           ],
         ),
       ),
     );
-    w.add(cb);}
+    w.add(cb);
+  }
 
-  return Row(mainAxisAlignment: MainAxisAlignment.start,
-      children: w);
+  return Row(mainAxisAlignment: MainAxisAlignment.start, children: w);
 }
-Widget buildCkechboxList2(list){
+
+Widget buildCkechboxList2(list) {
   List<Widget> w = [];
   Widget cb;
-  for(var i =0 ; i< list.length; i++){
-    cb= Expanded(
+  for (var i = 0; i < list.length; i++) {
+    cb = Expanded(
       child: Row(
-          children: [
-            Checkbox(value: false, onChanged: (value){}),
-            Text(list[i])
-          ],
-        ),
+        children: [
+          Checkbox(value: false, onChanged: (value) {}),
+          Text(list[i])
+        ],
+      ),
     );
-    w.add(cb);}
+    w.add(cb);
+  }
 
-  return Row(mainAxisAlignment: MainAxisAlignment.start,
-      children: w);
+  return Row(mainAxisAlignment: MainAxisAlignment.start, children: w);
 }
 
-
-divider({double thickness= 2, double indent=15,double endIndent=15,}){
+divider({
+  double thickness = 2,
+  double indent = 15,
+  double endIndent = 15,
+}) {
   return Align(
-      alignment: Alignment.topCenter,
-
-        child: VerticalDivider(
-          color: Colors.grey[400],
-          thickness: thickness,
-          indent: indent,
-          endIndent: endIndent,
-         //width: 12,
-        ),
-      );
+    alignment: Alignment.topCenter,
+    child: VerticalDivider(
+      color: Colors.grey[400],
+      thickness: thickness,
+      indent: indent,
+      endIndent: endIndent,
+      //width: 12,
+    ),
+  );
 }
 //Drow app bar----------------------------------------------------
 
-
-
 //===============================Container===============================
-
 
 //gradient color---------------------------------------------------------------------
 LinearGradient gradient() {
@@ -566,15 +597,15 @@ LinearGradient gradient() {
 }
 
 ///on change text filed
-Widget textFieldDescOnChange (
-    context,
-    String key,
-    double fontSize,
-    bool hintPass,
-    TextEditingController mycontroller,
-    myvali,
-    Function(String)? onChanged,
-    ) {
+Widget textFieldDescOnChange(
+  context,
+  String key,
+  double fontSize,
+  bool hintPass,
+  TextEditingController mycontroller,
+  myvali,
+  Function(String)? onChanged,
+) {
   var expand = false;
   return SizedBox(
     height: 105.h,
@@ -585,17 +616,23 @@ Widget textFieldDescOnChange (
       onChanged: onChanged,
       minLines: 10,
       textAlignVertical: TextAlignVertical.top,
-      style: TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
-          hintStyle: TextStyle(color: Colors.grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          hintStyle: TextStyle(
+              color: Colors.grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           fillColor: textFieldBlack2.withOpacity(0.70),
-          labelStyle: TextStyle(color: Colors.grey, fontSize: fontSize.sp,), alignLabelWithHint: true,
+          labelStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: fontSize.sp,
+          ),
+          alignLabelWithHint: true,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
           hintText: key,
-
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );
@@ -605,14 +642,11 @@ Widget textFieldDescOnChange (
 
 //Drow app bar----------------------------------------------------
 
-drowAppBar(String title, BuildContext context, { color = deepwhite}){
+drowAppBar(String title, BuildContext context, {color = deepwhite}) {
   return AppBar(
-    title: Text(title,style:TextStyle(
-        fontSize:22.sp,
-        fontFamily: 'Cairo',
-        color: black
-    ),
-
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 22.sp, fontFamily: 'Cairo', color: black),
     ),
     centerTitle: true,
     leading: IconButton(
@@ -625,11 +659,10 @@ drowAppBar(String title, BuildContext context, { color = deepwhite}){
     ),
     backgroundColor: color,
     elevation: 0,
-
   );
 }
 
-drawAppBar(Widget title, BuildContext context ,{Color color = deepwhite}){
+drawAppBar(Widget title, BuildContext context, {Color color = deepwhite}) {
   return AppBar(
     title: title,
     centerTitle: true,
@@ -643,23 +676,22 @@ drawAppBar(Widget title, BuildContext context ,{Color color = deepwhite}){
     ),
     backgroundColor: color,
     elevation: 0,
-
   );
 }
+
 ///app bar without back icon
-AppBarNoIcon(String title,{Color color = deepwhite}){
+AppBarNoIcon(String title, {Color color = deepwhite}) {
   return AppBar(
-    title: Text(title,style:TextStyle(
-      fontSize:22.sp,
-      fontFamily: 'Cairo',
-      color: black
-  ),
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 22.sp, fontFamily: 'Cairo', color: black),
     ),
     centerTitle: true,
     backgroundColor: color,
     elevation: 0,
   );
 }
+
 ///
 ///
 class MyTooltip extends StatelessWidget {
@@ -688,76 +720,113 @@ class MyTooltip extends StatelessWidget {
   }
 }
 
-
-void showBottomSheettInvoice(context,  buttomMenue){
+void showBottomSheettInvoice(context, buttomMenue) {
   showModalBottomSheet(
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft:  Radius.circular(20), topRight: Radius.circular(20)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),
-      context: context, builder:(context){
-    return Container(
-      height: 670.h,
-      child: buttomMenue,
-    );
-  });
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 670.h,
+          child: buttomMenue,
+        );
+      });
 }
-void showBottomSheett2(context,  buttomMenue){
+
+void showBottomSheett2(context, buttomMenue) {
   showModalBottomSheet(
       isScrollControlled: true,
       elevation: 0,
       backgroundColor: Colors.transparent,
-      context: context, builder:(context){
-    return Container(
-      decoration: BoxDecoration( borderRadius: BorderRadius.circular(20)),
-      // margin: EdgeInsets.only(right: 10, left: 10),
-      // color: Colors.transparent.withOpacity(0.5),
-      height: 250.h,
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 5, right:  5),
-            height: 180.h,
-            child: buttomMenue,
-            decoration: BoxDecoration(  color: white, borderRadius: BorderRadius.circular(8)),
+      context: context,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          // margin: EdgeInsets.only(right: 10, left: 10),
+          // color: Colors.transparent.withOpacity(0.5),
+          height: 250.h,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 5, right: 5),
+                height: 180.h,
+                child: buttomMenue,
+                decoration: BoxDecoration(
+                    color: white, borderRadius: BorderRadius.circular(8)),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              InkWell(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 45.h,
+                    width: 400.w,
+                    child: text(context, 'الغاء', 20, purple,
+                        align: TextAlign.center),
+                    decoration: BoxDecoration(
+                        color: fillWhite,
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  }),
+            ],
           ),
-          SizedBox(height: 10.h,),
-          InkWell(
-              child: Container(alignment: Alignment.center, height:45.h, width: 400.w, child: text(context, 'الغاء', 20, purple, align: TextAlign.center),
-                decoration: BoxDecoration(color: fillWhite , borderRadius: BorderRadius.circular(8)),),
-              onTap: (){Navigator.pop(context);}),
-        ],
-      ),
-    );
-  });
+        );
+      });
 }
 
-//show buttom showBottomSheett
-
-//-------------bottomSheet-----------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// combo box============================================================abstract
+Widget drowMenu(
+    String inisValue,
+    //IconData suffixIcon,
+    IconData prefixIcon,
+    double fontSize,
+    List<String> item,
+    void Function(String?)? onChanged,
+    String? Function(String?)? validator,
+    {double width = double.infinity}) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8.r),
+      color: deepBlack,
+    ),
+    width: width,
+    child: DropdownButtonFormField<String>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
+        hint: Text(
+          inisValue,
+          style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
+        ),
+        dropdownColor: white,
+        items: item
+            .map((type) => DropdownMenuItem(
+                  //  alignment: Alignment.center,
+                  value: type,
+                  child: Text(
+                    type,
+                    style: TextStyle(
+                      color: white,
+                      fontSize: 11.sp,
+                    ),
+                  ),
+                ))
+            .toList(),
+        decoration: InputDecoration(
+            isDense: false,
+            filled: true,
+            prefixIcon: Icon(prefixIcon,color:deepBlack,),
+           //suffixIcon: Icon(suffixIcon,color:deepBlack,),
+            fillColor: textFieldBlack2.withOpacity(0.83),
+            alignLabelWithHint: true,
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+            contentPadding: EdgeInsets.all(10.h)),
+        onChanged: onChanged),
+  );
+}

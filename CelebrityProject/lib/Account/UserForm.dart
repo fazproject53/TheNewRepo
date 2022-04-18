@@ -16,10 +16,8 @@ userForm(context, bool isVisable) {
       height: 15.h,
     ),
 //contry------------------------------------------
-    textField(
-        context, countryIcon, "الدولة", 10, false, nameConttroller, (val) {},
-        suffixIcon: const Icon(Icons.arrow_drop_down, color: deepBlack),
-        onTap: () {}),
+    drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {},
+        (val) {}),
 
 //catogary------------------------------------------
 
@@ -29,10 +27,8 @@ userForm(context, bool isVisable) {
 
     Visibility(
       visible: isVisable,
-      child: textField(context, catogaryIcon, "التصنيف", 10, false,
-          nameConttroller, (val) {},
-          suffixIcon: Icon(Icons.arrow_drop_down, color: deepBlack),
-          onTap: () {}),
+      child: drowMenu("التصنيف", catogaryIcon, 11, ["كوميديا", "دراما", "طبخ"],
+          (va) {}, (val) {}),
     ),
 
     Visibility(
