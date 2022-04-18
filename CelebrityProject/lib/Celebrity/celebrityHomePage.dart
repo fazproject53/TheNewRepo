@@ -32,8 +32,8 @@ int pagNumber3 = 1;
 int pagNumber4 = 1;
 int pagNumber5 = 1;
 
+Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 
-Map<int, Future<Category>> category= HashMap<int, Future<Category>>();
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
   Future<Section>? sections;
@@ -52,18 +52,23 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
     super.initState();
   }
+
   Future<Section> getSectionsData() async {
-    var getSections =
-        await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+    var getSections = await http
+        .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
     if (getSections.statusCode == 200) {
       final body = getSections.body;
-      Section sections = Section.fromJson(jsonDecode(body));
-      for (int i=0;i<sections.data!.length;i++) {
-        if(sections.data![i].sectionName== 'category'){
 
-         setState(() {
-           category.putIfAbsent( sections.data![i].categoryId!, () => fetchCategories(sections.data![i].categoryId!, pagNumber1));
-         });
+      Section sections = Section.fromJson(jsonDecode(body));
+
+      for (int i = 0; i < sections.data!.length; i++) {
+        if (sections.data?[i].sectionName == 'category') {
+          setState(() {
+            category.putIfAbsent(
+                sections.data![i].categoryId!,
+                () =>
+                    fetchCategories(sections.data![i].categoryId!, pagNumber1));
+          });
         }
       }
 
@@ -90,7 +95,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
+                  //throw snapshot.error.toString();
+                  return Center(child: Text(snapshot.error.toString()));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return Column(
@@ -102,12 +108,13 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           children: [
 //category--------------------------------------------------------------------------
 
-                            if (snapshot.data!.data![sectionIndex].sectionName == 'category')
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'category')
                               categorySection(
                                   snapshot.data?.data![sectionIndex].categoryId,
                                   snapshot.data?.data![sectionIndex].title,
                                   snapshot.data?.data![sectionIndex].active),
-
 
 //header--------------------------------------------------------------------------
                             if (snapshot
@@ -133,6 +140,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                 'join-us')
                               joinUsSection(
                                   snapshot.data?.data![sectionIndex].active),
+//new section---------------------------------------------------------------------------
+                            if (snapshot
+                                    .data!.data![sectionIndex].sectionName ==
+                                'new_section')
+                              newSection(),
 //partners--------------------------------------------------------------------------
                             if (snapshot
                                     .data!.data![sectionIndex].sectionName ==
@@ -265,7 +277,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4.r)),
       image: DecorationImage(
-        image: famusImage==null ? NetworkImage(famusImage):NetworkImage("https://mobile.celebrityads.net/storage/images/profiles/male.jpg"),
+        image: NetworkImage(famusImage),
         colorFilter: ColorFilter.mode(black.withOpacity(0.4), BlendMode.darken),
         fit: BoxFit.cover,
       ),
@@ -429,16 +441,17 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
+                  return Center(
+                      child: Center(child: Text(snapshot.error.toString())));
                   //---------------------------------------------------------------------------
-                } else if (snapshot.hasData ) {
+                } else if (snapshot.hasData) {
                   return SizedBox(
                       height: 250.h,
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: InkWell(
                             onTap: () {
-                              goTopagepush(context, CelebrityHomePage());
+                              goTopagepush(context, const CelebrityHomePage());
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,62 +470,63 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
-                                        itemCount:snapshot.data!.data!.celebrities!
-                                            .length ,
+                                        itemCount: snapshot
+                                            .data!.data!.celebrities!.length,
                                         itemBuilder:
                                             (context, int itemPosition) {
                                           if (snapshot.data!.data!.celebrities!
-                                                  .length ==
-                                              0) {
-                                            return SizedBox();
+                                              .isEmpty) {
+                                            return const SizedBox();
                                           }
                                           return SizedBox(
                                             width: 180.w,
                                             child: Card(
-                                              elevation: 5,
-                                              child: snapshot
-                                                   .data
-                                                  ?.data
-                                                  ?.celebrities![itemPosition]
-                                                  .image!=null?
-                                              Container(
-                                                decoration: decoration(snapshot
-                                                    .data!
-                                                    .data!
-                                                    .celebrities![itemPosition]
-                                                    .image!
-
-                                                ),
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10.0.w),
-                                                    child:
-                                                    text(
-                                                        context,
-                                                        snapshot
-                                                            .data!
-                                                            .data!
-                                                            .celebrities![
-                                                        itemPosition]
-                                                            .name==null?"no name":snapshot
-                                                        .data!
-                                                        .data!
-                                                        .celebrities![
-                                                        itemPosition]
-                                                        .name!,
-                                                        18,
-                                                        white,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-
-
+                                                elevation: 5,
+                                                child:
+                                                    // snapshot
+                                                    //      .data
+                                                    //     ?.data
+                                                    //     ?.celebrities![itemPosition]
+                                                    //     .image==''?
+                                                    Container(
+                                                  decoration: decoration(
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .celebrities![
+                                                              itemPosition]
+                                                          .image!),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(
+                                                          10.0.w),
+                                                      child: text(
+                                                          context,
+                                                          snapshot
+                                                                      .data!
+                                                                      .data!
+                                                                      .celebrities![
+                                                                          itemPosition]
+                                                                      .name ==
+                                                                  ''
+                                                              ? "userName"
+                                                              : snapshot
+                                                                  .data!
+                                                                  .data!
+                                                                  .celebrities![
+                                                                      itemPosition]
+                                                                  .name!,
+                                                          18,
+                                                          white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   ),
+                                                )
+                                                //:Container(color: Colors.green,),
                                                 ),
-                                              ):Container(color: Colors.green,),
-                                            ),
                                           );
                                         }),
                                   ),
@@ -525,7 +539,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       ));
                 } else {
                   return const Center(
-                      child: Text('لايوجد مشاهير لعرضهم حاليا'));
+                      child: Center(child: Text('لايوجد مشاهير لعرضهم حاليا')));
                 }
               } else {
                 return Center(
@@ -750,8 +764,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-
-
+  newSection() {
+    return SizedBox();
+  }
 
 //---------------------------------------------------------------------------
 

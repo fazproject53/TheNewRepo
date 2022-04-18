@@ -43,8 +43,8 @@ class Data {
   String? sectionName;
   String? title;
   String? titleEn;
-  Null? value;
-  Null? valueEn;
+  String? value;
+  String? valueEn;
   int? categoryId;
   int? active;
 
@@ -540,7 +540,7 @@ Future<header> fetchHeader() async {
     final body = response.body;
 
     header header_ = header.fromJson(jsonDecode(body));
-    print("------------Reading header from network");
+    print("Reading header from network------------");
     return header_;
   } else {
     throw Exception('Failed to load header');
@@ -555,7 +555,7 @@ Future<Partner> fetchPartners() async {
   if (response.statusCode == 200) {
     final body = response.body;
     Partner partner = Partner.fromJson(jsonDecode(body));
-    print("------------Reading Partners from network ");
+    print("Reading Partners from network------------ ");
     return partner;
   } else {
     throw Exception('Failed to load Partners');
@@ -569,28 +569,10 @@ Future<Category> fetchCategories(int id,int pagNumber) async {
   if (response.statusCode == 200) {
     final body = response.body;
     Category category = Category.fromJson(jsonDecode(body));
-    print("catogary id is $id");
+    print("Reading category from network------------ ");
     return category;
   } else {
     throw Exception('Failed to load Category');
   }
 }
 
-// //get section---------------------------------------------------------
-// Future<Section> getSectionsData() async {
-//   var getSections =
-//       await http.get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
-//   if (getSections.statusCode == 200) {
-//     final body = getSections.body;
-//     Section sections = Section.fromJson(jsonDecode(body));
-//     sections.data!.forEach((element) {
-//       if(element.sectionName == 'category'){
-//         ids.add(element.categoryId!);
-//       }
-//     });
-//
-//     return sections;
-//   } else {
-//     throw Exception('Failed to load section');
-//   }
-// }
