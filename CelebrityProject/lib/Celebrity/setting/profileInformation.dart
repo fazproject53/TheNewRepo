@@ -28,6 +28,7 @@ class _profileInformaionState extends State<profileInformaion>  {
         final TextEditingController facebook = TextEditingController();
         final TextEditingController twitter =  TextEditingController();
         final TextEditingController linkedin = TextEditingController();
+        final TextEditingController desc = TextEditingController();
 
         String country = 'الدولة';
         String city = 'المدينة';
@@ -131,6 +132,7 @@ class _profileInformaionState extends State<profileInformaion>  {
             name.text = snapshot.data!.data!.celebrity!.name!,
             email.text = snapshot.data!.data!.celebrity!.email!,
             password.text = "********",
+              desc.text = snapshot.data!.data!.celebrity!.description!,
             phone.text = snapshot.data!.data!.celebrity!.phonenumber!,
             pageLink.text = snapshot.data!.data!.celebrity!.pageUrl!,
              snapchat.text = snapshot.data!.data!.celebrity!.snapchat!.toString(),
@@ -145,6 +147,7 @@ class _profileInformaionState extends State<profileInformaion>  {
             country = snapshot.data!.data!.celebrity!.country!.name!: '',
               snapshot.data!.data!.celebrity!.city != null?
               city = snapshot.data!.data!.celebrity!.city!.toString(): snapchat.text
+
             }: null;
 
             return Column(
@@ -159,6 +162,8 @@ class _profileInformaionState extends State<profileInformaion>  {
 
                             paddingg(15, 15, 12,textFieldNoIcon(context, 'الاسم', 14, false, name,(String? value) {if (value == null || value.isEmpty) {
                               return 'Please enter some text';} return null;},false),),
+                      paddingg(15, 15, 12, textFieldDesc(context, 'الوصف الخاص بالمشهور', 14, false, desc, (String? value) {if (value == null || value.isEmpty) {
+                      return 'Please enter some text';} return null;}),),
                             paddingg(15, 15, 12,textFieldNoIcon(context, 'البريد الالكتروني', 14, false, email,(String? value) {if (value == null || value.isEmpty) {
                               return 'Please enter some text';} return null;},false),),
                             paddingg(15, 15, 12,textFieldNoIcon(context, 'كلمة المرور', 14, true, password,(String? value) {if (value == null || value.isEmpty) {
