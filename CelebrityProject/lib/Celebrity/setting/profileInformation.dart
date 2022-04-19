@@ -321,6 +321,9 @@ class _profileInformaionState extends State<profileInformaion>  {
                             SizedBox(height: 30,),
                             padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'حفظ', 20, white, (){
                               updateInformation();
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text("تم تعديل المعلومات بنجاح"),
+                              ));
                             })),),
                             SizedBox(height: 30,),
 
