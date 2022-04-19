@@ -175,12 +175,13 @@ class _profileInformaionState extends State<profileInformaion>  {
 
                             paddingg(15, 15, 12,
                               DropdownBelow(
-                                itemWidth: 380.w,
+                                itemWidth: 370.w,
+                                dropdownColor: newGrey,
                                 ///text style inside the menu
                                 itemTextstyle: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: black,
+                                  color: white,
                                   fontFamily: 'Cairo',),
                                 ///hint style
                                 boxTextstyle: TextStyle(
@@ -212,12 +213,13 @@ class _profileInformaionState extends State<profileInformaion>  {
                             ),
                             paddingg(15, 15, 12,
                               DropdownBelow(
-                                itemWidth: 380.w,
+                                itemWidth: 370.w,
+                                dropdownColor: newGrey,
                                 ///text style inside the menu
                                 itemTextstyle: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: black,
+                                  color: white,
                                   fontFamily: 'Cairo',),
                                 ///hint style
                                 boxTextstyle: TextStyle(
@@ -250,12 +252,13 @@ class _profileInformaionState extends State<profileInformaion>  {
 
                             paddingg(15, 15, 12,
                               DropdownBelow(
-                                itemWidth: 380.w,
+                                itemWidth: 370.w,
+                                dropdownColor: newGrey,
                                 ///text style inside the menu
                                 itemTextstyle: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: black,
+                                  color: white,
                                   fontFamily: 'Cairo',),
                                 ///hint style
                                 boxTextstyle: TextStyle(
@@ -353,9 +356,9 @@ class _profileInformaionState extends State<profileInformaion>  {
         'email': email.text,
         'password': password.text,
         'phonenumber': phone.text,
-        'country_id': 1,
-        'city_id': 1,
-        'category_id': 1,
+        'country_id':_selectedTest3 == null? 1 :countrylist.indexOf(_selectedTest3),
+        'city_id': _selectedTest == null? 1: citilist.indexOf(_selectedTest),
+        'category_id': _selectedTest2 == null? 1 : categorylist.indexOf(_selectedTest2),
         'snapchat': snapchat.text,
         'tiktok': tiktok.text,
         'youtube': youtube.text,

@@ -396,12 +396,12 @@ Widget textFieldNoIcon2(
     decoration: InputDecoration(
         isDense: false,
         filled: true,
-        hintStyle: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+        hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: textFieldBlack2.withOpacity(0.70),
         labelStyle: TextStyle(color: grey, fontSize: fontSize.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.only( bottomRight: Radius.circular(10.0), topRight: Radius.circular(10.0),)),
         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: pink,width: 1)),
-        labelText: key,
+        hintText: key,
 
         contentPadding: EdgeInsets.all(10.h)),
   );
