@@ -1,13 +1,14 @@
+import 'dart:convert';
+
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:http/http.dart' as http;
 import 'UserForm.dart';
 
 class SingUp extends StatefulWidget {
- 
   @override
   State<SingUp> createState() => _SingUpState();
 }
@@ -21,7 +22,7 @@ class _SingUpState extends State<SingUp> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
 //main container--------------------------------------------------
-        body: container(
+          body: container(
         double.infinity,
         double.infinity,
         0,
@@ -97,18 +98,25 @@ class _SingUpState extends State<SingUp> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
 //====================================TextFields=========================================================
-                           isChang!
-                              ? userForm(context, true)
-                              : userForm(context, false),
+                      isChang!
+                          ? userForm(context, true)
+                          : userForm(context, false),
 //create account------------------------------
-                      gradientContainer(347,
-                          buttoms(context, 'انشاء حساب', 14, white, () {})),
+                      gradientContainer(
+                          347,
+                          buttoms(context, 'انشاء حساب', 14, white, () {
+                            singUpMethod();
+                          })),
 //singup with-----------------------------------------------------------
                       SizedBox(
                         height: 14.h,
                       ),
-                      text(context, "او التسجيل من خلال", 12, darkWhite,
-                      align: TextAlign.center,
+                      text(
+                        context,
+                        "او التسجيل من خلال",
+                        12,
+                        darkWhite,
+                        align: TextAlign.center,
                       ),
                       SizedBox(
                         height: 14.h,
@@ -143,7 +151,13 @@ class _SingUpState extends State<SingUp> {
                               SizedBox(
                                 width: 7.w,
                               ),
-                              InkWell(child: text(context, "تسجيل الدخول",13, purple),onTap: (){goTopageReplacement(context,  Logging());},),
+                              InkWell(
+                                child:
+                                    text(context, "تسجيل الدخول", 13, purple),
+                                onTap: () {
+                                  goTopageReplacement(context, Logging());
+                                },
+                              ),
                             ],
                           )
                         ],
@@ -159,5 +173,30 @@ class _SingUpState extends State<SingUp> {
         ),
       )),
     );
+  }
+
+  Future singUpMethod() async {
+    try {
+      Map<String, dynamic> user = {
+        "username": "alaa",
+        "email": "alaaALAA ",
+        "password": "123456789",
+        "country_id": 1,
+        "category_id": 1,
+      };
+      // Map<String,dynamic>user={
+      //   "username": "wafaabasil1996_10@gmail.com",
+      //   "password": "123456789",
+      // };
+      const url = "https://mobile.celebrityads.net/api/celebrity/register";
+      var response = await http.post(Uri.parse(url), body: jsonEncode(user));
+      if (response.statusCode == 201) {
+        print("donnnnnnnnnnnnnnnnnne");
+      }else{
+        print(response.statusCode);
+      }
+    }catch (e){
+      print(e.toString());
+    }
   }
 }

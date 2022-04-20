@@ -65,6 +65,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 sections.data![i].categoryId!,
                 () =>
                     fetchCategories(sections.data![i].categoryId!, pagNumber1));
+            // pagNumber1++;
           });
         }
       }
@@ -140,7 +141,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                             if (snapshot
                                     .data!.data![sectionIndex].sectionName ==
                                 'new_section')
-                              newSection( snapshot.data?.data![sectionIndex].categoryId,
+                              newSection(
+                                  snapshot.data?.data![sectionIndex].categoryId,
                                   snapshot.data?.data![sectionIndex].title,
                                   snapshot.data?.data![sectionIndex].active),
 //partners--------------------------------------------------------------------------
@@ -747,18 +749,22 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool get wantKeepAlive => true;
 
   Widget lodeing() {
-    return SizedBox(
-      height: double.infinity,
-      width: 250.w,
-      child: Center(
-        child: Lottie.asset('assets/lottie/lode.json'),
-      ),
+    return Container(
+      height: 205.h,
+      width: 205.w,
+      child: Align(
+          alignment: Alignment.center,
+          child: Lottie.asset('assets/lottie/lode.json')),
     );
   }
 
   newSection(int? secId, String? title, int? active) {
     return active == 1
-        ? Container(color: Colors.green,height: 100.h,width: 100.w,)
+        ? Container(
+            color: Colors.green,
+            height: 100.h,
+            width: 100.w,
+          )
         : const SizedBox();
   }
 

@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
           );
         },
         home:
-        SingUp()
+        Logging()
 
 
         // FutureBuilder<IntroData>(
