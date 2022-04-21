@@ -349,9 +349,9 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token2'},
       body: jsonEncode(<String, dynamic>{
-        'advertising_policy': addYourAdvPP.text.isEmpty ? "rayana" : addYourAdvPP.text,
-        'ad_space_policy': addYourAdvAreaPP.text ==  null ? "" :addYourAdvAreaPP.text,
-        'gifting_policy': addYourGiftingPP.text ==  null ? "" : addYourGiftingPP.text
+        'advertising_policy':addYourAdvPP.text,
+        'ad_space_policy': addYourAdvAreaPP.text,
+        'gifting_policy': addYourGiftingPP.text
       }),
     );
     if (response.statusCode == 200) {
