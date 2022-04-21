@@ -96,267 +96,257 @@ class _userInformationState extends State<userInformation> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: GestureDetector(
-        onTap: (){
-          updateUserInformation().whenComplete(() =>    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("تم تعديل المعلومات بنجاح"),
-          )));
-        },
-        child: Scaffold(
-          appBar: drowAppBar('المعلومات الشخصية', context),
-          body: SingleChildScrollView(
-            child: FutureBuilder<UserProfile>(
-              future: getUser,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: lodeing(context));
-                } else if (snapshot.connectionState == ConnectionState.active ||
-                    snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                    //---------------------------------------------------------------------------
-                  } else if (snapshot.hasData) {
+      child: Scaffold(
+        appBar: drowAppBar('المعلومات الشخصية', context),
+        body: SingleChildScrollView(
+          child: FutureBuilder<UserProfile>(
+            future: getUser,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: lodeing(context));
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
 
-                    name.text = snapshot.data!.data!.user!.name!;
-                    email.text = snapshot.data!.data!.user!.email!;
-                    phone.text = snapshot.data!.data!.user!.phonenumber!;
-                    password.text = "********";
-                    repassword.text = "********";
-                    country = snapshot.data!.data!.user!.country != null? snapshot.data!.data!.user!.country!.name!: '';
-                    city = snapshot.data!.data!.user!.city!.name != null? snapshot.data!.data!.user!.city!.name.toString(): '';
+                  name.text = snapshot.data!.data!.user!.name!;
+                  email.text = snapshot.data!.data!.user!.email!;
+                  phone.text = snapshot.data!.data!.user!.phonenumber!;
+                  password.text = "********";
+                  repassword.text = "********";
+                  country = snapshot.data!.data!.user!.country != null? snapshot.data!.data!.user!.country!.name!: '';
+                  city = snapshot.data!.data!.user!.city!.name != null? snapshot.data!.data!.user!.city!.name.toString(): '';
 
-                return Container(
-                      child: Form(
-                        key: _formKey,
-                        child: paddingg(
-                          12,
-                          12,
-                          5,
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                SizedBox(
-                                  height: 30.h,
-                                ),
-                                padding(
-                                  10,
-                                  12,
-                                  Container(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        'قم بملئ او تعديل  معلوماتك الشخصية',
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            color: textBlack,
-                                            fontFamily: 'Cairo'),
-                                      )),
-                                ),
+              return Container(
+                    child: Form(
+                      key: _formKey,
+                      child: paddingg(
+                        12,
+                        12,
+                        5,
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SizedBox(
+                                height: 30.h,
+                              ),
+                              padding(
+                                10,
+                                12,
+                                Container(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      'قم بملئ او تعديل  معلوماتك الشخصية',
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          color: textBlack,
+                                          fontFamily: 'Cairo'),
+                                    )),
+                              ),
 
-                                //========================== form ===============================================
+                              //========================== form ===============================================
 
-                                SizedBox(
-                                  height: 30,
-                                ),
+                              SizedBox(
+                                height: 30,
+                              ),
 
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  textFieldNoIcon(
-                                      context, 'الاسم', 14, false, name,
-                                      (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
-                                  }, false),
-                                ),
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  textFieldNoIcon(context, 'البريد الالكتروني',
-                                      14, false, email, (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
-                                  }, false),
-                                ),
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  textFieldNoIcon(
-                                      context, 'رقم الجوال', 14, false, phone,
-                                      (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
-                                  }, false),
-                                ),
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  textFieldPassword(context, 'كلمة المرور', 14,
-                                      hidden, password, (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
-                                  }, false),
-                                ),
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  textFieldPassword2(
-                                      context,
-                                      'اعادة ضبط كلمة المرور ',
-                                      14,
-                                      hidden2,
-                                      repassword, (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
-                                  }, false),
-                                ),
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldNoIcon(
+                                    context, 'الاسم', 14, false, name,
+                                    (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                }, false),
+                              ),
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldNoIcon(context, 'البريد الالكتروني',
+                                    14, false, email, (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                }, false),
+                              ),
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldNoIcon(
+                                    context, 'رقم الجوال', 14, false, phone,
+                                    (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                }, false),
+                              ),
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldPassword(context, 'كلمة المرور', 14,
+                                    hidden, password, (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                }, false),
+                              ),
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldPassword2(
+                                    context,
+                                    'اعادة ضبط كلمة المرور ',
+                                    14,
+                                    hidden2,
+                                    repassword, (String? value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                }, false),
+                              ),
 
-                                //===========dropdown lists ==================
+                              //===========dropdown lists ==================
 
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  DropdownBelow(
-                                    dropdownColor: newGrey,
-                                    itemWidth: 370.w,
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                DropdownBelow(
+                                  dropdownColor: newGrey,
+                                  itemWidth: 370.w,
 
-                                    ///text style inside the menu
-                                    itemTextstyle: TextStyle(
+                                  ///text style inside the menu
+                                  itemTextstyle: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: white,
+                                    fontFamily: 'Cairo',
+                                  ),
+
+                                  ///hint style
+                                  boxTextstyle: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: white,
-                                      fontFamily: 'Cairo',
-                                    ),
+                                      color: grey,
+                                      fontFamily: 'Cairo'),
 
-                                    ///hint style
-                                    boxTextstyle: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: grey,
-                                        fontFamily: 'Cairo'),
+                                  ///box style
+                                  boxPadding: EdgeInsets.fromLTRB(
+                                      13.w, 12.h, 13.w, 12.h),
+                                  boxWidth: 500.w,
+                                  boxHeight: 45.h,
+                                  boxDecoration: BoxDecoration(
+                                      color: textFieldBlack2.withOpacity(0.70),
+                                      borderRadius: BorderRadius.circular(8.r)),
 
-                                    ///box style
-                                    boxPadding: EdgeInsets.fromLTRB(
-                                        13.w, 12.h, 13.w, 12.h),
-                                    boxWidth: 500.w,
-                                    boxHeight: 45.h,
-                                    boxDecoration: BoxDecoration(
-                                        color: textFieldBlack2.withOpacity(0.70),
-                                        borderRadius: BorderRadius.circular(8.r)),
-
-                                    ///Icons
-                                    icon: const Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Colors.white54,
-                                    ),
-                                    hint: Text(
-                                      country,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                    value: _selectedTest3,
-                                    items: _dropdownTestItems3,
-                                    onChanged: onChangeDropdownTests3,
+                                  ///Icons
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.white54,
                                   ),
+                                  hint: Text(
+                                    country,
+                                    textDirection: TextDirection.rtl,
+                                  ),
+                                  value: _selectedTest3,
+                                  items: _dropdownTestItems3,
+                                  onChanged: onChangeDropdownTests3,
                                 ),
-                                paddingg(
-                                  15,
-                                  15,
-                                  12,
-                                  DropdownBelow(
-                                    dropdownColor: newGrey,
-                                    itemWidth: 370.w,
+                              ),
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                DropdownBelow(
+                                  dropdownColor: newGrey,
+                                  itemWidth: 370.w,
 
-                                    ///text style inside the menu
-                                    itemTextstyle: TextStyle(
+                                  ///text style inside the menu
+                                  itemTextstyle: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: white,
+                                    fontFamily: 'Cairo',
+                                  ),
+
+                                  ///hint style
+                                  boxTextstyle: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: white,
-                                      fontFamily: 'Cairo',
-                                    ),
+                                      color: grey,
+                                      fontFamily: 'Cairo'),
 
-                                    ///hint style
-                                    boxTextstyle: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: grey,
-                                        fontFamily: 'Cairo'),
+                                  ///box style
+                                  boxPadding: EdgeInsets.fromLTRB(
+                                      13.w, 12.h, 13.w, 12.h),
+                                  boxWidth: 500.w,
+                                  boxHeight: 45.h,
+                                  boxDecoration: BoxDecoration(
+                                      color: textFieldBlack2.withOpacity(0.70),
+                                      borderRadius: BorderRadius.circular(8.r)),
 
-                                    ///box style
-                                    boxPadding: EdgeInsets.fromLTRB(
-                                        13.w, 12.h, 13.w, 12.h),
-                                    boxWidth: 500.w,
-                                    boxHeight: 45.h,
-                                    boxDecoration: BoxDecoration(
-                                        color: textFieldBlack2.withOpacity(0.70),
-                                        borderRadius: BorderRadius.circular(8.r)),
-
-                                    ///Icons
-                                    icon: const Icon(
-                                      Icons.arrow_drop_down,
-                                      color: Colors.white54,
-                                    ),
-                                    hint: Text(
-                                      city,
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                    value: _selectedTest,
-                                    items: _dropdownTestItems,
-                                    onChanged: onChangeDropdownTests,
+                                  ///Icons
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.white54,
                                   ),
+                                  hint: Text(
+                                    city,
+                                    textDirection: TextDirection.rtl,
+                                  ),
+                                  value: _selectedTest,
+                                  items: _dropdownTestItems,
+                                  onChanged: onChangeDropdownTests,
                                 ),
+                              ),
 
-                                //=========== end dropdown ==================================
+                              //=========== end dropdown ==================================
 
-                                //===================== button ================================
+                              //===================== button ================================
 
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                padding(
-                                  15,
-                                  15,
-                                  gradientContainerNoborder(
-                                      getSize(context).width,
-                                      buttoms(context, 'حفظ', 20, white, () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  celebratyProfile()),
-                                        );
-                                      })),
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                              ]),
-                        ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              padding(
+                                15,
+                                15,
+                                gradientContainerNoborder(
+                                    getSize(context).width,
+                                    buttoms(context, 'حفظ', 20, white, () {
+                                     updateUserInformation().whenComplete(() => { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                       content: Text("تم تعديل المعلومات بنجاح"),
+                                     ))});
+                                    })),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                            ]),
                       ),
-                    );
-                  } else {
-                    return const Center(child: Text('Empty data'));
-                  }
+                    ),
+                  );
                 } else {
-                  return Center(
-                      child: Text('State: ${snapshot.connectionState}'));
+                  return const Center(child: Text('Empty data'));
                 }
-              },
-            ),
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            },
           ),
         ),
       ),
