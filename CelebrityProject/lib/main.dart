@@ -1,14 +1,11 @@
 ///import section
-
-import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'MainScreen/main_screen_navigation.dart';
-import 'introduction_screen/introduction_screen.dart';
+
 
 void main() => runApp(
          MyApp(),

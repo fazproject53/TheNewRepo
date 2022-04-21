@@ -53,6 +53,7 @@ dependencies:
   path_provider: ^2.0.9
   flutter_lints: ^1.0.0
   api_cache_manager: ^1.0.1
+  email_validator:
   lottie: ^1.2.2
 
 dev_dependencies:
