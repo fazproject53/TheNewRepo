@@ -35,15 +35,7 @@ class PrivacyPolicyHome extends StatefulWidget {
 
 class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> {
   Future<PrivicyPolicy>? pp;
-  var currentFocus;
 
-  unfocus() {
-    currentFocus = FocusScope.of(context);
-
-    if (!currentFocus.hasPrimaryFocus) {
-      currentFocus.unfocus();
-    }
-  }
   ///Text Field
   final TextEditingController addYourAdvPP = TextEditingController();
   final TextEditingController addYourGiftingPP = TextEditingController();
@@ -61,10 +53,9 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> {
 
   @override
   Widget build(BuildContext context) {
-    MediaQuery.of(context).viewInsets.bottom != 0?  EdgeInsets.only(bottom: 0.h): postFunction();
     return GestureDetector(
       onTap: (){
-
+        postFunction();
       },
       child: SafeArea(
         child: Column(
