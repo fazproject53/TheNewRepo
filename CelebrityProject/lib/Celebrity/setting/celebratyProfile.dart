@@ -37,7 +37,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
   Future<CelebrityInformation>? celebrity;
 
   File? imagefile;
-  String? imageurl ;
+  String? imageurl;
   final labels = [
     'المعلومات الشخصية',
     'الفوترة',
@@ -92,7 +92,6 @@ class _celebratyProfileState extends State<celebratyProfile> {
 
   @override
   Widget build(BuildContext context) {
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -127,29 +126,41 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                   width: 80.w,
                                   child: CircleAvatar(
                                       radius: 48.r,
-                                      backgroundImage: Image.network(snapshot.data!.data!.celebrity!.image!).image
+                                      backgroundImage: imagefile == null
+                                          ? Image.network(snapshot.data!.data!
+                                                  .celebrity!.image!)
+                                              .image
+                                          : Image.file(imagefile!).image)),
                             ),
-                              ),
-                ),
                             onTap: () {
                               getImage().whenComplete(() => {
-                                updateImage().whenComplete(() => {
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text("تم تعديل الصورة بنجاح"),))
-                                })
-                              });
+                                    updateImage().whenComplete(() => {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content:
+                                                Text("تم تعديل الصورة بنجاح"),
+                                          ))
+                                        })
+                                  });
                             },
                           ),
                           padding(
                             8,
                             8,
-                            text(context, snapshot.data!.data!.celebrity!.name!, 20, black,
+                            text(context, snapshot.data!.data!.celebrity!.name!,
+                                20, black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
                           padding(
                             8,
                             8,
-                            text(context, 'الفئة : ' + snapshot.data!.data!.celebrity!.category!.name!, 12, textBlack,
+                            text(
+                                context,
+                                'الفئة : ' +
+                                    snapshot
+                                        .data!.data!.celebrity!.category!.name!,
+                                12,
+                                textBlack,
                                 family: 'Cairo'),
                           ),
                           paddingg(
@@ -298,24 +309,26 @@ class _celebratyProfileState extends State<celebratyProfile> {
     );
   }
 
-   updateImage() async {
-     String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNac'
+  updateImage() async {
+    String token2 =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNac'
         'poAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
 
-
-    var stream = new http.ByteStream(DelegatingStream.typed(imagefile!.openRead()));
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imagefile!.openRead()));
     // get file length
     var length = await imagefile!.length();
 
     // string to uri
-    var uri = Uri.parse("https://mobile.celebrityads.net/api/celebrity/image/update");
+    var uri =
+        Uri.parse("https://mobile.celebrityads.net/api/celebrity/image/update");
 
     Map<String, String> headers = {
       "Accept": "application/json",
       "Authorization": "Bearer $token2"
     };
     // create multipart request
-    var request = new http.MultipartRequest( "POST", uri);
+    var request = new http.MultipartRequest("POST", uri);
 
     // multipart that takes file
     var multipartFile = new http.MultipartFile('image', stream, length,
@@ -331,10 +344,9 @@ class _celebratyProfileState extends State<celebratyProfile> {
     // listen for response
     response.stream.transform(utf8.decoder).listen((value) {
       print(value);
-
-
     });
   }
+
   Future<File?> getImage() async {
     PickedFile? pickedFile =
         await ImagePicker.platform.pickImage(source: ImageSource.gallery);

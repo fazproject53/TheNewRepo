@@ -1,6 +1,8 @@
-
+import 'package:path/path.dart';
+import 'package:async/async.dart';
 import 'dart:io';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:celepraty/Celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/Celebrity/Balance/balance.dart';
 import 'package:celepraty/Celebrity/Calendar/calendar_main.dart';
@@ -26,11 +28,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+
 class userProfile extends StatefulWidget {
   _userProfileState createState() => _userProfileState();
 }
 
-class _userProfileState extends State<userProfile> with AutomaticKeepAliveClientMixin{
+class _userProfileState extends State<userProfile>
+    with AutomaticKeepAliveClientMixin {
+  Future<UserProfile>? getUsers;
+  List<Data>? data;
   final labels = [
     'المعلومات الشخصية',
     'الفوترة',
@@ -49,7 +55,6 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
   ];
   final List<Widget> page = [
     userInformation(),
-
     Invoice(),
     const UserBalance(),
     UserRequestMainPage(),
@@ -58,8 +63,12 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
   ];
 
   File? userImage;
+  @override
+  void initState() {
+    getUsers = fetchUsers();
 
-
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -68,152 +77,230 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
         appBar: AppBarNoIcon("حسابي"),
         body: Center(
           child: SingleChildScrollView(
-            child: Column(children: [
-              //======================== profile header ===============================
+            child: FutureBuilder<UserProfile>(
+              future: getUsers,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: lodeing(context));
+                } else if (snapshot.connectionState == ConnectionState.active ||
+                    snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                    //---------------------------------------------------------------------------
+                  } else if (snapshot.hasData) {
+                    return Column(children: [
+                      //======================== profile header ===============================
 
-              Column(
-                children: [
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  InkWell(
-                    child: padding(
-                      8,
-                      8,
-                      Container(
-                          height: 56.h,
-                          width: 56.w,
-                          child: CircleAvatar(
-                              radius: 48.r,
-                              backgroundImage: userImage ==null?Image.network(
-                                  'http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png').image: Image.file(userImage!).image)),
-                    ),
-                    onTap: (){getImage();},
-                  ),
-                  padding(
-                    8,
-                    8,
-                    text(context, 'مروان بابلو', 20, black,
-                        fontWeight: FontWeight.bold, family: 'Cairo'),
-                  ),
-
-                ],
-              ), //profile image
-
-              //=========================== buttons listView =============================
-
-              SingleChildScrollView(
-                child: Container(
-                  child: paddingg(
-                    8,
-                    0,
-                    25,
-                    ListView.separated(
-                      primary: false,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return MaterialButton(
-                            onPressed: index == labels.length-1? (){
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => page[index]),
-                              );
-                            }: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => page[index]),
-                              );
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          InkWell(
+                            child: padding(
+                              8,
+                              8,
+                              Container(
+                                  height: 56.h,
+                                  width: 56.w,
+                                  child: CircleAvatar(
+                                      radius: 48.r,
+                                      backgroundImage: userImage == null
+                                          ? Image.network(
+                                                  snapshot.data!.data!.user!.image!)
+                                              .image
+                                          : Image.file(userImage!).image)),
+                            ),
+                            onTap: () {
+                              getImage().whenComplete(() => {
+                                updateImageUser().whenComplete(() => {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    content: Text("تم تعديل الصورة بنجاح"),))
+                                })
+                              });
                             },
-                            child: addListViewButton(
-                              labels[index],
-                              icons[index],
-                            ));
-                      },
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemCount: labels.length,
-                    ),
-                  ),
-                ),
-              ),
+                          ),
+                          padding(
+                            8,
+                            8,
+                            text(context, snapshot.data!.data!.user!.name!, 20, black,
+                                fontWeight: FontWeight.bold, family: 'Cairo'),
+                          ),
+                        ],
+                      ), //profile image
 
-              //========================== social media icons row =======================================
+                      //=========================== buttons listView =============================
 
-              SizedBox(
-                height: 50.h,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                padding(
-                  8,
-                  8,
-                  Container(
-                      width: 30,
-                      height: 30,
-                      child: Image.asset(
-                        'assets/image/icon- faceboock.png',
-                      )),
-                ),
-                padding(
-                  8,
-                  8,
-                  Container(
-                    width: 30,
-                    height: 30,
-                    child: Image.asset(
-                      'assets/image/icon- insta.png',
-                    ),
-                  ),
-                ),
-                padding(
-                  8,
-                  8,
-                  Container(
-                    width: 30,
-                    height: 30,
-                    child: Image.asset(
-                      'assets/image/icon- snapchat.png',
-                    ),
-                  ),
-                ),
-                padding(
-                  8,
-                  8,
-                  Container(
-                    width: 30,
-                    height: 30,
-                    child: Image.asset(
-                      'assets/image/icon- twitter.png',
-                    ),
-                  ),
-                ),
-              ]),
+                      SingleChildScrollView(
+                        child: Container(
+                          child: paddingg(
+                            8,
+                            0,
+                            25,
+                            ListView.separated(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return MaterialButton(
+                                    onPressed: index == labels.length - 1
+                                        ? () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      page[index]),
+                                            );
+                                          }
+                                        : () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      page[index]),
+                                            );
+                                          },
+                                    child: addListViewButton(
+                                      labels[index],
+                                      icons[index],
+                                    ));
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const Divider(),
+                              itemCount: labels.length,
+                            ),
+                          ),
+                        ),
+                      ),
 
-              paddingg(
-                8,
-                8,
-                12,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      copyRight,
-                      size: 14,
-                    ),
-                    text(context, 'حقوق الطبع والنشر محفوظة', 14, black),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30.h,)
-            ]),
+                      //========================== social media icons row =======================================
+
+                      SizedBox(
+                        height: 50.h,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            padding(
+                              8,
+                              8,
+                              Container(
+                                  width: 30,
+                                  height: 30,
+                                  child: Image.asset(
+                                    'assets/image/icon- faceboock.png',
+                                  )),
+                            ),
+                            padding(
+                              8,
+                              8,
+                              Container(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(
+                                  'assets/image/icon- insta.png',
+                                ),
+                              ),
+                            ),
+                            padding(
+                              8,
+                              8,
+                              Container(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(
+                                  'assets/image/icon- snapchat.png',
+                                ),
+                              ),
+                            ),
+                            padding(
+                              8,
+                              8,
+                              Container(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(
+                                  'assets/image/icon- twitter.png',
+                                ),
+                              ),
+                            ),
+                          ]),
+
+                      paddingg(
+                        8,
+                        8,
+                        12,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              copyRight,
+                              size: 14,
+                            ),
+                            text(
+                                context, 'حقوق الطبع والنشر محفوظة', 14, black),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      )
+                    ]);
+                  } else {
+                    return const Center(child: Text('Empty data'));
+                  }
+                } else {
+                  return Center(
+                      child: Text('State: ${snapshot.connectionState}'));
+                }
+              },
+            ),
           ),
         ),
       ),
     );
+
+  }
+
+  updateImageUser() async {
+    String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8'
+        'AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
+
+
+    var stream = new http.ByteStream(DelegatingStream.typed(userImage!.openRead()));
+    // get file length
+    var length = await userImage!.length();
+
+    // string to uri
+    var uri = Uri.parse("https://mobile.celebrityads.net/api/user/image/update");
+
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      "Authorization": "Bearer $token2"
+    };
+    // create multipart request
+    var request = new http.MultipartRequest( "POST", uri);
+
+    // multipart that takes file
+    var multipartFile = new http.MultipartFile('image', stream, length,
+        filename: basename(userImage!.path));
+
+    // add file to multipart
+    request.files.add(multipartFile);
+    request.headers.addAll(headers);
+    // send
+    var response = await request.send();
+    print(response.statusCode);
+
+    // listen for response
+    response.stream.transform(utf8.decoder).listen((value) {
+      print(value);
+
+
+    });
   }
   Future<File?> getImage() async {
     PickedFile? pickedFile =
-    await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+        await ImagePicker.platform.pickImage(source: ImageSource.gallery);
     if (pickedFile == null) {
       return null;
     }
@@ -232,3 +319,191 @@ class _userProfileState extends State<userProfile> with AutomaticKeepAliveClient
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
+
+
+Future<UserProfile> fetchUsers() async {
+  String token =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEi'
+      'LCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
+  final response = await http.get(
+      Uri.parse('https://mobile.celebrityads.net/api/user/profile'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    print(response.body);
+    return UserProfile.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load activity');
+  }
+}
+
+class UserProfile {
+  bool? success;
+  Data? data;
+  Message? message;
+
+  UserProfile({this.success, this.data, this.message});
+
+  UserProfile.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    message =
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    if (this.message != null) {
+      data['message'] = this.message!.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  User? user;
+  int? status;
+
+  Data({this.user, this.status});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? username;
+  String? name;
+  String? image;
+  String? email;
+  String? phonenumber;
+  Country? country;
+  City? city;
+  String? type;
+
+  User(
+      {this.id,
+      this.username,
+      this.name,
+      this.image,
+      this.email,
+      this.phonenumber,
+      this.country,
+      this.city,
+      this.type});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
+    name = json['name'];
+    image = json['image'];
+    email = json['email'];
+    phonenumber = json['phonenumber'];
+    country =
+        json['country'] != null ? new Country.fromJson(json['country']) : null;
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['email'] = this.email;
+    data['phonenumber'] = this.phonenumber;
+    if (this.country != null) {
+      data['country'] = this.country!.toJson();
+    }
+    if (this.city != null) {
+      data['city'] = this.city!.toJson();
+    }
+    data['type'] = this.type;
+    return data;
+  }
+}
+
+class Country {
+  String? name;
+  String? nameEn;
+  String? flag;
+
+  Country({this.name, this.nameEn, this.flag});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    nameEn = json['name_en'];
+    flag = json['flag'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    data['flag'] = this.flag;
+    return data;
+  }
+}
+
+class City {
+  String? name;
+  String? nameEn;
+
+  City({this.name, this.nameEn});
+
+  City.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class Message {
+  String? en;
+  String? ar;
+
+  Message({this.en, this.ar});
+
+  Message.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+    ar = json['ar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['en'] = this.en;
+    data['ar'] = this.ar;
+    return data;
+  }
+}
+
+
