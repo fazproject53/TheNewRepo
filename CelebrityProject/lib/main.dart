@@ -6,6 +6,9 @@ import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'Celebrity/HomeScreen/celebrity_home_page.dart';
+import 'introduction_screen/introduction_screen.dart';
+
 
 void main() => runApp(
          MyApp(),
@@ -52,8 +55,8 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-        home:
-        Logging()
+        home: CelebrityHomePage()
+
 
 
         // FutureBuilder<IntroData>(
