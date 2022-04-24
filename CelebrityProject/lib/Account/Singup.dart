@@ -6,6 +6,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'LoggingSingUpAPI.dart';
 import 'UserForm.dart';
 
 class SingUp extends StatefulWidget {
@@ -14,7 +15,8 @@ class SingUp extends StatefulWidget {
 }
 
 class _SingUpState extends State<SingUp> {
-  GlobalKey<FormState>singUpKey=GlobalKey();
+  DatabaseHelper databaseHelper= DatabaseHelper();
+  GlobalKey<FormState> singUpKey = GlobalKey();
   bool? isChang = false;
 
   @override
@@ -109,19 +111,22 @@ class _SingUpState extends State<SingUp> {
                             347,
                             buttoms(context, 'انشاء حساب', 14, white, () {
                               isChang == true
-                                  ? famusSingUpMethod(
-                                      "مشهور",
-                                      userNameConttroller.text,
-                                      emailConttroller.text,
-                                      passConttroller.text,
-                                      "الدولة",
-                                      "كوميدي")
-                                  : fallowerSingUpMethod(
-                                      "متابع",
-                                      userNameConttroller.text,
-                                      emailConttroller.text,
-                                      passConttroller.text,
-                                      "الدولة");
+                                  ? databaseHelper.celebrityRegister("fofonn1223", "password", 'fof2nno@gmail.com', '1','1')
+
+                              // famusSingUpMethod(
+                              //         userNameConttroller.text,
+                              //         emailConttroller.text,
+                              //         passConttroller.text,
+                              //         "الدولة",
+                              //         "كوميدي")
+                                  : databaseHelper.userRegister("fofo123", "password", 'fofo@gmail.com', '1')
+                              // fallowerSingUpMethod(
+                              //         userNameConttroller.text,
+                              //         emailConttroller.text,
+                              //         passConttroller.text,
+                              //         "الدولة")
+
+                              ;
                             })),
 //singup with-----------------------------------------------------------
                         SizedBox(
@@ -192,62 +197,18 @@ class _SingUpState extends State<SingUp> {
     );
   }
 
-  famusSingUpMethod(String userType, String username, String email, String pass,
-      String country, String catogary) async {
-   if(singUpKey.currentState?.validate()==true){
-     try {
-       Map<String, dynamic> user = {
-         "username": username,
-         "email": email.trim(),
-         "password": pass,
-         "country_id": 1,
-         "category_id": 1,
-       };
-       const url = "https://mobile.celebrityads.net/api/celebrity/register";
-       var response = await http.post(Uri.parse(url), body: jsonEncode(user));
-       if (response.statusCode == 201) {
-         print("donnnnnnnnnnnnnnnnnne");
-       } else {
-         print(response.statusCode);
-       }
-     } catch (e) {
-       print(e.toString());
-       print(userType);
-     }
-   }else{
-     //show snakpar
-     print("fill all fields");
-   }
-
+  famusSingUpMethod(String username, String email, String pass, String country,
+      String catogary) async {
+    if (singUpKey.currentState?.validate() == true) {
+      try {} catch (e) {}
+    } else {
+      //show snakpar
+      print("fill all fields");
+    }
   }
 
-  fallowerSingUpMethod(String userType, String username, String email,
-      String pass, String country) {
+  fallowerSingUpMethod(
+      String username, String email, String pass, String country) {
     //print(userType);
   }
-
-  // void singUpMethod(String text, String text2, String text3) {
-  //   try {
-  //     Map<String, dynamic> user = {
-  //       "username": "alaa",
-  //       "email": "alaaALAA ",
-  //       "password": "123456789",
-  //       "country_id": 1,
-  //       "category_id": 1,
-  //     };
-  //     // Map<String,dynamic>user={
-  //     //   "username": "wafaabasil1996_10@gmail.com",
-  //     //   "password": "123456789",
-  //     // };
-  //     const url = "https://mobile.celebrityads.net/api/celebrity/register";
-  //     var response = await http.post(Uri.parse(url), body: jsonEncode(user));
-  //     if (response.statusCode == 201) {
-  //       print("donnnnnnnnnnnnnnnnnne");
-  //     } else {
-  //       print(response.statusCode);
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
 }

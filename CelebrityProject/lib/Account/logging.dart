@@ -1,9 +1,15 @@
+
+
+import 'dart:convert';
+
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart'as http;
 
+import 'LoggingSingUpAPI.dart';
 import 'Singup.dart';
 String? currentuser;
 
@@ -17,6 +23,7 @@ class Logging extends StatefulWidget {
 }
 
 class _LoggingState extends State<Logging> {
+  DatabaseHelper databaseHelper= DatabaseHelper();
   bool isChckid = false;
   final TextEditingController lgoingEmailConttroller = new TextEditingController();
   final TextEditingController lgoingPassConttroller = new TextEditingController();
@@ -77,25 +84,26 @@ class _LoggingState extends State<Logging> {
                       gradientContainer(
                           347,
                           buttoms(context, 'تسجيل الدخول', 14, white, () {
+                            databaseHelper.loggingMethod("alaa@gmail.com", "123456789");
                             //user logging-------------------------------
-                         if(lgoingPassConttroller.text=="1"&& lgoingEmailConttroller.text=="1"){
-                          setState(() {
-                            currentuser="user";
-                          });
-                          print(currentuser);
-                           Navigator.pushReplacement(context,
-                               MaterialPageRoute(builder: (_) => const MainScreen()));
-                           //famous logging-------------------------------
-                         }else if(lgoingPassConttroller.text=="2"&& lgoingEmailConttroller.text=="2"){
-                           setState(() {
-                             currentuser="famous";
-                           });
-                           print(currentuser);
-                           Navigator.pushReplacement(context,
-                               MaterialPageRoute(builder: (_) => const MainScreen()));
-                         }else{
-                           print("امممممممممممممممممل الحقول");
-                         }
+                         // if(lgoingPassConttroller.text=="1"&& lgoingEmailConttroller.text=="1"){
+                         //  setState(() {
+                         //    currentuser="user";
+                         //  });
+                         //  print(currentuser);
+                         //   Navigator.pushReplacement(context,
+                         //       MaterialPageRoute(builder: (_) => const MainScreen()));
+                         //   //famous logging-------------------------------
+                         // }else if(lgoingPassConttroller.text=="2"&& lgoingEmailConttroller.text=="2"){
+                         //   setState(() {
+                         //     currentuser="famous";
+                         //   });
+                         //   print(currentuser);
+                         //   Navigator.pushReplacement(context,
+                         //       MaterialPageRoute(builder: (_) => const MainScreen()));
+                         // }else{
+                         //   print("امممممممممممممممممل الحقول");
+                         //}
                           })),
                       SizedBox(
                         height: 34.h,
@@ -156,6 +164,8 @@ class _LoggingState extends State<Logging> {
       ],
     );
   }
+
+
 //-------------------------------------------------------
 
 }
