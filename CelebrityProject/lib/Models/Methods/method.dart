@@ -564,7 +564,9 @@ Widget buildCkechboxList2(list) {
     cb = Expanded(
       child: Row(
         children: [
-          Checkbox(value: false, onChanged: (value) {}),
+          Checkbox(value: false, onChanged: (value) {
+
+          }),
           Text(list[i])
         ],
       ),

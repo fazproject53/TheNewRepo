@@ -33,7 +33,7 @@ class PrivacyPolicyHome extends StatefulWidget {
   _PrivacyPolicyHomeState createState() => _PrivacyPolicyHomeState();
 }
 
-class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> {
+class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> with AutomaticKeepAliveClientMixin{
   Future<PrivacyPolicy>? pp;
 
   ///Text Field
@@ -383,4 +383,8 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome> {
       throw Exception('Failed to load activity');
     }
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

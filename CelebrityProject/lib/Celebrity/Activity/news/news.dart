@@ -367,7 +367,8 @@ class _newsState extends State<news> {
                                                               height: 28.h,
                                                               width: 32.w,
                                                             ),
-                                                            onTap: (){setState(() {
+                                                            onTap: (){
+                                                              setState(() {
                                                               deleteNew(snapshot.data!.data!.news![index].id!);
                                                             });}
                                                           ),

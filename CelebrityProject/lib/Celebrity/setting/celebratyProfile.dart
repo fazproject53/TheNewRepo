@@ -32,7 +32,7 @@ class celebratyProfile extends StatefulWidget {
   _celebratyProfileState createState() => _celebratyProfileState();
 }
 
-class _celebratyProfileState extends State<celebratyProfile> {
+class _celebratyProfileState extends State<celebratyProfile> with AutomaticKeepAliveClientMixin{
   Future<CelebrityInformation>? celebrity;
 
   File? imagefile;

@@ -1,8 +1,6 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-
 import 'package:dropdown_below/dropdown_below.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -135,8 +133,6 @@ class _gifttingFormState extends State<gifttingForm>{
                     onChanged: onChangeDropdownTests2,
                   ),
                 ),
-
-
                 Row(
                   children: [
                     Expanded(
@@ -179,7 +175,9 @@ class _gifttingFormState extends State<gifttingForm>{
                         check = value!;
                       });
                     });
-                  },),),
+                  },)
+
+                  ,),
                  SizedBox(height: 30.h,),
                 padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){})),),
                  SizedBox(height: 30.h,),
