@@ -1,4 +1,5 @@
 ///import section
+import 'package:celepraty/Account/LoggingSingUpAPI.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Celebrity/notificationList.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -6,7 +7,6 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/Explower.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart';
 import 'package:celepraty/Users/chat/chatListUser.dart';
-import 'package:celepraty/celebrity/Activity/activity_screen.dart';
 import 'package:celepraty/celebrity/celebrityHomePage.dart';
 import 'package:celepraty/celebrity/chat/chatsList.dart';
 import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
@@ -21,36 +21,47 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>with AutomaticKeepAliveClientMixin {
+class _MainScreenState extends State<MainScreen>
+    with AutomaticKeepAliveClientMixin {
+  DatabaseHelper h = DatabaseHelper();
   PageController? pageController;
   int selectedIndex = 2;
   void initState() {
     super.initState();
     pageController = PageController(initialPage: selectedIndex);
-  }
 
+    h.getToken();
+  }
 
   List<Widget> Famousscreens = [
     /// Explore
     Explower(),
+
     /// Activity page
     notificationList(),
+
     /// Home Screen
     celebrityHomePage(),
+
     /// Chats
     chatsList(),
+
     /// Celebrity Profile
     celebratyProfile(),
   ];
   List<Widget> userScreen = [
     /// Explore
     Explower(),
+
     /// Activity page
     notificationList(),
+
     /// Home Screen
     celebrityHomePage(),
+
     /// Chats
     chatsListUser(),
+
     /// Celebrity Profile
     userProfile(),
   ];
@@ -126,7 +137,7 @@ class _MainScreenState extends State<MainScreen>with AutomaticKeepAliveClientMix
         items: items,
         height: 50.h,
         onTap: onTap,
-       // animationDuration: const Duration(milliseconds: 100),
+        // animationDuration: const Duration(milliseconds: 100),
       ),
     );
   }

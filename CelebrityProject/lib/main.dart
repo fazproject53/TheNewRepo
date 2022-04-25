@@ -1,5 +1,6 @@
 ///import section
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-        home: CelebrityHomePage()
+        home: MainScreen()
 
 
 
