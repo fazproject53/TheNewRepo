@@ -8,7 +8,7 @@ import 'package:email_validator/email_validator.dart';
 
 GlobalKey<FormState>userKey=GlobalKey();
 GlobalKey<FormState>celebratyKey=GlobalKey();
-String? userContry,celContry,celCatogary;
+String userContry='',celContry='',celCatogary='';
 String? empty(value) {
   if (value.isEmpty) {
     return "املء الحقل اعلاه";
@@ -88,7 +88,7 @@ userForm(context) {
       ),
 //country------------------------------------------
       drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {
-        userContry=va;
+        userContry=va!;
       },
           (val) {
         if (val == null) {
@@ -154,7 +154,7 @@ celebratyForm(context) {
       ),
 //country------------------------------------------
       drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {
-        celContry=va;
+        celContry=va!;
       },
           (val) {
         if (val == null) {
@@ -171,7 +171,7 @@ celebratyForm(context) {
       ),
 
       drowMenu("التصنيف", catogaryIcon, 11, ["كوميديا", "دراما", "طبخ"], (va) {
-        celCatogary=va;
+        celCatogary=va!;
       },
           (val) {
         if (val == null) {

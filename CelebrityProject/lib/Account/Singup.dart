@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -18,6 +19,10 @@ class _SingUpState extends State<SingUp> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   GlobalKey<FormState> singUpKey = GlobalKey();
   bool? isChang = false;
+
+  IconData error=Icons.error;
+  IconData done=Icons.task_alt;
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +116,13 @@ class _SingUpState extends State<SingUp> {
                                     userNameCeleController.text,
                                     emailCeleController.text,
                                     passCeleController.text,
-                                    celContry!,
-                                    celCatogary!)
+                                    celContry,
+                                    celCatogary)
                                 : userRegister(
                                     userNameUserController.text,
                                     emailUserController.text,
                                     passUserController.text,
-                                    userContry!);
+                                    userContry);
                           })),
 //singup with-----------------------------------------------------------
                       SizedBox(
@@ -137,8 +142,11 @@ class _SingUpState extends State<SingUp> {
                       solidContainer(
                           347,
                           white,
-                          singWthisButtom(context, "تسجيل دخول بجوجل", black,
-                              white, () {}, googelImage)),
+                          singWthisButtom(
+                              context, "تسجيل دخول بجوجل", black, white, () {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar('تمت العملية بنجاح',green,done));
+                          }, googelImage)),
                       SizedBox(
                         height: 14.h,
                       ),
@@ -195,43 +203,71 @@ class _SingUpState extends State<SingUp> {
           .celebrityRegister(username, pass, email, '1', '2')
           .then((result) {
         if (result == "celebrity") {
-          print("تم التسسسسسسسسسسسجيل بنجاح");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(snackBar('تمت العملية بنجاح',green,done));
         } else if (result == "email and username found") {
-          print('email and username foundddddddddddd');
+          ScaffoldMessenger.of(context).showSnackBar(snackBar(
+              'البريد الالكتروني واسم المستخدم موجود سابقا',
+              red,error));
         } else if (result == "username found") {
-          print('username founddddddddddddddddddd');
+          ScaffoldMessenger.of(context)
+              .showSnackBar(snackBar('اسم المستخدم موجود سابقا', red,error));
         } else if (result == 'email found') {
-          print('email foundddddddddddddddddddddd');
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar('البريد الالكتروني موجود سابقا', red,error));
         } else {
-          print('objecttttttttttttttt');
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar('توجد مشكله في استرجاع البيانات', red,error));
         }
       });
     } else {
-      //show snakpar
-      print("fill all fields");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(snackBar('تاكد من تعبئة كل الحقول',red,error));
     }
   }
 
   userRegister(String username, String email, String pass, String country) {
     if (userKey.currentState?.validate() == true) {
       // print(username);  print(email);  print(pass);  print(country);
-      databaseHelper.userRegister(
-          username, pass, email, '1') .then((result) {
+      databaseHelper.userRegister(username, pass, email, '1').then((result) {
         if (result == "user") {
           print("تم التسسسسسسسسسسسجيل بنجاح user ");
+          ScaffoldMessenger.of(context)
+              .showSnackBar(snackBar('تمت العملية بنجاح',green,error));
         } else if (result == "email and username found") {
-          print('user email and username foundddddddddddd');
+          ScaffoldMessenger.of(context).showSnackBar(snackBar(
+              'البريد الالكتروني واسم المستخدم موجود سابقا',
+              red,error));
         } else if (result == "username found") {
-          print('username founddddddddddddddddddd');
+          ScaffoldMessenger.of(context)
+              .showSnackBar(snackBar('اسم المستخدم موجود سابقا', red,error));
         } else if (result == 'email found') {
-          print('user email foundddddddddddddddddddddd');
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar('البريد الالكتروني موجود سابقا', red,error));
         } else {
-          print('user objecttttttttttttttt');
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar('توجد مشكله في استرجاع البيانات',red,error));
         }
-      });;
+      });
     } else {
-      //show snakpar
-      print("fill all fields");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(snackBar('تاكد من تعبئة كل الحقول',red,error));
     }
+  }
+
+  SnackBar snackBar(String title, Color? color,IconData? icon) {
+    return SnackBar(
+        backgroundColor: color ?? white,
+        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0.r)),
+        elevation: 20,
+        // behavior: SnackBarBehavior.floating,
+
+        content: Row(
+          children: [
+            Icon(icon,color: white,size: 20.sp,),
+            SizedBox(width: 5.w,),
+            text(context, title, 13,white)
+          ],
+        ));
   }
 }
