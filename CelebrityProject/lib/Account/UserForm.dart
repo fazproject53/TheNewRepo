@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:email_validator/email_validator.dart';
 
+GlobalKey<FormState>userKey=GlobalKey();
+GlobalKey<FormState>celebratyKey=GlobalKey();
+String? userContry,celContry,celCatogary;
 String? empty(value) {
   if (value.isEmpty) {
     return "املء الحقل اعلاه";
@@ -29,93 +32,158 @@ String? valedpass(value) {
     return "املء الحقل اعلاه";
   }
 
-  if (value.length <6) {
+  if (value.length < 6) {
     return "كلمة المرور يجب ان تكون اكثر من 5 خانات";
   }
   return null;
 }
 
 //------------------------------------------------------------------------------------------
-userForm(context, bool isVisable) {
-  return SingleChildScrollView(
-      child:
-          Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+userForm(context) {
+  return Form(
+    key: userKey,
+    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
 //name------------------------------------------
-    textField(
-  context,
-  nameIcon,
-  "اسم المستخدم",
-  10,
-  false,
-  userNameConttroller,
-  empty,
-  keyboardType: TextInputType.text,
-  inputFormatters: [
-    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[@]|[_]|[0-9]'),
-        allow: true)
-  ],
-    ),
-    SizedBox(
-  height: 15.h,
-    ),
-    //email------------------------------------------
-    textField(
-  context,
-  emailIcon,
-  "البريد الالكتروني",
-  10,
-  false,
-  emailConttroller,
-  valedEmile,
-  keyboardType: TextInputType.emailAddress,
-  inputFormatters: [
-    FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[@]|[_]|[0-9]|[.]'),
-        allow: true)
-  ],
-    ),
-    SizedBox(
-  height: 15.h,
-    ),
-    //pass------------------------------------------
-    textField(
-    context, passIcon, "كلمة المرور", 10, true, passConttroller, valedpass),
-    SizedBox(
-  height: 15.h,
-    ),
-//contry------------------------------------------
-    drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {},
-    (val) {
-  if (val == null) {
-    return "اختر الدولة";
-  } else {
-    return null;
-  }
-    }),
+      textField(
+        context,
+        nameIcon,
+        "اسم المستخدم",
+        10,
+        false,
+        userNameUserController,
+        empty,
+        keyboardType: TextInputType.text,
+        inputFormatters: [
+          FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[@]|[_]|[0-9]'),
+              allow: true)
+        ],
+      ),
+      SizedBox(
+        height: 15.h,
+      ),
+
+//email------------------------------------------
+      textField(
+        context,
+        emailIcon,
+        "البريد الالكتروني",
+        10,
+        false,
+        emailUserController,
+        valedEmile,
+        keyboardType: TextInputType.emailAddress,
+        inputFormatters: [
+          FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[@]|[_]|[0-9]|[.]'),
+              allow: true)
+        ],
+      ),
+      SizedBox(
+        height: 15.h,
+      ),
+      //pass------------------------------------------
+      textField(context, passIcon, "كلمة المرور", 10, true, passUserController,
+          valedpass),
+      SizedBox(
+        height: 15.h,
+      ),
+//country------------------------------------------
+      drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {
+        userContry=va;
+      },
+          (val) {
+        if (val == null) {
+          return "اختر الدولة";
+        } else {
+          return null;
+        }
+      }),
+
+      SizedBox(
+        height: 15.h,
+      ),
+    ]),
+  );
+}
+
+//CELEBRITY FORM-----------------------------------------------------------
+celebratyForm(context) {
+  return Form(
+    key: celebratyKey,
+    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+//name------------------------------------------
+      textField(
+        context,
+        nameIcon,
+        "اسم المستخدم",
+        10,
+        false,
+        userNameCeleController,
+        empty,
+        keyboardType: TextInputType.text,
+        inputFormatters: [
+          FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[@]|[_]|[0-9]'),
+              allow: true)
+        ],
+      ),
+      SizedBox(
+        height: 15.h,
+      ),
+      //email------------------------------------------
+      textField(
+        context,
+        emailIcon,
+        "البريد الالكتروني",
+        10,
+        false,
+        emailCeleController,
+        valedEmile,
+        keyboardType: TextInputType.emailAddress,
+        inputFormatters: [
+          FilteringTextInputFormatter(RegExp(r'[a-zA-Z]|[@]|[_]|[0-9]|[.]'),
+              allow: true)
+        ],
+      ),
+      SizedBox(
+        height: 15.h,
+      ),
+      //pass------------------------------------------
+      textField(context, passIcon, "كلمة المرور", 10, true, passCeleController,
+          valedpass),
+      SizedBox(
+        height: 15.h,
+      ),
+//country------------------------------------------
+      drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {
+        celContry=va;
+      },
+          (val) {
+        if (val == null) {
+          return "اختر الدولة";
+        } else {
+          return null;
+        }
+      }),
 
 //catogary------------------------------------------
 
-    SizedBox(
-  height: 15.h,
-    ),
+      SizedBox(
+        height: 15.h,
+      ),
 
-    Visibility(
-  visible: isVisable,
-  child: drowMenu(
-      "التصنيف", catogaryIcon, 11, ["كوميديا", "دراما", "طبخ"], (va) {},
-      (val) {
-    if (val == null) {
-      return "اختر التصنيف";
-    } else {
-      return null;
-    }
-  }),
-    ),
+      drowMenu("التصنيف", catogaryIcon, 11, ["كوميديا", "دراما", "طبخ"], (va) {
+        celCatogary=va;
+      },
+          (val) {
+        if (val == null) {
+          return "اختر التصنيف";
+        } else {
+          return null;
+        }
+      }),
 
-    Visibility(
-  visible: isVisable,
-  child: SizedBox(
-    height: 15.h,
-  ),
-    ),
-  ]));
+      SizedBox(
+        height: 15.h,
+      ),
+    ]),
+  );
 }

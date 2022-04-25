@@ -103,15 +103,22 @@ IconData hide = Icons.visibility_off_sharp;
 
 IconData flag = Icons.flag_rounded;
 IconData verified = Icons.verified_sharp;
-//controller name----------------------------------------------------------------
-TextEditingController userNameConttroller = TextEditingController();
-TextEditingController passConttroller =TextEditingController();
-TextEditingController emailConttroller=TextEditingController();
-TextEditingController countryConttroller=TextEditingController();
-TextEditingController catogaryConttroller=TextEditingController();
 
-TextEditingController loggingPassConttroller =TextEditingController();
-TextEditingController loggingEmailConttroller=TextEditingController();
+//controller name----------------------------------------------------------------
+TextEditingController userNameUserController = TextEditingController();
+TextEditingController passUserController =TextEditingController();
+TextEditingController emailUserController=TextEditingController();
+TextEditingController countryUserController=TextEditingController();
+
+TextEditingController userNameCeleController = TextEditingController();
+TextEditingController passCeleController =TextEditingController();
+TextEditingController emailCeleController=TextEditingController();
+TextEditingController countryCeleController=TextEditingController();
+TextEditingController catogaryCeleController=TextEditingController();
+
+TextEditingController loggingPassController =TextEditingController();
+TextEditingController loggingEmailController=TextEditingController();
+
 //image path------------------------------------------------------
 String staticPath="assets/image/";
 String googelImage=staticPath+"google-logo.png";
