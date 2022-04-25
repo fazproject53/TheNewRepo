@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import '../ModelAPI/ModelsAPI.dart';
 import 'LoggingSingUpAPI.dart';
 import 'UserForm.dart';
 
@@ -22,7 +23,13 @@ class _SingUpState extends State<SingUp> {
 
   IconData error=Icons.error;
   IconData done=Icons.task_alt;
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetCelebrityCategories();
+    fetCountries();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,29 +205,36 @@ class _SingUpState extends State<SingUp> {
   celebrityRegister(String username, String email, String pass, String country,
       String catogary) async {
     if (celebratyKey.currentState?.validate() == true) {
-      // print(username);  print(email);  print(pass);  print(country);  print(catogary);
+      loadingDialogue(context);
       databaseHelper
           .celebrityRegister(username, pass, email, '1', '2')
           .then((result) {
+           // Navigator.pop(context);
         if (result == "celebrity") {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(snackBar('تمت العملية بنجاح',green,done));
         } else if (result == "email and username found") {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar(
               'البريد الالكتروني واسم المستخدم موجود سابقا',
               red,error));
         } else if (result == "username found") {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(snackBar('اسم المستخدم موجود سابقا', red,error));
         } else if (result == 'email found') {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
               snackBar('البريد الالكتروني موجود سابقا', red,error));
         } else {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
               snackBar('توجد مشكله في استرجاع البيانات', red,error));
         }
       });
     } else {
+
       ScaffoldMessenger.of(context)
           .showSnackBar(snackBar('تاكد من تعبئة كل الحقول',red,error));
     }
@@ -228,28 +242,33 @@ class _SingUpState extends State<SingUp> {
 
   userRegister(String username, String email, String pass, String country) {
     if (userKey.currentState?.validate() == true) {
-      // print(username);  print(email);  print(pass);  print(country);
+      loadingDialogue(context);
       databaseHelper.userRegister(username, pass, email, '1').then((result) {
         if (result == "user") {
-          print("تم التسسسسسسسسسسسجيل بنجاح user ");
+          Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(snackBar('تمت العملية بنجاح',green,error));
         } else if (result == "email and username found") {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar(
               'البريد الالكتروني واسم المستخدم موجود سابقا',
               red,error));
         } else if (result == "username found") {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(snackBar('اسم المستخدم موجود سابقا', red,error));
         } else if (result == 'email found') {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
               snackBar('البريد الالكتروني موجود سابقا', red,error));
         } else {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
               snackBar('توجد مشكله في استرجاع البيانات',red,error));
         }
       });
     } else {
+
       ScaffoldMessenger.of(context)
           .showSnackBar(snackBar('تاكد من تعبئة كل الحقول',red,error));
     }

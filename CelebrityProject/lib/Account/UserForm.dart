@@ -6,15 +6,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:email_validator/email_validator.dart';
 
+import '../ModelAPI/ModelsAPI.dart';
+
 GlobalKey<FormState>userKey=GlobalKey();
 GlobalKey<FormState>celebratyKey=GlobalKey();
 String userContry='',celContry='',celCatogary='';
+
+
 String? empty(value) {
   if (value.isEmpty) {
     return "املء الحقل اعلاه";
   }
   return null;
 }
+
 
 String? valedEmile(value) {
   if (value.trim().isEmpty) {
@@ -170,7 +175,7 @@ celebratyForm(context) {
         height: 15.h,
       ),
 
-      drowMenu("التصنيف", catogaryIcon, 11, ["كوميديا", "دراما", "طبخ"], (va) {
+      drowMenu("التصنيف", catogaryIcon, 11, ['كوميديا','رياضي','أطفال','سياحة','مطربين'], (va) {
         celCatogary=va!;
       },
           (val) {
@@ -187,3 +192,5 @@ celebratyForm(context) {
     ]),
   );
 }
+
+

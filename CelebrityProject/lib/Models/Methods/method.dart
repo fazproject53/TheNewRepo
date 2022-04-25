@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 
 //===============================Text===============================
 
@@ -249,14 +250,16 @@ Size getSize(context) {
 //=============================TextFields=================================
 Widget textField(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
-    {Widget? suffixIcon, void Function()? onTap,List<TextInputFormatter>? inputFormatters,
+    {Widget? suffixIcon,
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
     TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
-    autovalidateMode:  AutovalidateMode.onUserInteraction,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
     onTap: onTap,
-
+    autofocus: false,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
@@ -265,16 +268,14 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
-
         hintStyle:
             TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
         fillColor: ligthtBlack,
-        labelStyle:
-            TextStyle(color: deepBlack, fontSize:  12.0.sp),
+        labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
         prefixIcon: Icon(icons, color: deepBlack, size: 25.sp),
         labelText: key,
-        errorStyle:  TextStyle(color: Colors.red, fontSize: 10.0.sp),
+        errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
@@ -618,7 +619,6 @@ Widget textFieldDescOnChange(
   return SizedBox(
     height: 105.h,
     child: TextField(
-
       controller: mycontroller,
       keyboardType: TextInputType.multiline,
       maxLines: null,
@@ -808,8 +808,7 @@ Widget drowMenu(
       dropdownColor: black,
       items: item
           .map((type) => DropdownMenuItem(
-               alignment:Alignment.center ,
-
+                alignment: Alignment.center,
                 value: type,
                 child: Text(
                   type,
@@ -821,7 +820,6 @@ Widget drowMenu(
                 ),
               ))
           .toList(),
-
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -831,8 +829,31 @@ Widget drowMenu(
           ),
           fillColor: ligthtBlack,
           alignLabelWithHint: true,
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+          errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           contentPadding: EdgeInsets.all(10.h)),
       onChanged: onChanged);
+}
+
+loadingDialogue(context) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.zero,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          content: SizedBox(
+            width: double.infinity,
+            height: 150.h,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Lottie.asset(
+                "assets/lottie/loding.json",
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        );
+      });
 }
