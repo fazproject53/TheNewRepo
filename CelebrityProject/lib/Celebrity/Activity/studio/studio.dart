@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../setting/profileInformation.dart';
 
@@ -18,6 +19,7 @@ class Studio extends StatefulWidget {
 
 class _StudioState extends State<Studio> {
   Future<TheStudio>? getStudio;
+  late VideoPlayerController _videoPlayerController;
   bool addp = false;
   bool addv = false;
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
@@ -83,6 +85,7 @@ class _StudioState extends State<Studio> {
                               return Text(snapshot.error.toString());
                               //---------------------------------------------------------------------------
                             } else if (snapshot.hasData) {
+
                               return Column(
                                 children: [
                                   paddingg(
@@ -96,6 +99,8 @@ class _StudioState extends State<Studio> {
                                         shrinkWrap: true,
                                         physics: ScrollPhysics(),
                                         itemBuilder: (context, index) {
+
+
                                           return paddingg(
                                             8,
                                             8,
@@ -122,6 +127,7 @@ class _StudioState extends State<Studio> {
                                                             10,
                                                             0,
                                                             Container(
+                                                              margin: EdgeInsets.only(bottom: 10.h),
                                                               alignment: Alignment
                                                                   .centerRight,
                                                               child: ClipRRect(
@@ -129,17 +135,19 @@ class _StudioState extends State<Studio> {
                                                                     BorderRadius
                                                                         .circular(
                                                                             2.0),
-                                                                child:
-                                                                    Image.network(
-                                                                 snapshot.data!.data!.studio![index].image!,
+                                                                child: snapshot.data!.data!.studio![index].type! == "image"? Image.network(
+                                                                  snapshot.data!.data!.studio![index].image!,
                                                                   fit: BoxFit
                                                                       .fill,
-                                                                  height: 100.h,
+                                                                  height: 120.h,
                                                                   width: 100.w,
-                                                                ),
+                                                                ): Container(height: 120.h,
+                                                                    width: 100.w,child: VideoPlayer( VideoPlayerController.network(snapshot.data!.data!.studio![index].image!)..initialize())),
+
                                                               ),
                                                             ),
                                                           ),
+                                                          SizedBox(width:3.w,),
                                                           Column(
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
@@ -182,38 +190,41 @@ class _StudioState extends State<Studio> {
                                                             SizedBox(
                                                               height: 30.h,
                                                             ),
-                                                            Container(
-                                                              child: Icon(
-                                                                removeDiscount,
-                                                                color: white,
-                                                                size: 18,
+                                                            InkWell(
+                                                              child: Container(
+                                                                child: Icon(
+                                                                  removeDiscount,
+                                                                  color: white,
+                                                                  size: 18,
+                                                                ),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                50),
+                                                                        gradient:
+                                                                            const LinearGradient(
+                                                                          begin: Alignment(
+                                                                              0.7,
+                                                                              2.0),
+                                                                          end: Alignment(
+                                                                              -0.69,
+                                                                              -1.0),
+                                                                          colors: [
+                                                                            Color(
+                                                                                0xff0ab3d0),
+                                                                            Color(
+                                                                                0xffe468ca)
+                                                                          ],
+                                                                          stops: [
+                                                                            0.0,
+                                                                            1.0
+                                                                          ],
+                                                                        )),
+                                                                height: 28.h,
+                                                                width: 32.w,
                                                               ),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              50),
-                                                                      gradient:
-                                                                          const LinearGradient(
-                                                                        begin: Alignment(
-                                                                            0.7,
-                                                                            2.0),
-                                                                        end: Alignment(
-                                                                            -0.69,
-                                                                            -1.0),
-                                                                        colors: [
-                                                                          Color(
-                                                                              0xff0ab3d0),
-                                                                          Color(
-                                                                              0xffe468ca)
-                                                                        ],
-                                                                        stops: [
-                                                                          0.0,
-                                                                          1.0
-                                                                        ],
-                                                                      )),
-                                                              height: 28.h,
-                                                              width: 32.w,
+                                                              onTap: (){deleteStudio(snapshot.data!.data!.studio![index].id!);},
                                                             )
                                                           ],
                                                         ),
@@ -261,6 +272,7 @@ class _StudioState extends State<Studio> {
     });
     return response;
   }
+
 }
 
 Future<TheStudio> fetchStudio() async {

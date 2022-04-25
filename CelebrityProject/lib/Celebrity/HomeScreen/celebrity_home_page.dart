@@ -42,12 +42,12 @@ class CelebrityHome extends StatefulWidget {
 
 class _CelebrityHomeState extends State<CelebrityHome> with AutomaticKeepAliveClientMixin{
   bool isSelect = false;
-  Future<introModel>? celebrityHome;
+  Future<introModel>? celebrityhome;
 
 
   @override
   void initState() {
-    celebrityHome = getSectionsData();
+    celebrityhome = getSectionsData();
     super.initState();
   }
 
@@ -76,7 +76,7 @@ class _CelebrityHomeState extends State<CelebrityHome> with AutomaticKeepAliveCl
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: FutureBuilder<introModel>(
-        future: celebrityHome,
+        future: celebrityhome,
         builder: (context,  snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return Center(child: loading(context));
