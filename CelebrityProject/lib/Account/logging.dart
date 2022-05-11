@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
@@ -7,27 +5,27 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 import 'LoggingSingUpAPI.dart';
 import 'Singup.dart';
+import 'UserForm.dart';
+
 String? currentuser;
 
 class Logging extends StatefulWidget {
   const Logging({Key? key}) : super(key: key);
-
- 
 
   @override
   State<Logging> createState() => _LoggingState();
 }
 
 class _LoggingState extends State<Logging> {
-  DatabaseHelper databaseHelper= DatabaseHelper();
+  DatabaseHelper databaseHelper = DatabaseHelper();
   bool isChckid = false;
-  final TextEditingController lgoingEmailConttroller = new TextEditingController();
-  final TextEditingController lgoingPassConttroller = new TextEditingController();
-
+  final TextEditingController lgoingEmailConttroller = TextEditingController();
+  final TextEditingController lgoingPassConttroller = TextEditingController();
+  GlobalKey<FormState> logKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -58,78 +56,123 @@ class _LoggingState extends State<Logging> {
               padding(
                   20,
                   20,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
+                  Form(
+                    key: logKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
 //====================================TextFields=========================================================
 
 //email------------------------------------------
-                      textField(context, emailIcon, "البريد الالكتروني او اسم المستخدم", 10,
-                          false, lgoingEmailConttroller, (val) {}),
-                      SizedBox(
-                        height: 15.h,
-                      ),
+                        textField(
+                            context,
+                            emailIcon,
+                            "البريد الالكتروني او اسم المستخدم",
+                            10,
+                            false,
+                            lgoingEmailConttroller,
+                            valedEmile),
+                        SizedBox(
+                          height: 15.h,
+                        ),
 //pass------------------------------------------
-                      textField(context, passIcon, "كلمة المرور", 10, true,
-                          lgoingPassConttroller, (val) {}),
-                      SizedBox(
-                        height: 15.h,
-                      ),
+                        textField(context, passIcon, "كلمة المرور", 10, true,
+                            lgoingPassConttroller, valedpass),
+                        SizedBox(
+                          height: 15.h,
+                        ),
 //remember me && forget pass------------------------------------------
-                      remmerberMe(),
-                      SizedBox(
-                        height: 15.h,
-                      ),
+                        remmerberMe(),
+                        SizedBox(
+                          height: 15.h,
+                        ),
 //logging buttom------------------------------
-                      gradientContainer(
-                          347,
-                          buttoms(context, 'تسجيل الدخول', 14, white, () {
-                            databaseHelper.loggingMethod("alaa@gmail.com", "123456789");
-                            //user logging-------------------------------
-                         // if(lgoingPassConttroller.text=="1"&& lgoingEmailConttroller.text=="1"){
-                         //  setState(() {
-                         //    currentuser="user";
-                         //  });
-                         //  print(currentuser);
-                         //   Navigator.pushReplacement(context,
-                         //       MaterialPageRoute(builder: (_) => const MainScreen()));
-                         //   //famous logging-------------------------------
-                         // }else if(lgoingPassConttroller.text=="2"&& lgoingEmailConttroller.text=="2"){
-                         //   setState(() {
-                         //     currentuser="famous";
-                         //   });
-                         //   print(currentuser);
-                         //   Navigator.pushReplacement(context,
-                         //       MaterialPageRoute(builder: (_) => const MainScreen()));
-                         // }else{
-                         //   print("امممممممممممممممممل الحقول");
-                         //}
-                          })),
-                      SizedBox(
-                        height: 34.h,
-                      ),
+                        gradientContainer(
+                            347,
+                            buttoms(context, 'تسجيل الدخول', 14, white, () {
+                              if (logKey.currentState?.validate() == true) {
+                                loadingDialogue(context);
+                                databaseHelper
+                                    .loggingMethod(lgoingEmailConttroller.text,
+                                        lgoingPassConttroller.text)
+                                    .then((result) {
+                                  if (result == "user") {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      currentuser = "user";
+                                    });
+                                    print(currentuser);
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const MainScreen()));
+                                  } else if (result == "celebrity") {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      currentuser = "famous";
+                                    });
+                                    print(currentuser);
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const MainScreen()));
+                                  } else if (result == "Invalid Credentials") {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        snackBar(
+                                            context,
+                                            'البيانات المدخلة غير صالحة ',
+                                            red,
+                                            error));
+                                  } else {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        snackBar(
+                                            context,
+                                            'تاكد من ملء جميع الحقول',
+                                            red,
+                                            error));
+                                  }
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar(context, 'تاكد من تعبئة كل الحقول',
+                                        red, error));
+                              }
+                            })),
+                        SizedBox(
+                          height: 34.h,
+                        ),
 //have Account buttom-----------------------------------------------------------
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Wrap(
-                            children: [
-                              text(context, "ليس لديك حساب بالفعل؟", 13,
-                                  darkWhite),
-                              SizedBox(
-                                width: 7.w,
-                              ),
-                           InkWell( child:text(context, "انشاء حساب", 13, purple),onTap: (){goTopageReplacement(context,  SingUp());}),
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 27.h,
-                      ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Wrap(
+                              children: [
+                                text(context, "ليس لديك حساب بالفعل؟", 13,
+                                    darkWhite),
+                                SizedBox(
+                                  width: 7.w,
+                                ),
+                                InkWell(
+                                    child:
+                                        text(context, "انشاء حساب", 13, purple),
+                                    onTap: () {
+                                      goTopageReplacement(context, SingUp());
+                                    }),
+                              ],
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 27.h,
+                        ),
 //----------------------------------------------------------------------------------------------------------------------
-                    ],
+                      ],
+                    ),
                   ))
             ],
           ),
@@ -145,12 +188,14 @@ class _LoggingState extends State<Logging> {
       children: [
         Row(
           children: [
-            InkWell(child: Icon(Icons.check_circle_rounded, color: isChckid?purple:ligthtBlack, size: 23.sp),onTap:(){
-             
-              setState(() {
-                 isChckid=!isChckid;
-              });
-            }),
+            InkWell(
+                child: Icon(Icons.check_circle_rounded,
+                    color: isChckid ? purple : ligthtBlack, size: 23.sp),
+                onTap: () {
+                  setState(() {
+                    isChckid = !isChckid;
+                  });
+                }),
             SizedBox(
               width: 4.w,
             ),
@@ -164,7 +209,6 @@ class _LoggingState extends State<Logging> {
       ],
     );
   }
-
 
 //-------------------------------------------------------
 
