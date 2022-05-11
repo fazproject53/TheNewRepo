@@ -125,7 +125,7 @@ class _addphotoState extends State<addphoto> {
     final String fileExtension = Path.extension(fileName);
     File newImage = await file.copy('$path/$fileName');
     setState(() {
-      if(fileExtension == ".mp4"){
+      if(fileExtension == ".png" || fileExtension == ".jpg" || fileExtension == ".jpeg"){
         studioimage = newImage;
       }else{ ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(

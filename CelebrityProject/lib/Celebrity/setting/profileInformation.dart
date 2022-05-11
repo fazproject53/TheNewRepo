@@ -108,7 +108,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
 
   @override
   void initState() {
-    celebrities = fetchCelebrities();
+     celebrities = fetchCelebrities();
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems2 = buildDropdownTestItems(categorylist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
@@ -273,8 +273,11 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                     context, 'رقم الجوال', 14, false, phone,
                                     (String? value) {
                                   if (value == null || value.isEmpty) {
+
+                                  }else{
+                                    if (value.length < 10) {
                                     return 'Please enter some text';
-                                  }
+                                  }}
                                   return null;
                                 }, false),
                               ),
@@ -458,7 +461,13 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   47,
                                   Center(
                                       child: InkWell(
-                                          onTap: () {},
+                                          onTap: () { updateInformation().whenComplete(() => {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "تم تعديل المعلومات بنجاح"),
+                                            ))
+                                          });},
                                           child: text(
                                               context, 'اضافة', 14, black,
                                               align: TextAlign.center))),
@@ -485,7 +494,13 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () {},
+                                            onTap: () { updateInformation().whenComplete(() => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل المعلومات بنجاح"),
+                                              ))
+                                            });},
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -513,7 +528,13 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () {},
+                                            onTap: () { updateInformation().whenComplete(() => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل المعلومات بنجاح"),
+                                              ))
+                                            });},
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -541,7 +562,13 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () {},
+                                            onTap: () { updateInformation().whenComplete(() => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل المعلومات بنجاح"),
+                                              ))
+                                            });},
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -569,7 +596,13 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () {},
+                                            onTap: () { updateInformation().whenComplete(() => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل المعلومات بنجاح"),
+                                              ))
+                                            });},
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -597,7 +630,13 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () {},
+                                            onTap: () { updateInformation().whenComplete(() => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل المعلومات بنجاح"),
+                                              ))
+                                            });},
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -677,7 +716,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
         'description': desc.text,
       }),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
