@@ -27,14 +27,28 @@ class introModel {
 
 class Data {
   Celebrity? celebrity;
+  List<News>? news;
+  List<Studio>? studio;
   int? status;
 
-  Data({this.celebrity, this.status});
+  Data({this.celebrity, this.news, this.studio, this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     celebrity = json['celebrity'] != null
         ? new Celebrity.fromJson(json['celebrity'])
         : null;
+    if (json['news'] != null) {
+      news = <News>[];
+      json['news'].forEach((v) {
+        news!.add(new News.fromJson(v));
+      });
+    }
+    if (json['studio'] != null) {
+      studio = <Studio>[];
+      json['studio'].forEach((v) {
+        studio!.add(new Studio.fromJson(v));
+      });
+    }
     status = json['status'];
   }
 
@@ -42,6 +56,12 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.celebrity != null) {
       data['celebrity'] = this.celebrity!.toJson();
+    }
+    if (this.news != null) {
+      data['news'] = this.news!.map((v) => v.toJson()).toList();
+    }
+    if (this.studio != null) {
+      data['studio'] = this.studio!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     return data;
@@ -56,7 +76,7 @@ class Celebrity {
   String? email;
   String? phonenumber;
   Country? country;
-  City? city;
+  Null? city;
   String? description;
   String? pageUrl;
   String? snapchat;
@@ -65,7 +85,7 @@ class Celebrity {
   String? instagram;
   String? twitter;
   String? facebook;
-  City? category;
+  Category? category;
   String? brand;
   String? advertisingPolicy;
   String? giftingPolicy;
@@ -103,7 +123,7 @@ class Celebrity {
     phonenumber = json['phonenumber'];
     country =
     json['country'] != null ? new Country.fromJson(json['country']) : null;
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    city = json['city'];
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -112,8 +132,9 @@ class Celebrity {
     instagram = json['instagram'];
     twitter = json['twitter'];
     facebook = json['facebook'];
-    category =
-    json['category'] != null ? new City.fromJson(json['category']) : null;
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
@@ -131,9 +152,7 @@ class Celebrity {
     if (this.country != null) {
       data['country'] = this.country!.toJson();
     }
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
-    }
+    data['city'] = this.city;
     data['description'] = this.description;
     data['page_url'] = this.pageUrl;
     data['snapchat'] = this.snapchat;
@@ -175,13 +194,13 @@ class Country {
   }
 }
 
-class City {
+class Category {
   String? name;
   String? nameEn;
 
-  City({this.name, this.nameEn});
+  Category({this.name, this.nameEn});
 
-  City.fromJson(Map<String, dynamic> json) {
+  Category.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     nameEn = json['name_en'];
   }
@@ -190,6 +209,56 @@ class City {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class News {
+  int? id;
+  String? title;
+  String? description;
+
+  News({this.id, this.title, this.description});
+
+  News.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['description'] = this.description;
+    return data;
+  }
+}
+
+class Studio {
+  int? id;
+  String? title;
+  String? description;
+  String? image;
+  String? type;
+
+  Studio({this.id, this.title, this.description, this.image, this.type});
+
+  Studio.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+    image = json['image'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['description'] = this.description;
+    data['image'] = this.image;
+    data['type'] = this.type;
     return data;
   }
 }

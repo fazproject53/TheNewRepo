@@ -1,6 +1,7 @@
 ///import section
 import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
 import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-          home: celebratyProfile()
+          home: MainScreen()
 
 
 
