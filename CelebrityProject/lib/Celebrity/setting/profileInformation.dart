@@ -276,6 +276,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
 
                                   }else{
                                     if (value.length < 10) {
+
                                     return 'Please enter some text';
                                   }}
                                   return null;

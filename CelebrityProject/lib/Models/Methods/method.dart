@@ -421,7 +421,7 @@ Widget textFieldNoIcon2(
         isDense: false,
         filled: true,
         hintStyle:
-            TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: textFieldBlack2.withOpacity(0.70),
         labelStyle: TextStyle(color: grey, fontSize: fontSize.sp),
         border: OutlineInputBorder(
@@ -431,7 +431,7 @@ Widget textFieldNoIcon2(
         )),
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
-        labelText: key,
+        hintText: key,
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
