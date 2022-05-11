@@ -57,9 +57,10 @@ class PromoCode {
   String? discountType;
   int? numOfPerson;
   String? description;
-  AdType? adType;
+  List<AdTypes>? adTypes;
   String? dateFrom;
   String? dateTo;
+  Status? status;
 
   PromoCode(
       {this.id,
@@ -67,9 +68,10 @@ class PromoCode {
         this.discountType,
         this.numOfPerson,
         this.description,
-        this.adType,
+        this.adTypes,
         this.dateFrom,
-        this.dateTo});
+        this.dateTo,
+        this.status});
 
   PromoCode.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -77,10 +79,16 @@ class PromoCode {
     discountType = json['discount_type'];
     numOfPerson = json['num_of_person'];
     description = json['description'];
-    adType =
-    json['ad_type'] != null ? new AdType.fromJson(json['ad_type']) : null;
+    if (json['ad_types'] != null) {
+      adTypes = <AdTypes>[];
+      json['ad_types'].forEach((v) {
+        adTypes!.add(new AdTypes.fromJson(v));
+      });
+    }
     dateFrom = json['date_from'];
     dateTo = json['date_to'];
+    status =
+    json['status'] != null ? new Status.fromJson(json['status']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -90,22 +98,47 @@ class PromoCode {
     data['discount_type'] = this.discountType;
     data['num_of_person'] = this.numOfPerson;
     data['description'] = this.description;
-    if (this.adType != null) {
-      data['ad_type'] = this.adType!.toJson();
+    if (this.adTypes != null) {
+      data['ad_types'] = this.adTypes!.map((v) => v.toJson()).toList();
     }
     data['date_from'] = this.dateFrom;
     data['date_to'] = this.dateTo;
+    if (this.status != null) {
+      data['status'] = this.status!.toJson();
+    }
     return data;
   }
 }
 
-class AdType {
+class AdTypes {
+  int? id;
   String? name;
   String? nameEn;
 
-  AdType({this.name, this.nameEn});
+  AdTypes({this.id, this.name, this.nameEn});
 
-  AdType.fromJson(Map<String, dynamic> json) {
+  AdTypes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class Status {
+  String? name;
+  String? nameEn;
+
+  Status({this.name, this.nameEn});
+
+  Status.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     nameEn = json['name_en'];
   }

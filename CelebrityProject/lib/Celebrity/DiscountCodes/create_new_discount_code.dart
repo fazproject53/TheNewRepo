@@ -7,7 +7,6 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../celebrity/setting/profileInformation.dart';
 import 'ModelDiscountCode.dart';
 
 class CreateNewDiscountCode extends StatelessWidget {
@@ -48,8 +47,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   final TextEditingController numberOfUsers = TextEditingController();
   final TextEditingController description = TextEditingController();
 
-  static DateTime current = DateTime.now();
-
+   DateTime currentStart = DateTime.now();
+   DateTime currentEnd = DateTime.now();
   ///discount go to list
 
   var list = {
@@ -276,13 +275,19 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                           return CheckboxListTile(
                                             title: Text(key),
                                             value: list[key],
+                                            selected: list[key]!,
                                             activeColor: Colors.deepPurple[400],
                                             checkColor: Colors.white,
-                                            onChanged: (bool? value) {
+                                            onChanged: (bool? valueF) { ///
                                               setState(() {
-                                                list[key] = value!;
-                                                saveList.add(key);
-                                                print(key);
+                                                list[key] = valueF!;
+                                                if(!saveList.contains(key) && list[key] == true){
+                                                  saveList.add(key);
+                                                }
+                                                if(list[key] == false && saveList.contains(key)){
+                                                  saveList.remove(key);
+                                                }
+                                                print(saveList);
                                               });
                                             },
                                           );
@@ -303,35 +308,48 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             ligthtBlack),
                                       ),
                                     ),
-                                    Container(
-                                      alignment: Alignment.topRight,
-                                      margin: EdgeInsets.only(
-                                          right: 20.w, top: 10.h),
-                                      child: InkWell(
-                                        child: gradientContainerNoborder2(
-                                          120,
-                                          40,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                scheduale,
-                                                color: white,
+                                    Row(
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.topRight,
+                                          margin: EdgeInsets.only(
+                                              right: 20.w, top: 10.h),
+                                          child: InkWell(
+                                            child: gradientContainerNoborder2(
+                                              120,
+                                              40,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    scheduale,
+                                                    color: white,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.w,
+                                                  ),
+                                                  text(context, 'تاريخ البداية',
+                                                      15.sp, white,
+                                                      fontWeight: FontWeight.bold),
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              text(context, 'تاريخ البداية',
-                                                  15.sp, white,
-                                                  fontWeight: FontWeight.bold),
-                                            ],
+                                            ),
+                                            onTap: () async {
+                                              DateTime? startDate = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: currentStart,
+                                                  firstDate: DateTime(2000),
+                                                  lastDate: DateTime(2100));
+                                              if(startDate == null) return;
+                                              setState(() {
+                                                currentStart = startDate;
+                                                print(currentStart);
+                                              });
+                                            },
                                           ),
                                         ),
-                                        onTap: () {
-                                          tableCalendar(context, current);
-                                        },
-                                      ),
+                                      ],
                                     ),
                                     //end date
                                     Container(
@@ -359,8 +377,17 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             ],
                                           ),
                                         ),
-                                        onTap: () {
-                                          tableCalendar(context, current);
+                                        onTap: () async {
+                                          DateTime? endDate = await showDatePicker(
+                                              context: context,
+                                              initialDate: currentEnd,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2100));
+                                          if(endDate == null) return;
+                                          setState(() {
+                                            currentEnd = endDate;
+                                            print(currentEnd);
+                                          });
                                         },
                                       ),
                                     ),
@@ -377,7 +404,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                           buttoms(context, 'حفظ', 20, white,
                                               () {
                                                 createNewDiscountCode();
-                                            print(saveList);
+                                            Navigator.pop(context);
                                           })),
                                     ),
                                     SizedBox(
@@ -404,16 +431,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   ///POST
   Future<http.Response> createNewDiscountCode() async {
     String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMD'
-        'E4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwib'
-        'mJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWI'
-        'iOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9O'
-        'y5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or7'
-        '5C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_'
-        'Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh'
-        '8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQd'
-        'PoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-A'
-        'Thg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/promo-codes/add',
@@ -425,13 +443,13 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       },
       body: jsonEncode(<String, dynamic>{
         'code' : discountCode.text,
-        'discount_type' : discountCode.text,
+        'discount_type' : isValue1 == true ? 'مبلغ ثابت' : 'نسبة مئوية',
         'discount': discountValue.text.toString(),
         'num_of_person': numberOfUsers.text.toString(),
         'description':description.text,
-        'ad_type_id': discountCode.text.toString(),
-        'date_from': discountCode.text,
-        'date_to':discountCode.text
+        'ad_type_ids': saveList,
+        'date_from': currentStart.toString(),
+        'date_to': currentEnd.toString()
       }),
     );
     if (response.statusCode == 200) {
