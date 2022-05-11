@@ -209,12 +209,13 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                     SizedBox(
                                                       width: 5.w,
                                                     ),
-                                                    text(
-                                                      context,
-                                                      snapshot.data!.data!.promoCode![index].adTypes![index].name!,
-                                                      15.sp,
-                                                      black,
-                                                    ),
+                                                    for (int i = 0; i < snapshot.data!.data!.promoCode![index].adTypes!.length ; i++)
+                                                      text(
+                                                        context,
+                                                        snapshot.data!.data!.promoCode![index].adTypes![i].name!+ '  ',
+                                                        15.sp,
+                                                        black,
+                                                      ),
                                                   ],
                                                 ),
 
@@ -240,7 +241,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                     ),
                                                     text(
                                                       context,
-                                                      snapshot.data!.data!.promoCode![index].dateFrom! + ' ' + snapshot.data!.data!.promoCode![index].dateTo!,
+                                                      'من '+snapshot.data!.data!.promoCode![index].dateFrom! + ' الى ' + snapshot.data!.data!.promoCode![index].dateTo!,
                                                       15.sp,
                                                       black,
                                                     ),

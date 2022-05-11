@@ -278,7 +278,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             selected: list[key]!,
                                             activeColor: Colors.deepPurple[400],
                                             checkColor: Colors.white,
-                                            onChanged: (bool? valueF) { ///
+                                            onChanged: (bool? valueF) {
                                               setState(() {
                                                 list[key] = valueF!;
                                                 if(!saveList.contains(key) && list[key] == true){
@@ -447,7 +447,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
         'discount': discountValue.text.toString(),
         'num_of_person': numberOfUsers.text.toString(),
         'description':description.text,
-        'ad_type_ids': saveList,
+        'ad_type_ids': saveList.length,
         'date_from': currentStart.toString(),
         'date_to': currentEnd.toString()
       }),
