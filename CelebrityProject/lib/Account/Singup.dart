@@ -21,8 +21,7 @@ class _SingUpState extends State<SingUp> {
   GlobalKey<FormState> singUpKey = GlobalKey();
   bool? isChang = false;
 
-  IconData error=Icons.error;
-  IconData done=Icons.task_alt;
+
 @override
   void initState() {
     // TODO: implement initState
@@ -152,7 +151,7 @@ class _SingUpState extends State<SingUp> {
                           singWthisButtom(
                               context, "تسجيل دخول بجوجل", black, white, () {
                             ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar('تمت العملية بنجاح',green,done));
+                                .showSnackBar(snackBar(context,'تمت العملية بنجاح',green,done));
                           }, googelImage)),
                       SizedBox(
                         height: 14.h,
@@ -182,7 +181,7 @@ class _SingUpState extends State<SingUp> {
                                 child:
                                     text(context, "تسجيل الدخول", 13, purple),
                                 onTap: () {
-                                  goTopageReplacement(context, Logging());
+                                  goTopageReplacement(context, const Logging());
                                 },
                               ),
                             ],
@@ -213,30 +212,30 @@ class _SingUpState extends State<SingUp> {
         if (result == "celebrity") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar('تمت العملية بنجاح',green,done));
+              .showSnackBar(snackBar(context,'تمت العملية بنجاح',green,done));
         } else if (result == "email and username found") {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar(
+          ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
               'البريد الالكتروني واسم المستخدم موجود سابقا',
               red,error));
         } else if (result == "username found") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar('اسم المستخدم موجود سابقا', red,error));
+              .showSnackBar(snackBar(context,'اسم المستخدم موجود سابقا', red,error));
         } else if (result == 'email found') {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              snackBar('البريد الالكتروني موجود سابقا', red,error));
+              snackBar(context,'البريد الالكتروني موجود سابقا', red,error));
         } else {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              snackBar('توجد مشكله في استرجاع البيانات', red,error));
+              snackBar(context,'توجد مشكله في استرجاع البيانات', red,error));
         }
       });
     } else {
 
       ScaffoldMessenger.of(context)
-          .showSnackBar(snackBar('تاكد من تعبئة كل الحقول',red,error));
+          .showSnackBar(snackBar(context,'تاكد من تعبئة كل الحقول',red,error));
     }
   }
 
@@ -247,46 +246,33 @@ class _SingUpState extends State<SingUp> {
         if (result == "user") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar('تمت العملية بنجاح',green,error));
+              .showSnackBar(
+              snackBar(context, 'تمت العملية بنجاح', green, error));
         } else if (result == "email and username found") {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar(
+          ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
               'البريد الالكتروني واسم المستخدم موجود سابقا',
-              red,error));
+              red, error));
         } else if (result == "username found") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar('اسم المستخدم موجود سابقا', red,error));
+              .showSnackBar(
+              snackBar(context, 'اسم المستخدم موجود سابقا', red, error));
         } else if (result == 'email found') {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              snackBar('البريد الالكتروني موجود سابقا', red,error));
+              snackBar(context, 'البريد الالكتروني موجود سابقا', red, error));
         } else {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              snackBar('توجد مشكله في استرجاع البيانات',red,error));
+              snackBar(context, 'توجد مشكله في استرجاع البيانات', red, error));
         }
       });
     } else {
-
       ScaffoldMessenger.of(context)
-          .showSnackBar(snackBar('تاكد من تعبئة كل الحقول',red,error));
+          .showSnackBar(
+          snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
-  }
+  }}
 
-  SnackBar snackBar(String title, Color? color,IconData? icon) {
-    return SnackBar(
-        backgroundColor: color ?? white,
-        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0.r)),
-        elevation: 20,
-        // behavior: SnackBarBehavior.floating,
 
-        content: Row(
-          children: [
-            Icon(icon,color: white,size: 20.sp,),
-            SizedBox(width: 5.w,),
-            text(context, title, 13,white)
-          ],
-        ));
-  }
-}

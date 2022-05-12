@@ -43,9 +43,15 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
     discount = fetchDiscountCode();
     super.initState();
   }
+  @override
+  void dispose() {
+    //You can save your page here
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    fetchDiscountCode();
     return SafeArea(
       child: Column(
         children: [
