@@ -84,7 +84,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         theme: ThemeData(primaryColor: purple),
         home: Scaffold(
             body: SingleChildScrollView(
-          child: FutureBuilder<Section>(
+              child: FutureBuilder<Section>(
             future: sections,
             builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
