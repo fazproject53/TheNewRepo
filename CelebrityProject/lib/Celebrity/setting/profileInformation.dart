@@ -31,6 +31,11 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
   final TextEditingController linkedin = TextEditingController();
   final TextEditingController desc = TextEditingController();
 
+
+  String? erroremail;
+   String? errorphone;
+   bool valid = false;
+
   String country = 'الدولة';
   String city = 'المدينة';
   String category = 'التصنيف';
@@ -235,8 +240,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 textFieldDesc(context, 'الوصف الخاص بالمشهور',
                                     14, false, desc, (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
+                                  }else{ return value.length > 200? 'يجب ان لا يزيد الوصف عن 200 حرف' : null;}
                                   return null;
                                 }),
                               ),
@@ -247,7 +251,8 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 textFieldNoIcon(context, 'البريد الالكتروني',
                                     14, false, email, (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
+                                  }else{
+                                    return value.contains('@') && value.contains('.com')? null: 'صيغة البريد الالكتروني غير صحيحة ';
                                   }
                                   return null;
                                 }, false),
@@ -272,15 +277,17 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 textFieldNoIcon(
                                     context, 'رقم الجوال', 14, false, phone,
                                     (String? value) {
-                                  if (value == null || value.isEmpty) {
+                                      if(value != null){
+                                        if(value.isNotEmpty){
+                                          if(value!.length != 10){
+                                            return "رقم الجوال يجب ان يكون 10 ارقم";
+                                          }
+                                        }
 
-                                  }else{
-                                    if (value.length < 10) {
+                                      }
 
-                                    return 'Please enter some text';
-                                  }}
-                                  return null;
-                                }, false),
+
+                                  return null;}, false),
                               ),
 
                               //===========dropdown lists ==================
@@ -451,12 +458,10 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   false,
                                   snapchat,
                                   (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
+
                                   },
                                 ),
+
                                 gradientContainerWithHeight(
                                   getSize(context).width / 4,
                                   47,
@@ -483,10 +488,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   false,
                                   tiktok,
                                   (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
+
                                   },
                                 ),
                                 gradientContainerWithHeight(
@@ -517,10 +519,6 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   false,
                                   youtube,
                                   (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
                                   },
                                 ),
                                 gradientContainerWithHeight(
@@ -551,10 +549,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   false,
                                   instagram,
                                   (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
+
                                   },
                                 ),
                                 gradientContainerWithHeight(
@@ -585,10 +580,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   false,
                                   twitter,
                                   (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
+
                                   },
                                 ),
                                 gradientContainerWithHeight(
@@ -619,10 +611,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   false,
                                   facebook,
                                   (String? value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
+
                                   },
                                 ),
                                 gradientContainerWithHeight(
@@ -656,13 +645,14 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
+                                      _formKey.currentState!.validate()?
                                       updateInformation().whenComplete(() => {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(const SnackBar(
                                               content: Text(
                                                   "تم تعديل المعلومات بنجاح"),
                                             ))
-                                          });
+                                          }):null;
                                     })),
                               ),
                               SizedBox(

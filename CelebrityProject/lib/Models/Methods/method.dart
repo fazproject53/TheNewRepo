@@ -265,6 +265,7 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
     controller: mycontroller,
     style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
     decoration: InputDecoration(
+
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
@@ -374,9 +375,10 @@ Widget textFieldDesc(
   var expand = false;
   return SizedBox(
     height: 200.h,
-    child: TextField(
+    child: TextFormField(
       controller: mycontroller,
       keyboardType: TextInputType.multiline,
+      validator: myvali,
       maxLines: null,
       minLines: 10,
       textAlignVertical: TextAlignVertical.top,
