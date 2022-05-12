@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -33,8 +34,8 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
 
 
   String? erroremail;
-   String? errorphone;
-   bool valid = false;
+  String? errorphone;
+  bool valid = false;
 
   String country = 'الدولة';
   String city = 'المدينة';
@@ -63,12 +64,14 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
     {'no': 3, 'keyword': 'item4'}
   ];
 
+
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
 
   ///_value
   var _selectedTest;
+
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
     setState(() {
@@ -77,6 +80,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
   }
 
   var _selectedTest2;
+
   onChangeDropdownTests2(selectedTest) {
     print(selectedTest);
     setState(() {
@@ -85,6 +89,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
   }
 
   var _selectedTest3;
+
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
@@ -113,7 +118,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
 
   @override
   void initState() {
-     celebrities = fetchCelebrities();
+    celebrities = fetchCelebrities();
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems2 = buildDropdownTestItems(categorylist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
@@ -140,7 +145,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: lodeing(context));
                     } else if (snapshot.connectionState ==
-                            ConnectionState.active ||
+                        ConnectionState.active ||
                         snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasError) {
                         return Text(snapshot.error.toString());
@@ -148,50 +153,50 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                       } else if (snapshot.hasData) {
                         snapshot.data != null
                             ? {
-                                name.text =
-                                    snapshot.data!.data!.celebrity!.name!,
-                                email.text =
-                                    snapshot.data!.data!.celebrity!.email!,
-                                password.text = "********",
-                                desc.text = snapshot
-                                    .data!.data!.celebrity!.description!,
-                                phone.text = snapshot
-                                    .data!.data!.celebrity!.phonenumber!,
-                                pageLink.text =
-                                    snapshot.data!.data!.celebrity!.pageUrl!,
-                                snapchat.text = snapshot
-                                    .data!.data!.celebrity!.snapchat!
-                                    .toString(),
-                                tiktok.text = snapshot
-                                    .data!.data!.celebrity!.tiktok!
-                                    .toString(),
-                                youtube.text = snapshot
-                                    .data!.data!.celebrity!.youtube!
-                                    .toString(),
-                                instagram.text = snapshot
-                                    .data!.data!.celebrity!.instagram!
-                                    .toString(),
-                                facebook.text = snapshot
-                                    .data!.data!.celebrity!.facebook!
-                                    .toString(),
-                                twitter.text = snapshot
-                                    .data!.data!.celebrity!.twitter!
-                                    .toString(),
-                                snapshot.data!.data!.celebrity!.category != null
-                                    ? category = snapshot
-                                        .data!.data!.celebrity!.category!.name!
-                                    : '',
-                                snapshot.data!.data!.celebrity!.country != null
-                                    ? country = snapshot
-                                        .data!.data!.celebrity!.country!.name!
-                                    : '',
-                                snapshot.data!.data!.celebrity!.city!.name !=
-                                        null
-                                    ? city = snapshot
-                                        .data!.data!.celebrity!.city!.name
-                                        .toString()
-                                    : null
-                              }
+                          name.text =
+                          snapshot.data!.data!.celebrity!.name!,
+                          email.text =
+                          snapshot.data!.data!.celebrity!.email!,
+                          password.text = "********",
+                          desc.text = snapshot
+                              .data!.data!.celebrity!.description!,
+                          phone.text = snapshot
+                              .data!.data!.celebrity!.phonenumber!,
+                          pageLink.text =
+                          snapshot.data!.data!.celebrity!.pageUrl!,
+                          snapchat.text = snapshot
+                              .data!.data!.celebrity!.snapchat!
+                              .toString(),
+                          tiktok.text = snapshot
+                              .data!.data!.celebrity!.tiktok!
+                              .toString(),
+                          youtube.text = snapshot
+                              .data!.data!.celebrity!.youtube!
+                              .toString(),
+                          instagram.text = snapshot
+                              .data!.data!.celebrity!.instagram!
+                              .toString(),
+                          facebook.text = snapshot
+                              .data!.data!.celebrity!.facebook!
+                              .toString(),
+                          twitter.text = snapshot
+                              .data!.data!.celebrity!.twitter!
+                              .toString(),
+                          snapshot.data!.data!.celebrity!.category != null
+                              ? category = snapshot
+                              .data!.data!.celebrity!.category!.name!
+                              : '',
+                          snapshot.data!.data!.celebrity!.country != null
+                              ? country = snapshot
+                              .data!.data!.celebrity!.country!.name!
+                              : '',
+                          snapshot.data!.data!.celebrity!.city!.name !=
+                              null
+                              ? city = snapshot
+                              .data!.data!.celebrity!.city!.name
+                              .toString()
+                              : null
+                        }
                             : null;
 
                         return Column(
@@ -225,13 +230,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 15,
                                 12,
                                 textFieldNoIcon(
-                                    context, 'الاسم', 14, false, name,
-                                    (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                }, false),
+                                    context,
+                                    'الاسم',
+                                    14,
+                                    false,
+                                    name,
+                                        (String? value) {
+                                      if (value == null || value.isEmpty) {
+
+                                      }
+                                      return null;
+                                    },
+                                    false),
                               ),
                               paddingg(
                                 15,
@@ -239,58 +249,109 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 12,
                                 textFieldDesc(context, 'الوصف الخاص بالمشهور',
                                     14, false, desc, (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                  }else{ return value.length > 200? 'يجب ان لا يزيد الوصف عن 200 حرف' : null;}
-                                  return null;
-                                }),
-                              ),
-                              paddingg(
-                                15,
-                                15,
-                                12,
-                                textFieldNoIcon(context, 'البريد الالكتروني',
-                                    14, false, email, (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                  }else{
-                                    return value.contains('@') && value.contains('.com')? null: 'صيغة البريد الالكتروني غير صحيحة ';
-                                  }
-                                  return null;
-                                }, false),
+                                      if (value == null ||
+                                          value.isEmpty) {} else {
+                                        return value.length > 200
+                                            ? 'يجب ان لا يزيد الوصف عن 200 حرف'
+                                            : null;
+                                      }
+                                      return null;
+                                    }),
                               ),
                               paddingg(
                                 15,
                                 15,
                                 12,
                                 textFieldNoIcon(
-                                    context, 'كلمة المرور', 14, true, password,
-                                    (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
+                                    context,
+                                    'البريد الالكتروني',
+                                    14,
+                                    false,
+                                    email, (String? value) {
+                                  if (value == null || value.isEmpty) {} else {
+                                    return value.contains('@') &&
+                                        value.contains('.com')
+                                        ? null
+                                        : 'صيغة البريد الالكتروني غير صحيحة ';
                                   }
                                   return null;
-                                }, false),
+                                },
+                                    false),
                               ),
                               paddingg(
                                 15,
                                 15,
                                 12,
                                 textFieldNoIcon(
-                                    context, 'رقم الجوال', 14, false, phone,
-                                    (String? value) {
-                                      if(value != null){
-                                        if(value.isNotEmpty){
-                                          if(value!.length != 10){
-                                            return "رقم الجوال يجب ان يكون 10 ارقم";
-                                          }
-                                        }
+                                    context,
+                                    'كلمة المرور',
+                                    14,
+                                    true,
+                                    password,
+                                        (String? value) {
+                                      if (value == null || value.isEmpty) {
 
                                       }
+                                      return null;
+                                    },
+                                    false),
+                              ),
+                              Row(
+
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                  child: paddingg(
+                                    0,
+                                    15,
+                                    12,
+                                    textFieldNoIcon(
+                                        context,
+                                        'رقم الجوال',
+                                        14,
+                                        false,
+                                        phone,
+                                            (String? value) {
+                                              RegExp regExp = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+                                          if (value != null) {
+                                            if (value.isNotEmpty) {
+                                              if (value!.length != 9) {
+                                                return "رقم الجوال يجب ان يكون 9 ارقام لا يبدا ";
+                                              }if(value.startsWith('0')){
+                                                return 'رقم الجوال يجب ان لا يبدا ب 0 ';
+                                              }
+                                              if(!regExp.hasMatch(value)){
+                                                return "رقم الجوال غير صالح";
+                                              }
+                                            }
+                                          }
 
 
-                                  return null;}, false),
+                                          return null;
+                                        },
+                                        false),
+                                  ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      child: CountryCodePicker(
+                                        onChanged: print,
+                                        // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                        initialSelection: 'SA',
+                                        // optional. Shows only country name and flag
+                                        showCountryOnly: false,
+                                        // optional. Shows only country name and flag when popup is closed.
+                                        showOnlyCountryWhenClosed: false,
+                                        // optional. aligns the flag and the Text left
+                                        alignLeft: false,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
 
-                              //===========dropdown lists ==================
+                              // ===========dropdown lists ==================
 
                               paddingg(
                                 15,
@@ -439,13 +500,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 15,
                                 12,
                                 textFieldNoIcon(
-                                    context, 'رابط الصفحة', 14, false, pageLink,
-                                    (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                }, false),
+                                    context,
+                                    'رابط الصفحة',
+                                    14,
+                                    false,
+                                    pageLink,
+                                        (String? value) {
+                                      if (value == null || value.isEmpty) {
+
+                                      }
+                                      return null;
+                                    },
+                                    false),
                               ),
 
                               //===================================== اضافة روابط الصفحات =======================================================
@@ -457,7 +523,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   14,
                                   false,
                                   snapchat,
-                                  (String? value) {
+                                      (String? value) {
 
                                   },
                                 ),
@@ -467,13 +533,17 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   47,
                                   Center(
                                       child: InkWell(
-                                          onTap: () { updateInformation().whenComplete(() => {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "تم تعديل المعلومات بنجاح"),
-                                            ))
-                                          });},
+                                          onTap: () {
+                                            updateInformation()
+                                                .whenComplete(() =>
+                                            {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل المعلومات بنجاح"),
+                                              ))
+                                            });
+                                          },
                                           child: text(
                                               context, 'اضافة', 14, black,
                                               align: TextAlign.center))),
@@ -487,7 +557,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   14,
                                   false,
                                   tiktok,
-                                  (String? value) {
+                                      (String? value) {
 
                                   },
                                 ),
@@ -497,13 +567,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () { updateInformation().whenComplete(() => {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "تم تعديل المعلومات بنجاح"),
-                                              ))
-                                            });},
+                                            onTap: () {
+                                              updateInformation()
+                                                  .whenComplete(() =>
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "تم تعديل المعلومات بنجاح"),
+                                                    ))
+                                              });
+                                            },
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -518,8 +593,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   14,
                                   false,
                                   youtube,
-                                  (String? value) {
-                                  },
+                                      (String? value) {},
                                 ),
                                 gradientContainerWithHeight(
                                   getSize(context).width / 4,
@@ -527,13 +601,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () { updateInformation().whenComplete(() => {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "تم تعديل المعلومات بنجاح"),
-                                              ))
-                                            });},
+                                            onTap: () {
+                                              updateInformation()
+                                                  .whenComplete(() =>
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "تم تعديل المعلومات بنجاح"),
+                                                    ))
+                                              });
+                                            },
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -548,7 +627,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   14,
                                   false,
                                   instagram,
-                                  (String? value) {
+                                      (String? value) {
 
                                   },
                                 ),
@@ -558,13 +637,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () { updateInformation().whenComplete(() => {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "تم تعديل المعلومات بنجاح"),
-                                              ))
-                                            });},
+                                            onTap: () {
+                                              updateInformation()
+                                                  .whenComplete(() =>
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "تم تعديل المعلومات بنجاح"),
+                                                    ))
+                                              });
+                                            },
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -579,7 +663,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   14,
                                   false,
                                   twitter,
-                                  (String? value) {
+                                      (String? value) {
 
                                   },
                                 ),
@@ -589,13 +673,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () { updateInformation().whenComplete(() => {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "تم تعديل المعلومات بنجاح"),
-                                              ))
-                                            });},
+                                            onTap: () {
+                                              updateInformation()
+                                                  .whenComplete(() =>
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "تم تعديل المعلومات بنجاح"),
+                                                    ))
+                                              });
+                                            },
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -610,7 +699,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   14,
                                   false,
                                   facebook,
-                                  (String? value) {
+                                      (String? value) {
 
                                   },
                                 ),
@@ -620,13 +709,18 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                   Container(
                                     child: Center(
                                         child: InkWell(
-                                            onTap: () { updateInformation().whenComplete(() => {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "تم تعديل المعلومات بنجاح"),
-                                              ))
-                                            });},
+                                            onTap: () {
+                                              updateInformation()
+                                                  .whenComplete(() =>
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "تم تعديل المعلومات بنجاح"),
+                                                    ))
+                                              });
+                                            },
                                             child: text(
                                                 context, 'اضافة', 14, black,
                                                 align: TextAlign.center))),
@@ -645,14 +739,15 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
-                                      _formKey.currentState!.validate()?
-                                      updateInformation().whenComplete(() => {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "تم تعديل المعلومات بنجاح"),
-                                            ))
-                                          }):null;
+                                      _formKey.currentState!.validate() ?
+                                      updateInformation().whenComplete(() =>
+                                      {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text(
+                                              "تم تعديل المعلومات بنجاح"),
+                                        ))
+                                      }) : null;
                                     })),
                               ),
                               SizedBox(
@@ -694,10 +789,10 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
         'password': password.text,
         'phonenumber': phone.text,
         'country_id':
-            _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
+        _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
         'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
         'category_id':
-            _selectedTest2 == null ? 1 : categorylist.indexOf(_selectedTest2),
+        _selectedTest2 == null ? 1 : categorylist.indexOf(_selectedTest2),
         'snapchat': snapchat.text,
         'tiktok': tiktok.text,
         'youtube': youtube.text,
@@ -722,6 +817,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
 }
 
 @override

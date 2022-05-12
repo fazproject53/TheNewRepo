@@ -160,7 +160,7 @@ class _userInformationState extends State<userInformation> {
                                     context, 'الاسم', 14, false, name,
                                     (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
+
                                   }
                                   return null;
                                 }, false),
@@ -172,7 +172,7 @@ class _userInformationState extends State<userInformation> {
                                 textFieldNoIcon(context, 'البريد الالكتروني',
                                     14, false, email, (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
+
                                   }
                                   return null;
                                 }, false),
@@ -184,10 +184,22 @@ class _userInformationState extends State<userInformation> {
                                 textFieldNoIcon(
                                     context, 'رقم الجوال', 14, false, phone,
                                     (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
+                                      RegExp regExp = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+                                      if (value != null) {
+                                        if (value.isNotEmpty) {
+                                          if (value!.length != 9) {
+                                            return "رقم الجوال يجب ان يكون 9 ارقام لا يبدا ";
+                                          }if(value.startsWith('0')){
+                                            return 'رقم الجوال يجب ان لا يبدا ب 0 ';
+                                          }
+                                          if(!regExp.hasMatch(value)){
+                                            return "رقم الجوال غير صالح";
+                                          }
+                                        }
+                                      }
+
+
+                                      return null;
                                 }, false),
                               ),
                               paddingg(
@@ -197,7 +209,7 @@ class _userInformationState extends State<userInformation> {
                                 textFieldPassword(context, 'كلمة المرور', 14,
                                     hidden, password, (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
+
                                   }
                                   return null;
                                 }, false),
@@ -213,7 +225,7 @@ class _userInformationState extends State<userInformation> {
                                     hidden2,
                                     repassword, (String? value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
+
                                   }
                                   return null;
                                 }, false),
