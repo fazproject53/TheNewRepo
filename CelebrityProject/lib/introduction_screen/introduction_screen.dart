@@ -13,10 +13,10 @@ import '../Models/Methods/method.dart';
 import 'ModelIntro.dart';
 
 class IntroductionScreen extends StatefulWidget {
+
   final List<Data>? data;
 
   const IntroductionScreen({Key? key, this.data}) : super(key: key);
-
 
   @override
   _IntroductionScreenState createState() => _IntroductionScreenState();
@@ -84,6 +84,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
                       image: widget.data![3].image!,
                       subtitle:widget.data![3].text!,
                     )
+
                   ],
                 ),
 
@@ -97,6 +98,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
                 InkWell(
                   onTap: () {
                     goTopagepush(context, const Logging());
+
                   },
                   child: Visibility(
                     visible: currentIndex == 3 ? false : true,
