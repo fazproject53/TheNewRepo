@@ -46,10 +46,12 @@ class _addphotoState extends State<addphoto> {
 
                             SizedBox(height: 20.h,),
 
-                            paddingg(15, 15, 12,textFieldNoIcon(context, 'عنوان الصورة', 14, false, controlphototitle,(String? value) {if (value == null || value.isEmpty) {
-                              return 'Please enter some text';} return null;},false),),
-                            paddingg(15, 15, 12,textFieldDesc(context, 'وصف الصورة', 14, false, controlphotodesc,(String? value) {if (value == null || value.isEmpty) {
-                              return 'Please enter some text';} return null;}),),
+                            paddingg(15, 15, 12,textFieldNoIcon(context, 'عنوان الصورة', 14, false, controlphototitle,(String? value) {if (
+                            value == null || value.isEmpty) {
+                              return 'حقل اجباري';}},false),),
+                            paddingg(15, 15, 12,textFieldDesc(context, 'وصف الصورة', 14, false, controlphotodesc,(String? value) {if (
+                            value == null || value.isEmpty) {
+                              return 'حقل اجباري';}}),),
 
 
                             SizedBox(height: 20.h),
@@ -57,8 +59,11 @@ class _addphotoState extends State<addphoto> {
 
                             SizedBox(height: 20.h),
                             padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة ', 15, white, (){
-                              addPhoto();
-                              goTopageReplacement(context, ActivityScreen()) ;})),),
+                              if(_formKey.currentState!.validate()){
+                                addPhoto().whenComplete(() => goTopageReplacement(context, ActivityScreen()));
+
+                              }
+                              })),),
                             const SizedBox(height: 30,),
                           ]),
                       ),
@@ -125,7 +130,7 @@ class _addphotoState extends State<addphoto> {
     final String fileExtension = Path.extension(fileName);
     File newImage = await file.copy('$path/$fileName');
     setState(() {
-      if(fileExtension == ".png" || fileExtension == ".jpg" || fileExtension == ".jpeg"){
+      if(fileExtension == ".png" || fileExtension == ".jpg"){
         studioimage = newImage;
       }else{ ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(

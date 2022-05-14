@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -177,31 +178,60 @@ class _userInformationState extends State<userInformation> {
                                   return null;
                                 }, false),
                               ),
-                              paddingg(
-                                15,
-                                15,
-                                12,
-                                textFieldNoIcon(
-                                    context, 'رقم الجوال', 14, false, phone,
-                                    (String? value) {
-                                      RegExp regExp = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
-                                      if (value != null) {
-                                        if (value.isNotEmpty) {
-                                          if (value.length != 9) {
-                                            return "رقم الجوال يجب ان يكون 9 ارقام لا يبدا ";
-                                          }if(value.startsWith('0')){
-                                            return 'رقم الجوال يجب ان لا يبدا ب 0 ';
-                                          }
-                                          if(!regExp.hasMatch(value)){
-                                            return "رقم الجوال غير صالح";
-                                          }
-                                        }
-                                      }
+                              Row(
+
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: paddingg(
+                                      0,
+                                      15,
+                                      12,
+                                      textFieldNoIcon(
+                                          context,
+                                          'رقم الجوال',
+                                          14,
+                                          false,
+                                          phone,
+                                              (String? value) {
+                                            RegExp regExp = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+                                            if (value != null) {
+                                              if (value.isNotEmpty) {
+                                                if (value.length != 9) {
+                                                  return "رقم الجوال يجب ان يكون 9 ارقام  ";
+                                                }if(value.startsWith('0')){
+                                                  return 'رقم الجوال يجب ان لا يبدا ب 0 ';
+                                                }
+                                                // if(!regExp.hasMatch(value)){
+                                                //   return "رقم الجوال غير صالح";
+                                                // }
+                                              }
+                                            }
 
 
-                                      return null;
-                                }, false),
+                                            return null;
+                                          },
+                                          false),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      child: CountryCodePicker(
+                                        onChanged: print,
+                                        initialSelection: 'SA',
+                                        // optional. Shows only country name and flag
+                                        showCountryOnly: false,
+                                        // optional. Shows only country name and flag when popup is closed.
+                                        showOnlyCountryWhenClosed: false,
+                                        // optional. aligns the flag and the Text left
+                                        alignLeft: false,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
+
                               paddingg(
                                 15,
                                 15,
@@ -339,9 +369,15 @@ class _userInformationState extends State<userInformation> {
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
-                                     updateUserInformation().whenComplete(() => { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                       content: Text("تم تعديل المعلومات بنجاح"),
-                                     ))});
+                                      _formKey.currentState!.validate() ?
+                                      updateUserInformation().whenComplete(() =>
+                                      {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text(
+                                              "تم تعديل المعلومات بنجاح"),
+                                        ))
+                                      }) : null;
                                     })),
                               ),
                               SizedBox(
