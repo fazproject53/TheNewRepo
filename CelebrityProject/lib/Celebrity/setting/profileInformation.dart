@@ -316,7 +316,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                           if (value != null) {
                                             if (value.isNotEmpty) {
                                               if (value.length != 9) {
-                                                return "رقم الجوال يجب ان يكون 9 ارقام  ";
+                                                return "رقم الجوال يجب ان يتكون من 9 ارقام  ";
                                               }if(value.startsWith('0')){
                                                 return 'رقم الجوال يجب ان لا يبدا ب 0 ';
                                               }

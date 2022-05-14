@@ -198,7 +198,7 @@ class _userInformationState extends State<userInformation> {
                                             if (value != null) {
                                               if (value.isNotEmpty) {
                                                 if (value.length != 9) {
-                                                  return "رقم الجوال يجب ان يكون 9 ارقام  ";
+                                                  return "رقم الجوال يجب ان يتكون من 9 ارقام  ";
                                                 }if(value.startsWith('0')){
                                                   return 'رقم الجوال يجب ان لا يبدا ب 0 ';
                                                 }
@@ -219,6 +219,7 @@ class _userInformationState extends State<userInformation> {
                                     child: Container(
                                       child: CountryCodePicker(
                                         onChanged: print,
+                                        // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                                         initialSelection: 'SA',
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
