@@ -370,17 +370,20 @@ Widget textFieldDesc(
   double fontSize,
   bool hintPass,
   TextEditingController mycontroller,
-  myvali,
+  myvali,{InputCounterWidgetBuilder? counter,
+    int? maxLenth}
 ) {
   var expand = false;
   return SizedBox(
     height: 200.h,
     child: TextFormField(
+      buildCounter :counter ,
       controller: mycontroller,
       keyboardType: TextInputType.multiline,
       validator: myvali,
       maxLines: null,
       minLines: 10,
+      maxLength: maxLenth ,
       textAlignVertical: TextAlignVertical.top,
       style:
           TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),

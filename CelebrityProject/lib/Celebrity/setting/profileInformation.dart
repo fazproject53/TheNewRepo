@@ -256,7 +256,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                             : null;
                                       }
                                       return null;
-                                    }),
+                                    }, counter: (context, {required currentLength, required isFocused, maxLength}){return Container(child: Text('${maxLength!}' +  '/' + '${currentLength }'));},maxLenth: 200),
                               ),
                               paddingg(
                                 15,
@@ -315,7 +315,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                                               RegExp regExp = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
                                           if (value != null) {
                                             if (value.isNotEmpty) {
-                                              if (value!.length != 9) {
+                                              if (value.length != 9) {
                                                 return "رقم الجوال يجب ان يكون 9 ارقام لا يبدا ";
                                               }if(value.startsWith('0')){
                                                 return 'رقم الجوال يجب ان لا يبدا ب 0 ';

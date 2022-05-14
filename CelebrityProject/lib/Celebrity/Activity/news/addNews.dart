@@ -38,14 +38,21 @@ class _addNewsState extends State<addNews> {
                           SizedBox(height: 20.h,),
 
                           paddingg(15, 15, 12,textFieldNoIcon(context, 'عنوان الخبر', 14, false, controlnewstitle,(String? value) {if (value == null || value.isEmpty) {
-                            return 'Please enter some text';} return null;},false),),
-                          paddingg(15, 15, 12,textFieldDesc(context, 'وصف الخبر', 14, false, controlnewsdesc,(String? value) {if (value == null || value.isEmpty) {
-                            return 'Please enter some text';} return null;}),),
+                            return 'حقل اجباري';} return null;},false),),
+                          paddingg(15, 15, 12,textFieldDesc(context, 'وصف الخبر', 14, false, controlnewsdesc,(String? value) {if (
+                          value == null || value.isEmpty) {
+                            return 'حقل اجباري';}else{
+                            if(value.length > 63){
+                              return 'الحد الاقصى للخبر 63 حرف';
+                            }
+                          };}, counter: (context, {required currentLength, required isFocused, maxLength}){return Container(child: Text('${maxLength!}' +  '/' + '${currentLength}'));}, maxLenth: 63),),
 
                           SizedBox(height: 20.h),
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة الخبر', 15, white, (){
-                            addNews();
-                            goTopageReplacement(context, ActivityScreen()) ;})),),
+                            if(_formKey.currentState!.validate()){
+                              addNews().whenComplete(() => goTopageReplacement(context, ActivityScreen()));
+                            }
+                          })),),
                           const SizedBox(height: 30,),
                         ]),
                     ),
