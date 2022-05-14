@@ -28,6 +28,7 @@ class _userInformationState extends State<userInformation> {
   bool hidden2 = true;
   String country = 'الدولة';
   String city = 'المدينة';
+  String? countrycode;
   Future<UserProfile>? getUser;
   var currentFocus;
   var citilist = [
@@ -114,7 +115,8 @@ class _userInformationState extends State<userInformation> {
 
                   name.text = snapshot.data!.data!.user!.name!;
                   email.text = snapshot.data!.data!.user!.email!;
-                  phone.text = snapshot.data!.data!.user!.phonenumber!;
+                  int number = snapshot.data!.data!.user!.phonenumber!.length -9;
+                  phone.text = snapshot.data!.data!.user!.phonenumber!.substring(number);
                   password.text = "********";
                   repassword.text = "********";
                   country = snapshot.data!.data!.user!.country != null? snapshot.data!.data!.user!.country!.name!: '';
@@ -221,6 +223,10 @@ class _userInformationState extends State<userInformation> {
                                         onChanged: print,
                                         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                                         initialSelection: 'SA',
+                                        onInit: (CountryCode? code){
+                                            countrycode = code!.dialCode;
+
+                                        },
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
                                         // optional. Shows only country name and flag when popup is closed.
@@ -467,7 +473,7 @@ class _userInformationState extends State<userInformation> {
         'name': name.text,
         'email': email.text,
         'password': password.text,
-        'phonenumber': phone.text,
+        'phonenumber':countrycode != null? countrycode! + phone.text : phone.text,
         'country_id': _selectedTest3 == null ? 1 : countrylist.indexOf(
             _selectedTest3),
         'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
