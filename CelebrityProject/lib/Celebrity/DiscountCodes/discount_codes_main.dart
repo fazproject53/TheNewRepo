@@ -45,9 +45,9 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
-    fetchDiscountCode();
     return SafeArea(
       child: Column(
         children: [
@@ -78,7 +78,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) =>
-                                        CreateNewDiscountCodeHome()));
+                                        const CreateNewDiscountCodeHome()));
                           },
                           evaluation: 0,
                         ),
@@ -346,13 +346,17 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                       color: black
                                                           .withOpacity(0.8),
                                                       onPressed: () {
+                                                        ///print the index
+                                                        print('The index is : $index');
+
                                                         ///go to create new discount to edit the code
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                              builder: (context) =>  CreateNewDiscountCodeHome(putId: index),
-                                                            ));
+                                                              builder: (context) =>  CreateNewDiscountCodeHome(putId: index,
 
+                                                              ),
+                                                            ));
                                                       },
                                                     ),
                                                     IconButton(

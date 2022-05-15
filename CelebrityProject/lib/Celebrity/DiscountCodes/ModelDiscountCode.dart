@@ -55,6 +55,7 @@ class PromoCode {
   int? id;
   String? code;
   String? discountType;
+  int? discount;
   int? numOfPerson;
   String? description;
   List<AdTypes>? adTypes;
@@ -66,6 +67,7 @@ class PromoCode {
       {this.id,
         this.code,
         this.discountType,
+        this.discount,
         this.numOfPerson,
         this.description,
         this.adTypes,
@@ -77,6 +79,7 @@ class PromoCode {
     id = json['id'];
     code = json['code'];
     discountType = json['discount_type'];
+    discount = json['discount'];
     numOfPerson = json['num_of_person'];
     description = json['description'];
     if (json['ad_types'] != null) {
@@ -96,6 +99,7 @@ class PromoCode {
     data['id'] = this.id;
     data['code'] = this.code;
     data['discount_type'] = this.discountType;
+    data['discount'] = this.discount;
     data['num_of_person'] = this.numOfPerson;
     data['description'] = this.description;
     if (this.adTypes != null) {
