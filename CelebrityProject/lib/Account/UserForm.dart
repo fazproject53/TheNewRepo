@@ -10,7 +10,7 @@ import '../ModelAPI/ModelsAPI.dart';
 
 GlobalKey<FormState>userKey=GlobalKey();
 GlobalKey<FormState>celebratyKey=GlobalKey();
-String userContry='',celContry='',celCatogary='';
+int userContry=0,celContry=0,celCatogary=0;
 
 
 String? empty(value) {
@@ -44,7 +44,7 @@ String? valedpass(value) {
 }
 
 //------------------------------------------------------------------------------------------
-userForm(context) {
+userForm(context, List<String> countries) {
   return Form(
     key: userKey,
     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -92,8 +92,8 @@ userForm(context) {
         height: 15.h,
       ),
 //country------------------------------------------
-      drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {
-        userContry=va!;
+      drowMenu("الدولة", countryIcon, 11, countries, (va) {
+        userContry=countries.indexOf(va!)+1;
       },
           (val) {
         if (val == null) {
@@ -111,7 +111,7 @@ userForm(context) {
 }
 
 //CELEBRITY FORM-----------------------------------------------------------
-celebratyForm(context) {
+celebratyForm(context,List<String> countries,List<String> catogary) {
   return Form(
     key: celebratyKey,
     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -158,8 +158,8 @@ celebratyForm(context) {
         height: 15.h,
       ),
 //country------------------------------------------
-      drowMenu("الدولة", countryIcon, 11, ["الهند", "فلسطين", "سوريا"], (va) {
-        celContry=va!;
+      drowMenu("الدولة", countryIcon, 11, countries, (va) {
+        celContry=countries.indexOf(va!)+1;
       },
           (val) {
         if (val == null) {
@@ -175,8 +175,8 @@ celebratyForm(context) {
         height: 15.h,
       ),
 
-      drowMenu("التصنيف", catogaryIcon, 11, ['كوميديا','رياضي','أطفال','سياحة','مطربين'], (va) {
-        celCatogary=va!;
+      drowMenu("التصنيف", catogaryIcon, 11, catogary, (va) {
+        celCatogary=catogary.indexOf(va!)+1;
       },
           (val) {
         if (val == null) {

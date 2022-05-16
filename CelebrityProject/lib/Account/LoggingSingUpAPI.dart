@@ -31,7 +31,7 @@ class DatabaseHelper {
   //userRegister--------------------------------------------------------------------------------------------
 
   Future<String> userRegister(
-      String username, String password, String email, String countryId) async {
+      String username, String password, String email, int countryId) async {
     var userType;
 
     try {
@@ -39,7 +39,7 @@ class DatabaseHelper {
         "username": username,
         "password": password,
         "email": email,
-        'country_id': countryId
+        'country_id': '$countryId'
       };
       String url = "$serverUrl/user/new_register";
       final respons = await http.post(Uri.parse(url), body: data);
@@ -78,7 +78,7 @@ class DatabaseHelper {
   //celebrityRegister--------------------------------------------------------------------------------------------
 
   Future<String> celebrityRegister(String username, String password,
-      String email, String countryId, String categoryId) async {
+      String email, int countryId, int categoryId) async {
     var userType;
 
     try {
@@ -86,8 +86,8 @@ class DatabaseHelper {
         "username": username,
         "password": password,
         "email": email,
-        'country_id': countryId,
-        'category_id': categoryId
+        'country_id': '$countryId',
+        'category_id': '$categoryId'
       };
       String url = "$serverUrl/celebrity/register";
       final respons = await http.post(Uri.parse(url), body: data);

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-List<String> celepCatogarie=[];
-List<String> countries=[];
+
+
 class Section {
   bool? success;
   List<Data>? data;
@@ -572,40 +572,4 @@ Future<Category> fetchCategories(int id, int pagNumber) async {
   }
 }
 
-//getCintriy--------------------------------------------------------------------
-fetCelebrityCategories() async {
-  String serverUrl = 'https://mobile.celebrityads.net/api';
-  String url = "$serverUrl/categories";
-  final response = await http.get(Uri.parse(url));
 
-  if (response.statusCode == 200) {
-    final body = jsonDecode(response.body);
-    for (int i = 0; i < body['data'].length; i++) {
-      celepCatogarie.add(body['data'][i]['name']);
-    }
-    print(celepCatogarie);
-
-    return celepCatogarie;
-  } else {
-    throw Exception('Failed to load celebrity catogary');
-  }
-}
-
-//getCountries--------------------------------------------------------------------
-fetCountries() async {
-  String serverUrl = 'https://mobile.celebrityads.net/api';
-  String url = "$serverUrl/countries";
-  final response = await http.get(Uri.parse(url));
-
-  if (response.statusCode == 200) {
-    final body = jsonDecode(response.body);
-    for (int i = 0; i < body['data'].length; i++) {
-      countries.add(body['data'][i]['name']);
-    }
-    print(countries);
-
-    return countries;
-  } else {
-    throw Exception('Failed to load  countries');
-  }
-}

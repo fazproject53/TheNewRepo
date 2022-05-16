@@ -20,6 +20,8 @@ class _SingUpState extends State<SingUp> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   GlobalKey<FormState> singUpKey = GlobalKey();
   bool? isChang = false;
+  List<String> countries=[];
+  List<String> celebrityCategories=[];
 
 
 @override
@@ -28,10 +30,55 @@ class _SingUpState extends State<SingUp> {
     super.initState();
     fetCelebrityCategories();
     fetCountries();
+
+
   }
 
+
+//getCountries--------------------------------------------------------------------
+  fetCountries() async {
+    String serverUrl = 'https://mobile.celebrityads.net/api';
+    String url = "$serverUrl/countries";
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      for (int i = 0; i < body['data'].length; i++) {
+       setState(() {
+         countries.add(body['data'][i]['name']);
+       });
+      }
+
+      print('countries is:$countries');
+      return countries;
+    } else {
+      throw Exception('Failed to load  countries');
+    }
+
+  }
+
+  //get celebrity Categories--------------------------------------------------------------------
+  fetCelebrityCategories() async {
+    String serverUrl = 'https://mobile.celebrityads.net/api';
+    String url = "$serverUrl/categories";
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      for (int i = 0; i < body['data'].length; i++) {
+        celebrityCategories.add(body['data'][i]['name']);
+      }
+      print(celebrityCategories);
+
+      return celebrityCategories;
+    } else {
+      throw Exception('Failed to load celebrity catogary');
+    }
+}
+//--------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -112,19 +159,25 @@ class _SingUpState extends State<SingUp> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
 //====================================TextFields=========================================================
-                      isChang! ? celebratyForm(context) : userForm(context),
-//create account------------------------------
+                      isChang! ? celebratyForm(context,countries,celebrityCategories) : userForm(context,countries),
                       gradientContainer(
                           347,
                           buttoms(context, 'انشاء حساب', 14, white, () {
+                            print('cel Catogary is:$celCatogary');
+                            print('celContry $celContry');
+                            print('userContry$userContry');
                             isChang == true
-                                ? celebrityRegister(
+                                ?
+                            //create famous account------------------------------
+                            celebrityRegister(
                                     userNameCeleController.text,
                                     emailCeleController.text,
                                     passCeleController.text,
                                     celContry,
                                     celCatogary)
-                                : userRegister(
+                                :
+                            //create user account------------------------------
+                            userRegister(
                                     userNameUserController.text,
                                     emailUserController.text,
                                     passUserController.text,
@@ -200,13 +253,13 @@ class _SingUpState extends State<SingUp> {
       )),
     );
   }
-
-  celebrityRegister(String username, String email, String pass, String country,
-      String catogary) async {
+  //----------------------------------------------------------------------------------------------------------------------
+  celebrityRegister(String username, String email, String pass, int country,
+      int catogary) async {
     if (celebratyKey.currentState?.validate() == true) {
       loadingDialogue(context);
       databaseHelper
-          .celebrityRegister(username, pass, email, '1', '2')
+          .celebrityRegister(username, pass, email, country, catogary)
           .then((result) {
            // Navigator.pop(context);
         if (result == "celebrity") {
@@ -238,11 +291,11 @@ class _SingUpState extends State<SingUp> {
           .showSnackBar(snackBar(context,'تاكد من تعبئة كل الحقول',red,error));
     }
   }
-
-  userRegister(String username, String email, String pass, String country) {
+//------------------------------------------------------------------------------
+  userRegister(String username, String email, String pass, int country) {
     if (userKey.currentState?.validate() == true) {
       loadingDialogue(context);
-      databaseHelper.userRegister(username, pass, email, '1').then((result) {
+      databaseHelper.userRegister(username, pass, email, country).then((result) {
         if (result == "user") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)

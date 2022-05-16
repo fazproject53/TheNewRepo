@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-          home: MainScreen()
+          home: Logging()
 
 
 
