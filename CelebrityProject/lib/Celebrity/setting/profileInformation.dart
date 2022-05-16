@@ -71,6 +71,7 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
 
   ///_value
   var _selectedTest;
+  int? number;
 
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
@@ -158,10 +159,12 @@ class _profileInformaionState extends State<profileInformaion> with AutomaticKee
                           email.text =
                           snapshot.data!.data!.celebrity!.email!,
                           password.text = "********",
-                          desc.text = snapshot
-                              .data!.data!.celebrity!.description!,
-                          phone.text = snapshot
-                              .data!.data!.celebrity!.phonenumber!,
+                          desc.text = snapshot.data!.data!.celebrity!.description!,
+                          snapshot.data!.data!.celebrity!.phonenumber! != null?{
+                            number = snapshot.data!.data!.celebrity!.phonenumber!.length - 9,
+                            phone.text = snapshot.data!.data!.celebrity!.phonenumber!.substring(number!),
+                          }: phone.text = snapshot.data!.data!.celebrity!.phonenumber!,
+
                           pageLink.text =
                           snapshot.data!.data!.celebrity!.pageUrl!,
                           snapchat.text = snapshot
