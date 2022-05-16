@@ -28,10 +28,10 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
   ///Text Field
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController discountCode = TextEditingController();
-  final TextEditingController discountValue = TextEditingController();
-  final TextEditingController numberOfUsers = TextEditingController();
-  final TextEditingController description = TextEditingController();
+  TextEditingController discountCode = TextEditingController();
+  TextEditingController discountValue = TextEditingController();
+  TextEditingController numberOfUsers = TextEditingController();
+  TextEditingController description = TextEditingController();
 
   DateTime currentStart = DateTime.now();
   DateTime currentEnd = DateTime.now();
@@ -52,6 +52,12 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
   ///_value
   int? _value = 1;
+
+  int? helper = 0;
+  int? helper1 = 0;
+  int? helper2 = 0;
+  int? helper3 = 0;
+
 
   @override
   void initState() {
@@ -77,24 +83,72 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                       snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
                       return Center(child: Text(snapshot.error.toString()));
-                      //---------------------------------------------------------------------------
+
+                      ///if has data
                     } else if (snapshot.hasData) {
-                      widget.putId != null ? /// Update Case if we have id fill the text fields otherwise null
+                      widget.putId != null
+                          ?
+
+                          /// Update Case - if we have id fill the text fields otherwise null
                           {
-                            discountCode.text = snapshot.data!.data!.promoCode![widget.putId!].code!,
-                            discountValue.text = snapshot.data!.data!.promoCode![widget.putId!].discountType!,
-                            numberOfUsers.text = snapshot.data!.data!.promoCode![widget.putId!].numOfPerson!.toString(),
-                            description.text = snapshot.data!.data!.promoCode![widget.putId!].description!,
+                              ///Fill the text fields with info
+                              if (helper3 == 0)
+                                {
+                                  discountCode.text = snapshot.data!.data!
+                                      .promoCode![widget.putId!].code!,
+                                  discountValue.text = snapshot.data!.data!
+                                      .promoCode![widget.putId!].discount!
+                                      .toString(),
+                                  numberOfUsers.text = snapshot.data!.data!
+                                      .promoCode![widget.putId!].numOfPerson!
+                                      .toString(),
+                                  description.text = snapshot.data!.data!
+                                      .promoCode![widget.putId!].description!,
+                                  helper3 = 1,
+                                },
 
+                              ///Discount type
+                              if (helper == 0)
+                                {
+                                  snapshot.data!.data!.promoCode![widget.putId!]
+                                              .discountType! ==
+                                          "مبلغ ثابت"
+                                      ? _value = 1
+                                      : _value = 2,
+                                  helper = 1,
+                                },
 
-                            for(int i = 0; i < snapshot.data!.data!.promoCode![widget.putId!].adTypes!.length ; i++){
-                              list.containsKey(snapshot.data!.data!.promoCode![widget.putId!].adTypes![i].id) ? list[snapshot.data!.data!.promoCode![widget.putId!].adTypes![i].id!] = true : false,
-                              saveList.add(i),
-                              print(saveList)
+                              ///Put a check sign on AD type
+                              if (helper1 == 0){
+                                for (int i = 0; i < snapshot.data!.data!
+                                    .promoCode![widget.putId!].adTypes!
+                                    .length; i++){
+                                  list.containsKey(snapshot.data!.data!
+                                      .promoCode![widget.putId!].adTypes![i].id)
+                                      ? list[snapshot.data!.data!
+                                      .promoCode![widget.putId!].adTypes![i]
+                                      .id!] = true : false,
+                                  helper1 = 1,
+                                },
+                                for(int j = 0; j < list.length; j++){
+                                  list[j] == true ? saveList.add(j) : null
+                                },
+                              },
+
+                              ///Fetch the date from database and store in right variables
+                              if (helper2 == 0)
+                                {
+                                  currentStart = DateTime.parse(snapshot
+                                      .data!
+                                      .data!
+                                      .promoCode![widget.putId!]
+                                      .dateFrom!),
+                                  currentEnd = DateTime.parse(snapshot.data!
+                                      .data!.promoCode![widget.putId!].dateTo!),
+                                  helper2 = 1,
+                                }
                             }
-
-                          }
-                      : null;
+                          : const SizedBox();
 
                       return Column(
                         children: [
@@ -152,31 +206,28 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                   12,
                                                   false,
                                                   discountCode,
-                                                      (String? value) {
-                                                    /// Validation text field
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  }, false),
+                                                  (String? value) {
+                                                /// Validation text field
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              }, false),
                                             ),
 
                                             ///Select The Type of Support
                                             Container(
-                                              alignment:
-                                              Alignment.topRight,
+                                              alignment: Alignment.topRight,
                                               child: Padding(
                                                 padding: EdgeInsets.only(
-                                                    top: 10.h,
-                                                    right: 20.w),
+                                                    top: 10.h, right: 20.w),
                                                 child: text(
                                                     context,
                                                     "اختر نوع الخصم",
                                                     18,
                                                     ligthtBlack,
-                                                    family:
-                                                    'DINNextLTArabic'),
+                                                    family: 'DINNextLTArabic'),
                                               ),
                                             ),
 
@@ -185,6 +236,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               15,
                                               15,
                                               9,
+
                                               ///The Radio Buttons
                                               Container(
                                                 margin: EdgeInsets.only(
@@ -195,22 +247,20 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                       children: [
                                                         Transform.scale(
                                                           scale: 0.8,
-                                                          child: Radio<
-                                                              int>(
+                                                          child: Radio<int>(
                                                               value: 1,
                                                               groupValue:
-                                                              _value,
+                                                                  _value,
                                                               activeColor:
-                                                              purple,
+                                                                  purple,
                                                               onChanged:
                                                                   (value) {
-                                                                setState(
-                                                                        () {
-                                                                      _value =
-                                                                          value;
-                                                                      isValue1 =
+                                                                setState(() {
+                                                                  _value =
+                                                                      value;
+                                                                  isValue1 =
                                                                       false;
-                                                                    });
+                                                                });
                                                               }),
                                                         ),
                                                         text(
@@ -219,29 +269,27 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                             14,
                                                             ligthtBlack,
                                                             family:
-                                                            'DINNextLTArabic'),
+                                                                'DINNextLTArabic'),
                                                       ],
                                                     ),
                                                     Row(
                                                       children: [
                                                         Transform.scale(
                                                           scale: 0.8,
-                                                          child: Radio<
-                                                              int>(
+                                                          child: Radio<int>(
                                                               value: 2,
                                                               groupValue:
-                                                              _value,
+                                                                  _value,
                                                               activeColor:
-                                                              purple,
+                                                                  purple,
                                                               onChanged:
                                                                   (value) {
-                                                                setState(
-                                                                        () {
-                                                                      _value =
-                                                                          value;
-                                                                      isValue1 =
+                                                                setState(() {
+                                                                  _value =
+                                                                      value;
+                                                                  isValue1 =
                                                                       true;
-                                                                    });
+                                                                });
                                                               }),
                                                         ),
                                                         text(
@@ -250,7 +298,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                             14,
                                                             ligthtBlack,
                                                             family:
-                                                            'DINNextLTArabic'),
+                                                                'DINNextLTArabic'),
                                                       ],
                                                     ),
                                                   ],
@@ -274,14 +322,14 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                   12,
                                                   false,
                                                   discountValue,
-                                                      (String? value) {
-                                                    /// Validation text field
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  }, false),
+                                                  (String? value) {
+                                                /// Validation text field
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              }, false),
                                             ),
 
                                             ///number of users
@@ -295,14 +343,14 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                   12,
                                                   false,
                                                   numberOfUsers,
-                                                      (String? value) {
-                                                    /// Validation text field
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return 'Please enter some text';
-                                                    }
-                                                    return null;
-                                                  }, false),
+                                                  (String? value) {
+                                                /// Validation text field
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Please enter some text';
+                                                }
+                                                return null;
+                                              }, false),
                                             ),
 
                                             ///description
@@ -316,7 +364,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 12,
                                                 false,
                                                 description,
-                                                    (String? value) {
+                                                (String? value) {
                                                   /// Validation text field
                                                   if (value == null ||
                                                       value.isEmpty) {
@@ -335,45 +383,36 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             padding(
                                                 8,
                                                 20,
-                                                text(context, 'الخصم الى',
-                                                    14, black,
+                                                text(context, 'الخصم الى', 14,
+                                                    black,
                                                     fontWeight:
-                                                    FontWeight.bold)),
+                                                        FontWeight.bold)),
 
                                             SizedBox(
                                               height: 150.h,
                                               child: ListView(
-                                                children: list.keys
-                                                    .map((int key) {
+                                                children:
+                                                    list.keys.map((int key) {
                                                   return CheckboxListTile(
-                                                    title: Text(
-                                                        listName[key]!),
+                                                    title: Text(listName[key]!),
                                                     value: list[key],
                                                     selected: list[key]!,
-                                                    activeColor: Colors
-                                                        .deepPurple[400],
-                                                    checkColor:
-                                                    Colors.white,
-                                                    onChanged:
-                                                        (bool? valueF) {
+                                                    activeColor:
+                                                        Colors.deepPurple[400],
+                                                    checkColor: Colors.white,
+                                                    onChanged: (bool? valueF) {
                                                       setState(() {
-                                                        list[key] =
-                                                        valueF!;
-                                                        if (!saveList
-                                                            .contains(
-                                                            key) &&
-                                                            list[key] ==
-                                                                true) {
-                                                          saveList
-                                                              .add(key);
+                                                        list[key] = valueF!;
+                                                        if (!saveList.contains(
+                                                                key) &&
+                                                            list[key] == true) {
+                                                          saveList.add(key);
                                                         }
                                                         if (list[key] ==
-                                                            false &&
-                                                            saveList
-                                                                .contains(
+                                                                false &&
+                                                            saveList.contains(
                                                                 key)) {
-                                                          saveList.remove(
-                                                              key);
+                                                          saveList.remove(key);
                                                         }
                                                       });
                                                     },
@@ -384,12 +423,10 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
                                             ///Determine the Start and end date
                                             Container(
-                                              alignment:
-                                              Alignment.topRight,
+                                              alignment: Alignment.topRight,
                                               child: Padding(
                                                 padding: EdgeInsets.only(
-                                                    top: 5.h,
-                                                    right: 20.w),
+                                                    top: 5.h, right: 20.w),
                                                 child: text(
                                                     context,
                                                     "تحديد عدد الايام المتاح بها الكود",
@@ -400,20 +437,18 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             Row(
                                               children: [
                                                 Container(
-                                                  alignment:
-                                                  Alignment.topRight,
+                                                  alignment: Alignment.topRight,
                                                   margin: EdgeInsets.only(
-                                                      right: 20.w,
-                                                      top: 10.h),
+                                                      right: 20.w, top: 10.h),
                                                   child: InkWell(
                                                     child:
-                                                    gradientContainerNoborder2(
+                                                        gradientContainerNoborder2(
                                                       120,
                                                       40,
                                                       Row(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Icon(
                                                             scheduale,
@@ -428,27 +463,26 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                               15.sp,
                                                               white,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .bold),
+                                                                  FontWeight
+                                                                      .bold),
                                                         ],
                                                       ),
                                                     ),
                                                     onTap: () async {
-                                                      DateTime?
-                                                      startDate =
-                                                      await showDatePicker(
-                                                          context:
-                                                          context,
-                                                          initialDate:
-                                                          currentStart,
-                                                          firstDate:
-                                                          DateTime(
-                                                              2000),
-                                                          lastDate:
-                                                          DateTime(
-                                                              2100));
-                                                      if (startDate ==
-                                                          null) return;
+                                                      DateTime? startDate =
+                                                          await showDatePicker(
+                                                              context: context,
+                                                              initialDate:
+                                                                  currentStart,
+                                                              firstDate:
+                                                                  DateTime(
+                                                                      2000),
+                                                              lastDate:
+                                                                  DateTime(
+                                                                      2100));
+                                                      if (startDate == null) {
+                                                        return;
+                                                      }
                                                       setState(() {
                                                         currentStart =
                                                             startDate;
@@ -460,19 +494,18 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             ),
                                             //end date
                                             Container(
-                                              alignment:
-                                              Alignment.topRight,
+                                              alignment: Alignment.topRight,
                                               margin: EdgeInsets.only(
                                                   right: 20.w, top: 10.h),
                                               child: InkWell(
                                                 child:
-                                                gradientContainerNoborder2(
+                                                    gradientContainerNoborder2(
                                                   120,
                                                   40,
                                                   Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Icon(
                                                         scheduale,
@@ -487,26 +520,21 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                           15.sp,
                                                           white,
                                                           fontWeight:
-                                                          FontWeight
-                                                              .bold),
+                                                              FontWeight.bold),
                                                     ],
                                                   ),
                                                 ),
                                                 onTap: () async {
                                                   DateTime? endDate =
-                                                  await showDatePicker(
-                                                      context:
-                                                      context,
-                                                      initialDate:
-                                                      currentEnd,
-                                                      firstDate:
-                                                      DateTime(
-                                                          2000),
-                                                      lastDate:
-                                                      DateTime(
-                                                          2100));
-                                                  if (endDate == null)
-                                                    return;
+                                                      await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              currentEnd,
+                                                          firstDate:
+                                                              DateTime(2000),
+                                                          lastDate:
+                                                              DateTime(2100));
+                                                  if (endDate == null) return;
                                                   setState(() {
                                                     currentEnd = endDate;
                                                   });
@@ -527,7 +555,16 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               getSize(context).width,
                                               buttoms(context, 'حفظ', 20, white,
                                                   () {
-                                                widget.putId == null ? createNewDiscountCode() : updateDiscountCode(widget.putId!);
+                                                widget.putId != null
+                                                    ? updateDiscountCode(
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .promoCode![
+                                                                widget.putId!]
+                                                            .id!)
+                                                    : createNewDiscountCode();
+                                                fetchDiscountCode();
                                                 Navigator.pop(context);
                                               })),
                                         ),
@@ -543,6 +580,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                           ),
                         ],
                       );
+
+                      ///if no data to show
                     } else {
                       return const Center(child: Text('No info to show!!'));
                     }
@@ -575,8 +614,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       body: jsonEncode(<String, dynamic>{
         'code': discountCode.text,
         'discount_type': isValue1 == true ? 'مبلغ ثابت' : 'نسبة مئوية',
-        'discount': discountValue.text.toString(),
-        'num_of_person': numberOfUsers.text.toString(),
+        'discount': discountValue.text,
+        'num_of_person': numberOfUsers.text,
         'description': description.text,
         'ad_type_ids': saveList,
         'date_from': currentStart.toString(),
@@ -611,6 +650,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       // If the server did return a 200 OK response,
       // then parse the JSON.
       // print(response.body);
+
       return DiscountModel.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
@@ -634,12 +674,11 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       },
       body: jsonEncode(<String, dynamic>{
         'code': discountCode.text,
-        'discount_type': isValue1 == true ? 'مبلغ ثابت' : 'نسبة مئوية',
-        'discount': discountValue.text.toString(),
-        'num_of_person': numberOfUsers.text.toString(),
+        'discount_type': _value == 1 ? 'مبلغ ثابت' : 'نسبة مئوية',
+        'discount': discountValue.text,
+        'num_of_person': numberOfUsers.text,
         'description': description.text,
         'ad_type_ids': saveList,
-
         'date_from': currentStart.toString(),
         'date_to': currentEnd.toString()
       }),
@@ -648,7 +687,10 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      // print(response.body);
+      print(response.body);
+      setState(() {
+        discount = fetchDiscountCode();
+      });
       return response;
     } else {
       // If the server did not return a 200 OK response,
