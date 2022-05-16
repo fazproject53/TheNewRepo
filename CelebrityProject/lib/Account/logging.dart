@@ -101,7 +101,7 @@ class _LoggingState extends State<Logging> {
                                     setState(() {
                                       currentuser = "user";
                                     });
-                                    print(currentuser);
+
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -112,7 +112,7 @@ class _LoggingState extends State<Logging> {
                                     setState(() {
                                       currentuser = "famous";
                                     });
-                                    print(currentuser);
+
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(

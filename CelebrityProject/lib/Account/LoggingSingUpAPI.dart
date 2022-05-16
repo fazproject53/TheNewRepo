@@ -13,7 +13,7 @@ class DatabaseHelper {
     final respons = await http.post(Uri.parse(url), body: data);
     //print(respons.body);
     var message = jsonDecode(respons.body)["message"]["en"];
-    var state = jsonDecode(respons.body)["data"]["status"];
+    var state = jsonDecode(respons.body)["data"]?["status"];
     print('logging respons: $message');
     if (state == 200) {
       if (jsonDecode(respons.body)['data']['user']['type'] == 'user') {
