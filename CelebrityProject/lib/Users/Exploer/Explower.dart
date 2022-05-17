@@ -126,7 +126,8 @@ class _ExplowerState extends State<Explower> {
                     radius: 25.h,
                     child: IconButton(
                         onPressed: () {
-                        setState(() {goTopagepush(context, viewData());});
+                        setState(() {
+                          goTopagepush(context, viewData());});
                         },
                         icon: GradientIcon(playViduo, 35.sp, gradient())),
                   ),

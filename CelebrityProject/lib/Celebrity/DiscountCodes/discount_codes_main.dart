@@ -44,8 +44,6 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -77,9 +75,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) =>
-                                        const CreateNewDiscountCodeHome()));
-                          },
+                                    builder: (_) => const CreateNewDiscountCodeHome()));
+                            },
                           evaluation: 0,
                         ),
                         height: 30,
@@ -353,9 +350,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                         Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                              builder: (context) =>  CreateNewDiscountCodeHome(putId: index,
-
-                                                              ),
+                                                              builder: (context) =>  CreateNewDiscountCodeHome(putId: index),
                                                             ));
                                                       },
                                                     ),
