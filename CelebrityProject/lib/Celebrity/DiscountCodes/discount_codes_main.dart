@@ -30,6 +30,7 @@ class DiscountCodes extends StatelessWidget {
 class HomeBodyDiscount extends StatefulWidget {
   const HomeBodyDiscount({Key? key}) : super(key: key);
 
+
   @override
   _HomeBodyDiscountState createState() => _HomeBodyDiscountState();
 }
@@ -43,6 +44,11 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
     discount = fetchDiscountCode();
     super.initState();
   }
+
+  Future<void> _loadResources(bool reload) async {
+     await fetchDiscountCode();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -110,280 +116,287 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                         return Positioned(
                           child: Padding(
                             padding: EdgeInsets.only(top: 100.h),
-                            child: ListView.builder(
-                              itemCount: snapshot.data!.data!.promoCode!.length,
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  child: ExpansionTile(
-                                    title: text(
-                                        context,
-                                        snapshot.data!.data!.promoCode![index]
-                                            .code!,
-                                        16,
-                                        black),
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                await _loadResources(true);
+                              },
+                              color: purple,
+                              strokeWidth: 2,
+                              displacement: 200,
+                              edgeOffset: 0,
+                              child: ListView.builder(
+                                itemCount: snapshot.data!.data!.promoCode!.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    child: ExpansionTile(
+                                      title: text(
+                                          context,
+                                          snapshot.data!.data!.promoCode![index]
+                                              .code!,
+                                          16,
+                                          black),
 
-                                    /// the word and color change depend on end date time ///
-                                    subtitle: text(
-                                        context,
-                                        snapshot.data!.data!.promoCode![index]
-                                            .status!.name!,
-                                        16,
-                                        snapshot.data!.data!.promoCode![index]
-                                                    .status!.name! ==
-                                                'صالح'
-                                            ? green
-                                            : Colors.red),
+                                      /// the word and color change depend on end date time ///
+                                      subtitle: text(
+                                          context,
+                                          snapshot.data!.data!.promoCode![index]
+                                              .status!.name!,
+                                          16,
+                                          snapshot.data!.data!.promoCode![index]
+                                                      .status!.name! ==
+                                                  'صالح'
+                                              ? green
+                                              : Colors.red),
 
-                                    ///Inside each list
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            top: 10.h, right: 15.w),
-                                        height: 180.h,
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              ///Type of discount
-                                              Row(
-                                                children: [
-                                                  GradientIcon(
-                                                      typeOfDiscount,
-                                                      25.w,
-                                                      const LinearGradient(
-                                                        begin:
-                                                            Alignment(0.7, 2.0),
-                                                        end: Alignment(
-                                                            -0.69, -1.0),
-                                                        colors: [
-                                                          Color(0xff0ab3d0),
-                                                          Color(0xffe468ca)
-                                                        ],
-                                                        stops: [0.0, 1.0],
-                                                      )),
-                                                  SizedBox(
-                                                    width: 5.w,
-                                                  ),
-                                                  text(
-                                                    context,
-                                                    snapshot
-                                                        .data!
-                                                        .data!
-                                                        .promoCode![index]
-                                                        .discountType!,
-                                                    15.sp,
-                                                    black,
-                                                  ),
-                                                ],
-                                              ),
-
-                                              ///Number of users
-                                              Row(
-                                                children: [
-                                                  GradientIcon(
-                                                      numberOfUsers,
-                                                      25.w,
-                                                      const LinearGradient(
-                                                        begin:
-                                                            Alignment(0.7, 2.0),
-                                                        end: Alignment(
-                                                            -0.69, -1.0),
-                                                        colors: [
-                                                          Color(0xff0ab3d0),
-                                                          Color(0xffe468ca)
-                                                        ],
-                                                        stops: [0.0, 1.0],
-                                                      )),
-                                                  SizedBox(
-                                                    width: 5.w,
-                                                  ),
-                                                  text(
+                                      ///Inside each list
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 10.h, right: 15.w),
+                                          height: 180.h,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                ///Type of discount
+                                                Row(
+                                                  children: [
+                                                    GradientIcon(
+                                                        typeOfDiscount,
+                                                        25.w,
+                                                        const LinearGradient(
+                                                          begin:
+                                                              Alignment(0.7, 2.0),
+                                                          end: Alignment(
+                                                              -0.69, -1.0),
+                                                          colors: [
+                                                            Color(0xff0ab3d0),
+                                                            Color(0xffe468ca)
+                                                          ],
+                                                          stops: [0.0, 1.0],
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    text(
                                                       context,
                                                       snapshot
                                                           .data!
                                                           .data!
                                                           .promoCode![index]
-                                                          .numOfPerson!
-                                                          .toString(),
+                                                          .discountType!,
                                                       15.sp,
-                                                      black),
-                                                ],
-                                              ),
+                                                      black,
+                                                    ),
+                                                  ],
+                                                ),
 
-                                              ///Discount go to
-                                              Row(
-                                                children: [
-                                                  GradientIcon(
-                                                      copun,
-                                                      25.w,
-                                                      const LinearGradient(
-                                                        begin:
-                                                            Alignment(0.7, 2.0),
-                                                        end: Alignment(
-                                                            -0.69, -1.0),
-                                                        colors: [
-                                                          Color(0xff0ab3d0),
-                                                          Color(0xffe468ca)
-                                                        ],
-                                                        stops: [0.0, 1.0],
-                                                      )),
-                                                  SizedBox(
-                                                    width: 5.w,
-                                                  ),
-                                                  for (int i = 0;
-                                                      i <
+                                                ///Number of users
+                                                Row(
+                                                  children: [
+                                                    GradientIcon(
+                                                        numberOfUsers,
+                                                        25.w,
+                                                        const LinearGradient(
+                                                          begin:
+                                                              Alignment(0.7, 2.0),
+                                                          end: Alignment(
+                                                              -0.69, -1.0),
+                                                          colors: [
+                                                            Color(0xff0ab3d0),
+                                                            Color(0xffe468ca)
+                                                          ],
+                                                          stops: [0.0, 1.0],
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    text(
+                                                        context,
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .promoCode![index]
+                                                            .numOfPerson!
+                                                            .toString(),
+                                                        15.sp,
+                                                        black),
+                                                  ],
+                                                ),
+
+                                                ///Discount go to
+                                                Row(
+                                                  children: [
+                                                    GradientIcon(
+                                                        copun,
+                                                        25.w,
+                                                        const LinearGradient(
+                                                          begin:
+                                                              Alignment(0.7, 2.0),
+                                                          end: Alignment(
+                                                              -0.69, -1.0),
+                                                          colors: [
+                                                            Color(0xff0ab3d0),
+                                                            Color(0xffe468ca)
+                                                          ],
+                                                          stops: [0.0, 1.0],
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    for (int i = 0;
+                                                        i <
+                                                            snapshot
+                                                                .data!
+                                                                .data!
+                                                                .promoCode![index]
+                                                                .adTypes!
+                                                                .length;
+                                                        i++)
+                                                      text(
+                                                        context,
+                                                        snapshot
+                                                                .data!
+                                                                .data!
+                                                                .promoCode![index]
+                                                                .adTypes![i]
+                                                                .name! +
+                                                            '  ',
+                                                        15.sp,
+                                                        black,
+                                                      ),
+                                                  ],
+                                                ),
+
+                                                ///Duration
+                                                Row(
+                                                  children: [
+                                                    GradientIcon(
+                                                        duration,
+                                                        25.w,
+                                                        const LinearGradient(
+                                                          begin:
+                                                              Alignment(0.7, 2.0),
+                                                          end: Alignment(
+                                                              -0.69, -1.0),
+                                                          colors: [
+                                                            Color(0xff0ab3d0),
+                                                            Color(0xffe468ca)
+                                                          ],
+                                                          stops: [0.0, 1.0],
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    text(
+                                                      context,
+                                                      'من ' +
                                                           snapshot
                                                               .data!
                                                               .data!
                                                               .promoCode![index]
-                                                              .adTypes!
-                                                              .length;
-                                                      i++)
-                                                    text(
-                                                      context,
-                                                      snapshot
+                                                              .dateFrom! +
+                                                          ' الى ' +
+                                                          snapshot
                                                               .data!
                                                               .data!
                                                               .promoCode![index]
-                                                              .adTypes![i]
-                                                              .name! +
-                                                          '  ',
+                                                              .dateTo!,
                                                       15.sp,
                                                       black,
                                                     ),
-                                                ],
-                                              ),
-
-                                              ///Duration
-                                              Row(
-                                                children: [
-                                                  GradientIcon(
-                                                      duration,
-                                                      25.w,
-                                                      const LinearGradient(
-                                                        begin:
-                                                            Alignment(0.7, 2.0),
-                                                        end: Alignment(
-                                                            -0.69, -1.0),
-                                                        colors: [
-                                                          Color(0xff0ab3d0),
-                                                          Color(0xffe468ca)
-                                                        ],
-                                                        stops: [0.0, 1.0],
-                                                      )),
-                                                  SizedBox(
-                                                    width: 5.w,
-                                                  ),
-                                                  text(
-                                                    context,
-                                                    'من ' +
-                                                        snapshot
-                                                            .data!
-                                                            .data!
-                                                            .promoCode![index]
-                                                            .dateFrom! +
-                                                        ' الى ' +
-                                                        snapshot
-                                                            .data!
-                                                            .data!
-                                                            .promoCode![index]
-                                                            .dateTo!,
-                                                    15.sp,
-                                                    black,
-                                                  ),
-                                                ],
-                                              ),
-
-                                              ///Description
-                                              Row(
-                                                children: [
-                                                  GradientIcon(
-                                                      discountDes,
-                                                      25.w,
-                                                      const LinearGradient(
-                                                        begin:
-                                                            Alignment(0.7, 2.0),
-                                                        end: Alignment(
-                                                            -0.69, -1.0),
-                                                        colors: [
-                                                          Color(0xff0ab3d0),
-                                                          Color(0xffe468ca)
-                                                        ],
-                                                        stops: [0.0, 1.0],
-                                                      )),
-                                                  SizedBox(
-                                                    width: 5.w,
-                                                  ),
-                                                  text(
-                                                    context,
-                                                    snapshot
-                                                        .data!
-                                                        .data!
-                                                        .promoCode![index]
-                                                        .description!,
-                                                    15.sp,
-                                                    black,
-                                                  ),
-                                                ],
-                                              ),
-
-                                              ///Two button edit and delete
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.w),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    IconButton(
-                                                      padding: EdgeInsets.only(
-                                                          right: 20.w),
-                                                      icon: Icon(editDiscount),
-                                                      color: black
-                                                          .withOpacity(0.8),
-                                                      onPressed: () {
-                                                        ///print the index
-                                                        print('The index is : $index');
-
-                                                        ///go to create new discount to edit the code
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>  CreateNewDiscountCodeHome(putId: index),
-                                                            ));
-                                                      },
-                                                    ),
-                                                    IconButton(
-                                                      icon:
-                                                          Icon(removeDiscount),
-                                                      color:
-                                                          red?.withOpacity(0.8),
-                                                      onPressed: () {
-                                                        ///delete the discount code
-                                                        ///Alert dialog to conform
-                                                        setState(() {
-                                                          deleteDiscountCode(
-                                                              snapshot
-                                                                  .data!
-                                                                  .data!
-                                                                  .promoCode![
-                                                                      index]
-                                                                  .id!);
-                                                        });
-                                                      },
-                                                    )
                                                   ],
                                                 ),
-                                              ),
-                                            ],
+
+                                                ///Description
+                                                Row(
+                                                  children: [
+                                                    GradientIcon(
+                                                        discountDes,
+                                                        25.w,
+                                                        const LinearGradient(
+                                                          begin:
+                                                              Alignment(0.7, 2.0),
+                                                          end: Alignment(
+                                                              -0.69, -1.0),
+                                                          colors: [
+                                                            Color(0xff0ab3d0),
+                                                            Color(0xffe468ca)
+                                                          ],
+                                                          stops: [0.0, 1.0],
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    text(
+                                                      context,
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .promoCode![index]
+                                                          .description!,
+                                                      15.sp,
+                                                      black,
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                ///Two button edit and delete
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 20.w),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      IconButton(
+                                                        padding: EdgeInsets.only(
+                                                            right: 20.w),
+                                                        icon: Icon(editDiscount),
+                                                        color: black
+                                                            .withOpacity(0.8),
+                                                        onPressed: () {
+
+                                                          ///go to create new discount to edit the code
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) =>  CreateNewDiscountCodeHome(putId: index),
+                                                              ));
+                                                        },
+                                                      ),
+                                                      IconButton(
+                                                        icon:
+                                                            Icon(removeDiscount),
+                                                        color:
+                                                            red?.withOpacity(0.8),
+                                                        onPressed: () {
+                                                          ///delete the discount code
+                                                          ///Alert dialog to conform
+                                                          setState(() {
+                                                            deleteDiscountCode(
+                                                                snapshot
+                                                                    .data!
+                                                                    .data!
+                                                                    .promoCode![
+                                                                        index]
+                                                                    .id!);
+                                                          });
+                                                        },
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         );
@@ -446,5 +459,12 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
       discount = fetchDiscountCode();
     });
     return response;
+  }
+
+  Future<void> _refresh() async {
+    return await Future.delayed(
+      const Duration(seconds: 0)
+    );
+
   }
 }

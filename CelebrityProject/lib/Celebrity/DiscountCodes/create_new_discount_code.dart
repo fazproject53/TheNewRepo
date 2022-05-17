@@ -173,7 +173,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 top: 20.h, right: 20.w),
                                             child: text(
                                                 context,
-                                                "قم بإنشاء كود خصم جديد",
+                                                widget.isUpdate ? 'تعديل معلومات كود الخصم' : 'إنشاء كود خصم جديد',
                                                 20,
                                                 ligthtBlack),
                                           ),
@@ -187,7 +187,9 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 top: 10.h, right: 20.w),
                                             child: text(
                                                 context,
-                                                "يمكنك الان انشاء كود خصم جديد خاص بك يمكنك الان انشاء كود خصم\n جديد خاص بك",
+                                                widget.isUpdate ?
+                                                'يمكنك الان تعديل كود الخصم الخاص بك يمكنك الان تعديل كود الخصم\n الخاص بك' :
+                                                "يمكنك الان انشاء كود خصم جديد خاص بك يمكنك الان انشاء كود خصم\n جديد خاص بك" ,
                                                 12,
                                                 ligthtBlack),
                                           ),
@@ -567,20 +569,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                     : createNewDiscountCode();
                                                 fetchDiscountCode();
 
-                                                // AlertDialog(
-                                                //   title: const Text('AlertDialog Title'),
-                                                //   content: const Text('AlertDialog description'),
-                                                //   actions: <Widget>[
-                                                //     TextButton(
-                                                //       onPressed: () => Navigator.pop(context, 'Cancel'),
-                                                //       child: const Text('Cancel'),
-                                                //     ),
-                                                //     TextButton(
-                                                //       onPressed: () => Navigator.pop(context, 'OK'),
-                                                //       child: const Text('OK'),
-                                                //     ),
-                                                //   ],
-                                                // );
                                                 Navigator.pop(context);
                                               })),
                                         ),
@@ -641,6 +629,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
+
 
       // print(response.body);
       return response;
