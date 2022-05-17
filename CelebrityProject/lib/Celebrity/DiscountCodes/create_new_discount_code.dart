@@ -11,6 +11,7 @@ import 'ModelDiscountCode.dart';
 ///CreateNewDiscountCodeHome
 class CreateNewDiscountCodeHome extends StatefulWidget {
   final int? putId;
+  bool get isUpdate => putId != null;
 
   const CreateNewDiscountCodeHome({Key? key, this.putId}) : super(key: key);
 
@@ -70,7 +71,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: drowAppBar("إنشاء كود خصم جديد", context),
+          appBar: drowAppBar(widget.isUpdate ?  'تعديل كود الخصم' : "إنشاء كود خصم جديد" , context),
           body: SafeArea(
             child: FutureBuilder<DiscountModel>(
                 future: discount,
@@ -553,7 +554,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                           15,
                                           gradientContainerNoborder(
                                               getSize(context).width,
-                                              buttoms(context, 'حفظ', 20, white,
+                                              buttoms(context, widget.isUpdate ? 'حفظ التغيرات' : 'حفظ', 20, white,
                                                   () {
                                                 widget.putId != null
                                                     ? updateDiscountCode(
@@ -565,6 +566,21 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                             .id!)
                                                     : createNewDiscountCode();
                                                 fetchDiscountCode();
+
+                                                // AlertDialog(
+                                                //   title: const Text('AlertDialog Title'),
+                                                //   content: const Text('AlertDialog description'),
+                                                //   actions: <Widget>[
+                                                //     TextButton(
+                                                //       onPressed: () => Navigator.pop(context, 'Cancel'),
+                                                //       child: const Text('Cancel'),
+                                                //     ),
+                                                //     TextButton(
+                                                //       onPressed: () => Navigator.pop(context, 'OK'),
+                                                //       child: const Text('OK'),
+                                                //     ),
+                                                //   ],
+                                                // );
                                                 Navigator.pop(context);
                                               })),
                                         ),

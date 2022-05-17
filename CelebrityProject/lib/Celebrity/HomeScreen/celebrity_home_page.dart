@@ -1,6 +1,7 @@
 ///import section
 import 'dart:convert';
 
+import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,9 @@ class _CelebrityHomeState extends State<CelebrityHome>
   bool isSelect = false;
   Future<introModel>? celebrityHome;
 
+  ///list of string to store the advertising area images
+  List<String> advImage = [];
+
   @override
   void initState() {
     celebrityHome = getSectionsData();
@@ -52,16 +56,12 @@ class _CelebrityHomeState extends State<CelebrityHome>
   }
 
   Future<introModel> getSectionsData() async {
-    String token =
-        'cEzmsDgpQFutCs4Vy4YHYK:APA91bGKFIQiDQgXkT7-BJglBUjmxhKe19o0oOIhWHLJ4i7kbUrYkHNu2D0y1w8UO3J8Qfph4GDz9V5YAVrD_8MDoH-XIH'
-        'gFTTDYOiGCza2Df3SZQG_TJJzU1VkY_YOp5P_0DmaHT7Nf';
     final response = await http.get(
         Uri.parse(
             'https://mobile.celebrityads.net/api/celebrity-page/4OxvkYUSPB1GBViM'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-
         });
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -99,7 +99,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             children: [
                               SizedBox(
                                 width: 500.w,
-                                height: 435.h,
+                                height: 400.h,
                                 child: Image.network(
                                   snapshot.data!.data!.celebrity!.image!,
                                   fit: BoxFit.fill,
@@ -205,7 +205,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                       margin: EdgeInsets.only(right: 25.w),
                                       child: InkWell(
                                           onTap: () {
-                                            showDialogFunc(context, '');
+                                            showDialogFunc(context, '',
+                                                snapshot.data!.data!.celebrity!.advertisingPolicy!,
+                                                snapshot.data!.data!.celebrity!.giftingPolicy!,
+                                                snapshot.data!.data!.celebrity!.adSpacePolicy!);
                                           },
                                           child: text(
                                               context,
@@ -240,8 +243,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                 if (url == "") {
                                                   ///Do nothing
                                                 } else {
-                                                  await launch(url,
-                                                      forceWebView: true);
+                                                  await launch(url, forceWebView: true);
                                                 }
                                               },
                                             ),
@@ -366,15 +368,25 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                             width: 10.w,
                                           ),
                                           SizedBox(
-                                                height: 60.h,
-                                                width: 110.w,
-                                                child:Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: [
-                                                      text(context, snapshot.data!.data!.news![index].description!, 11, white, ),
-                                                    ],
-                                                  ),
-                                              ),
+                                            height: 60.h,
+                                            width: 110.w,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                text(
+                                                  context,
+                                                  snapshot
+                                                      .data!
+                                                      .data!
+                                                      .news![index]
+                                                      .description!,
+                                                  11,
+                                                  white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -388,6 +400,15 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       SizedBox(
                         height: 5.h,
                       ),
+
+                      ///get the adv image from API and store it inside th list
+                      //for(int i = 0 ; i < snapshot.data!.data!.celebrity!.images!.length ; i++)
+                      //advImage.add(snapshot.data!.data!.celebrity!.image!),
+
+
+                      ///image slider for advertising area
+                      //imageSlider(advImage),
+
 
                       ///Container for celebrity store
                       Container(
@@ -415,17 +436,22 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 15.w),
-                              child: gradientContainerNoborder2(
-                                  90,
-                                  30,
-                                  text(context, 'زيارة المتجر', 15, white,
-                                      align: TextAlign.center)),
+                              child: InkWell(
+                                child: gradientContainerNoborder2(
+                                    90,
+                                    30,
+                                    text(context, 'زيارة المتجر', 15, white,
+                                        align: TextAlign.center)
+                                ),
+                                onTap: (){
+                                  snapshot.data!.data!.celebrity!.brand!;
+                                },
+                              ),
                             ),
                           ],
                         ),
                       ),
 
-                      ///
                       SizedBox(
                         height: 10.h,
                       ),
@@ -479,7 +505,41 @@ class _CelebrityHomeState extends State<CelebrityHome>
             }));
   }
 
-  ///
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+  ///image slider
+  Widget imageSlider(List adImage) {
+    return Swiper(
+      indicatorLayout: PageIndicatorLayout.COLOR,
+      autoplay: true,
+      itemCount: adImage.length,
+      pagination: const SwiperPagination(),
+      control: SwiperControl(
+          color: grey, padding: EdgeInsets.only(left: 20.w, right: 5.w)),
+      itemBuilder: (context, index) {
+        return Container(
+          height: 90.h,
+          width: 440.w,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: NetworkImage(
+              adImage[index],
+            ),
+            fit: BoxFit.cover,
+          )),
+        );
+      },
+      onIndexChanged: (int index) {
+        setState(() {
+          //currentIndex = index;
+        });
+      },
+    );
+  }
+
+  ///order from the celebrity
   Widget bottomSheetMenu() {
     return SingleChildScrollView(
       child: Column(children: [
@@ -655,8 +715,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
               Container(
                   decoration: BoxDecoration(
                       border: Border.all(color: border),
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(10))),
+                      borderRadius: BorderRadius.all(Radius.circular(10.r))),
                   alignment: Alignment.centerRight,
                   height: 70.h,
                   width: 70.w,
@@ -675,6 +734,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
     );
   }
 
+  ///play the celebrity video
   Widget viewCard() {
     return Card(
         elevation: 10,
@@ -722,13 +782,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
           ),
         ));
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
 
-showDialogFunc(context, title) {
+///privacy policy for the celebrity
+showDialogFunc(context, title, adDes, giftDes, areaDes) {
   return showDialog(
     context: context,
     builder: (context) {
@@ -741,7 +798,7 @@ showDialogFunc(context, title) {
               color: white,
             ),
             padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
-            height: 420.h,
+            height: 380.h,
             width: 380.w,
             child: SingleChildScrollView(
               child: Column(
@@ -770,7 +827,7 @@ showDialogFunc(context, title) {
                   ///Adv Details
                   text(
                     context,
-                    'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                    adDes,
                     14,
                     ligthtBlack,
                   ),
@@ -792,7 +849,7 @@ showDialogFunc(context, title) {
                   ///Gifting Details
                   text(
                     context,
-                    'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                    giftDes,
                     14,
                     ligthtBlack,
                   ),
@@ -814,7 +871,7 @@ showDialogFunc(context, title) {
                   ///Area Details
                   text(
                     context,
-                    'وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة وصف العلامة',
+                    areaDes,
                     14,
                     ligthtBlack,
                   ),
@@ -828,10 +885,7 @@ showDialogFunc(context, title) {
   );
 }
 
-@override
-// TODO: implement wantKeepAlive
-bool get wantKeepAlive => true;
-
+///loading sign
 Widget loading(context) {
   return SizedBox(
     height: MediaQuery.of(context).size.height,

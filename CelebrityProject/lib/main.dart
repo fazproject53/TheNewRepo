@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Celebrity/HomeScreen/celebrity_home_page.dart';
-import 'Celebrity/celebrityHomePage.dart';
+import 'Users/Exploer/Explower.dart';
 import 'celebrity/DiscountCodes/discount_codes_main.dart';
 import 'introduction_screen/introduction_screen.dart';
 
@@ -62,9 +62,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-          home: Logging()
-
-
+          home: Explower()
 
         // FutureBuilder<IntroData>(
         //   future:futureIntro,
@@ -76,10 +74,6 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
         //     return Center(child:  splash());
         //   },
         // ),
-
-
-
-
 
       ),
     );

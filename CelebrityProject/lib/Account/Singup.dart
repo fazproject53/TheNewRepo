@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import "package:flutter/material.dart";
@@ -173,15 +174,15 @@ class _SingUpState extends State<SingUp> {
                                     userNameCeleController.text,
                                     emailCeleController.text,
                                     passCeleController.text,
-                                    celContry,
-                                    celCatogary)
+                                    '$celContry',
+                                    '$celCatogary')
                                 :
                             //create user account------------------------------
                             userRegister(
                                     userNameUserController.text,
                                     emailUserController.text,
                                     passUserController.text,
-                                    userContry);
+                                    '$userContry');
                           })),
 //singup with-----------------------------------------------------------
                       SizedBox(
@@ -254,8 +255,8 @@ class _SingUpState extends State<SingUp> {
     );
   }
   //----------------------------------------------------------------------------------------------------------------------
-  celebrityRegister(String username, String email, String pass, int country,
-      int catogary) async {
+  celebrityRegister(String username, String email, String pass, String country,
+      String catogary) async {
     if (celebratyKey.currentState?.validate() == true) {
       loadingDialogue(context);
       databaseHelper
@@ -265,7 +266,11 @@ class _SingUpState extends State<SingUp> {
         if (result == "celebrity") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar(context,'تمت العملية بنجاح',green,done));
+              .showSnackBar(snackBar(context,'تمت انشاء حساب مشهور بنجاح',green,done));
+          setState(() {
+            currentuser = "famous";
+          });
+          goTopageReplacement(context, const MainScreen());
         } else if (result == "email and username found") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
@@ -292,7 +297,7 @@ class _SingUpState extends State<SingUp> {
     }
   }
 //------------------------------------------------------------------------------
-  userRegister(String username, String email, String pass, int country) {
+  userRegister(String username, String email, String pass, String country) {
     if (userKey.currentState?.validate() == true) {
       loadingDialogue(context);
       databaseHelper.userRegister(username, pass, email, country).then((result) {
@@ -300,7 +305,11 @@ class _SingUpState extends State<SingUp> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(
-              snackBar(context, 'تمت العملية بنجاح', green, error));
+              snackBar(context, 'تمت انشاء حساب مستخدم بنجاح', green, error));
+          setState(() {
+            currentuser = "user";
+          });
+          goTopageReplacement(context, const MainScreen());
         } else if (result == "email and username found") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar(context,

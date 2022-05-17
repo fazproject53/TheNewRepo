@@ -574,9 +574,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           width: double.infinity,
                           child: Stack(
                             children: [
-                              //slider image---------------------------------------------------------
+                              //slider image----------------------------------------------------
                               imageSlider(image, titel),
-                              //icon+ logo--------------------------------------------------------------
+                              //icon+ logo------------------------------------------------------
                               heroLogo()
                             ],
                           )),

@@ -20,8 +20,7 @@ class _viewDataState extends State<viewData> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.asset(
-        'assets/video/don.mp4')
+    _videoPlayerController = VideoPlayerController.asset('assets/video/don.mp4')
       ..initialize().then((_) {
         setState(() {});
         _videoPlayerController.setLooping(true);
@@ -29,8 +28,6 @@ class _viewDataState extends State<viewData> {
         _videoPlayerController.setVolume(1.0);
 
       });
-
-
   }
 
   @override
