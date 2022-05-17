@@ -56,7 +56,7 @@ class _advAreaState extends State<advArea>{
 
 
              SizedBox(height: 20.h),
-            paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage();}),),
+            paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
             paddingg(15.w, 25.w, 5.h,Text(warnimage? 'الرجاء اضافة صورة': '', style: TextStyle(color: red),)),
             SizedBox(height: 10.h),
             InkWell(
@@ -96,14 +96,14 @@ class _advAreaState extends State<advArea>{
               });},
             ),
 
-            paddingg(15.w, 20.w, 0.h,Text(datewarn2? 'الرجاء اختيار تاريخ الاهداء': '', style: TextStyle(color: red),)),
+            paddingg(15.w, 20.w, 0.h,Text(datewarn2? 'الرجاء اختيار تاريخ النشر': '', style: TextStyle(color: red),)),
 
             paddingg(0,0,3.h, CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
-              title: text(context,'عند طلب الاهداء، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
+              title: text(context,'عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
               value: check2,
               selectedTileColor: warn2 == true? red: black,
-              subtitle: Text(warn2 == true?'حتى تتمكن من طلب الاهداء يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red),),
+              subtitle: Text(warn2 == true?'حتى تتمكن من الطلب  يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red),),
               onChanged: (value) {
                 setState(() {
                   setState(() {
@@ -165,7 +165,7 @@ class _advAreaState extends State<advArea>{
     });
     }
 
-  Future<File?> getImage() async {
+  Future<File?> getImage(context) async {
     PickedFile? pickedFile =
     await ImagePicker.platform.pickImage(source: ImageSource.gallery);
     if (pickedFile == null) {
@@ -175,11 +175,16 @@ class _advAreaState extends State<advArea>{
     final Directory directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
     final String fileName = Path.basename(pickedFile.path);
-// final String fileExtension = extension(image.path);
+    final String fileExtension = Path.extension(fileName);
     File newImage = await file.copy('$path/$fileName');
-    setState(() {
+    if(fileExtension == ".png" || fileExtension == ".jpg"){
       image = newImage;
-    });
+    }else{ ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(
+      content: Text(
+          "امتداد الصورة المسموح به jpg, png",style: TextStyle(color: Colors.red)),
+    ));}
+
   }
 
 }

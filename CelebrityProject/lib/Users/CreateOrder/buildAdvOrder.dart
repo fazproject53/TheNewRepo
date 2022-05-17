@@ -185,7 +185,7 @@ List<Step> getSteps(){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   padding(10, 10, text(context, 'حساب المشهور', 14, black, fontWeight: FontWeight.bold)),
-                  buildCkechboxList(verify),
+                  buildCkechboxList22(verify),
                 ],
               ),
               Divider(),
@@ -193,7 +193,7 @@ List<Step> getSteps(){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   padding(10, 10, text(context, 'الجنس', 14, black, fontWeight: FontWeight.bold)),
-                  buildCkechboxList(human),
+                  buildCkechboxList22(human),
                 ],
               ),
               Divider(),
@@ -202,7 +202,7 @@ List<Step> getSteps(){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   padding(10, 10, text(context, 'مالك الاعلان', 14, black, fontWeight: FontWeight.bold)),
-                  buildCkechboxList2(owner),
+                  buildCkechboxList22(owner),
                 ],
               ),
               Divider(),
@@ -210,7 +210,7 @@ List<Step> getSteps(){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   padding(10, 10, text(context, 'صفة الاعلان', 14, black, fontWeight: FontWeight.bold)),
-                  buildCkechboxList(attend),
+                  buildCkechboxList22(attend),
                 ],
               ),
               Divider(),
@@ -218,7 +218,7 @@ List<Step> getSteps(){
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   padding(10, 10, text(context, 'نوع الاعلان', 14, black, fontWeight: FontWeight.bold)),
-                  buildCkechboxList(type),
+                  buildCkechboxList22(type),
                 ],
               ), Divider(),
 
@@ -361,7 +361,7 @@ List<Step> getSteps(){
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         padding( 8,20, text(context, 'صفة الاعلان', 14, black, fontWeight: FontWeight.bold)),
-                        buildCkechboxList(attend),
+                        buildCkechboxList22(attend),
                       ],
                     ),
                     Divider(),
@@ -369,14 +369,14 @@ List<Step> getSteps(){
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         padding( 8,20, text(context, 'نوع الاعلان', 14, black, fontWeight: FontWeight.bold)),
-                        buildCkechboxList(type),
+                        buildCkechboxList22(type),
                       ],
                     ), Divider(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         padding( 8,20, text(context, 'توقيت الاعلان', 14, black, fontWeight: FontWeight.bold)),
-                        buildCkechboxList(period),
+                        buildCkechboxList22(period),
                       ],
                     ),
                     Divider(),

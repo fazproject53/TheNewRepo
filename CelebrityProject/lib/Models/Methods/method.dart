@@ -541,7 +541,7 @@ Future pickImage(imagee) async {
   }
 }
 
-Widget buildCkechboxList(list) {
+Widget buildCkechboxList22(list) {
   List<Widget> w = [];
   Widget cb;
   for (var i = 0; i < list.length; i++) {
@@ -550,7 +550,9 @@ Widget buildCkechboxList(list) {
         padding: const EdgeInsets.all(2.0),
         child: Row(
           children: [
-            Checkbox(value: false, onChanged: (value) {}),
+            Checkbox(value: false, onChanged: (value) {
+
+            }),
             Text(list[i])
           ],
         ),
