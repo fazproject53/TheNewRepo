@@ -31,7 +31,7 @@ class DatabaseHelper {
   //userRegister--------------------------------------------------------------------------------------------
 
   Future<String> userRegister(
-      String username, String password, String email, int countryId) async {
+      String username, String password, String email, String countryId) async {
     var userType;
 
     try {
@@ -39,7 +39,7 @@ class DatabaseHelper {
         "username": username,
         "password": password,
         "email": email,
-        'country_id': '$countryId'
+        'country_id': countryId
       };
       String url = "$serverUrl/user/new_register";
       final respons = await http.post(Uri.parse(url), body: data);
@@ -78,20 +78,20 @@ class DatabaseHelper {
   //celebrityRegister--------------------------------------------------------------------------------------------
 
   Future<String> celebrityRegister(String username, String password,
-      String email, int countryId, int categoryId) async {
+      String email, String countryId, String categoryId) async {
     var userType;
 
-    try {
+   // try {
       Map<String, dynamic> data = {
         "username": username,
         "password": password,
         "email": email,
-        'country_id': '$countryId',
-        'category_id': '$categoryId'
+        'country_id':  countryId,
+        'category_id': categoryId
       };
       String url = "$serverUrl/celebrity/register";
       final respons = await http.post(Uri.parse(url), body: data);
-      var message = jsonDecode(respons.body)["message"]["en"];
+      var message = jsonDecode(respons.body)?["message"]?["en"];
       int? status = jsonDecode(respons.body)?["data"]?["status"];
       print('user register respons: $message');
       print('status register respons: $status');
@@ -118,9 +118,9 @@ class DatabaseHelper {
         return "email found";
         //--------------------------------------------------------
       }
-    } catch (e) {
-      print(e.toString());
-    }
+    //} catch (e) {
+    //  print(e.toString());
+   // }
     return "";
   }
 

@@ -71,7 +71,7 @@ class _LoggingState extends State<Logging> {
                             10,
                             false,
                             lgoingEmailConttroller,
-                            valedEmile),
+                            empty),
                         SizedBox(
                           height: 15.h,
                         ),
