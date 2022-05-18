@@ -24,6 +24,10 @@ class _userInformationState extends State<userInformation> {
   final TextEditingController repassword = new TextEditingController();
   final TextEditingController phone = new TextEditingController();
 
+  Future<CountryL>? countries;
+  Future<CityL>? cities;
+
+  int helper =0;
   bool hidden = true;
   bool hidden2 = true;
   String country = 'الدولة';
@@ -31,21 +35,9 @@ class _userInformationState extends State<userInformation> {
   String? countrycode;
   Future<UserProfile>? getUser;
   var currentFocus;
-  var citilist = [
-    {'no': 1, 'keyword': 'المدينة'},
-    {'no': 2, 'keyword': 'item1'},
-    {'no': 3, 'keyword': 'item2'},
-    {'no': 3, 'keyword': 'item3'},
-    {'no': 3, 'keyword': 'item4'}
-  ];
+  var citilist = [];
 
-  var countrylist = [
-    {'no': 1, 'keyword': 'الدولة'},
-    {'no': 2, 'keyword': 'item1'},
-    {'no': 3, 'keyword': 'item2'},
-    {'no': 3, 'keyword': 'item3'},
-    {'no': 3, 'keyword': 'item4'}
-  ];
+  var countrylist = [];
 
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
@@ -69,9 +61,12 @@ class _userInformationState extends State<userInformation> {
 
   @override
   void initState() {
+    countries = fetCountries();
+    cities = fetCities();
+    getUser = fetchUsers();
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
-    getUser = fetchUsers();
+
     super.initState();
   }
 
@@ -112,17 +107,27 @@ class _userInformationState extends State<userInformation> {
                   return Text(snapshot.error.toString());
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
+                  int number;
+                  helper ==0?{
+                  name.text = snapshot.data!.data!.user!.name!,
+                  email.text = snapshot.data!.data!.user!.email!,
+                  number =
+                      snapshot.data!.data!.user!.phonenumber!.length - 9,
+                  phone.text =
+                      snapshot.data!.data!.user!.phonenumber!.substring(number),
+                  password.text = "********",
+                  repassword.text = "********",
+                  country = snapshot.data!.data!.user!.country != null
+                      ? snapshot.data!.data!.user!.country!.name!
+                      : '',
+                  city = snapshot.data!.data!.user!.city!.name != null
+                      ? snapshot.data!.data!.user!.city!.name.toString()
+                      : '',
+                    helper =1,
+                  }:null;
 
-                  name.text = snapshot.data!.data!.user!.name!;
-                  email.text = snapshot.data!.data!.user!.email!;
-                  int number = snapshot.data!.data!.user!.phonenumber!.length -9;
-                  phone.text = snapshot.data!.data!.user!.phonenumber!.substring(number);
-                  password.text = "********";
-                  repassword.text = "********";
-                  country = snapshot.data!.data!.user!.country != null? snapshot.data!.data!.user!.country!.name!: '';
-                  city = snapshot.data!.data!.user!.city!.name != null? snapshot.data!.data!.user!.city!.name.toString(): '';
 
-              return Container(
+                  return Container(
                     child: Form(
                       key: _formKey,
                       child: paddingg(
@@ -140,9 +145,9 @@ class _userInformationState extends State<userInformation> {
                                 12,
                                 Container(
                                     alignment: Alignment.topRight,
-                                    child: Text(
+                                    child: const Text(
                                       'قم بملئ او تعديل  معلوماتك الشخصية',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 18,
                                           color: textBlack,
                                           fontFamily: 'Cairo'),
@@ -162,9 +167,7 @@ class _userInformationState extends State<userInformation> {
                                 textFieldNoIcon(
                                     context, 'الاسم', 14, false, name,
                                     (String? value) {
-                                  if (value == null || value.isEmpty) {
-
-                                  }
+                                  if (value == null || value.isEmpty) {}
                                   return null;
                                 }, false),
                               ),
@@ -174,14 +177,11 @@ class _userInformationState extends State<userInformation> {
                                 12,
                                 textFieldNoIcon(context, 'البريد الالكتروني',
                                     14, false, email, (String? value) {
-                                  if (value == null || value.isEmpty) {
-
-                                  }
+                                  if (value == null || value.isEmpty) {}
                                   return null;
                                 }, false),
                               ),
                               Row(
-
                                 children: [
                                   Expanded(
                                     flex: 4,
@@ -189,31 +189,26 @@ class _userInformationState extends State<userInformation> {
                                       0,
                                       15,
                                       12,
-                                      textFieldNoIcon(
-                                          context,
-                                          'رقم الجوال',
-                                          14,
-                                          false,
-                                          phone,
-                                              (String? value) {
-                                            RegExp regExp = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
-                                            if (value != null) {
-                                              if (value.isNotEmpty) {
-                                                if (value.length != 9) {
-                                                  return "رقم الجوال يجب ان يتكون من 9 ارقام  ";
-                                                }if(value.startsWith('0')){
-                                                  return 'رقم الجوال يجب ان لا يبدا ب 0 ';
-                                                }
-                                                // if(!regExp.hasMatch(value)){
-                                                //   return "رقم الجوال غير صالح";
-                                                // }
-                                              }
+                                      textFieldNoIcon(context, 'رقم الجوال', 14,
+                                          false, phone, (String? value) {
+                                        RegExp regExp = new RegExp(
+                                            r'(^(?:[+0]9)?[0-9]{10,12}$)');
+                                        if (value != null) {
+                                          if (value.isNotEmpty) {
+                                            if (value.length != 9) {
+                                              return "رقم الجوال يجب ان يتكون من 9 ارقام  ";
                                             }
+                                            if (value.startsWith('0')) {
+                                              return 'رقم الجوال يجب ان لا يبدا ب 0 ';
+                                            }
+                                            // if(!regExp.hasMatch(value)){
+                                            //   return "رقم الجوال غير صالح";
+                                            // }
+                                          }
+                                        }
 
-
-                                            return null;
-                                          },
-                                          false),
+                                        return null;
+                                      }, false),
                                     ),
                                   ),
                                   Expanded(
@@ -222,11 +217,33 @@ class _userInformationState extends State<userInformation> {
                                       child: CountryCodePicker(
                                         onChanged: print,
                                         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                        initialSelection: 'SA',
-                                        onInit: (CountryCode? code){
-                                            countrycode = code!.dialCode;
-
+                                        initialSelection: country == 'السعودية'? 'SA': country == 'فلسطين'? 'PS': country == 'الاردن'?'JO': country == 'الامارات'? 'AE': 'SA',
+                                        onInit: (CountryCode? code) {
+                                          countrycode = code!.dialCode;
                                         },
+                                        countryFilter: const [
+                                          'SA',
+                                          'JO',
+                                          'SD',
+                                          'DZ',
+                                          'BH',
+                                          'EG',
+                                          'KW',
+                                          'PS',
+                                          'SY',
+                                          'IQ',
+                                          'LB',
+                                          'LY',
+                                          'OM',
+                                          'MA',
+                                          'AE',
+                                          'YE',
+                                          'DJ',
+                                          'TN',
+                                          'KM',
+                                          'SO',
+                                          'MR'
+                                        ],
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
                                         // optional. Shows only country name and flag when popup is closed.
@@ -245,9 +262,7 @@ class _userInformationState extends State<userInformation> {
                                 12,
                                 textFieldPassword(context, 'كلمة المرور', 14,
                                     hidden, password, (String? value) {
-                                  if (value == null || value.isEmpty) {
-
-                                  }
+                                  if (value == null || value.isEmpty) {}
                                   return null;
                                 }, false),
                               ),
@@ -261,107 +276,210 @@ class _userInformationState extends State<userInformation> {
                                     14,
                                     hidden2,
                                     repassword, (String? value) {
-                                  if (value == null || value.isEmpty) {
-
-                                  }
+                                  if (value == null || value.isEmpty) {}
                                   return null;
                                 }, false),
                               ),
 
                               //===========dropdown lists ==================
+                              FutureBuilder(
+                                  future: countries,
+                                  builder: ((context,
+                                      AsyncSnapshot<CountryL> snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Center();
+                                    } else if (snapshot.connectionState ==
+                                            ConnectionState.active ||
+                                        snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                      if (snapshot.hasError) {
+                                        return Center(
+                                            child: Text(
+                                                snapshot.error.toString()));
+                                        //---------------------------------------------------------------------------
+                                      } else if (snapshot.hasData) {
+                                        _dropdownTestItems3.isEmpty
+                                            ? {
+                                          countrylist.add({
+                                            'no': 0,
+                                            'keyword': 'الدولة'
+                                          }),
+                                          for (int i = 0;
+                                          i <
+                                              snapshot
+                                                  .data!.data!.length;
+                                          i++)
+                                            {
+                                              countrylist.add({
+                                                'no': i,
+                                                'keyword':
+                                                '${snapshot.data!.data![i].name!}'
+                                              }),
+                                            },
+                                          _dropdownTestItems3 =
+                                              buildDropdownTestItems(
+                                                  countrylist)
+                                        }
+                                            : null;
+                                        return paddingg(
+                                          15,
+                                          15,
+                                          12,
+                                          DropdownBelow(
+                                            dropdownColor: newGrey,
+                                            itemWidth: 370.w,
 
-                              paddingg(
-                                15,
-                                15,
-                                12,
-                                DropdownBelow(
-                                  dropdownColor: newGrey,
-                                  itemWidth: 370.w,
+                                            ///text style inside the menu
+                                            itemTextstyle: TextStyle(
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w400,
+                                              color: white,
+                                              fontFamily: 'Cairo',
+                                            ),
 
-                                  ///text style inside the menu
-                                  itemTextstyle: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: white,
-                                    fontFamily: 'Cairo',
-                                  ),
+                                            ///hint style
+                                            boxTextstyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: grey,
+                                                fontFamily: 'Cairo'),
 
-                                  ///hint style
-                                  boxTextstyle: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: grey,
-                                      fontFamily: 'Cairo'),
+                                            ///box style
+                                            boxPadding: EdgeInsets.fromLTRB(
+                                                13.w, 12.h, 13.w, 12.h),
+                                            boxWidth: 500.w,
+                                            boxHeight: 45.h,
+                                            boxDecoration: BoxDecoration(
+                                                color: textFieldBlack2
+                                                    .withOpacity(0.70),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r)),
 
-                                  ///box style
-                                  boxPadding: EdgeInsets.fromLTRB(
-                                      13.w, 12.h, 13.w, 12.h),
-                                  boxWidth: 500.w,
-                                  boxHeight: 45.h,
-                                  boxDecoration: BoxDecoration(
-                                      color: textFieldBlack2.withOpacity(0.70),
-                                      borderRadius: BorderRadius.circular(8.r)),
+                                            ///Icons
+                                            icon: const Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Colors.white54,
+                                            ),
+                                            hint: Text(
+                                              country,
+                                              textDirection: TextDirection.rtl,
+                                            ),
+                                            value: _selectedTest3,
+                                            items: _dropdownTestItems3,
+                                            onChanged: onChangeDropdownTests3,
+                                          ),
+                                        );
+                                      } else {
+                                        return const Center(
+                                            child: Text(
+                                                'لايوجد لينك لعرضهم حاليا'));
+                                      }
+                                    } else {
+                                      return Center(
+                                          child: Text(
+                                              'State: ${snapshot.connectionState}'));
+                                    }
+                                  })),
+                              FutureBuilder(
+                                  future: cities,
+                                  builder: ((context,
+                                      AsyncSnapshot<CityL> snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Center();
+                                    } else if (snapshot.connectionState ==
+                                            ConnectionState.active ||
+                                        snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                      if (snapshot.hasError) {
+                                        return Center(
+                                            child: Text(
+                                                snapshot.error.toString()));
+                                        //---------------------------------------------------------------------------
+                                      } else if (snapshot.hasData) {
+                                        _dropdownTestItems.isEmpty
+                                            ? {
+                                                citilist.add({
+                                                  'no': 0,
+                                                  'keyword': 'المدينة'
+                                                }),
+                                                for (int i = 0;
+                                                    i <
+                                                        snapshot
+                                                            .data!.data!.length;
+                                                    i++)
+                                                  {
+                                                    citilist.add({
+                                                      'no': i,
+                                                      'keyword':
+                                                          '${snapshot.data!.data![i].name!}'
+                                                    }),
+                                                  },
+                                                _dropdownTestItems =
+                                                    buildDropdownTestItems(
+                                                        citilist)
+                                              }
+                                            : null;
+                                        return paddingg(
+                                          15,
+                                          15,
+                                          12,
+                                          DropdownBelow(
+                                            dropdownColor: newGrey,
+                                            itemWidth: 370.w,
 
-                                  ///Icons
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.white54,
-                                  ),
-                                  hint: Text(
-                                    country,
-                                    textDirection: TextDirection.rtl,
-                                  ),
-                                  value: _selectedTest3,
-                                  items: _dropdownTestItems3,
-                                  onChanged: onChangeDropdownTests3,
-                                ),
-                              ),
-                              paddingg(
-                                15,
-                                15,
-                                12,
-                                DropdownBelow(
-                                  dropdownColor: newGrey,
-                                  itemWidth: 370.w,
+                                            ///text style inside the menu
+                                            itemTextstyle: TextStyle(
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w400,
+                                              color: white,
+                                              fontFamily: 'Cairo',
+                                            ),
 
-                                  ///text style inside the menu
-                                  itemTextstyle: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: white,
-                                    fontFamily: 'Cairo',
-                                  ),
+                                            ///hint style
+                                            boxTextstyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                                color: grey,
+                                                fontFamily: 'Cairo'),
 
-                                  ///hint style
-                                  boxTextstyle: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: grey,
-                                      fontFamily: 'Cairo'),
+                                            ///box style
+                                            boxPadding: EdgeInsets.fromLTRB(
+                                                13.w, 12.h, 13.w, 12.h),
+                                            boxWidth: 500.w,
+                                            boxHeight: 45.h,
+                                            boxDecoration: BoxDecoration(
+                                                color: textFieldBlack2
+                                                    .withOpacity(0.70),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r)),
 
-                                  ///box style
-                                  boxPadding: EdgeInsets.fromLTRB(
-                                      13.w, 12.h, 13.w, 12.h),
-                                  boxWidth: 500.w,
-                                  boxHeight: 45.h,
-                                  boxDecoration: BoxDecoration(
-                                      color: textFieldBlack2.withOpacity(0.70),
-                                      borderRadius: BorderRadius.circular(8.r)),
-
-                                  ///Icons
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.white54,
-                                  ),
-                                  hint: Text(
-                                    city,
-                                    textDirection: TextDirection.rtl,
-                                  ),
-                                  value: _selectedTest,
-                                  items: _dropdownTestItems,
-                                  onChanged: onChangeDropdownTests,
-                                ),
-                              ),
+                                            ///Icons
+                                            icon: const Icon(
+                                              Icons.arrow_drop_down,
+                                              color: Colors.white54,
+                                            ),
+                                            hint: Text(
+                                              city,
+                                              textDirection: TextDirection.rtl,
+                                            ),
+                                            value: _selectedTest,
+                                            items: _dropdownTestItems,
+                                            onChanged: onChangeDropdownTests,
+                                          ),
+                                        );
+                                      } else {
+                                        return const Center(
+                                            child: Text(
+                                                'لايوجد لينك لعرضهم حاليا'));
+                                      }
+                                    } else {
+                                      return Center(
+                                          child: Text(
+                                              'State: ${snapshot.connectionState}'));
+                                    }
+                                  })),
 
                               //=========== end dropdown ==================================
 
@@ -376,15 +494,18 @@ class _userInformationState extends State<userInformation> {
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
-                                      _formKey.currentState!.validate() ?
-                                      updateUserInformation().whenComplete(() =>
-                                      {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content: Text(
-                                              "تم تعديل المعلومات بنجاح"),
-                                        ))
-                                      }) : null;
+                                      _formKey.currentState!.validate()
+                                          ? updateUserInformation()
+                                              .whenComplete(() => {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                            const SnackBar(
+                                                      content: Text(
+                                                          "تم تعديل المعلومات بنجاح"),
+                                                    ))
+                                                  })
+                                          : null;
                                     })),
                               ),
                               SizedBox(
@@ -406,6 +527,40 @@ class _userInformationState extends State<userInformation> {
         ),
       ),
     );
+  }
+
+  Future<CountryL> fetCountries() async {
+    final response = await http.get(
+      Uri.parse('https://mobile.celebrityads.net/api/countries'),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return CountryL.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
+
+  Future<CityL> fetCities() async {
+    final response = await http.get(
+      Uri.parse('https://mobile.celebrityads.net/api/cities/1'),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return CityL.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
   }
 
   Widget textFieldPassword(
@@ -460,24 +615,27 @@ class _userInformationState extends State<userInformation> {
   }
 
   Future<http.Response> updateUserInformation() async {
-    String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxL'
+    String token2 =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxL'
         'r_AQhAzfEcqgasRrr32031veKVCd21rA';
     final response = await http.post(
       Uri.parse(
-        'https://mobile.celebrityads.net/api/user/profile/update',),
+        'https://mobile.celebrityads.net/api/user/profile/update',
+      ),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'},
+        'Authorization': 'Bearer $token2'
+      },
       body: jsonEncode(<String, dynamic>{
         'name': name.text,
         'email': email.text,
         'password': password.text,
-        'phonenumber':countrycode != null? countrycode! + phone.text : phone.text,
-        'country_id': _selectedTest3 == null ? 1 : countrylist.indexOf(
-            _selectedTest3),
+        'phonenumber':
+            countrycode != null ? countrycode! + phone.text : phone.text,
+        'country_id':
+            _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
         'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
-
       }),
     );
     if (response.statusCode == 200) {

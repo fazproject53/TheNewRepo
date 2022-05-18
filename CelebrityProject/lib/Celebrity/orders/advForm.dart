@@ -51,7 +51,7 @@ class _advFormState extends State<advForm>{
                        const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text('اطلب اعلان \n شخصي من ليجسي ميوزك الان',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20, color: white , fontFamily: 'DINNextLTArabic-Regular-2'), ),
+                          style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                       ),
                     ]),
                 Container(
@@ -61,8 +61,8 @@ class _advFormState extends State<advForm>{
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           SizedBox(height: 20.h,),
-                          padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' قم بملئ   البيانات التالية',18,textBlack,fontWeight: FontWeight.bold,
-                            family: 'DINNextLTArabic-Regular-2', )),),
+                          padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' قم بملئ   البيانات التالية',18,textBlack,fontWeight: FontWeight.normal,
+                            family: 'Cairo', )),),
 
                           //========================== form ===============================================
 
@@ -91,7 +91,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -120,7 +120,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -149,7 +149,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -188,7 +188,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value2,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -217,7 +217,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value2,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -256,7 +256,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value3,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -285,7 +285,7 @@ class _advFormState extends State<advForm>{
                                           groupValue:
                                           _value3,
                                           activeColor:
-                                          purple,
+                                          blue,
                                           onChanged:
                                               (value) {
                                             setState(() {
@@ -324,7 +324,7 @@ class _advFormState extends State<advForm>{
                                       groupValue:
                                      _value4,
                                       activeColor:
-                                      purple,
+                                      blue,
                                       onChanged:
                                           (value) {
                                         setState(() {
@@ -353,7 +353,7 @@ class _advFormState extends State<advForm>{
                                       groupValue:
                                       _value4,
                                       activeColor:
-                                      purple,
+                                      blue,
                                       onChanged:
                                           (value) {
                                         setState(() {
@@ -381,7 +381,7 @@ class _advFormState extends State<advForm>{
 
 
                           paddingg(15, 15, 15, uploadImg(50, 45,text(context, 'فم ارفاق ملف الاعلان', 12, black),(){getFile(context);}),),
-                          paddingg(15.w, 25.w, 5.h,Text(warnimage ? 'الرجاء اضافة صورة': '', style: TextStyle(color: red),)),
+                          paddingg(15.w, 25.w, 2.h,text(context, warnimage ? 'الرجاء اضافة صورة': '', 13,red!,)),
 
                           paddingg(15, 15, 15,SizedBox(height: 45.h,child: InkWell(
                             child: gradientContainerNoborder(97, Row(
@@ -412,13 +412,13 @@ class _advFormState extends State<advForm>{
                             current= endDate;
                           });},
                           )),),
-                          paddingg(15.w, 20.w, 0.h,Text(datewarn2 ? 'الرجاء اختيار تاريخ النشر': '', style: TextStyle(color: red),)),
+                          paddingg(15.w, 20.w, 2.h,text(context, datewarn2 ? 'الرجاء اختيار تاريخ النشر': '', 13,red!,)),
 
                           paddingg(0,0,12, CheckboxListTile(
                             controlAffinity: ListTileControlAffinity.leading,
                             title: text(context,'عند طلب الاهداء، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
                             value: checkit,
-                            subtitle: Text(warn2?'حتى تتمكن من الطلب  يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red),),
+                            subtitle: Text(warn2?'حتى تتمكن من الطلب  يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red, fontSize: 12.sp),),
                             selectedTileColor: black,
                             onChanged: (value) {
                               setState(() {
@@ -428,6 +428,7 @@ class _advFormState extends State<advForm>{
                               });
                             },),),
                           const SizedBox(height: 30,),
+                          checkit?
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context,'رفع الطلب', 15, white, (){
                             _formKey.currentState!.validate()? {
                               checkit && current.day != DateTime.now().day && image != null?{
@@ -436,11 +437,13 @@ class _advFormState extends State<advForm>{
                               current.day == DateTime.now().day? datewarn2 = true: false;
                               file == null? warnimage =true:false;}),
 
-                            }:null;}))),
+                            }:null;}))):
+
+                          padding(15, 15, Container(width: getSize(context).width,
+                              decoration: BoxDecoration( borderRadius: BorderRadius.circular(15.r),   color: grey,),
+                              child: buttoms(context,'رفع الطلب', 15, white, (){})
+                          ),),
                           const SizedBox(height: 30,),
-
-
-
 
                         ]),
                     ),),),
@@ -520,10 +523,9 @@ buildCkechboxList(list) {
     request.fields["celebrity_id"] = 6.toString();
     request.fields["date"]= current.toString();
     request.fields["description"]= description.text;
-    request.fields["celebrity_promo_code_id"]= description.text;
+    request.fields["celebrity_promo_code_id"]= coupon.text;
     request.fields["ad_owner_id"]= _value.toString();
     request.fields["advertising_ad_type_id"]= _value3.toString();
-
     request.fields["ad_feature_id"]= _value2.toString();
     request.fields["ad_timing_id"]= _value4.toString();
     request.fields["advertising_ad_type_id"]= _value3.toString();

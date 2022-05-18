@@ -88,7 +88,7 @@ class _gifttingFormState extends State<gifttingForm>{
                           const Padding(
                             padding: EdgeInsets.all(20.0),
                             child: Text('اطلب اهداء \n شخصي من ليجسي ميوزك الان',
-                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20, color: white , fontFamily: 'DINNextLTArabic-Regular-2'), ),
+                              style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                           ),
                         ]),
                     Container(
@@ -98,8 +98,8 @@ class _gifttingFormState extends State<gifttingForm>{
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               SizedBox(height: 20.h,),
-                              padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' قم بملئ   البيانات التالية',18,textBlack,fontWeight: FontWeight.bold,
-                                family: 'DINNextLTArabic-Regular-2', )),),
+                              padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' قم بملئ   البيانات التالية',18,textBlack,fontWeight: FontWeight.normal,
+                                family: 'Cairo', )),),
 
                               //========================== form ===============================================
 
@@ -361,14 +361,14 @@ class _gifttingFormState extends State<gifttingForm>{
                               });},
                               )),),
 
-                              paddingg(15.w, 20.w, 5.h,Text(datewarn?'الرجاء اختيار تاريخ الاهداء':'', style: TextStyle(color: red),)),
+                              paddingg(15.w, 20.w, 5.h,text(context,datewarn?'الرجاء اختيار تاريخ الاهداء':'', 12,red!,)),
 
                               paddingg(0,0,12.h, CheckboxListTile(
                                 controlAffinity: ListTileControlAffinity.leading,
                                 title: text(context,'عند طلب الاهداء، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ', 10, black, fontWeight: FontWeight.bold,family:'Cairo'),
                                 value: check,
                                 selectedTileColor: warn == true? red: black,
-                                subtitle: Text(warn == true?'حتى تتمكن من طلب الاهداء يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red),),
+                                subtitle: Text(warn == true?'حتى تتمكن من طلب الاهداء يجب الموافقة على الشروط والاحكام':'' ,style: TextStyle(color: red , fontSize: 10.sp, fontFamily:'Cairo'),),
                                 onChanged: (value) {
                                   setState(() {
                                     setState(() {
@@ -379,7 +379,7 @@ class _gifttingFormState extends State<gifttingForm>{
 
                                 ,),
                               SizedBox(height: 30.h,),
-                              padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
+                              check? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
                                 _formKey.currentState!.validate()?{
                                 check && current.day != DateTime.now().day?{
                                 addGift().whenComplete(() =>   {
@@ -393,7 +393,13 @@ class _gifttingFormState extends State<gifttingForm>{
                                 } : setState((){ !check? warn = true: false;
                                 current.day == DateTime.now().day? datewarn = true: false;}),
                                 }: null;
-                                }),)),
+                                }),)):
+
+                              padding(15, 15, Container(width: getSize(context).width,
+                                  decoration: BoxDecoration( borderRadius: BorderRadius.circular(15.r),   color: grey,),
+                                  child: buttoms(context,'رفع الطلب', 15, white, (){})
+                              ),),
+                              const SizedBox(height: 30,),
                               SizedBox(height: 30.h,),
 
 

@@ -44,6 +44,7 @@ class _profileInformaionState extends State<profileInformaion>
   String city = 'المدينة';
   String category = 'التصنيف';
 
+  String? ContryKey;
   int helper =0;
 
   var citilist = [];
@@ -246,8 +247,8 @@ class _profileInformaionState extends State<profileInformaion>
                                     14, false, desc, (String? value) {
                                   if (value == null || value.isEmpty) {
                                   } else {
-                                    return value.length > 200
-                                        ? 'يجب ان لا يزيد الوصف عن 200 حرف'
+                                    return value.length > 150
+                                        ? 'يجب ان لا يزيد الوصف عن 150 حرف'
                                         : null;
                                   }
                                   return null;
@@ -324,7 +325,8 @@ class _profileInformaionState extends State<profileInformaion>
                                       child: CountryCodePicker(
                                         onChanged: print,
                                         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                        initialSelection: 'SA',
+                                        initialSelection: country == 'السعودية'? 'SA': country == 'فلسطين'? 'PS': country == 'الاردن'?'JO': country == 'الامارات'? 'UA': 'SA',
+                                        countryFilter: const ['SA', 'JO','SD','DZ','BH', 'EG','KW','PS','SY','IQ','LB','LY','OM','MA','AE','YE','DJ','TN','KM','SO','MR'],
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
                                         // optional. Shows only country name and flag when popup is closed.

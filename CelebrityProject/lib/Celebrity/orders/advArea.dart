@@ -48,7 +48,7 @@ class _advAreaState extends State<advArea>{
             SizedBox(height: 20.h,),
 
             paddingg(15, 15, 12,textFieldNoIcon(context, 'رابط صفحة المعلن', 14, false, link,(String? value) {if (value == null || value.isEmpty) {
-              return 'حقل اجباري';}else{
+              }else{
               bool _validURL = Uri.parse(value).isAbsolute;
              return  _validURL? null: 'رابط الفحة غير صحيح';
             }},false),),
@@ -57,7 +57,7 @@ class _advAreaState extends State<advArea>{
 
              SizedBox(height: 20.h),
             paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
-            paddingg(15.w, 25.w, 5.h,Text(warnimage? 'الرجاء اضافة صورة': '', style: TextStyle(color: red),)),
+            paddingg(15.w, 25.w, 5.h,text(context,warnimage? 'الرجاء اضافة صورة': '',12,red!,)),
             SizedBox(height: 10.h),
             InkWell(
               child: padding(0.w,15.w, Row(children: [
@@ -96,7 +96,7 @@ class _advAreaState extends State<advArea>{
               });},
             ),
 
-            paddingg(15.w, 20.w, 0.h,Text(datewarn2? 'الرجاء اختيار تاريخ النشر': '', style: TextStyle(color: red),)),
+            paddingg(15.w, 20.w, 0.h,text(context,datewarn2? 'الرجاء اختيار تاريخ النشر': '', 12,red!,)),
 
             paddingg(0,0,3.h, CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
@@ -114,7 +114,7 @@ class _advAreaState extends State<advArea>{
 
               ,),
              SizedBox(height: 30.h,),
-            padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
+           check2? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
               _formKey.currentState!.validate()? {
                 check2 && dateTime.day != DateTime.now().day && image != null?{
                   addAdAreaOrder()
@@ -123,7 +123,13 @@ class _advAreaState extends State<advArea>{
                 image == null? warnimage =true:false;}),
 
               }: null;
-            })),),
+            })),):
+
+           padding(15, 15, Container(width: getSize(context).width,
+               decoration: BoxDecoration( borderRadius: BorderRadius.circular(15.r),   color: grey,),
+               child: buttoms(context,'رفع الطلب', 15, white, (){})
+           ),),
+            const SizedBox(height: 30,),
 
           ]),
           ),
