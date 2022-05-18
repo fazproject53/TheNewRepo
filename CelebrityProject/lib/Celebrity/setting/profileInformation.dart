@@ -3,9 +3,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
 import 'package:dropdown_below/dropdown_below.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -252,7 +250,7 @@ class _profileInformaionState extends State<profileInformaion>
                                         : null;
                                   }
                                   return null;
-                                }, counter: (context,
+                                } ,counter: (context,
                                         {required currentLength,
                                         required isFocused,
                                         maxLength}) {
@@ -260,7 +258,8 @@ class _profileInformaionState extends State<profileInformaion>
                                       child: Text('${maxLength!}' +
                                           '/' +
                                           '${currentLength}'));
-                                }, maxLenth: 200),
+                                }, maxLenth: 200
+                                ),
                               ),
                               paddingg(
                                 15,
