@@ -622,17 +622,21 @@ Widget textFieldDescOnChange(
   bool hintPass,
   TextEditingController mycontroller,
   myvali,
-  Function(String)? onChanged,
+  {InputCounterWidgetBuilder? counter,
+    int? maxLenth
+  }
 ) {
   var expand = false;
   return SizedBox(
-    height: 105.h,
-    child: TextField(
+    height: 150.h,
+    child: TextFormField(
       controller: mycontroller,
+      buildCounter: counter,
       keyboardType: TextInputType.multiline,
+      validator: myvali,
       maxLines: null,
-      onChanged: onChanged,
       minLines: 10,
+      maxLength: maxLenth ,
       textAlignVertical: TextAlignVertical.top,
       style:
           TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),

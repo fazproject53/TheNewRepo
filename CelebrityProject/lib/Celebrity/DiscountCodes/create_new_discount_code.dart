@@ -71,7 +71,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: drowAppBar(widget.isUpdate ?  'تعديل كود الخصم' : "إنشاء كود خصم جديد" , context),
+          appBar: drowAppBar(widget.isUpdate ?  'تعديل كود الخصم' : 'إنشاء كود خصم جديد' , context),
           body: SafeArea(
             child: FutureBuilder<DiscountModel>(
                 future: discount,
@@ -87,8 +87,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
                       ///if has data
                     } else if (snapshot.hasData) {
-                      widget.putId != null
-                          ?
+                      widget.putId != null ?
 
                           /// Update Case - if we have id fill the text fields otherwise null
                           {
@@ -189,7 +188,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 context,
                                                 widget.isUpdate ?
                                                 'يمكنك الان تعديل كود الخصم الخاص بك يمكنك الان تعديل كود الخصم\n الخاص بك' :
-                                                "يمكنك الان انشاء كود خصم جديد خاص بك يمكنك الان انشاء كود خصم\n جديد خاص بك" ,
+                                                'يمكنك الان انشاء كود خصم جديد خاص بك يمكنك الان انشاء كود خصم\n جديد خاص بك' ,
                                                 12,
                                                 ligthtBlack),
                                           ),
@@ -432,7 +431,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                     top: 5.h, right: 20.w),
                                                 child: text(
                                                     context,
-                                                    "تحديد عدد الايام المتاح بها الكود",
+                                                    'تحديد عدد الايام المتاح بها الكود',
                                                     18,
                                                     ligthtBlack),
                                               ),
