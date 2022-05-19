@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
@@ -18,6 +19,7 @@ class _profileInformaionState extends State<profileInformaion>
   Future<CityL>? cities;
   Future<CountryL>? countries;
   Future<CategoryL>? categories;
+  bool countryChanged = false;
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController name = TextEditingController();
@@ -78,6 +80,7 @@ class _profileInformaionState extends State<profileInformaion>
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
+      countryChanged = true;
       _selectedTest3 = selectedTest;
     });
   }
@@ -919,18 +922,36 @@ class _profileInformaionState extends State<profileInformaion>
                                       _formKey.currentState!.validate()
                                           ? updateInformation()
                                               .whenComplete(() => {
-                                                    setState(() {
-                                                      helper = 0;
-                                                      celebrities =
-                                                          fetchCelebrities();
-                                                    }),
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                            const SnackBar(
-                                                      content: Text(
-                                                          "تم تعديل المعلومات بنجاح"),
-                                                    ))
+
+                                        countryChanged?
+                                        setState((){
+                                          helper = 0;
+                                          countryChanged = false;
+                                          celebrities = fetchCelebrities();
+                                        }):Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => celebratyProfile()),
+                                        ),
+                                        ScaffoldMessenger.of(
+                                            context)
+                                            .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  "تم تعديل المعلومات بنجاح"),
+                                            ))
+                                                  //   setState(() {
+                                                  //     helper = 0;
+                                                  //     celebrities =
+                                                  //         fetchCelebrities();
+                                                  //   }),
+                                                  //   ScaffoldMessenger.of(
+                                                  //           context)
+                                                  //       .showSnackBar(
+                                                  //           const SnackBar(
+                                                  //     content: Text(
+                                                  //         "تم تعديل المعلومات بنجاح"),
+                                                  //   ))
                                                   })
                                           : null;
                                     })),

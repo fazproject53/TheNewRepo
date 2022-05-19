@@ -33,6 +33,7 @@ class _userInformationState extends State<userInformation> {
   String country = 'الدولة';
   String city = 'المدينة';
   String? countrycode;
+  bool countryChanged = false;
   Future<UserProfile>? getUser;
   var currentFocus;
   var citilist = [];
@@ -55,6 +56,7 @@ class _userInformationState extends State<userInformation> {
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
+      countryChanged  =true;
       _selectedTest3 = selectedTest;
     });
   }
@@ -497,10 +499,17 @@ class _userInformationState extends State<userInformation> {
                                       _formKey.currentState!.validate()
                                           ? updateUserInformation()
                                               .whenComplete(() => {
+
+                                        countryChanged?
                                                  setState((){
-                                                   helper = 0;
-                                                   getUser = fetchUsers();
-                                                }),
+                                                  helper = 0;
+                                                  countryChanged = false;
+                                                  getUser = fetchUsers();
+                                                }):Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => userProfile()),
+                                        ),
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(

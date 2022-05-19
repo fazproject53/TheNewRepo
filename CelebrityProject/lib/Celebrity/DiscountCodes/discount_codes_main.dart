@@ -45,13 +45,16 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
     super.initState();
   }
 
-  Future<void> _loadResources(bool reload) async {
-     await fetchDiscountCode();
+  Future _refreshProducts(BuildContext context) async {
+    setState(() {
+      discount = fetchDiscountCode();
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
+
+
     return SafeArea(
       child: Column(
         children: [
@@ -101,29 +104,23 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                 ),
 
                 ///Expanded ListView
-                FutureBuilder<DiscountModel>(
-                  future: discount,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: loading(context));
-                    } else if (snapshot.connectionState ==
-                            ConnectionState.active ||
-                        snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasError) {
-                        return Center(child: Text(snapshot.error.toString()));
-                        //---------------------------------------------------------------------------
-                      } else if (snapshot.hasData) {
-                        return Positioned(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 100.h),
-                            child: RefreshIndicator(
-                              onRefresh: () async {
-                                await _loadResources(true);
-                              },
-                              color: purple,
-                              strokeWidth: 2,
-                              displacement: 200,
-                              edgeOffset: 0,
+                RefreshIndicator(
+                  onRefresh: () =>_refreshProducts(context),
+                  child: FutureBuilder<DiscountModel>(
+                    future: discount,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: loading(context));
+                      } else if (snapshot.connectionState ==
+                              ConnectionState.active ||
+                          snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          return Center(child: Text(snapshot.error.toString()));
+                          //---------------------------------------------------------------------------
+                        } else if (snapshot.hasData) {
+                          return Positioned(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 100.h),
                               child: ListView.builder(
                                 itemCount: snapshot.data!.data!.promoCode!.length,
                                 itemBuilder: (context, index) {
@@ -398,16 +395,16 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                 },
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return const Center(child: Text('No info to show!!'));
+                        }
                       } else {
-                        return const Center(child: Text('No info to show!!'));
+                        return Center(
+                            child: Text('State: ${snapshot.connectionState}'));
                       }
-                    } else {
-                      return Center(
-                          child: Text('State: ${snapshot.connectionState}'));
-                    }
-                  },
+                    },
+                  ),
                 ),
               ],
             ),
@@ -416,6 +413,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
       ),
     );
   }
+
 
   ///GET
   Future<DiscountModel> fetchDiscountCode() async {
