@@ -27,12 +27,19 @@ class Pricing {
 
 class Data {
   Price? price;
+  List<Comments>? comments;
   int? status;
 
-  Data({this.price, this.status});
+  Data({this.price, this.comments, this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;
+    if (json['comments'] != null) {
+      comments = <Comments>[];
+      json['comments'].forEach((v) {
+        comments!.add(new Comments.fromJson(v));
+      });
+    }
     status = json['status'];
   }
 
@@ -40,6 +47,9 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.price != null) {
       data['price'] = this.price!.toJson();
+    }
+    if (this.comments != null) {
+      data['comments'] = this.comments!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     return data;
@@ -83,6 +93,31 @@ class Price {
     data['gift_vedio_price'] = this.giftVedioPrice;
     data['advertising_price_from'] = this.advertisingPriceFrom;
     data['advertising_price_to'] = this.advertisingPriceTo;
+    return data;
+  }
+}
+
+class Comments {
+  int? id;
+  String? name;
+  String? value;
+  String? valueEn;
+
+  Comments({this.id, this.name, this.value, this.valueEn});
+
+  Comments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    value = json['value'];
+    valueEn = json['value_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['value'] = this.value;
+    data['value_en'] = this.valueEn;
     return data;
   }
 }

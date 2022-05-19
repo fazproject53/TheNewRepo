@@ -27,8 +27,11 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   List<int> saveList = [];
   bool isValue1 = false;
 
-  ///Text Field
+  bool isCheck = false;
+
   final _formKey = GlobalKey<FormState>();
+
+  ///Text Field
   TextEditingController discountCode = TextEditingController();
   TextEditingController discountValue = TextEditingController();
   TextEditingController numberOfUsers = TextEditingController();
@@ -197,6 +200,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                         ///--------------------------Text Field Section--------------------------
                                         ///discount code
                                         Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             paddingg(
                                               15,
@@ -210,9 +214,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                   discountCode,
                                                   (String? value) {
                                                 /// Validation text field
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'Please enter some text';
+                                                if (value == null || value.isEmpty) {
+                                                  return 'حقل اجباري';
                                                 }
                                                 return null;
                                               }, false),
@@ -328,7 +331,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 /// Validation text field
                                                 if (value == null ||
                                                     value.isEmpty) {
-                                                  return 'Please enter some text';
+                                                  return 'حقل اجباري';
                                                 }
                                                 return null;
                                               }, false),
@@ -349,7 +352,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 /// Validation text field
                                                 if (value == null ||
                                                     value.isEmpty) {
-                                                  return 'Please enter some text';
+                                                  return 'حقل اجباري';
                                                 }
                                                 return null;
                                               }, false),
@@ -366,14 +369,25 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 12,
                                                 false,
                                                 description,
-                                                (String? value) {
-                                                  /// Validation text field
+                                                    (String? value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
-                                                    return 'Please enter some text';
+                                                  } else {
+                                                    return value.length >
+                                                        50
+                                                        ? 'يجب ان لا يزيد الوصف عن 50 حرف'
+                                                        : null;
                                                   }
                                                   return null;
                                                 },
+                                                counter: (context,
+                                                    {required currentLength,
+                                                      required isFocused,
+                                                      maxLength}) {
+                                                  return Text(
+                                                    '$maxLength'  '/'  '$currentLength', style: TextStyle(fontSize: 12.sp , color: grey),);
+                                                },
+                                                maxLenth: 50,
                                               ),
                                             ),
 
@@ -382,14 +396,28 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               height: 15.h,
                                             ),
 
-                                            padding(
-                                                8,
-                                                20,
-                                                text(context, 'الخصم الى', 14,
-                                                    black,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
 
+                                                padding(
+                                                    20,
+                                                    20,
+                                                    Row(
+                                                      children: [
+                                                        text(context, 'الخصم الى',
+                                                            18,
+                                                            ligthtBlack,
+                                                            family: 'DINNextLTArabic', fontWeight: FontWeight.bold),
+                                                        SizedBox(
+                                                          width: 10.w,
+                                                        ),
+                                                        text(context, '*', 18, Colors.red),
+                                                      ],
+                                                    )
+                                                ),
+
+
+                                            SizedBox(
+                                              height: 15.h,
+                                            ),
                                             SizedBox(
                                               height: 150.h,
                                               child: ListView(
@@ -423,17 +451,31 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               ),
                                             ),
 
+                                            Padding(
+                                              padding:  EdgeInsets.only(right: 20.w),
+                                              child: text(context, isCheck? '* قم بإختيار واحدة على الاقل' : '', 10, red!),
+                                            ),
+
                                             ///Determine the Start and end date
                                             Container(
                                               alignment: Alignment.topRight,
                                               child: Padding(
                                                 padding: EdgeInsets.only(
                                                     top: 5.h, right: 20.w),
-                                                child: text(
-                                                    context,
-                                                    'تحديد عدد الايام المتاح بها الكود',
-                                                    18,
-                                                    ligthtBlack),
+                                                child: Row(
+                                                  children: [
+                                                    text(
+                                                        context,
+                                                        'تحديد عدد الايام المتاح بها الكود',
+                                                        18,
+                                                        ligthtBlack),
+                                                    SizedBox(
+                                                      width: 10.w,
+                                                    ),
+                                                    text(context, '*', 18, Colors.red)
+
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             Row(
@@ -545,11 +587,19 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             ),
                                           ],
                                         ),
+                                        Padding(
+                                          padding:  EdgeInsets.only(right: 20.w, top: 10.h),
+                                          child: SizedBox(
+                                            height: 30.h,
+                                            child: text(context, '* ملاحظة: عند عدم اختيار التاريخ يتم تحديد تاريخ اليوم بشكل تلقائي', 10, Colors.grey),
+                                          ),
+                                        ),
 
                                         ///Save box
                                         SizedBox(
-                                          height: 50.h,
+                                          height: 30.h,
                                         ),
+
                                         padding(
                                           15,
                                           15,
@@ -557,18 +607,34 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               getSize(context).width,
                                               buttoms(context, widget.isUpdate ? 'حفظ التغيرات' : 'حفظ', 20, white,
                                                   () {
-                                                widget.putId != null
-                                                    ? updateDiscountCode(
-                                                        snapshot
-                                                            .data!
-                                                            .data!
-                                                            .promoCode![
-                                                                widget.putId!]
-                                                            .id!)
-                                                    : createNewDiscountCode();
-                                                fetchDiscountCode();
-
-                                                Navigator.pop(context);
+                                                ///Make sure all forms is selected
+                                                ///Discount go to and
+                                                _formKey.currentState!.validate()? {
+                                                if(saveList.isNotEmpty){
+                                                  widget.putId != null ? updateDiscountCode(snapshot.data!.data!.promoCode![widget.putId!].id!).whenComplete(() => {
+                                                    ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                      const SnackBar(
+                                                        content: Text(
+                                                            'UPDATE'),
+                                                      ))
+                                                  }) : createNewDiscountCode().whenComplete(() => {
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(
+                                                        const SnackBar(
+                                                          content: Text(
+                                                              'ADD'),
+                                                        ))
+                                                  }),
+                                                  Navigator.pop(context)
+                                                }else{
+                                                    ///these text fields and is required
+                                                    setState(() {
+                                                      isCheck = true;
+                                                    }),
+                                                  print('fill the required input')
+                                                    }
+                                                } : null;
                                               })),
                                         ),
                                         SizedBox(

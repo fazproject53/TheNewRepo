@@ -97,9 +97,6 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                       .data!.data!.celebrity!.adSpacePolicy!;
                                   helper = 1;
                                 }
-                                snapshot.data!.data!.celebrity!.advertisingPolicy! == '' ? isUpdate = false : isUpdate = true;
-                                snapshot.data!.data!.celebrity!.giftingPolicy! == '' ? isUpdate1 = false : isUpdate1 = true;
-                                snapshot.data!.data!.celebrity!.adSpacePolicy!  == '' ? isUpdate2 = false : isUpdate2 = true;
                                 return Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -378,10 +375,7 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                           context)
                                                           .showSnackBar(
                                                            SnackBar(
-                                                            content: text(context, isUpdate == true  || isUpdate1 == true  || isUpdate2 == true ? 'update' :
-                                                            (isUpdate == false && addYourAdvPP.text.isNotEmpty)
-                                                                || (isUpdate1 == false && addYourGiftingPP.text.isNotEmpty)
-                                                                || (isUpdate2 == false && addYourAdvAreaPP.text.isNotEmpty) ? 'add' : '', 12, black),
+                                                            content: text(context, 'تم الحفظ بنجاح', 12, black),
                                                              backgroundColor: white,
 
 
