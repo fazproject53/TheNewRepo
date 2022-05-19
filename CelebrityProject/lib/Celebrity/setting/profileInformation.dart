@@ -43,7 +43,7 @@ class _profileInformaionState extends State<profileInformaion>
   String category = 'التصنيف';
 
   String? ContryKey;
-  int helper =0;
+  int helper = 0;
 
   var citilist = [];
   var countrylist = [];
@@ -141,64 +141,79 @@ class _profileInformaionState extends State<profileInformaion>
                       } else if (snapshot.hasData) {
                         snapshot.data != null
                             ? {
-                          helper == 0?
-                          {
-                            name.text =
-                            snapshot.data!.data!.celebrity!.name!,
-                            email.text =
-                            snapshot.data!.data!.celebrity!.email!,
-                            password.text = "********",
-                            desc.text = snapshot
-                                .data!.data!.celebrity!.description!,
-                            snapshot.data!.data!.celebrity!.phonenumber! !=
-                                null
-                                ? {
-                              number = snapshot.data!.data!.celebrity!
-                                  .phonenumber!.length -
-                                  9,
-                              phone.text = snapshot
-                                  .data!.data!.celebrity!.phonenumber!
-                                  .substring(number!),
-                            }
-                                : phone.text = snapshot
-                                .data!.data!.celebrity!.phonenumber!,
-                            pageLink.text =
-                            snapshot.data!.data!.celebrity!.pageUrl!,
-                            snapchat.text = snapshot
-                                .data!.data!.celebrity!.snapchat!
-                                .toString(),
-                            tiktok.text = snapshot
-                                .data!.data!.celebrity!.tiktok!
-                                .toString(),
-                            youtube.text = snapshot
-                                .data!.data!.celebrity!.youtube!
-                                .toString(),
-                            instagram.text = snapshot
-                                .data!.data!.celebrity!.instagram!
-                                .toString(),
-                            facebook.text = snapshot
-                                .data!.data!.celebrity!.facebook!
-                                .toString(),
-                            twitter.text = snapshot
-                                .data!.data!.celebrity!.twitter!
-                                .toString(),
-                            snapshot.data!.data!.celebrity!.category != null
-                                ? category = snapshot
-                                .data!.data!.celebrity!.category!.name!
-                                : '',
-                            snapshot.data!.data!.celebrity!.country != null
-                                ? country = snapshot
-                                .data!.data!.celebrity!.country!.name!
-                                : '',
-                            snapshot.data!.data!.celebrity!.city!.name !=
-                                null
-                                ? city = snapshot
-                                .data!.data!.celebrity!.city!.name
-                                .toString()
-                                : null,
-                            helper =1,
-                          } : null
-                        }: null;
+                                helper == 0
+                                    ? {
+                                        name.text = snapshot
+                                            .data!.data!.celebrity!.name!,
+                                        email.text = snapshot
+                                            .data!.data!.celebrity!.email!,
+                                        password.text = "********",
+                                        desc.text = snapshot.data!.data!
+                                            .celebrity!.description!,
+                                        snapshot.data!.data!.celebrity!
+                                                    .phonenumber! !=
+                                                null
+                                            ? {
+                                                number = snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrity!
+                                                        .phonenumber!
+                                                        .length -
+                                                    9,
+                                                phone.text = snapshot
+                                                    .data!
+                                                    .data!
+                                                    .celebrity!
+                                                    .phonenumber!
+                                                    .substring(number!),
+                                              }
+                                            : phone.text = snapshot.data!.data!
+                                                .celebrity!.phonenumber!,
+                                        pageLink.text = snapshot
+                                            .data!.data!.celebrity!.pageUrl!,
+                                        snapchat.text = snapshot
+                                            .data!.data!.celebrity!.snapchat!
+                                            .toString(),
+                                        tiktok.text = snapshot
+                                            .data!.data!.celebrity!.tiktok!
+                                            .toString(),
+                                        youtube.text = snapshot
+                                            .data!.data!.celebrity!.youtube!
+                                            .toString(),
+                                        instagram.text = snapshot
+                                            .data!.data!.celebrity!.instagram!
+                                            .toString(),
+                                        facebook.text = snapshot
+                                            .data!.data!.celebrity!.facebook!
+                                            .toString(),
+                                        twitter.text = snapshot
+                                            .data!.data!.celebrity!.twitter!
+                                            .toString(),
+                                        snapshot.data!.data!.celebrity!
+                                                    .category !=
+                                                null
+                                            ? category = snapshot.data!.data!
+                                                .celebrity!.category!.name!
+                                            : '',
+                                        snapshot.data!.data!.celebrity!
+                                                    .country !=
+                                                null
+                                            ? country = snapshot.data!.data!
+                                                .celebrity!.country!.name!
+                                            : '',
+                                        snapshot.data!.data!.celebrity!.city!
+                                                    .name !=
+                                                null
+                                            ? city = snapshot.data!.data!
+                                                .celebrity!.city!.name
+                                                .toString()
+                                            : null,
+                                        helper = 1,
+                                      }
+                                    : null
+                              }
+                            : null;
 
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -250,7 +265,7 @@ class _profileInformaionState extends State<profileInformaion>
                                         : null;
                                   }
                                   return null;
-                                } ,counter: (context,
+                                }, counter: (context,
                                         {required currentLength,
                                         required isFocused,
                                         maxLength}) {
@@ -258,8 +273,7 @@ class _profileInformaionState extends State<profileInformaion>
                                       child: Text('${maxLength!}' +
                                           '/' +
                                           '${currentLength}'));
-                                }, maxLenth: 200
-                                ),
+                                }, maxLenth: 200),
                               ),
                               paddingg(
                                 15,
@@ -324,8 +338,38 @@ class _profileInformaionState extends State<profileInformaion>
                                       child: CountryCodePicker(
                                         onChanged: print,
                                         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                        initialSelection: country == 'السعودية'? 'SA': country == 'فلسطين'? 'PS': country == 'الاردن'?'JO': country == 'الامارات'? 'UA': 'SA',
-                                        countryFilter: const ['SA', 'JO','SD','DZ','BH', 'EG','KW','PS','SY','IQ','LB','LY','OM','MA','AE','YE','DJ','TN','KM','SO','MR'],
+                                        initialSelection: country == 'السعودية'
+                                            ? 'SA'
+                                            : country == 'فلسطين'
+                                                ? 'PS'
+                                                : country == 'الاردن'
+                                                    ? 'JO'
+                                                    : country == 'الامارات'
+                                                        ? 'AE'
+                                                        : 'SA',
+                                        countryFilter: const [
+                                          'SA',
+                                          'JO',
+                                          'SD',
+                                          'DZ',
+                                          'BH',
+                                          'EG',
+                                          'KW',
+                                          'PS',
+                                          'SY',
+                                          'IQ',
+                                          'LB',
+                                          'LY',
+                                          'OM',
+                                          'MA',
+                                          'AE',
+                                          'YE',
+                                          'DJ',
+                                          'TN',
+                                          'KM',
+                                          'SO',
+                                          'MR'
+                                        ],
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
                                         // optional. Shows only country name and flag when popup is closed.
@@ -567,12 +611,14 @@ class _profileInformaionState extends State<profileInformaion>
                                                 }),
                                                 for (int i = 0;
                                                     i <
-                                                        snapshot.data!.data!.length;
+                                                        snapshot
+                                                            .data!.data!.length;
                                                     i++)
                                                   {
                                                     categorylist.add({
                                                       'no': i,
-                                                      'keyword': '${snapshot.data!.data![i].name}'
+                                                      'keyword':
+                                                          '${snapshot.data!.data![i].name}'
                                                     }),
                                                   },
                                                 _dropdownTestItems2 =
@@ -873,6 +919,11 @@ class _profileInformaionState extends State<profileInformaion>
                                       _formKey.currentState!.validate()
                                           ? updateInformation()
                                               .whenComplete(() => {
+                                                    setState(() {
+                                                      helper = 0;
+                                                      celebrities =
+                                                          fetchCelebrities();
+                                                    }),
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -1400,7 +1451,7 @@ class CategoryL {
       });
     }
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -1453,4 +1504,3 @@ class MessageCategory {
     return data;
   }
 }
-

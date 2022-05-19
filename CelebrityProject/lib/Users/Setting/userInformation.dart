@@ -497,6 +497,10 @@ class _userInformationState extends State<userInformation> {
                                       _formKey.currentState!.validate()
                                           ? updateUserInformation()
                                               .whenComplete(() => {
+                                                 setState((){
+                                                   helper = 0;
+                                                   getUser = fetchUsers();
+                                                }),
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
