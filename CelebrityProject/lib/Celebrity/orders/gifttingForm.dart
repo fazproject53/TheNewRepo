@@ -323,8 +323,11 @@ class _gifttingFormState extends State<gifttingForm>{
                                 ],
                               ),
 
-                              paddingg(15.w, 15.w, 12.h,textFieldDesc(context,'الوصف الخاص بالاهداء', 14.sp, false, desc,(String? value) {if (value == null || value.isEmpty) {
-                                return 'حقل اجباري';} return null;},),),
+                              paddingg(15.w, 15.w, 12.h,textFieldDesc(
+                                context,'الوصف الخاص بالاهداء', 14.sp, false, desc,(String? value) {
+                                  if (value == null || value.isEmpty) {
+                                return 'حقل اجباري';
+                                  } return null;},),),
                               paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, copun,(String? value) { return null;},true),),
 
 
@@ -379,7 +382,8 @@ class _gifttingFormState extends State<gifttingForm>{
 
                                 ,),
                               SizedBox(height: 30.h,),
-                              check? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
+                              check? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
+                                buttoms(context, 'رفع الطلب', 15, white, (){
                                 _formKey.currentState!.validate()?{
                                 check && current.day != DateTime.now().day?{
                                 addGift().whenComplete(() =>   {

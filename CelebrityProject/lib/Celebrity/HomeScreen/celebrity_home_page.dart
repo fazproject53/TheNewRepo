@@ -326,14 +326,14 @@ class _CelebrityHomeState extends State<CelebrityHome>
 
                       ///horizontal listView for news
                       SizedBox(
-                        height: 80.h,
+                        height: 90.h,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: snapshot.data!.data!.news!.length,
                             itemBuilder: (context, index) {
                               return Row(children: [
                                 Padding(
-                                  padding: EdgeInsets.only(right: 8.r),
+                                  padding: EdgeInsets.only(right: 8.w),
                                   child: Container(
                                     height: 70.h,
                                     width: 208.w,
@@ -368,7 +368,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                             width: 10.w,
                                           ),
                                           SizedBox(
-                                            height: 60.h,
+                                            height: 70.h,
                                             width: 110.w,
                                             child: Column(
                                               mainAxisAlignment:

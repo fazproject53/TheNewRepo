@@ -45,6 +45,19 @@ class _PricingHomeState extends State<PricingHome> {
   final TextEditingController pricingGiftVoice = TextEditingController();
   final TextEditingController pricingArea = TextEditingController();
 
+  ///isWrite
+  bool isWrite = false;
+  bool isWrite1 = false;
+  bool isWrite2 = false;
+  bool isWrite3 = false;
+  bool isWrite4 = false;
+  bool isWrite5 = false;
+
+  int? helper = 0;
+
+  final _formKey = GlobalKey<FormState>();
+
+  bool isVisible = false;
   @override
   void initState() {
     pricing = fetchCelebrityPricing();
@@ -56,7 +69,7 @@ class _PricingHomeState extends State<PricingHome> {
     return GestureDetector(
       onTap: () {
         ///post function
-        postFunction();
+        //postFunction();
       },
       child: SafeArea(
         child: SingleChildScrollView(
@@ -71,424 +84,467 @@ class _PricingHomeState extends State<PricingHome> {
                     return Text(snapshot.error.toString());
                     //---------------------------------------------------------------------------
                   } else if (snapshot.hasData) {
+                    if (helper == 0) {
+                      ///get data and fill controller
+                      pricingAd.text = snapshot
+                          .data!.data!.price!.advertisingPriceFrom!
+                          .toString();
+                      pricingAd1.text = snapshot
+                          .data!.data!.price!.advertisingPriceTo!
+                          .toString();
 
-                    ///get data and fill controller
-                    pricingAd.text = snapshot.data!.data!.price!.advertisingPriceFrom!.toString();
-                    pricingAd1.text = snapshot.data!.data!.price!.advertisingPriceTo!.toString();
+                      pricingGiftPhoto.text = snapshot
+                          .data!.data!.price!.giftImagePrice!
+                          .toString();
+                      pricingGiftVideo.text = snapshot
+                          .data!.data!.price!.giftVedioPrice!
+                          .toString();
+                      pricingGiftVoice.text = snapshot
+                          .data!.data!.price!.giftVoicePrice!
+                          .toString();
 
-                    pricingGiftPhoto.text = snapshot.data!.data!.price!.giftImagePrice!.toString();
-                    pricingGiftVideo.text = snapshot.data!.data!.price!.giftVedioPrice!.toString();
-                    pricingGiftVoice.text = snapshot.data!.data!.price!.giftVoicePrice!.toString();
+                      pricingArea.text =
+                          snapshot.data!.data!.price!.adSpacePrice!.toString();
 
-                    pricingArea.text = snapshot.data!.data!.price!.adSpacePrice!.toString();
+                      helper = 1;
+                    }
 
-                    return Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 20.h, right: 20.w),
-                            child: text(
-                                context, "التسعير الخاص بك", 19, ligthtBlack),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-
-                        ///Ad
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 10.h, bottom: 10.h, right: 8.w, left: 8.w),
-                          child: Container(
-                            height: 120.h,
-                            width: 370.w,
+                    return Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
                             alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                                color: white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 15.r,
-                                    offset: Offset(0, 15), // changes position of shadow
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r),
-                                  topRight: Radius.circular(10.r),
-                                  topLeft: Radius.circular(10.r),
-                                )),
-
-                            ///For text
                             child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 7.h, right: 10.w, left: 10.w),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      GradientIcon(
-                                          orders,
-                                          25.w,
-                                          const LinearGradient(
-                                            begin: Alignment(0.7, 2.0),
-                                            end: Alignment(-0.69, -1.0),
-                                            colors: [
-                                              Color(0xff0ab3d0),
-                                              Color(0xffe468ca)
-                                            ],
-                                            stops: [0.0, 1.0],
-                                          )),
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      text(context, 'الإعلان', 16.sp, black,
-                                          fontWeight: FontWeight.bold),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 20.h,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      ///Text
-                                      text(context, 'من', 16, grey!),
+                              padding: EdgeInsets.only(top: 20.h, right: 20.w),
+                              child: text(
+                                  context, "التسعير الخاص بك", 19, ligthtBlack),
+                            ),
+                          ),
 
-                                      ///Text Filed
-                                      textFieldSmall(
-                                        context,
-                                        '2000 ر.س',
-                                        12,
-                                        false,
-                                        pricingAd1,
-                                        (String? value) {
-                                          /// Validation text field
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      text(context, 'الى', 16, grey!),
+                          SizedBox(
+                            height: 10.h,
+                          ),
 
-                                      ///Text Filed
-                                      textFieldSmall(
-                                        context,
-                                        '5000 ر.س',
-                                        12,
-                                        false,
-                                        pricingAd,
-                                        (String? value) {
-                                          /// Validation text field
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      text(context, 'ر.س', 16.sp, black),
-                                    ],
-                                  ),
-                                ],
+                          ///Ad
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.h, bottom: 10.h, right: 8.w, left: 8.w),
+                            child: Container(
+                              height: 120.h,
+                              width: 370.w,
+                              alignment: Alignment.topRight,
+                              decoration: BoxDecoration(
+                                  color: white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 15.r,
+                                      offset: const Offset(
+                                          0, 15), // changes position of shadow
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10.r),
+                                    bottomRight: Radius.circular(10.r),
+                                    topRight: Radius.circular(10.r),
+                                    topLeft: Radius.circular(10.r),
+                                  )),
+
+                              ///For text
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 7.h, right: 10.w, left: 10.w),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        GradientIcon(
+                                            orders,
+                                            25.w,
+                                            const LinearGradient(
+                                              begin: Alignment(0.7, 2.0),
+                                              end: Alignment(-0.69, -1.0),
+                                              colors: [
+                                                Color(0xff0ab3d0),
+                                                Color(0xffe468ca)
+                                              ],
+                                              stops: [0.0, 1.0],
+                                            )),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        text(context, 'الإعلان', 16.sp, black,
+                                            fontWeight: FontWeight.bold),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ///Text
+                                        text(context, 'من', 16, grey!),
+
+                                        ///Text Filed
+                                        textFieldSmall(
+                                          context,
+                                          '2000 ر.س',
+                                          12,
+                                          false,
+                                          pricingAd1,
+                                          (String? value) {
+                                            /// Validation text field
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'حقل اجباري';
+                                            }else{
+                                              setState(() {
+                                                isWrite = true;
+                                              });
+
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        text(context, 'الى', 16, grey!),
+
+                                        ///Text Filed
+                                        textFieldSmall(
+                                          context,
+                                          '5000 ر.س',
+                                          12,
+                                          false,
+                                          pricingAd,
+                                          (String? value) {
+                                            /// Validation text field
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'حقل اجباري';
+                                            }else{
+                                              setState(() {
+                                                isWrite1 = true;
+                                              });
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        text(context, 'ر.س', 12, black),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
 
-                        ///Gifting
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 10.h, bottom: 10.h, right: 8.w, left: 8.w),
-                          child: Container(
-                            height: 200.h,
-                            width: 370.w,
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                                color: white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 15.r,
-                                    offset: Offset(
-                                        0, 15), // changes position of shadow
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r),
-                                  topRight: Radius.circular(10.r),
-                                  topLeft: Radius.circular(10.r),
-                                )),
-                            child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 7.h, right: 25.w, left: 25.w),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        GradientIcon(
-                                            gift,
-                                            25.w,
-                                            const LinearGradient(
-                                              begin: Alignment(0.7, 2.0),
-                                              end: Alignment(-0.69, -1.0),
-                                              colors: [
-                                                Color(0xff0ab3d0),
-                                                Color(0xffe468ca)
-                                              ],
-                                              stops: [0.0, 1.0],
-                                            )),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        text(context, 'الإهداء', 16.sp, black,
-                                            fontWeight: FontWeight.bold),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 20.h,
-                                    ),
-
-                                    ///Photo
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ///Text
-                                        text(context, 'صورة', 16, grey!),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-
-                                        ///Text Filed
-                                        textFieldSmall(
-                                          context,
-                                          '2000 ر.س',
-                                          12,
-                                          false,
-                                          pricingGiftPhoto,
-                                          (String? value) {
-                                            /// Validation text field
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                          suffixIcon: MyTooltip(
-                                              message:
-                                                  'التسعير الخاص بصورة واحدة',
-                                              child: Icon(
-                                                infoIcon,
-                                                size: 15,
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-
-                                        ///Text
-                                        text(context, 'ر.س', 16.sp, black),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 15.h,
-                                    ),
-
-                                    ///Video
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ///Text
-                                        text(context, 'فيديو', 16, grey!),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-
-                                        ///Text Filed
-                                        textFieldSmall(
-                                          context,
-                                          '2000 ر.س',
-                                          12,
-                                          false,
-                                          pricingGiftVideo,
-                                          (String? value) {
-                                            /// Validation text field
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                          suffixIcon: MyTooltip(
-                                              message:
-                                                  'التسعير الخاص بفيديو مدته ٤٥ ثانية',
-                                              child: Icon(
-                                                infoIcon,
-                                                size: 15,
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-
-                                        ///Text
-                                        text(context, 'ر.س', 16.sp, black),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 15.h,
-                                    ),
-
-                                    ///Voice
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ///Text
-                                        text(context, 'صوت', 16, grey!),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-
-                                        ///Text Filed
-                                        textFieldSmall(
-                                          context,
-                                          '2000 ر.س',
-                                          12,
-                                          false,
-                                          pricingGiftVoice,
-                                          (String? value) {
-                                            /// Validation text field
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                          suffixIcon: MyTooltip(
-                                              message:
-                                                  'التسعير الخاص بصوت مدته ٣٠ ثانية',
-                                              child: Icon(
-                                                infoIcon,
-                                                size: 15,
-                                              )),
-                                        ),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-
-                                        ///Text
-                                        text(context, 'ر.س', 16.sp, black),
-                                      ],
+                          ///Gifting
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.h, bottom: 10.h, right: 8.w, left: 8.w),
+                            child: Container(
+                              height: 200.h,
+                              width: 370.w,
+                              alignment: Alignment.topRight,
+                              decoration: BoxDecoration(
+                                  color: white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 15.r,
+                                      offset: const Offset(
+                                          0, 15), // changes position of shadow
                                     ),
                                   ],
-                                )),
-                          ),
-                        ),
-
-                        ///Area
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 10.h, bottom: 10.h, right: 8.w, left: 8.w),
-                          child: Container(
-                            height: 120.h,
-                            width: 370.w,
-                            alignment: Alignment.topRight,
-                            decoration: BoxDecoration(
-                                color: white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 15.r,
-                                    offset: Offset(
-                                        0, 15), // changes position of shadow
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r),
-                                  topRight: Radius.circular(10.r),
-                                  topLeft: Radius.circular(10.r),
-                                )),
-
-                            ///For text
-                            child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 7.h, right: 25.w, left: 25.w),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        GradientIcon(
-                                            adArea,
-                                            25.w,
-                                            const LinearGradient(
-                                              begin: Alignment(0.7, 2.0),
-                                              end: Alignment(-0.69, -1.0),
-                                              colors: [
-                                                Color(0xff0ab3d0),
-                                                Color(0xffe468ca)
-                                              ],
-                                              stops: [0.0, 1.0],
-                                            )),
-                                        SizedBox(
-                                          width: 5.w,
-                                        ),
-                                        text(context, 'المساحة الاعلانية',
-                                            16.sp, black,
-                                            fontWeight: FontWeight.bold),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 20.h,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: 55.w,
-                                        ),
-
-                                        ///Text Filed
-                                        textFieldSmall(
-                                          context,
-                                          '2000 ر.س',
-                                          12,
-                                          false,
-                                          pricingArea,
-                                          (String? value) {
-                                            /// Validation text field
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter some text';
-                                            }
-                                            return null;
-                                          },
-                                          suffixIcon: MyTooltip(
-                                              message:
-                                                  'التسعير الخاص بمساحة اعلانية لمدة ٢٤ ساعة',
-                                              child: Icon(
-                                                infoIcon,
-                                                size: 15,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10.r),
+                                    bottomRight: Radius.circular(10.r),
+                                    topRight: Radius.circular(10.r),
+                                    topLeft: Radius.circular(10.r),
+                                  )),
+                              child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 7.h, right: 25.w, left: 25.w),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          GradientIcon(
+                                              gift,
+                                              25.w,
+                                              const LinearGradient(
+                                                begin: Alignment(0.7, 2.0),
+                                                end: Alignment(-0.69, -1.0),
+                                                colors: [
+                                                  Color(0xff0ab3d0),
+                                                  Color(0xffe468ca)
+                                                ],
+                                                stops: [0.0, 1.0],
                                               )),
-                                        ),
-                                        SizedBox(
-                                          width: 20.w,
-                                        ),
-                                        text(context, 'ر.س', 16.sp, black),
-                                      ],
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          text(context, 'الإهداء', 16.sp, black,
+                                              fontWeight: FontWeight.bold),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+
+                                      ///Photo
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ///Text
+                                          text(context, 'صورة', 16, grey!),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+
+                                          ///Text Filed
+                                          textFieldSmall(
+                                            context,
+                                            '2000 ر.س',
+                                            12,
+                                            false,
+                                            pricingGiftPhoto,
+                                            (String? value) {
+                                              /// Validation text field
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'حقل اجباري';
+                                              }
+                                              return null;
+                                            },
+                                            suffixIcon: MyTooltip(
+                                                message: snapshot.data!.data!
+                                                    .comments![0].value!,
+                                                child: Icon(
+                                                  infoIcon,
+                                                  size: 15,
+                                                )),
+                                          ),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+
+                                          ///Text
+                                          text(context, 'ر.س', 12, black),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 15.h,
+                                      ),
+
+                                      ///Video
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ///Text
+                                          text(context, 'فيديو', 16, grey!),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+
+                                          ///Text Filed
+                                          textFieldSmall(
+                                            context,
+                                            '2000 ر.س',
+                                            12,
+                                            false,
+                                            pricingGiftVideo,
+                                            (String? value) {
+                                              /// Validation text field
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'حقل اجباري';
+                                              }
+                                              return null;
+                                            },
+                                            suffixIcon: MyTooltip(
+                                                message: snapshot.data!.data!
+                                                    .comments![1].value!,
+                                                child: Icon(
+                                                  infoIcon,
+                                                  size: 15,
+                                                )),
+                                          ),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+
+                                          ///Text
+                                          text(context, 'ر.س', 12, black),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 15.h,
+                                      ),
+
+                                      ///Voice
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ///Text
+                                          text(context, 'صوت', 16, grey!),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+
+                                          ///Text Filed
+                                          textFieldSmall(
+                                            context,
+                                            '2000 ر.س',
+                                            12,
+                                            false,
+                                            pricingGiftVoice,
+                                            (String? value) {
+                                              /// Validation text field
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'حقل اجباري';
+                                              }
+                                              return null;
+                                            },
+                                            suffixIcon: MyTooltip(
+                                                message: snapshot.data!.data!
+                                                    .comments![2].value!,
+                                                child: Icon(
+                                                  infoIcon,
+                                                  size: 15,
+                                                )),
+                                          ),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+
+                                          ///Text
+                                          text(context, 'ر.س', 12, black),
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          ),
+
+                          ///Area
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 10.h, bottom: 10.h, right: 8.w, left: 8.w),
+                            child: Container(
+                              height: 120.h,
+                              width: 370.w,
+                              alignment: Alignment.topRight,
+                              decoration: BoxDecoration(
+                                  color: white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 15.r,
+                                      offset: const Offset(
+                                          0, 15), // changes position of shadow
                                     ),
                                   ],
-                                )),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10.r),
+                                    bottomRight: Radius.circular(10.r),
+                                    topRight: Radius.circular(10.r),
+                                    topLeft: Radius.circular(10.r),
+                                  )),
+
+                              ///For text
+                              child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 7.h, right: 25.w, left: 25.w),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          GradientIcon(
+                                              adArea,
+                                              25.w,
+                                              const LinearGradient(
+                                                begin: Alignment(0.7, 2.0),
+                                                end: Alignment(-0.69, -1.0),
+                                                colors: [
+                                                  Color(0xff0ab3d0),
+                                                  Color(0xffe468ca)
+                                                ],
+                                                stops: [0.0, 1.0],
+                                              )),
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+                                          text(context, 'المساحة الاعلانية',
+                                              16.sp, black,
+                                              fontWeight: FontWeight.bold),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            width: 55.w,
+                                          ),
+
+                                          ///Text Filed
+                                          textFieldSmall(
+                                            context,
+                                            '2000 ر.س',
+                                            12,
+                                            false,
+                                            pricingArea,
+                                            (String? value) {
+                                              /// Validation text field
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'حقل اجباري';
+                                              }else{
+                                                isWrite5 = true;
+                                              }
+                                              return null;
+                                            },
+                                            suffixIcon: MyTooltip(
+                                                message: snapshot.data!.data!
+                                                    .comments![3].value!,
+                                                child: Icon(
+                                                  infoIcon,
+                                                  size: 15,
+                                                )),
+                                          ),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+                                          text(context, 'ر.س', 12, black),
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                            ),
                           ),
-                        ),
-                      ],
+
+
+                          // if(isWrite  || isWrite1 || isWrite2 || isWrite3 || isWrite4  || isWrite5 == true)
+                          //   isVisible = true;
+
+                          ///Save Button
+                          Visibility(
+                            visible: isWrite || isWrite1 || isWrite2 || isWrite3 || isWrite4 || isWrite5 ? true : false ,
+                              child: gradientContainerNoborder(
+                                  getSize(context).width,
+                                  buttoms(context, 'حفظ', 20, white, () {}))),
+                        ],
+                      ),
                     );
                   } else {
                     return const Center(child: Text('Empty data'));
@@ -517,7 +573,7 @@ class _PricingHomeState extends State<PricingHome> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(response.body);
+      //print(response.body);
       return Pricing.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
@@ -528,13 +584,15 @@ class _PricingHomeState extends State<PricingHome> {
 
   ///Post
   Future<http.Response> postFunction() async {
-    String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
+    String token2 =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
     final response = await http.post(
       Uri.parse('https://mobile.celebrityads.net/api/celebrity/price/update'),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'},
+        'Authorization': 'Bearer $token2'
+      },
       body: jsonEncode(<String, dynamic>{
         'advertising_price_from': pricingAd.text,
         'advertising_price_to': pricingAd1.text,
@@ -547,7 +605,7 @@ class _PricingHomeState extends State<PricingHome> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(response.body);
+      //print(response.body);
       return response;
     } else {
       // If the server did not return a 200 OK response,
@@ -562,7 +620,8 @@ class MyTooltip extends StatelessWidget {
   final Widget child;
   final String message;
 
-  MyTooltip({required this.message, required this.child});
+  const MyTooltip({Key? key, required this.message, required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@
 import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
+import 'package:celepraty/Celebrity/celebrityHomePage.dart';
 import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
 import 'package:celepraty/Celebrity/setting/profileInformation.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
