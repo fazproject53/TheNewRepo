@@ -1016,7 +1016,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                 content: Text("تم تحديث المعلومات بنجاح"),
                                               ))), updateInformation().whenComplete(() => fetchCelebrities())}: setState((){noMatch = true;})}:null,}:null;
 
-                                      _formKey.currentState!.validate() &&  !_formKey2.currentState!.validate()? updateInformation()
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateInformation()
                                               .whenComplete(() => {
                                                     countryChanged
                                                         ? setState(() {
