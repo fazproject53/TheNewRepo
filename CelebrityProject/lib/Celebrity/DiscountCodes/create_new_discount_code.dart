@@ -1,6 +1,7 @@
 ///import section
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -62,7 +63,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   int? helper2 = 0;
   int? helper3 = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -74,7 +74,9 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: drowAppBar(widget.isUpdate ?  'تعديل كود الخصم' : 'إنشاء كود خصم جديد' , context),
+          appBar: drowAppBar(
+              widget.isUpdate ? 'تعديل كود الخصم' : 'إنشاء كود خصم جديد',
+              context),
           body: SafeArea(
             child: FutureBuilder<DiscountModel>(
                 future: discount,
@@ -90,7 +92,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
                       ///if has data
                     } else if (snapshot.hasData) {
-                      widget.putId != null ?
+                      widget.putId != null
+                          ?
 
                           /// Update Case - if we have id fill the text fields otherwise null
                           {
@@ -122,21 +125,36 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                 },
 
                               ///Put a check sign on AD type
-                              if (helper1 == 0){
-                                for (int i = 0; i < snapshot.data!.data!
-                                    .promoCode![widget.putId!].adTypes!
-                                    .length; i++){
-                                  list.containsKey(snapshot.data!.data!
-                                      .promoCode![widget.putId!].adTypes![i].id)
-                                      ? list[snapshot.data!.data!
-                                      .promoCode![widget.putId!].adTypes![i]
-                                      .id!] = true : false,
-                                  helper1 = 1,
+                              if (helper1 == 0)
+                                {
+                                  for (int i = 0;
+                                      i <
+                                          snapshot
+                                              .data!
+                                              .data!
+                                              .promoCode![widget.putId!]
+                                              .adTypes!
+                                              .length;
+                                      i++)
+                                    {
+                                      list.containsKey(snapshot
+                                              .data!
+                                              .data!
+                                              .promoCode![widget.putId!]
+                                              .adTypes![i]
+                                              .id)
+                                          ? list[snapshot
+                                              .data!
+                                              .data!
+                                              .promoCode![widget.putId!]
+                                              .adTypes![i]
+                                              .id!] = true
+                                          : false,
+                                      helper1 = 1,
+                                    },
+                                  for (int j = 0; j < list.length; j++)
+                                    {list[j] == true ? saveList.add(j) : null},
                                 },
-                                for(int j = 0; j < list.length; j++){
-                                  list[j] == true ? saveList.add(j) : null
-                                },
-                              },
 
                               ///Fetch the date from database and store in right variables
                               if (helper2 == 0)
@@ -175,7 +193,9 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 top: 20.h, right: 20.w),
                                             child: text(
                                                 context,
-                                                widget.isUpdate ? 'تعديل معلومات كود الخصم' : 'إنشاء كود خصم جديد',
+                                                widget.isUpdate
+                                                    ? 'تعديل معلومات كود الخصم'
+                                                    : 'إنشاء كود خصم جديد',
                                                 20,
                                                 ligthtBlack),
                                           ),
@@ -189,9 +209,9 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 top: 10.h, right: 20.w),
                                             child: text(
                                                 context,
-                                                widget.isUpdate ?
-                                                'يمكنك الان تعديل كود الخصم الخاص بك يمكنك الان تعديل كود الخصم\n الخاص بك' :
-                                                'يمكنك الان انشاء كود خصم جديد خاص بك يمكنك الان انشاء كود خصم\n جديد خاص بك' ,
+                                                widget.isUpdate
+                                                    ? 'يمكنك الان تعديل كود الخصم الخاص بك يمكنك الان تعديل كود الخصم\n الخاص بك'
+                                                    : 'يمكنك الان انشاء كود خصم جديد خاص بك يمكنك الان انشاء كود خصم\n جديد خاص بك',
                                                 12,
                                                 ligthtBlack),
                                           ),
@@ -200,7 +220,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                         ///--------------------------Text Field Section--------------------------
                                         ///discount code
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             paddingg(
                                               15,
@@ -212,9 +233,24 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                   12,
                                                   false,
                                                   discountCode,
-                                                  discountValid, false,
-
-                                              ),
+                                                  (String? value) {
+                                                /// Validation text field
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'حقل اجباري';
+                                                }if(value.startsWith('0')){
+                                                  return 'يجب ان لا يبدا بصفر';
+                                                }if(value.startsWith(RegExp(r'[0-9]'))){
+                                                  return 'يجب ان لا يبدا برقم';
+                                                }
+                                                return null;
+                                              }, false,  inputFormatters: [
+                                                ///letters and numbers only
+                                                FilteringTextInputFormatter(
+                                                    RegExp(
+                                                        r'[a-zA-Z]|[0-9]'),
+                                                    allow: true)
+                                              ]),
                                             ),
 
                                             ///Select The Type of Support
@@ -316,21 +352,32 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
                                               ///-------in case with مبلغ ثابت the text will be ادخل مبلغ الخصم-------///
                                               textFieldNoIcon(
-                                                  context,
-                                                  isValue1
-                                                      ? 'أدخل النسبة المئوية'
-                                                      : 'أدخل مبلغ الخصم',
-                                                  12,
-                                                  false,
-                                                  discountValue,
-                                                  (String? value) {
-                                                /// Validation text field
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'حقل اجباري';
-                                                }
-                                                return null;
-                                              }, false),
+                                                context,
+                                                isValue1
+                                                    ? 'أدخل النسبة المئوية'
+                                                    : 'أدخل مبلغ الخصم',
+                                                12,
+                                                false,
+                                                discountValue,
+                                                (String? value) {
+                                                  /// Validation text field
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'حقل اجباري';
+                                                  }
+                                                  if (value.startsWith('0')) {
+                                                    return 'يجب ان لا يبدا بصفر';
+                                                  }
+                                                  return null;
+                                                },
+                                                false,
+                                                keyboardType:
+                                                    TextInputType.phone,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                              ),
                                             ),
 
                                             ///number of users
@@ -339,19 +386,30 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               15,
                                               12,
                                               textFieldNoIcon(
-                                                  context,
-                                                  'أدخل عدد الاشخاص المستفيدين',
-                                                  12,
-                                                  false,
-                                                  numberOfUsers,
-                                                  (String? value) {
-                                                /// Validation text field
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'حقل اجباري';
-                                                }
-                                                return null;
-                                              }, false),
+                                                context,
+                                                'أدخل عدد الاشخاص المستفيدين',
+                                                12,
+                                                false,
+                                                numberOfUsers,
+                                                (String? value) {
+                                                  /// Validation text field
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'حقل اجباري';
+                                                  }
+                                                  if (value.startsWith('0')) {
+                                                    return 'يجب ان لا يبدا بصفر';
+                                                  }
+                                                  return null;
+                                                },
+                                                false,
+                                                keyboardType:
+                                                    TextInputType.phone,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                              ),
                                             ),
 
                                             ///description
@@ -360,31 +418,44 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               15,
                                               12,
                                               textFieldDesc(
-                                                context,
-                                                'الوصف الخاص بكود الخصم',
-                                                12,
-                                                false,
-                                                description,
-                                                    (String? value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                  } else {
-                                                    return value.length >
-                                                        50
-                                                        ? 'يجب ان لا يزيد الوصف عن 50 حرف'
-                                                        : null;
-                                                  }
-                                                  return null;
-                                                },
-                                                counter: (context,
-                                                    {required currentLength,
+                                                  context,
+                                                  'الوصف الخاص بكود الخصم',
+                                                  12,
+                                                  false,
+                                                  description, (String? value) {
+                                                if (value!.startsWith('0')) {
+                                                  return 'يجب ان لا يبدا بصفر';
+                                                }
+                                                if (value.isEmpty) {
+                                                  return 'حقل اجباري';
+                                                } else {
+                                                  return value.length > 50
+                                                      ? 'يجب ان لا يزيد الوصف عن 50 حرف'
+                                                      : null;
+                                                }
+                                              }, counter: (context,
+                                                      {required currentLength,
                                                       required isFocused,
                                                       maxLength}) {
-                                                  return Text(
-                                                    '$maxLength'  '/'  '$currentLength', style: TextStyle(fontSize: 12.sp , color: grey),);
-                                                },
-                                                maxLenth: 50,
-                                              ),
+                                                return Text(
+                                                  '$maxLength'
+                                                  '/'
+                                                  '$currentLength',
+                                                  style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      color: grey),
+                                                );
+                                              },
+                                                  maxLenth: 50,
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  inputFormatters: [
+                                                    ///letters and numbers only
+                                                    FilteringTextInputFormatter(
+                                                        RegExp(
+                                                            r'[a-zA-Z]|[0-9]'),
+                                                        allow: true)
+                                                  ]),
                                             ),
 
                                             ///Check box
@@ -392,24 +463,24 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                               height: 15.h,
                                             ),
 
-
-                                                padding(
-                                                    20,
-                                                    20,
-                                                    Row(
-                                                      children: [
-                                                        text(context, 'الخصم الى',
-                                                            18,
-                                                            ligthtBlack,
-                                                            family: 'DINNextLTArabic', fontWeight: FontWeight.bold),
-                                                        SizedBox(
-                                                          width: 10.w,
-                                                        ),
-                                                        text(context, '*', 18, Colors.red),
-                                                      ],
-                                                    )
-                                                ),
-
+                                            padding(
+                                                20,
+                                                20,
+                                                Row(
+                                                  children: [
+                                                    text(context, 'الخصم الى',
+                                                        18, ligthtBlack,
+                                                        family:
+                                                            'DINNextLTArabic',
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    SizedBox(
+                                                      width: 10.w,
+                                                    ),
+                                                    text(
+                                                        context, '*', 18, red!),
+                                                  ],
+                                                )),
 
                                             SizedBox(
                                               height: 15.h,
@@ -448,8 +519,15 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                             ),
 
                                             Padding(
-                                              padding:  EdgeInsets.only(right: 20.w),
-                                              child: text(context, isCheck? '* قم بإختيار واحدة على الاقل' : '', 10, red!),
+                                              padding:
+                                                  EdgeInsets.only(right: 20.w),
+                                              child: text(
+                                                  context,
+                                                  isCheck
+                                                      ? '* قم بإختيار واحدة على الاقل'
+                                                      : '',
+                                                  10,
+                                                  red!),
                                             ),
 
                                             ///Determine the Start and end date
@@ -468,8 +546,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                     SizedBox(
                                                       width: 10.w,
                                                     ),
-                                                    text(context, '*', 18, Colors.red)
-
+                                                    text(context, '*', 18,
+                                                        Colors.red)
                                                   ],
                                                 ),
                                               ),
@@ -584,10 +662,15 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                           ],
                                         ),
                                         Padding(
-                                          padding:  EdgeInsets.only(right: 20.w, top: 10.h),
+                                          padding: EdgeInsets.only(
+                                              right: 20.w, top: 10.h),
                                           child: SizedBox(
                                             height: 30.h,
-                                            child: text(context, '* ملاحظة: عند عدم اختيار التاريخ يتم تحديد تاريخ اليوم بشكل تلقائي', 10, Colors.grey),
+                                            child: text(
+                                                context,
+                                                '* ملاحظة: عند عدم اختيار التاريخ يتم تحديد تاريخ اليوم بشكل تلقائي',
+                                                10,
+                                                Colors.grey),
                                           ),
                                         ),
 
@@ -601,36 +684,56 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                           15,
                                           gradientContainerNoborder(
                                               getSize(context).width,
-                                              buttoms(context, widget.isUpdate ? 'حفظ التغيرات' : 'حفظ', 20, white,
-                                                  () {
+                                              buttoms(
+                                                  context,
+                                                  widget.isUpdate
+                                                      ? 'حفظ التغيرات'
+                                                      : 'حفظ',
+                                                  20,
+                                                  white, () {
                                                 ///Make sure all forms is selected
                                                 ///Discount go to and
-                                                _formKey.currentState!.validate()? {
-                                                if(saveList.isNotEmpty){
-                                                  widget.putId != null ? updateDiscountCode(snapshot.data!.data!.promoCode![widget.putId!].id!).whenComplete(() => {
-                                                    ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text(
-                                                            'UPDATE'),
-                                                      ))
-                                                  }) : createNewDiscountCode().whenComplete(() => {
-                                                    ScaffoldMessenger.of(context)
-                                                        .showSnackBar(
-                                                        const SnackBar(
-                                                          content: Text(
-                                                              'ADD'),
-                                                        ))
-                                                  }),
-                                                  Navigator.pop(context)
-                                                }else{
-                                                    ///these text fields and is required
-                                                    setState(() {
-                                                      isCheck = true;
-                                                    }),
-                                                  print('fill the required input')
-                                                    }
-                                                } : null;
+                                                _formKey.currentState!
+                                                        .validate()
+                                                    ? {
+                                                        if (saveList.isNotEmpty)
+                                                          {
+                                                            widget.putId != null
+                                                                ? updateDiscountCode(snapshot
+                                                                        .data!
+                                                                        .data!
+                                                                        .promoCode![widget
+                                                                            .putId!]
+                                                                        .id!)
+                                                                    .whenComplete(
+                                                                        () => {
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                content: text(context, 'تم حفظ التغيرات بنجاح', 12, black),
+                                                                                backgroundColor: white,
+                                                                              ))
+                                                                            })
+                                                                : createNewDiscountCode()
+                                                                    .whenComplete(
+                                                                        () => {
+                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                                content: text(context, 'تم الحفظ بنجاح', 12, black),
+                                                                                backgroundColor: white,
+                                                                              ))
+                                                                            }),
+                                                            Navigator.pop(
+                                                                context)
+                                                          }
+                                                        else
+                                                          {
+                                                            ///these text fields and is required
+                                                            setState(() {
+                                                              isCheck = true;
+                                                            }),
+                                                            print(
+                                                                'fill the required input')
+                                                          }
+                                                      }
+                                                    : null;
                                               })),
                                         ),
                                         SizedBox(
@@ -666,7 +769,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   ///POST
   Future<http.Response> createNewDiscountCode() async {
     String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
+
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/promo-codes/add',
@@ -691,7 +795,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-
       // print(response.body);
       return response;
     } else {
@@ -704,7 +807,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   ///GET
   Future<DiscountModel> fetchDiscountCode() async {
     String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
     final response = await http.get(
         Uri.parse('https://mobile.celebrityads.net/api/celebrity/promo-codes'),
         headers: {
@@ -727,8 +830,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
   ///UPDATE
   Future<http.Response> updateDiscountCode(int id) async {
-    String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
+    String token2 = ''
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/promo-codes/update/$id',
@@ -763,14 +866,5 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       // then throw an exception.
       throw Exception('Failed to load activity');
     }
-  }
-
-  String? discountValid(String value) {
-    if (value.isEmpty) {
-      return "املء الحقل اعلاه";
-    }if(value.startsWith('0')){
-      return 'لايمكن ان يبدأ رقم التسعير ب 0';
-    }
-    return null;
   }
 }
