@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+import '../Account/LoggingSingUpAPI.dart';
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
 import 'HomeScreen/celebrity_home_page.dart';
@@ -23,22 +24,19 @@ class celebrityHomePage extends StatefulWidget {
 }
 
 int currentIndex = 0;
-int pagNumber1 = 1;
-int pagNumber2 = 1;
-int pagNumber3 = 1;
-int pagNumber4 = 1;
-int pagNumber5 = 1;
+
 
 Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 //Map<int, Future<Category>> newSection = HashMap<int, Future<Category>>();
 
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
+  DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
-  List<int> ids = [];
+  List<int> pag = [];
 
   @override
   void initState() {
@@ -47,6 +45,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
+    //h.getToken();
     super.initState();
   }
 
@@ -64,7 +63,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             category.putIfAbsent(
                 sections.data![i].categoryId!,
                 () =>
-                    fetchCategories(sections.data![i].categoryId!, pagNumber1));
+                    fetchCategories(sections.data![i].categoryId!, 1
+                    ));
             // pagNumber1++;
           });
         }

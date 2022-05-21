@@ -16,6 +16,14 @@ class DatabaseHelper {
     var state = jsonDecode(respons.body)["data"]?["status"];
     print('logging respons: $message');
     if (state == 200) {
+      var username = jsonDecode(respons.body)["data"]?["user"]['username'];
+      var email = jsonDecode(respons.body)["data"]?["user"]['email'];
+      token = jsonDecode(respons.body)['data']['token'];
+      _saveToken(token);
+      print('-----------------------------------------------------');
+      print('username is: $username');
+      print('emial is: $email');
+      print('-----------------------------------------------------');
       if (jsonDecode(respons.body)['data']['user']['type'] == 'user') {
         return 'user';
       } else {
@@ -126,7 +134,7 @@ class DatabaseHelper {
 
   //save token------------------------------------------------------------
 
-  _saveToken(String token) async {
+  static _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'token';
     final value = token;
@@ -134,10 +142,12 @@ class DatabaseHelper {
   }
 
   //red token------------------------------------------------------------
-  void getToken() async {
+  static Future<String>  getToken() async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'token';
     final value = prefs.getString(key) ?? 0;
-    print('token is : $value');
+    //print('token is : $value');
+    String re=value.toString();
+    return re;
   }
 }
