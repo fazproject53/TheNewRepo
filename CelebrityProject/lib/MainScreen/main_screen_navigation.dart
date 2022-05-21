@@ -23,14 +23,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with AutomaticKeepAliveClientMixin {
-  DatabaseHelper h = DatabaseHelper();
+
   PageController? pageController;
   int selectedIndex = 2;
   void initState() {
     super.initState();
     pageController = PageController(initialPage: selectedIndex);
 
-    h.getToken();
+
   }
 
   List<Widget> Famousscreens = [

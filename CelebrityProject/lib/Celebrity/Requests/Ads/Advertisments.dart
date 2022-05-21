@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:celepraty/Account/LoggingSingUpAPI.dart';
+import 'package:celepraty/Celebrity/Requests/Ads/RequestAPI.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,19 @@ class Advertisment extends StatefulWidget {
 }
 
 class _AdvertismentState extends State<Advertisment> {
+  //DatabaseHelper h=DatabaseHelper();
+  //String  token='';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+// h.getToken().then((value) {
+//  setState(() {
+//    token=value;
+//  });
+// });
+   getAdvertisingOrder() ;
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(

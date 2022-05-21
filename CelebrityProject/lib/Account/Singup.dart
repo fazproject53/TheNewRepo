@@ -305,7 +305,7 @@ class _SingUpState extends State<SingUp> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context)
               .showSnackBar(
-              snackBar(context, 'تمت انشاء حساب مستخدم بنجاح', green, error));
+              snackBar(context, 'تمت انشاء حساب مستخدم بنجاح', green, done));
           setState(() {
             currentuser = "user";
           });
