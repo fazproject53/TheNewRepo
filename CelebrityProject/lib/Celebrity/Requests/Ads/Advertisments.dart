@@ -17,19 +17,19 @@ class Advertisment extends StatefulWidget {
 }
 
 class _AdvertismentState extends State<Advertisment> {
-  //DatabaseHelper h=DatabaseHelper();
-  //String  token='';
+  String token = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-// h.getToken().then((value) {
-//  setState(() {
-//    token=value;
-//  });
-// });
-   getAdvertisingOrder() ;
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        token = value;
+      });
+    });
+    getAdvertisingOrder(token);
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,14 +38,14 @@ class _AdvertismentState extends State<Advertisment> {
           itemCount: 4,
           itemBuilder: (context, i) {
             return InkWell(
-              onTap: (){
-               goTopagepush(context, AdvDetials(i:i));
-              },
-              child: Column(
-                children: [
-                  body(i),
-                ],
-              ));
+                onTap: () {
+                  goTopagepush(context, AdvDetials(i: i));
+                },
+                child: Column(
+                  children: [
+                    body(i),
+                  ],
+                ));
           }),
     );
   }
@@ -82,31 +82,36 @@ class _AdvertismentState extends State<Advertisment> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                   
                       Align(
-                     
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 10.w),
-                            child:text(context, "حضوري", 18, white,fontWeight:FontWeight.bold,)
-                        )
-                        ),
-                       
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                              padding: EdgeInsets.only(right: 10.w),
+                              child: text(
+                                context,
+                                "حضوري",
+                                18,
+                                white,
+                                fontWeight: FontWeight.bold,
+                              ))),
+
 //date and icon-------------------------------------------------------------
 
-                     Row(
-                      
-                      children: [
-                      
-                         Align(
-                            alignment: Alignment.bottomLeft,
-                            child:text(context, "12/12/2022", 18, white,fontWeight:FontWeight.bold,)
-                            ),
-                        // Align(
-                        //     alignment: Alignment.bottomLeft,
-                        //     child: Icon(clander,color:deepblue) ),
-                             SizedBox(width:10.w),
-                      ],
+                      Row(
+                        children: [
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: text(
+                                context,
+                                "12/12/2022",
+                                18,
+                                white,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          // Align(
+                          //     alignment: Alignment.bottomLeft,
+                          //     child: Icon(clander,color:deepblue) ),
+                          SizedBox(width: 10.w),
+                        ],
                       )
                     ],
                   )),
@@ -114,44 +119,73 @@ class _AdvertismentState extends State<Advertisment> {
 
 //detaiels-----------------------------------------
 
-   Expanded(flex: 1, child: 
-   Row(
-   children: [
+            Expanded(
+                flex: 1,
+                child: Row(
+                  children: [
 //type-------------------------------------------------
-     Expanded(flex: 1,child:Column(
-   children: [
-     Expanded(flex: 1, child:text(context, "النوع", 12, black,)
-),
-     Expanded(flex: 1, child:text(context, "منتج", 12, pink,fontWeight:FontWeight.bold)
-   )],
-     )),
-     divider(),
+                    Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "النوع",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(context, "منتج", 12, pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
+                    divider(),
 //owner-------------------------------------------------
 
-   Expanded(flex: 1,child:Column(
-   children: [
-     Expanded(flex: 1, child:text(context, "المالك", 12, black,)
-),
-     Expanded(flex: 1, child:text(context, "فرد", 12, pink,fontWeight:FontWeight.bold)
-   )],
-     )),      divider(),
+                    Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "المالك",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(context, "فرد", 12, pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
+                    divider(),
 //time-------------------------------------------------
 
-   Expanded(flex: 1,child:Column(
-   children: [
-     Expanded(flex: 1, child:text(context, "الوقت", 12, black,)
-),
-     Expanded(flex: 1, child:text(context, "مساء", 12, pink,fontWeight:FontWeight.bold)
-   )],
-     )),   ],
-   ))
-         
-         
-         
-         
-         
-         
-         
+                    Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "الوقت",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(context, "مساء", 12, pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
+                  ],
+                ))
           ],
         ),
         bottomLeft: 10,
