@@ -520,7 +520,7 @@ buildCkechboxList(list) {
 
     request.headers.addAll(headers);
       request.fields["file"] = file!.path;
-    request.fields["celebrity_id"] = 6.toString();
+    request.fields["celebrity_id"] = 77.toString();
     request.fields["date"]= current.toString();
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;

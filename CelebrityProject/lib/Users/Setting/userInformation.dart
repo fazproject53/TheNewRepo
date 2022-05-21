@@ -7,6 +7,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../Account/LoggingSingUpAPI.dart';
 import '../../Celebrity/setting/profileInformation.dart';
 import 'userProfile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ class _userInformationState extends State<userInformation> {
   final TextEditingController currentPassword = new TextEditingController();
   final TextEditingController confirmPassword = new TextEditingController();
   final TextEditingController phone = new TextEditingController();
-
+  String userToken ="";
   Future<CountryL>? countries;
   Future<CityL>? cities;
   bool noMatch =false;
@@ -69,9 +70,15 @@ class _userInformationState extends State<userInformation> {
 
   @override
   void initState() {
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        getUser = fetchUsers(userToken);
+      });
+    });
     countries = fetCountries();
     cities = fetCities();
-    getUser = fetchUsers();
+
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
 
@@ -130,7 +137,7 @@ class _userInformationState extends State<userInformation> {
                   country = snapshot.data!.data!.user!.country != null
                       ? snapshot.data!.data!.user!.country!.name!
                       : '',
-                  city = snapshot.data!.data!.user!.city!.name != null
+                  city = snapshot.data!.data!.user!.city != null
                       ? snapshot.data!.data!.user!.city!.name.toString()
                       : '',
                     helper =1,
@@ -594,27 +601,27 @@ class _userInformationState extends State<userInformation> {
                                       (currentPassword.text != null && newPassword.text != null ) ||  ( currentPassword.text.isNotEmpty && newPassword.text.isNotEmpty)?{
                                       _formKey2.currentState ==null?null:
                                       _formKey2.currentState!.validate()? {
-                                      newPassword.text == confirmPassword.text?{ changePassword().whenComplete(() =>  ScaffoldMessenger.of(
+                                      newPassword.text == confirmPassword.text?{ changePassword(userToken).whenComplete(() =>  ScaffoldMessenger.of(
                                       context)
                                           .showSnackBar(
                                       const SnackBar(
                                       content: Text("تم تحديث المعلومات بنجاح"),
-                                      ))), updateUserInformation().whenComplete(() => fetchCelebrities())}: setState((){noMatch = true;})}:null,}:null;
+                                      ))), updateUserInformation(userToken).whenComplete(() => fetchUsers(userToken))}: setState((){noMatch = true;})}:null,}:null;
 
-                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateUserInformation()
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateUserInformation(userToken)
                                           .whenComplete(() => {
                                       countryChanged
                                       ? setState(() {
                                       helper = 0;
                                       countryChanged =
                                       false;
-                                      getUser = fetchUsers();})
+                                      getUser = fetchUsers(userToken);})
                                           : Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                       builder:
                                       (context) =>
-                                      celebratyProfile()),
+                                      userProfile()),
                                       ),
                                       ScaffoldMessenger.of(
                                       context)
@@ -745,7 +752,7 @@ class _userInformationState extends State<userInformation> {
     );
   }
 
-  Future<http.Response> updateUserInformation() async {
+  Future<http.Response> updateUserInformation(String token) async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxL'
         'r_AQhAzfEcqgasRrr32031veKVCd21rA';
@@ -756,7 +763,7 @@ class _userInformationState extends State<userInformation> {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $token'
       },
       body: jsonEncode(<String, dynamic>{
         'name': name.text,
@@ -780,10 +787,7 @@ class _userInformationState extends State<userInformation> {
       throw Exception('Failed to load activity');
     }
   }
-  Future<http.Response> changePassword() async {
-    String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
-
+  Future<http.Response> changePassword(String token) async {
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/user/password/change',
@@ -791,7 +795,7 @@ class _userInformationState extends State<userInformation> {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $token'
       },
       body: jsonEncode(<String, dynamic>{
         'current_password': currentPassword.text,
