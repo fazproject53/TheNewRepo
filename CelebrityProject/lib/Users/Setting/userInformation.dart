@@ -17,15 +17,21 @@ class userInformation extends StatefulWidget {
 }
 
 class _userInformationState extends State<userInformation> {
+
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   final TextEditingController name = new TextEditingController();
   final TextEditingController email = new TextEditingController();
   final TextEditingController password = new TextEditingController();
-  final TextEditingController repassword = new TextEditingController();
+  final TextEditingController newPassword = new TextEditingController();
+  final TextEditingController currentPassword = new TextEditingController();
+  final TextEditingController confirmPassword = new TextEditingController();
   final TextEditingController phone = new TextEditingController();
 
   Future<CountryL>? countries;
   Future<CityL>? cities;
+  bool noMatch =false;
+  bool editPassword = false;
 
   int helper =0;
   bool hidden = true;
@@ -113,12 +119,14 @@ class _userInformationState extends State<userInformation> {
                   helper ==0?{
                   name.text = snapshot.data!.data!.user!.name!,
                   email.text = snapshot.data!.data!.user!.email!,
+                    snapshot.data!.data!.user!.phonenumber! != ""?{
                   number =
                       snapshot.data!.data!.user!.phonenumber!.length - 9,
                   phone.text =
-                      snapshot.data!.data!.user!.phonenumber!.substring(number),
+                      snapshot.data!.data!.user!.phonenumber!.substring(number),}:
+                    phone.text =
+                    snapshot.data!.data!.user!.phonenumber!,
                   password.text = "********",
-                  repassword.text = "********",
                   country = snapshot.data!.data!.user!.country != null
                       ? snapshot.data!.data!.user!.country!.name!
                       : '',
@@ -186,7 +194,7 @@ class _userInformationState extends State<userInformation> {
                               Row(
                                 children: [
                                   Expanded(
-                                    flex: 4,
+                                    flex: 7,
                                     child: paddingg(
                                       0,
                                       15,
@@ -217,12 +225,18 @@ class _userInformationState extends State<userInformation> {
                                     flex: 2,
                                     child: Container(
                                       child: CountryCodePicker(
+                                        padding: EdgeInsets.all(0),
                                         onChanged: print,
                                         // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                        initialSelection: country == 'السعودية'? 'SA': country == 'فلسطين'? 'PS': country == 'الاردن'?'JO': country == 'الامارات'? 'AE': 'SA',
-                                        onInit: (CountryCode? code) {
-                                          countrycode = code!.dialCode;
-                                        },
+                                        initialSelection: country == 'السعودية'
+                                            ? 'SA'
+                                            : country == 'فلسطين'
+                                            ? 'PS'
+                                            : country == 'الاردن'
+                                            ? 'JO'
+                                            : country == 'الامارات'
+                                            ? 'AE'
+                                            : 'SA',
                                         countryFilter: const [
                                           'SA',
                                           'JO',
@@ -246,43 +260,124 @@ class _userInformationState extends State<userInformation> {
                                           'SO',
                                           'MR'
                                         ],
+                                        showFlag: true,
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
+                                        textStyle:  TextStyle(color: black, fontSize: 0.sp),
                                         // optional. Shows only country name and flag when popup is closed.
                                         showOnlyCountryWhenClosed: false,
                                         // optional. aligns the flag and the Text left
-                                        alignLeft: false,
+                                        alignLeft: true,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
 
-                              paddingg(
-                                15,
-                                15,
-                                12,
-                                textFieldPassword(context, 'كلمة المرور', 14,
-                                    hidden, password, (String? value) {
-                                  if (value == null || value.isEmpty) {}
-                                  return null;
-                                }, false),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 7,
+                                    child: paddingg(
+                                      0,
+                                      15,
+                                      12,
+                                      textFieldPassword(context, 'كلمة المرور', 14,
+                                          hidden, password, (String? value) {
+                                        if (value == null || value.isEmpty) {}
+                                        return null;
+                                      }, false),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      flex: 2,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 8.0),
+                                        child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                editPassword = !editPassword;
+                                              });
+                                            },
+                                            child: Icon(Icons.edit)),
+                                      )),
+                                ],
                               ),
-                              paddingg(
-                                15,
-                                15,
-                                12,
-                                textFieldPassword2(
-                                    context,
-                                    'اعادة ضبط كلمة المرور ',
-                                    14,
-                                    hidden2,
-                                    repassword, (String? value) {
-                                  if (value == null || value.isEmpty) {}
-                                  return null;
-                                }, false),
-                              ),
+                              // paddingg(
+                              //   15,
+                              //   15,
+                              //   12,
+                              //   textFieldPassword2(
+                              //       context,
+                              //       'اعادة ضبط كلمة المرور ',
+                              //       14,
+                              //       hidden2,
+                              //       repassword, (String? value) {
+                              //     if (value == null || value.isEmpty) {}
+                              //     return null;
+                              //   }, false),
+                              // ),
 
+                              editPassword
+                                  ? Form(
+                                key: _formKey2,
+                                child: Column(
+                                  children: [
+                                    paddingg(
+                                      15,
+                                      15,
+                                      12,
+                                      textFieldNoIcon(
+                                          context,
+                                          'كلمة المرور الحالية',
+                                          14,
+                                          true,
+                                          currentPassword, (String? value) {
+                                        if (value == null ||
+                                            value.isEmpty) {}
+                                        return null;
+                                      }, false),
+                                    ),
+                                    paddingg(
+                                      15,
+                                      15,
+                                      12,
+                                      textFieldNoIcon(
+                                          context,
+                                          'كلمة المرور الجديدة',
+                                          14,
+                                          true,
+                                          newPassword, (String? value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'حقل اجباري';
+                                        }
+                                        return null;
+                                      }, false),
+                                    ),
+                                    paddingg(
+                                      15,
+                                      15,
+                                      12,
+                                      textFieldNoIcon(
+                                          context,
+                                          'تاكيد كلمة المرور ',
+                                          14,
+                                          true,
+                                          confirmPassword, (String? value) {
+                                        if (value == null ||
+                                            value.isEmpty) {
+                                          return 'حقل اجباري';
+                                        }
+                                        return noMatch ? 'كلمة المرور وتاكيد كلمة المرور غير متطابقين': null;
+                                      }, false),
+                                    ),
+                                  ],
+                                ),
+                              )
+                                  : const SizedBox(
+                                height: 0,
+                              ),
                               //===========dropdown lists ==================
                               FutureBuilder(
                                   future: countries,
@@ -496,29 +591,52 @@ class _userInformationState extends State<userInformation> {
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
-                                      _formKey.currentState!.validate()
-                                          ? updateUserInformation()
-                                              .whenComplete(() => {
+                                      (currentPassword.text != null && newPassword.text != null ) ||  ( currentPassword.text.isNotEmpty && newPassword.text.isNotEmpty)?{
+                                      _formKey2.currentState ==null?null:
+                                      _formKey2.currentState!.validate()? {
+                                      newPassword.text == confirmPassword.text?{ changePassword().whenComplete(() =>  ScaffoldMessenger.of(
+                                      context)
+                                          .showSnackBar(
+                                      const SnackBar(
+                                      content: Text("تم تحديث المعلومات بنجاح"),
+                                      ))), updateUserInformation().whenComplete(() => fetchCelebrities())}: setState((){noMatch = true;})}:null,}:null;
 
-                                        countryChanged?
-                                                 setState((){
-                                                  helper = 0;
-                                                  countryChanged = false;
-                                                  getUser = fetchUsers();
-                                                }):Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => userProfile()),
-                                        ),
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                            const SnackBar(
-                                                      content: Text(
-                                                          "تم تعديل المعلومات بنجاح"),
-                                                    ))
-                                                  })
-                                          : null;
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateUserInformation()
+                                          .whenComplete(() => {
+                                      countryChanged
+                                      ? setState(() {
+                                      helper = 0;
+                                      countryChanged =
+                                      false;
+                                      getUser = fetchUsers();})
+                                          : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                      builder:
+                                      (context) =>
+                                      celebratyProfile()),
+                                      ),
+                                      ScaffoldMessenger.of(
+                                      context)
+                                          .showSnackBar(
+                                      const SnackBar(
+                                      content: Text(
+                                      "تم تعديل المعلومات بنجاح"),
+                                      ))
+                                      //   setState(() {
+                                      //     helper = 0;
+                                      //     celebrities =
+                                      //         fetchCelebrities();
+                                      //   }),
+                                      //   ScaffoldMessenger.of(
+                                      //           context)
+                                      //       .showSnackBar(
+                                      //           const SnackBar(
+                                      //     content: Text(
+                                      //         "تم تعديل المعلومات بنجاح"),
+                                      //   ))
+                                      })
+                                      : null;
                                     })),
                               ),
                               SizedBox(
@@ -604,24 +722,24 @@ class _userInformationState extends State<userInformation> {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           focusedBorder:
               OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
-          suffixIcon: hidden
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      hidden = false;
-                    });
-                  },
-                  icon: Icon(
-                    hide,
-                    color: lightGrey,
-                  ))
-              : IconButton(
-                  onPressed: () {
-                    setState(() {
-                      hidden = true;
-                    });
-                  },
-                  icon: Icon(show, color: lightGrey)),
+          // suffixIcon: hidden
+          //     ? IconButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             hidden = false;
+          //           });
+          //         },
+          //         icon: Icon(
+          //           hide,
+          //           color: lightGrey,
+          //         ))
+          //     : IconButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             hidden = true;
+          //           });
+          //         },
+          //         icon: Icon(show, color: lightGrey)),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
     );
@@ -662,7 +780,36 @@ class _userInformationState extends State<userInformation> {
       throw Exception('Failed to load activity');
     }
   }
+  Future<http.Response> changePassword() async {
+    String token2 =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
 
+    final response = await http.post(
+      Uri.parse(
+        'https://mobile.celebrityads.net/api/user/password/change',
+      ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token2'
+      },
+      body: jsonEncode(<String, dynamic>{
+        'current_password': currentPassword.text,
+        'new_password': newPassword.text,
+        'confirm_password': confirmPassword.text,
+      }),
+    );
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return response;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
   Widget textFieldPassword2(
     context,
     String key,
