@@ -305,10 +305,16 @@ Widget singWthisButtom(
 }
 
 Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
-    TextEditingController mycontroller, myvali, isOptional) {
+    TextEditingController mycontroller, myvali, isOptional, {
+      List<TextInputFormatter>? inputFormatters,
+      TextInputType? keyboardType
+}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
+    inputFormatters: inputFormatters,
+    keyboardType: keyboardType,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
     controller: mycontroller,
     style: TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
     decoration: InputDecoration(
@@ -340,7 +346,8 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
   return SizedBox(
     height: 30.h,
     width: 130.w,
-    child: TextField(
+    child: TextFormField(
+      validator: myvali,
       controller: mycontroller,
       style:
           TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
@@ -371,9 +378,10 @@ Widget textFieldDesc(
   bool hintPass,
   TextEditingController mycontroller,
   myvali,{InputCounterWidgetBuilder? counter,
-    int? maxLenth}
+    int? maxLenth, List<TextInputFormatter>? inputFormatters,
+      TextInputType? keyboardType}
 ) {
-  var expand = false;
+
   return SizedBox(
     height: 200.h,
     child: TextFormField(
@@ -381,6 +389,8 @@ Widget textFieldDesc(
       controller: mycontroller,
       keyboardType: TextInputType.multiline,
       validator: myvali,
+      inputFormatters: inputFormatters,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: null,
       minLines: 10,
       maxLength: maxLenth ,
