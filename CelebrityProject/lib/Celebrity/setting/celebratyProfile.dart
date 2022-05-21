@@ -373,6 +373,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
 //--------------------------------------------------------------------------
 
   void singOut(context, String token) async {
+    loadingDialogue(context);
     const url = 'https://mobile.celebrityads.net/api/logout';
     final respons = await http.get(Uri.parse(url), headers: {
       'Content-Type': 'application/json',
@@ -380,10 +381,13 @@ class _celebratyProfileState extends State<celebratyProfile> {
       'Authorization': 'Bearer $token'
     });
     if (respons.statusCode == 200) {
+      Navigator.pop(context);
+      String massage=jsonDecode(respons.body)['message']['ar'];
       ScaffoldMessenger.of(context).showSnackBar(
-          snackBar(context, 'تم تسجيل الخروج بنجاح', green, done));
+          snackBar(context, massage, green, done));
       goTopageReplacement(context, const Logging());
     } else {
+      Navigator.pop(context);
       throw Exception('loggout field');
     }
   }

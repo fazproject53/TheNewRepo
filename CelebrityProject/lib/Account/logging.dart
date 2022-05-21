@@ -68,7 +68,7 @@ class _LoggingState extends State<Logging> {
                             context,
                             emailIcon,
                             "البريد الالكتروني او اسم المستخدم",
-                            10,
+                            12,
                             false,
                             lgoingEmailConttroller,
                             empty),
@@ -76,7 +76,7 @@ class _LoggingState extends State<Logging> {
                           height: 15.h,
                         ),
 //pass------------------------------------------
-                        textField(context, passIcon, "كلمة المرور", 10, true,
+                        textField(context, passIcon, "كلمة المرور", 12, true,
                             lgoingPassConttroller, valedpass),
                         SizedBox(
                           height: 15.h,
