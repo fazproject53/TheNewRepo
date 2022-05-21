@@ -4,10 +4,11 @@ import '../../../Account/LoggingSingUpAPI.dart';
 
 
 String serverUrl = "https://mobile.celebrityads.net/api";
-Future<Advertising?> getAdvertisingOrder(String token) async {
+Future<Advertising> getAdvertisingOrder(String token) async {
+  print('advatisting token: $token');
 
   String url = "$serverUrl/celebrity/AdvertisingOrders";
-  try{
+  //try{
   final respons = await http.get(Uri.parse(url), headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -27,10 +28,10 @@ Future<Advertising?> getAdvertisingOrder(String token) async {
   } else {
     throw Exception('Failed to load Advertising request');
   }
-  } catch (e) {
-    print(e.toString());
-  }
-  return null;
+  //} catch (e) {
+   // print(e.toString());
+  //}
+  //return null;
 
 }
 

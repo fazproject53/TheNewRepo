@@ -212,13 +212,9 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                   12,
                                                   false,
                                                   discountCode,
-                                                  (String? value) {
-                                                /// Validation text field
-                                                if (value == null || value.isEmpty) {
-                                                  return 'حقل اجباري';
-                                                }
-                                                return null;
-                                              }, false),
+                                                  discountValid, false,
+
+                                              ),
                                             ),
 
                                             ///Select The Type of Support
@@ -767,5 +763,14 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       // then throw an exception.
       throw Exception('Failed to load activity');
     }
+  }
+
+  String? discountValid(String value) {
+    if (value.isEmpty) {
+      return "املء الحقل اعلاه";
+    }if(value.startsWith('0')){
+      return 'لايمكن ان يبدأ رقم التسعير ب 0';
+    }
+    return null;
   }
 }

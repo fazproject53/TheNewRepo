@@ -25,9 +25,10 @@ class _AdvertismentState extends State<Advertisment> {
     DatabaseHelper.getToken().then((value) {
       setState(() {
         token = value;
+        getAdvertisingOrder(token);
       });
     });
-    getAdvertisingOrder(token);
+
   }
 
   @override
