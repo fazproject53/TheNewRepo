@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdSpace extends StatefulWidget {
-  const AdSpace({Key? key}) : super(key: key);
 
   @override
   State<AdSpace> createState() => _AdSpaceState();
 }
 
-class _AdSpaceState extends State<AdSpace> {
+class _AdSpaceState extends State<AdSpace>with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -170,4 +169,8 @@ class _AdSpaceState extends State<AdSpace> {
         blur: 5,
         marginT: 5);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
