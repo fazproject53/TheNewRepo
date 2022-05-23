@@ -1,3 +1,4 @@
+
 class introModel {
   bool? success;
   Data? data;
@@ -76,7 +77,7 @@ class Celebrity {
   String? email;
   String? phonenumber;
   Country? country;
-  Null? city;
+  City? city;
   String? description;
   String? pageUrl;
   String? snapchat;
@@ -85,7 +86,7 @@ class Celebrity {
   String? instagram;
   String? twitter;
   String? facebook;
-  Category? category;
+  City? category;
   String? brand;
   String? advertisingPolicy;
   String? giftingPolicy;
@@ -123,7 +124,7 @@ class Celebrity {
     phonenumber = json['phonenumber'];
     country =
     json['country'] != null ? new Country.fromJson(json['country']) : null;
-    city = json['city'];
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -132,9 +133,8 @@ class Celebrity {
     instagram = json['instagram'];
     twitter = json['twitter'];
     facebook = json['facebook'];
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
+    category =
+    json['category'] != null ? new City.fromJson(json['category']) : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
@@ -152,7 +152,9 @@ class Celebrity {
     if (this.country != null) {
       data['country'] = this.country!.toJson();
     }
-    data['city'] = this.city;
+    if (this.city != null) {
+      data['city'] = this.city!.toJson();
+    }
     data['description'] = this.description;
     data['page_url'] = this.pageUrl;
     data['snapchat'] = this.snapchat;
@@ -194,13 +196,13 @@ class Country {
   }
 }
 
-class Category {
+class City {
   String? name;
   String? nameEn;
 
-  Category({this.name, this.nameEn});
+  City({this.name, this.nameEn});
 
-  Category.fromJson(Map<String, dynamic> json) {
+  City.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     nameEn = json['name_en'];
   }

@@ -4,10 +4,12 @@ import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/Users/Exploer/viewData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../ModelAPI/CelebrityScreenAPI.dart';
 import '../../Models/Methods/classes/GradientIcon.dart';
@@ -58,7 +60,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
   Future<introModel> getSectionsData() async {
     final response = await http.get(
         Uri.parse(
-            'https://mobile.celebrityads.net/api/celebrity-page/4OxvkYUSPB1GBViM'),
+            'https://mobile.celebrityads.net/api/celebrity-page/PmHwKTHWP5rfQBUE'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -205,10 +207,15 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                       margin: EdgeInsets.only(right: 25.w),
                                       child: InkWell(
                                           onTap: () {
-                                            showDialogFunc(context, '',
-                                                snapshot.data!.data!.celebrity!.advertisingPolicy!,
-                                                snapshot.data!.data!.celebrity!.giftingPolicy!,
-                                                snapshot.data!.data!.celebrity!.adSpacePolicy!);
+                                            showDialogFunc(
+                                                context,
+                                                '',
+                                                snapshot.data!.data!.celebrity!
+                                                    .advertisingPolicy!,
+                                                snapshot.data!.data!.celebrity!
+                                                    .giftingPolicy!,
+                                                snapshot.data!.data!.celebrity!
+                                                    .adSpacePolicy!);
                                           },
                                           child: text(
                                               context,
@@ -243,7 +250,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                 if (url == "") {
                                                   ///Do nothing
                                                 } else {
-                                                  await launch(url, forceWebView: true);
+                                                  await launch(url,
+                                                      forceWebView: true);
                                                 }
                                               },
                                             ),
@@ -325,75 +333,79 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       ),
 
                       ///horizontal listView for news
-                      SizedBox(
-                        height: 90.h,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: snapshot.data!.data!.news!.length,
-                            itemBuilder: (context, index) {
-                              return Row(children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 8.w),
-                                  child: Container(
-                                    height: 70.h,
-                                    width: 208.w,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(50.r),
-                                        bottomRight: Radius.circular(50.r),
-                                        topLeft: Radius.circular(15.r),
-                                        bottomLeft: Radius.circular(15.r),
+                      Visibility(
+                        visible:
+                            snapshot.data!.data!.news!.isEmpty ? false : true,
+                        child: SizedBox(
+                          height: 90.h,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data!.data!.news!.length,
+                              itemBuilder: (context, index) {
+                                return Row(children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.w),
+                                    child: Container(
+                                      height: 70.h,
+                                      width: 208.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(50.r),
+                                          bottomRight: Radius.circular(50.r),
+                                          topLeft: Radius.circular(15.r),
+                                          bottomLeft: Radius.circular(15.r),
+                                        ),
+                                        gradient: const LinearGradient(
+                                          begin: Alignment(0.7, 2.0),
+                                          end: Alignment(-0.69, -1.0),
+                                          colors: [
+                                            Color(0xff0ab3d0),
+                                            Color(0xffe468ca)
+                                          ],
+                                          stops: [0.0, 1.0],
+                                        ),
                                       ),
-                                      gradient: const LinearGradient(
-                                        begin: Alignment(0.7, 2.0),
-                                        end: Alignment(-0.69, -1.0),
-                                        colors: [
-                                          Color(0xff0ab3d0),
-                                          Color(0xffe468ca)
-                                        ],
-                                        stops: [0.0, 1.0],
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(right: 8.w),
-                                      child: Row(
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage: Image.asset(
-                                              'assets/image/celebrityimg.png',
-                                            ).image,
-                                            radius: 30.r,
-                                          ),
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
-                                          SizedBox(
-                                            height: 70.h,
-                                            width: 110.w,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                text(
-                                                  context,
-                                                  snapshot
-                                                      .data!
-                                                      .data!
-                                                      .news![index]
-                                                      .description!,
-                                                  11,
-                                                  white,
-                                                ),
-                                              ],
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: 8.w),
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundImage: Image.network(
+                                                snapshot.data!.data!.celebrity!.image!
+                                              ).image,
+                                              radius: 30.r,
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              width: 10.w,
+                                            ),
+                                            SizedBox(
+                                              height: 70.h,
+                                              width: 110.w,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  text(
+                                                      context,
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .news![index]
+                                                          .description!,
+                                                      11,
+                                                      white,
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ]);
-                            }),
+                                ]);
+                              }),
+                        ),
                       ),
 
                       ///SizedBox
@@ -405,10 +417,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       //for(int i = 0 ; i < snapshot.data!.data!.celebrity!.images!.length ; i++)
                       //advImage.add(snapshot.data!.data!.celebrity!.image!),
 
-
                       ///image slider for advertising area
                       //imageSlider(advImage),
-
 
                       ///Container for celebrity store
                       Container(
@@ -441,9 +451,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                     90,
                                     30,
                                     text(context, 'زيارة المتجر', 15, white,
-                                        align: TextAlign.center)
-                                ),
-                                onTap: (){
+                                        align: TextAlign.center)),
+                                onTap: () {
                                   snapshot.data!.data!.celebrity!.brand!;
                                 },
                               ),
@@ -461,7 +470,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                           height: 350.h,
                           width: 400.w,
                           child: GridView.builder(
-                            itemCount: 20,
+                            itemCount: snapshot.data!.data!.studio!.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, //عدد العناصر في كل صف
@@ -471,7 +480,92 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             ),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, i) {
-                              return viewCard();
+                              ///play the celebrity video
+                              return Card(
+                                elevation: 10,
+                                child: Stack(
+                                  children: [
+                                    snapshot.data!.data!.studio![i].type! ==
+                                            "image"
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.r)),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    snapshot.data!.data!
+                                                        .studio![i].image!,
+                                                  ),
+                                                  fit: BoxFit.fill,
+                                                )))
+                                        : Stack(
+                                            children: [
+                                              ///Video
+                                              VideoPlayer(
+                                                  VideoPlayerController.network(
+                                                      snapshot.data!.data!
+                                                          .studio![i].image!)
+                                                    ..initialize()),
+
+                                              ///Play Icon
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  ///play video
+                                                  Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:  EdgeInsets.only(top: 10.h,right: 55.w),
+                                                        child: IconButton(
+                                                                onPressed: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) =>
+                                                                              viewData(
+                                                                                video: snapshot.data!.data!.studio![i].image!,
+                                                                              )));
+                                                                  print('Tap it');
+                                                                },
+                                                                icon: GradientIcon(
+                                                                        playViduo,
+                                                                        40,
+                                                                        const LinearGradient(
+                                                                          begin:
+                                                                              Alignment(
+                                                                                  0.7,
+                                                                                  2.0),
+                                                                          end: Alignment(
+                                                                              -0.69,
+                                                                              -1.0),
+                                                                          colors: [
+                                                                            Color(
+                                                                                0xff0ab3d0),
+                                                                            Color(
+                                                                                0xffe468ca)
+                                                                          ],
+                                                                          stops: [
+                                                                            0.0,
+                                                                            1.0
+                                                                          ],
+                                                                        )),
+
+
+                                                              ),
+                                                      ),
+
+
+
+                                                    ),
+
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                  ],
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -734,155 +828,106 @@ class _CelebrityHomeState extends State<CelebrityHome>
     );
   }
 
-  ///play the celebrity video
-  Widget viewCard() {
-    return Card(
-        elevation: 10,
-        color: black,
-        child: Container(
-          decoration: BoxDecoration(
-              color: black,
-              borderRadius: BorderRadius.all(Radius.circular(4.r)),
-              image: DecorationImage(
-                image: AssetImage(
-                  videoImage,
-                ),
-                fit: BoxFit.fill,
-              )),
-          child: Column(
-            children: [
-              ///play video
-              Expanded(
-                flex: 1,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: CircleAvatar(
-                    backgroundColor: white.withOpacity(0.1),
-                    radius: 25.h,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      icon: Center(
-                        child: GradientIcon(
-                            playViduo,
-                            40,
-                            const LinearGradient(
-                              begin: Alignment(0.7, 2.0),
-                              end: Alignment(-0.69, -1.0),
-                              colors: [Color(0xff0ab3d0), Color(0xffe468ca)],
-                              stops: [0.0, 1.0],
-                            )),
-                      ),
+  ///privacy policy for the celebrity
+  showDialogFunc(context, title, adDes, giftDes, areaDes) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: white,
+              ),
+              padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
+              height: 380.h,
+              width: 380.w,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    ///Title
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ///text
+                        text(context, 'تفاصيل سياسة التعامل', 14, grey!),
+                      ],
                     ),
-                  ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+
+                    ///Adv Title
+                    text(context, 'سياسة الاعلان', 16, black,
+                        fontWeight: FontWeight.bold),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+
+                    ///Adv Details
+                    text(
+                      context,
+                      adDes,
+                      14,
+                      ligthtBlack,
+                    ),
+
+                    ///---------------------
+                    SizedBox(
+                      height: 15.h,
+                    ),
+
+                    ///---------------------
+
+                    ///Gifting Title
+                    text(context, 'سياسة الاهداء', 16, black,
+                        fontWeight: FontWeight.bold),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+
+                    ///Gifting Details
+                    text(
+                      context,
+                      giftDes,
+                      14,
+                      ligthtBlack,
+                    ),
+
+                    ///---------------------
+                    SizedBox(
+                      height: 15.h,
+                    ),
+
+                    ///---------------------
+
+                    ///Area Title
+                    text(context, 'سياسة المساحة الاعلانية', 16, black,
+                        fontWeight: FontWeight.bold),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+
+                    ///Area Details
+                    text(
+                      context,
+                      areaDes,
+                      14,
+                      ligthtBlack,
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ));
+        );
+      },
+    );
   }
-}
-
-///privacy policy for the celebrity
-showDialogFunc(context, title, adDes, giftDes, areaDes) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return Center(
-        child: Material(
-          type: MaterialType.transparency,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.r),
-              color: white,
-            ),
-            padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
-            height: 380.h,
-            width: 380.w,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                textDirection: TextDirection.rtl,
-                children: [
-                  ///Title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ///text
-                      text(context, 'تفاصيل سياسة التعامل', 14, grey!),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-
-                  ///Adv Title
-                  text(context, 'سياسة الاعلان', 16, black,
-                      fontWeight: FontWeight.bold),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-
-                  ///Adv Details
-                  text(
-                    context,
-                    adDes,
-                    14,
-                    ligthtBlack,
-                  ),
-
-                  ///---------------------
-                  SizedBox(
-                    height: 15.h,
-                  ),
-
-                  ///---------------------
-
-                  ///Gifting Title
-                  text(context, 'سياسة الاهداء', 16, black,
-                      fontWeight: FontWeight.bold),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-
-                  ///Gifting Details
-                  text(
-                    context,
-                    giftDes,
-                    14,
-                    ligthtBlack,
-                  ),
-
-                  ///---------------------
-                  SizedBox(
-                    height: 15.h,
-                  ),
-
-                  ///---------------------
-
-                  ///Area Title
-                  text(context, 'سياسة المساحة الاعلانية', 16, black,
-                      fontWeight: FontWeight.bold),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-
-                  ///Area Details
-                  text(
-                    context,
-                    areaDes,
-                    14,
-                    ligthtBlack,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    },
-  );
 }
 
 ///loading sign
