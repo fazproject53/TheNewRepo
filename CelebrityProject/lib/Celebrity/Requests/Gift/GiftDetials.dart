@@ -1,12 +1,17 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 
 class GiftDetials extends StatefulWidget {
   int? i;
-  GiftDetials({this.i});
+  final String? description;
+  final int? price;
+  final String? advTitle;
+  final String? advType;
+  GiftDetials({Key? key, this.i, this.description, this.price, this.advTitle, this.advType}) : super(key: key);
 
   @override
   State<GiftDetials> createState() => _GiftDetialsState();
@@ -15,13 +20,13 @@ class GiftDetials extends StatefulWidget {
 
 class _GiftDetialsState extends State<GiftDetials> {
 
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-      SystemUiOverlay.bottom,
-    ]);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+  //     SystemUiOverlay.bottom,
+  //   ]);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +64,13 @@ class _GiftDetialsState extends State<GiftDetials> {
                           onTap:() {
                             Navigator.pop(context);
                           },
-                            child: Icon(Icons.arrow_back_ios_sharp, color: black))
+                            child: const Icon(Icons.arrow_back_ios_sharp, color: black))
 
 
                            ,
                     ),
                   ),
-//ad titel-----------------------------------------------------
+//ad title-----------------------------------------------------
                   Container(
                    // color: black,
                     width: double.infinity,
@@ -82,7 +87,7 @@ class _GiftDetialsState extends State<GiftDetials> {
 
                             text(
                               context,
-                              " اهداء ل${giftType[widget.i!]}",
+                              " اهداء ل${widget.advTitle}",
                               20,
                               deepgrey!,
                               fontWeight: FontWeight.bold,
@@ -117,7 +122,7 @@ class _GiftDetialsState extends State<GiftDetials> {
 
                             text(
                               context,
-                              " اهداء صوتي",
+                              " اهداء "+widget.advType!,
                               16,
                               blue,
                               fontWeight: FontWeight.bold,
@@ -134,15 +139,16 @@ class _GiftDetialsState extends State<GiftDetials> {
                     //color: black,
                     width: double.infinity,
                     height: 100.h,
-                    margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.w),
+
+                    margin: EdgeInsets.only(left: 22.w, right: 22.w, bottom: 8.w),
                     child: Align(
-                        alignment: Alignment.center,
+                        alignment: Alignment.topRight,
                         child: Flex(
                           direction: isScreenWide ? Axis.horizontal : Axis.vertical,
                           children: [
                             text(
                               context,
-                              "اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء اهداء ",
+                              widget.description!,
                               13,
                               deepgrey!,
 
@@ -160,7 +166,7 @@ class _GiftDetialsState extends State<GiftDetials> {
                     ),
                   ),
 
-//accapt buttom-----------------------------------------------------
+//accapbuttom-----------------------------------------------------
 
 
                   Padding(
@@ -172,11 +178,13 @@ class _GiftDetialsState extends State<GiftDetials> {
                             radius: 40.r,
                             backgroundColor: pink,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 SizedBox(
                                   width: 15.r,
                                 ),
-                                text(context, "5200", 16, white,
+                                text(context, "${widget.price}", 16, white,
                                     fontWeight: FontWeight.bold),
                                 SizedBox(
                                   width: 3.r,

@@ -388,7 +388,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
       goTopageReplacement(context, const Logging());
     } else {
       Navigator.pop(context);
-      throw Exception('loggout field');
+      throw Exception('logout field');
     }
   }
 }

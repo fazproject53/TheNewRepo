@@ -13,7 +13,6 @@ class AdSpace extends StatefulWidget {
 }
 
 class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
-
   String token = '';
   Future<AdSpaceOrder>? celebrityAdSpaceRequests;
 
@@ -52,7 +51,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                 // goTopagepush(context, adSpaceOrders(i: i));
+                                  // goTopagepush(context, adSpaceOrders(i: i));
                                 },
                                 child: Column(
                                   children: [
@@ -83,6 +82,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
               }
             })));
   }
+
 //----------------------------------------------------------------------------------------
   Widget getData(int i, List<AdSpaceOrders>? adSpaceOrders) {
     return container(
@@ -103,17 +103,31 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                     topLeft: Radius.circular(10.h),
                     topRight: Radius.circular(10.h),
                   ),
-                  image:  DecorationImage(
+                  image: DecorationImage(
                       image: NetworkImage(adSpaceOrders![i].image!),
                       fit: BoxFit.cover,
-                      colorFilter:
-                          const ColorFilter.mode(Colors.black45, BlendMode.darken)),
+                      colorFilter: const ColorFilter.mode(
+                          Colors.black45, BlendMode.darken)),
+                ),
+                child: Padding(
+                  padding:  EdgeInsets.all(8.0.r),
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 10.w),
+                          child: text(
+                            context,
+                            adSpaceOrders[i].status!.name!,
+                            18,
+                            white,
+                            fontWeight: FontWeight.bold,
+                          ))),
                 ),
 // مناسبه الاهداء-----------------------------------------
               ),
             ),
 
-//detaiels-----------------------------------------
+//details-----------------------------------------
 
             Expanded(
                 flex: 2,
@@ -142,7 +156,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    text(context, "احمد عبد العزيز", 16, white)
+                                    text(context, adSpaceOrders[i].user!.name!,
+                                        16, white)
                                   ],
                                 ),
 //order number--------------------------------------------------------------------------
@@ -157,7 +172,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    text(context, "100056076", 16, white)
+                                    text(context, '${adSpaceOrders[i].id}', 16,
+                                        white)
                                   ],
                                 ),
 //date--------------------------------------------------------------------------
@@ -175,7 +191,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                         SizedBox(
                                           width: 10.w,
                                         ),
-                                        text(context, "26/02/2022", 16, white),
+                                        text(context, adSpaceOrders[i].date!,
+                                            16, white),
                                         SizedBox(
                                           width: 120.w,
                                         ),

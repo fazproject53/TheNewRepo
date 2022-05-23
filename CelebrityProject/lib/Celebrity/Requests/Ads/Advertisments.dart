@@ -54,7 +54,12 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  goTopagepush(context, AdvDetials(i: i));
+                                  goTopagepush(context, AdvDetials(i: i,
+                                  image: snapshot.data!.data!.advertisingOrders![i].file,
+                                  advTitle: snapshot.data!.data!.advertisingOrders![i].advertisingAdType?.name,
+                                  description: snapshot.data!.data!.advertisingOrders![i].description,
+                                  price: snapshot.data!.data!.advertisingOrders![i].price,
+                                  ));
                                 },
                                 child: Column(
                                   children: [
@@ -113,9 +118,11 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                         image: DecorationImage(
                             image: NetworkImage(
                               advertisingOrders[i].file!,
-                              //advertisingOrders[0].user!.image!,
+
+
                             ),
                             fit: BoxFit.cover,
+
                             colorFilter: const ColorFilter.mode(
                                 Colors.black45, BlendMode.darken)),
                       ),
@@ -124,17 +131,20 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                  padding: EdgeInsets.only(right: 10.w),
-                                  child: text(
-                                    context,
-                                    advertisingOrders[i].status!.name!,
-                                    18,
-                                    white,
-                                    fontWeight: FontWeight.bold,
-                                  ))),
+                          Padding(
+                            padding:  EdgeInsets.all(8.0.r),
+                            child: Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                    padding: EdgeInsets.only(right: 10.w),
+                                    child: text(
+                                      context,
+                                      advertisingOrders[i].status!.name!,
+                                      18,
+                                      white,
+                                      fontWeight: FontWeight.bold,
+                                    ))),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
@@ -144,8 +154,9 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                               Align(
                                   alignment: Alignment.bottomRight,
                                   child: Padding(
-                                      padding: EdgeInsets.only(right: 10.w),
+                                      padding: EdgeInsets.only(right: 10.r),
                                       child: text(
+
                                         context,
                                         advertisingOrders[i].adFeature!.name!,
                                         18,
@@ -171,13 +182,12 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                       )),
                 ),
 
-//details-----------------------------------------
+//details-----------------------------------------------------------------------------------------------------
 
                 Expanded(
                     flex: 1,
                     child: Row(
                       children: [
-//type-------------------------------------------------
                         Expanded(
                             flex: 1,
                             child: Column(
@@ -203,7 +213,7 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                               ],
                             )),
                         divider(),
-//owner-------------------------------------------------
+//owner-------------------------------------------------------------------------------------------
 
                         Expanded(
                             flex: 1,
@@ -228,7 +238,7 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                               ],
                             )),
                         divider(),
-//time-------------------------------------------------
+//time----------------------------------------------------------------------------------------
 
                         Expanded(
                             flex: 1,
