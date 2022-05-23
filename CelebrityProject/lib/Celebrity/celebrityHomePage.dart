@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
+import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -211,6 +212,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //mainAxisSize: MainAxisSize.min,
         children: [
+          currentuser =='User'?
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: SizedBox(
@@ -222,7 +224,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     goTopagepush(context, buildAdvOrder());
                   },
                 )),
-          ),
+          ):SizedBox(),
           Spacer(),
           Padding(
             padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
@@ -450,9 +452,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       child: Directionality(
                         textDirection: TextDirection.rtl,
                         child: InkWell(
-                            onTap: () {
-                              goTopagepush(context, const CelebrityHomePage());
-                            },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -480,47 +479,56 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                           }
                                           return SizedBox(
                                             width: 180.w,
-                                            child: Card(
-                                                elevation: 5,
-                                                child: Container(
-                                                  decoration: decoration(
-                                                      snapshot
-                                                          .data!
-                                                          .data!
-                                                          .celebrities![
-                                                              itemPosition]
-                                                          .image!),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(
-                                                          10.0.w),
-                                                      child: text(
-                                                          context,
-                                                          snapshot
-                                                                      .data!
-                                                                      .data!
-                                                                      .celebrities![
-                                                                          itemPosition]
-                                                                      .name ==
-                                                                  ''
-                                                              ? "name"
-                                                              : snapshot
-                                                                  .data!
-                                                                  .data!
-                                                                  .celebrities![
-                                                                      itemPosition]
-                                                                  .name!,
-                                                          18,
-                                                          white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                            child: InkWell(
+                                              onTap: () {
+                                                goTopagepush(context, CelebrityHome(pageUrl: snapshot
+                                                    .data!
+                                                    .data!
+                                                    .celebrities![
+                                                itemPosition].pageUrl!,));
+                                              },
+                                              child: Card(
+                                                  elevation: 5,
+                                                  child: Container(
+                                                    decoration: decoration(
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .celebrities![
+                                                                itemPosition]
+                                                            .image!),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                            10.0.w),
+                                                        child: text(
+                                                            context,
+                                                            snapshot
+                                                                        .data!
+                                                                        .data!
+                                                                        .celebrities![
+                                                                            itemPosition]
+                                                                        .name ==
+                                                                    ''
+                                                                ? "name"
+                                                                : snapshot
+                                                                    .data!
+                                                                    .data!
+                                                                    .celebrities![
+                                                                        itemPosition]
+                                                                    .name!,
+                                                            18,
+                                                            white,
+                                                            fontWeight:
+                                                                FontWeight.bold),
+                                                      ),
                                                     ),
+                                                  )
+                                                  //:Container(color: Colors.green,),
                                                   ),
-                                                )
-                                                //:Container(color: Colors.green,),
-                                                ),
+                                            ),
                                           );
                                         }),
                                   ),

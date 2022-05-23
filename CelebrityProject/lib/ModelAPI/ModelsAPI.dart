@@ -467,26 +467,86 @@ class TheCategory {
 }
 
 class Celebrities {
+  int? id;
+  String? username;
   String? name;
   String? image;
   String? email;
   String? phonenumber;
+  String? description;
+  String? pageUrl;
+  String? snapchat;
+  String? tiktok;
+  String? youtube;
+  String? instagram;
+  String? twitter;
+  String? facebook;
+  String? brand;
+  String? advertisingPolicy;
+  String? giftingPolicy;
+  String? adSpacePolicy;
 
-  Celebrities({this.name, this.image, this.email, this.phonenumber});
+  Celebrities(
+      {this.id,
+        this.username,
+        this.name,
+        this.image,
+        this.email,
+        this.phonenumber,
+        this.description,
+        this.pageUrl,
+        this.snapchat,
+        this.tiktok,
+        this.youtube,
+        this.instagram,
+        this.twitter,
+        this.facebook,
+        this.brand,
+        this.advertisingPolicy,
+        this.giftingPolicy,
+        this.adSpacePolicy});
 
   Celebrities.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
     name = json['name'];
     image = json['image'];
     email = json['email'];
     phonenumber = json['phonenumber'];
+    description = json['description'];
+    pageUrl = json['page_url'];
+    snapchat = json['snapchat'];
+    tiktok = json['tiktok'];
+    youtube = json['youtube'];
+    instagram = json['instagram'];
+    twitter = json['twitter'];
+    facebook = json['facebook'];
+    brand = json['brand'];
+    advertisingPolicy = json['advertising_policy'];
+    giftingPolicy = json['gifting_policy'];
+    adSpacePolicy = json['ad_space_policy'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
     data['name'] = this.name;
     data['image'] = this.image;
     data['email'] = this.email;
     data['phonenumber'] = this.phonenumber;
+    data['description'] = this.description;
+    data['page_url'] = this.pageUrl;
+    data['snapchat'] = this.snapchat;
+    data['tiktok'] = this.tiktok;
+    data['youtube'] = this.youtube;
+    data['instagram'] = this.instagram;
+    data['twitter'] = this.twitter;
+    data['facebook'] = this.facebook;
+    data['brand'] = this.brand;
+    data['advertising_policy'] = this.advertisingPolicy;
+    data['gifting_policy'] = this.giftingPolicy;
+    data['ad_space_policy'] = this.adSpacePolicy;
     return data;
   }
 }

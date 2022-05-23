@@ -14,6 +14,8 @@ import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 
 class advForm extends StatefulWidget{
+  final String? id;
+  const advForm({Key? key,  this.id}) : super(key: key);
   _advFormState createState() => _advFormState();
 }
 
@@ -529,7 +531,7 @@ buildCkechboxList(list) {
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = 77.toString();
+    request.fields["celebrity_id"] = widget.id.toString();
     request.fields["date"]= current.toString();
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;

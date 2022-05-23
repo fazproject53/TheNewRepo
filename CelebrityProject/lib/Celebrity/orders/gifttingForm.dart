@@ -13,6 +13,9 @@ import '../setting/profileInformation.dart';
 import 'gifttingForm.dart';
 
 class gifttingForm extends StatefulWidget{
+
+  final String? id;
+  const gifttingForm({Key? key,  this.id}) : super(key: key);
   _gifttingFormState createState() => _gifttingFormState();
 }
 
@@ -431,7 +434,7 @@ class _gifttingFormState extends State<gifttingForm>{
         'Authorization': 'Bearer $token2'
       },
       body: jsonEncode(<String, dynamic>{
-        'celebrity_id' : 77,
+        'celebrity_id' : widget.id,
         'date': current.toString(),
         'occasion_id': _selectedTest == null ? ocassionlist.indexOf(0) : ocassionlist.indexOf(_selectedTest),
         'gift_type_id': _selectedTest2 == null ? ocassionlist.indexOf(0): typelist.indexOf(_selectedTest2),

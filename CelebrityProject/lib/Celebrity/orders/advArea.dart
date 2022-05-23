@@ -14,12 +14,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:async/async.dart';
 
 class advArea extends StatefulWidget{
+ final String? id;
+  const advArea({Key? key,  this.id}) : super(key: key);
+
   _advAreaState createState() => _advAreaState();
 }
 
 class _advAreaState extends State<advArea>{
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController link = new TextEditingController();
+
+
 
   File? image;
    DateTime dateTime = DateTime.now();
@@ -161,7 +167,7 @@ class _advAreaState extends State<advArea>{
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = 77.toString();
+    request.fields["celebrity_id"] = widget.id.toString();
     request.fields["date"]=dateTime.toString();
     request.fields["link"]= link.text;
 
