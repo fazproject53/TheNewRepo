@@ -31,6 +31,7 @@ Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
+
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
@@ -545,7 +546,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //headerSection---------------------------------------------------------------------------
 
   headerSection(int? active) {
-    int headerIndex = 0;
+
     List<String> image = [];
     List<String> titel = [];
     return active == 1

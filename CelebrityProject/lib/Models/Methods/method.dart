@@ -329,7 +329,7 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
         labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
         focusedBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
+            OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1.w)),
         hintText: key,
         contentPadding: EdgeInsets.all(10.h)),
   );
@@ -338,7 +338,8 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
 ///Text Field small
 Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
-    {Widget? suffixIcon, void Function()? onTap})
+    {Widget? suffixIcon, void Function()? onTap, List<TextInputFormatter>? inputFormatters,
+      TextInputType? keyboardType})
 
 ///The icons will be optional
 
@@ -349,6 +350,9 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     child: TextFormField(
       validator: myvali,
       controller: mycontroller,
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       style:
           TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
