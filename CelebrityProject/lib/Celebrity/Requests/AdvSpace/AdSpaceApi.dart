@@ -4,10 +4,10 @@ import '../../../Account/LoggingSingUpAPI.dart';
 
 
 String serverUrl = "https://mobile.celebrityads.net/api";
-Future<Gifting> getGiftingOrder(String token) async {
+Future<AdSpaceOrder> getAdSpaceOrder(String token) async {
   print('gift token: $token');
 
-  String url = "$serverUrl/celebrity/GiftOrders";
+  String url = "$serverUrl/celebrity/AdSpaceOrders";
   //try{
   final respons = await http.get(Uri.parse(url), headers: {
     'Content-Type': 'application/json',
@@ -18,13 +18,13 @@ Future<Gifting> getGiftingOrder(String token) async {
 
   if (respons.statusCode == 200) {
     final body = respons.body;
-    Gifting gifting = Gifting.fromJson(jsonDecode(body));
+    AdSpaceOrder adSpace = AdSpaceOrder.fromJson(jsonDecode(body));
     print('------------------------------------------------------');
     print(respons.body.runtimeType);
     print(respons.body);
     print('-------------------------------------------------------');
 
-    return gifting;
+    return adSpace;
   } else {
     throw Exception('Failed to load gift request');
   }
@@ -35,22 +35,23 @@ Future<Gifting> getGiftingOrder(String token) async {
 
 }
 //-------------------------------------------------------------------------------------------
-class Gifting {
+
+class AdSpaceOrder {
   bool? success;
   Data? data;
   Message? message;
 
-  Gifting({this.success, this.data, this.message});
+  AdSpaceOrder({this.success, this.data, this.message});
 
-  Gifting.fromJson(Map<String, dynamic> json) {
+  AdSpaceOrder.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message =
-    json['message'] != null ?  Message.fromJson(json['message']) : null;
+    json['message'] != null ? new Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
@@ -63,32 +64,33 @@ class Gifting {
 }
 
 class Data {
-  List<GiftOrders>? giftOrders;
+  List<AdSpaceOrders>? adSpaceOrders;
   int? status;
 
-  Data({this.giftOrders, this.status});
+  Data({this.adSpaceOrders, this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['GiftOrders'] != null) {
-      giftOrders = <GiftOrders>[];
-      json['GiftOrders'].forEach((v) {
-        giftOrders!.add( GiftOrders.fromJson(v));
+    if (json['adSpaceOrders'] != null) {
+      adSpaceOrders = <AdSpaceOrders>[];
+      json['adSpaceOrders'].forEach((v) {
+        adSpaceOrders!.add( AdSpaceOrders.fromJson(v));
       });
     }
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.giftOrders != null) {
-      data['GiftOrders'] = this.giftOrders!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
+    if (this.adSpaceOrders != null) {
+      data['adSpaceOrders'] =
+          this.adSpaceOrders!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     return data;
   }
 }
 
-class GiftOrders {
+class AdSpaceOrders {
   int? id;
   Celebrity? celebrity;
   User? user;
@@ -96,14 +98,10 @@ class GiftOrders {
   AdType? adType;
   AdType? status;
   int? price;
-  Occasion? occasion;
-  AdType? giftType;
-  String? description;
-  String? from;
-  String? to;
-  Null? celebrityPromoCode;
+  String? image;
+  String? link;
 
-  GiftOrders(
+  AdSpaceOrders(
       {this.id,
         this.celebrity,
         this.user,
@@ -111,14 +109,10 @@ class GiftOrders {
         this.adType,
         this.status,
         this.price,
-        this.occasion,
-        this.giftType,
-        this.description,
-        this.from,
-        this.to,
-        this.celebrityPromoCode});
+        this.image,
+        this.link});
 
-  GiftOrders.fromJson(Map<String, dynamic> json) {
+  AdSpaceOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     celebrity = json['celebrity'] != null
         ? new Celebrity.fromJson(json['celebrity'])
@@ -130,16 +124,8 @@ class GiftOrders {
     status =
     json['status'] != null ? new AdType.fromJson(json['status']) : null;
     price = json['price'];
-    occasion = json['occasion'] != null
-        ? new Occasion.fromJson(json['occasion'])
-        : null;
-    giftType = json['gift_type'] != null
-        ? new AdType.fromJson(json['gift_type'])
-        : null;
-    description = json['description'];
-    from = json['from'];
-    to = json['to'];
-    celebrityPromoCode = json['celebrity_promo_code'];
+    image = json['image'];
+    link = json['link'];
   }
 
   Map<String, dynamic> toJson() {
@@ -159,16 +145,8 @@ class GiftOrders {
       data['status'] = this.status!.toJson();
     }
     data['price'] = this.price;
-    if (this.occasion != null) {
-      data['occasion'] = this.occasion!.toJson();
-    }
-    if (this.giftType != null) {
-      data['gift_type'] = this.giftType!.toJson();
-    }
-    data['description'] = this.description;
-    data['from'] = this.from;
-    data['to'] = this.to;
-    data['celebrity_promo_code'] = this.celebrityPromoCode;
+    data['image'] = this.image;
+    data['link'] = this.link;
     return data;
   }
 }
@@ -390,31 +368,6 @@ class AdType {
     data['id'] = this.id;
     data['name'] = this.name;
     data['name_en'] = this.nameEn;
-    return data;
-  }
-}
-
-class Occasion {
-  int? id;
-  String? name;
-  String? nameEn;
-  String? image;
-
-  Occasion({this.id, this.name, this.nameEn, this.image});
-
-  Occasion.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    nameEn = json['name_en'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
-    data['image'] = this.image;
     return data;
   }
 }

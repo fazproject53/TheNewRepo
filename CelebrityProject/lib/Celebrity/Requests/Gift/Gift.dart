@@ -98,72 +98,84 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
             Expanded(
               flex: 2,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.h),
-                    topRight: Radius.circular(10.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.h),
+                      topRight: Radius.circular(10.h),
+                    ),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                          giftOrders![i].occasion!.image!,
+                          //advertisingOrders[0].user!.image!,
+                        ),
+                        fit: BoxFit.cover,
+                        colorFilter: const ColorFilter.mode(
+                            Colors.black45, BlendMode.darken)),
                   ),
-                  image: DecorationImage(
-                      image: AssetImage(
-                        giftImage[i],
-                      ),
-                      fit: BoxFit.cover,
-                      colorFilter: const ColorFilter.mode(
-                          Colors.black45, BlendMode.darken)),
-                ),
 // مناسبه الاهداء-----------------------------------------
 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(right: 10.w),
-                              child: text(
-                                context,
-                                "اهداء ل" + giftOrders![i].occasion!.name!,
-                                18,
-                                white,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                    padding: EdgeInsets.only(right: 10.w),
+                                    child: text(
+                                      context,
+                                      giftOrders[i].status!.name!,
+                                      18,
+                                      white,
+                                      fontWeight: FontWeight.bold,
+                                    ))),
+                          ),
 //-------------------------------------------------------------------------------
-                    Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 10.w),
-                            child: text(
-                              context,
-                              "اهداء ل" + giftOrders[i].occasion!.name!,
-                              18,
-                              white,
-                              fontWeight: FontWeight.bold,
-                            ))),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: giftOrders[i].giftType!.name == 'صورة'
+                                    ? Icon(imageIcon,
+                                        color: deepwhite, size: 40.sp)
+                                    : giftOrders[i].giftType!.name == 'فيديو'
+                                        ? Icon(vieduoIcon,
+                                            color: deepwhite, size: 40.sp)
+                                        : Icon(voiceIcon,
+                                            color: deepwhite, size: 40.sp)),
+                          ),
 
 //icon-------------------------------------------------------------
-
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                          alignment: Alignment.topLeft,
-                          child: giftOrders[i].giftType!.name == 'صورة'
-                              ? Icon(imageIcon, color: deepwhite, size: 40.sp)
-                              : giftOrders[i].giftType!.name == 'فيديو'
-                                  ? Icon(vieduoIcon,
-                                      color: deepwhite, size: 40.sp)
-                                  : Icon(voiceIcon,
-                                      color: deepwhite, size: 40.sp)),
-                    ),
-                  ],
-                ),
-              ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Padding(
+                                    padding: EdgeInsets.only(right: 10.w),
+                                    child: text(
+                                      context,
+                                      "اهداء ل" + giftOrders[i].occasion!.name!,
+                                      18,
+                                      white,
+                                      fontWeight: FontWeight.bold,
+                                    ))),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
             ),
-
-//detaiels-----------------------------------------
+//details----------------------------------------------------------------------------------
 
             Expanded(
                 flex: 1,
@@ -202,11 +214,11 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                       flex: 1,
                       child: gradientContainer(
                           double.infinity,
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.0.h),
+                          Center(
                             child: text(
                                 context,
-                                "يناير\n23",
+                               // "يناير\n23",
+                                giftOrders[i].date!,
                                 //,
                                 15,
                                 white,
