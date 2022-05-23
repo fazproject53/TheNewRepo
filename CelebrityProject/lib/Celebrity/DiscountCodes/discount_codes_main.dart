@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import '../../celebrity/HomeScreen/celebrity_home_page.dart';
 import '../HomeScreen/celebrity_home_page.dart';
 
 class DiscountCodes extends StatelessWidget {
@@ -110,7 +111,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                     future: discount,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: loading(context));
+                        return Center();
                       } else if (snapshot.connectionState ==
                               ConnectionState.active ||
                           snapshot.connectionState == ConnectionState.done) {

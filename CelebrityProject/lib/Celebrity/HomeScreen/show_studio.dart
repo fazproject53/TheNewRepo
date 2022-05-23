@@ -4,7 +4,11 @@ import 'package:video_player/video_player.dart';
 
 
 class ShowStudio extends StatefulWidget {
-  const ShowStudio({Key? key}) : super(key: key);
+
+  final String video;
+
+
+   const ShowStudio({Key? key, required this.video}) : super(key: key);
 
   @override
   _ShowStudioState createState() => _ShowStudioState();
