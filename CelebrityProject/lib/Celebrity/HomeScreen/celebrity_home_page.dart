@@ -517,7 +517,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                     },
                                                                     icon: GradientIcon(
                                                                             playViduo,
-                                                                            40,
+                                                                            40.sp,
                                                                             const LinearGradient(
                                                                               begin:
                                                                                   Alignment(

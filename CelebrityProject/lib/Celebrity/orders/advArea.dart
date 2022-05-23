@@ -123,7 +123,13 @@ class _advAreaState extends State<advArea>{
            check2? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
               _formKey.currentState!.validate()? {
                 check2 && dateTime.day != DateTime.now().day && image != null?{
-                  addAdAreaOrder()
+                  addAdAreaOrder().whenComplete(() => {    ScaffoldMessenger.of(
+                      context)
+                      .showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            "تم ارسال الطلب بنجاح"),
+                      ))})
                 } : setState((){ !check2? warn2 = true: false;
                 dateTime.day == DateTime.now().day? datewarn2 = true: false;
                 image == null? warnimage =true:false;}),
@@ -143,7 +149,7 @@ class _advAreaState extends State<advArea>{
           )))),
     );}
 
- addAdAreaOrder() async {
+ Future<http.StreamedResponse> addAdAreaOrder() async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     var stream = new http.ByteStream(DelegatingStream.typed(image!.openRead()));
@@ -175,6 +181,7 @@ class _advAreaState extends State<advArea>{
     response.stream.transform(utf8.decoder).listen((value) {
       print(value);
     });
+    return response;
     }
 
   Future<File?> getImage(context) async {

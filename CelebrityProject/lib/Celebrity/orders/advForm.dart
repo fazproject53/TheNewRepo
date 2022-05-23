@@ -438,7 +438,13 @@ class _advFormState extends State<advForm>{
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context,'رفع الطلب', 15, white, (){
                             _formKey.currentState!.validate()? {
                               checkit && current.day != DateTime.now().day && image != null?{
-                            addAdOrder()
+                            addAdOrder().whenComplete(() => {    ScaffoldMessenger.of(
+                                context)
+                                .showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "تم ارسال الطلب بنجاح"),
+                                ))})
                           } : setState((){ !checkit? warn2 = true: false;
                               current.day == DateTime.now().day? datewarn2 = true: false;
                               file == null? warnimage =true:false;}),
