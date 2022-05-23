@@ -4,27 +4,87 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AdSpace extends StatefulWidget {
-  const AdSpace({Key? key}) : super(key: key);
+import '../../../Account/LoggingSingUpAPI.dart';
+import 'AdSpaceApi.dart';
 
+class AdSpace extends StatefulWidget {
   @override
   State<AdSpace> createState() => _AdSpaceState();
 }
 
-class _AdSpaceState extends State<AdSpace> {
+class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
+
+  String token = '';
+  Future<AdSpaceOrder>? celebrityAdSpaceRequests;
+
+  @override
+  void initState() {
+    super.initState();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        token = value;
+        celebrityAdSpaceRequests = getAdSpaceOrder(token);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView.builder(
-          itemCount: 4,
-          itemBuilder: (context, i) {
-            return body(i);
-          }),
-    );
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+            future: celebrityAdSpaceRequests,
+            builder: ((context, AsyncSnapshot<AdSpaceOrder> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Center(child: Text(snapshot.error.toString())));
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  return snapshot.data!.data!.adSpaceOrders!.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: snapshot.data!.data!.adSpaceOrders!.length,
+                          itemBuilder: (context, i) {
+                            return InkWell(
+                                onTap: () {
+                                 // goTopagepush(context, adSpaceOrders(i: i));
+                                },
+                                child: Column(
+                                  children: [
+                                    getData(
+                                        i, snapshot.data!.data!.adSpaceOrders),
+                                  ],
+                                ));
+                          })
+                      : Center(
+                          child: Center(
+                              child: text(
+                          context,
+                          "لاتوجد طلبات لعرضها حاليا",
+                          15,
+                          black,
+                        )));
+                } else {
+                  return text(
+                    context,
+                    "لاتوجد طلبات لعرضها حاليا",
+                    15,
+                    black,
+                  );
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            })));
   }
-
-  Widget body(int i) {
+//----------------------------------------------------------------------------------------
+  Widget getData(int i, List<AdSpaceOrders>? adSpaceOrders) {
     return container(
         200,
         double.infinity,
@@ -43,13 +103,11 @@ class _AdSpaceState extends State<AdSpace> {
                     topLeft: Radius.circular(10.h),
                     topRight: Radius.circular(10.h),
                   ),
-                  image: const DecorationImage(
-                      image: AssetImage(
-                       "assets/image/advspace.jpg"
-                      ),
+                  image:  DecorationImage(
+                      image: NetworkImage(adSpaceOrders![i].image!),
                       fit: BoxFit.cover,
                       colorFilter:
-                          ColorFilter.mode(Colors.black45, BlendMode.darken)),
+                          const ColorFilter.mode(Colors.black45, BlendMode.darken)),
                 ),
 // مناسبه الاهداء-----------------------------------------
               ),
@@ -104,7 +162,8 @@ class _AdSpaceState extends State<AdSpace> {
                                 ),
 //date--------------------------------------------------------------------------
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -122,7 +181,6 @@ class _AdSpaceState extends State<AdSpace> {
                                         ),
                                       ],
                                     ),
-
                                     Row(
                                       children: [
                                         Icon(
@@ -148,7 +206,6 @@ class _AdSpaceState extends State<AdSpace> {
                                         ),
                                       ],
                                     ),
-
                                   ],
                                 ),
                               ],
@@ -170,4 +227,8 @@ class _AdSpaceState extends State<AdSpace> {
         blur: 5,
         marginT: 5);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

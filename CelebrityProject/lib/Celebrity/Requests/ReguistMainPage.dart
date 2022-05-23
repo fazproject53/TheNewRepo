@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Account/LoggingSingUpAPI.dart';
+import 'Ads/AdvertisinApi.dart';
 import 'AdvSpace/AdSpace.dart';
 import 'Ads/Advertisments.dart';
 
@@ -17,12 +19,11 @@ class RequestMainPage extends StatefulWidget {
   State<RequestMainPage> createState() => _RequestMainPageState();
 }
 
-class _RequestMainPageState extends State<RequestMainPage> {
+class _RequestMainPageState extends State<RequestMainPage>  with AutomaticKeepAliveClientMixin{
   int? isSelected = 1;
   bool grandiedAds=false;
   bool grandiedAdsSpace=true;
   bool grandiedGift=true;
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -69,10 +70,10 @@ class _RequestMainPageState extends State<RequestMainPage> {
              Expanded(
               flex: 4,
               child: isSelected == 1
-                   ? const Advertisment()
+                   ?  Advertisment()
                    : isSelected == 2
-                       ? const Gift()
-                       : const AdSpace(),
+                       ?    const Gift()
+                       :       AdSpace(),
             ),
            ]),
         ));
@@ -162,4 +163,8 @@ class _RequestMainPageState extends State<RequestMainPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

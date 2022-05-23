@@ -1,5 +1,4 @@
 ///import section
-import 'package:celepraty/Account/LoggingSingUpAPI.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Celebrity/notificationList.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
