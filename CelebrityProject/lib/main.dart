@@ -63,9 +63,9 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-          home: Logging()
+          home: celebratyProfile()
 
-
+          // celebratyProfile()
 
         // FutureBuilder<IntroData>(
         //   future:futureIntro,

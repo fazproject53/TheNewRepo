@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -6,10 +7,15 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
+import 'package:path/path.dart' as Path;
+import 'package:path_provider/path_provider.dart';
 
 class advForm extends StatefulWidget{
+  final String? id;
+  const advForm({Key? key,  this.id}) : super(key: key);
   _advFormState createState() => _advFormState();
 }
 
@@ -31,7 +37,7 @@ class _advFormState extends State<advForm>{
   bool datewarn2 = false;
   bool warnimage = false;
 
-  PlatformFile? file;
+  File? file;
   Stream? streamm;
   @override
   Widget build(BuildContext context) {
@@ -432,7 +438,13 @@ class _advFormState extends State<advForm>{
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context,'رفع الطلب', 15, white, (){
                             _formKey.currentState!.validate()? {
                               checkit && current.day != DateTime.now().day && image != null?{
-                            addAdOrder()
+                            addAdOrder().whenComplete(() => {    ScaffoldMessenger.of(
+                                context)
+                                .showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "تم ارسال الطلب بنجاح"),
+                                ))})
                           } : setState((){ !checkit? warn2 = true: false;
                               current.day == DateTime.now().day? datewarn2 = true: false;
                               file == null? warnimage =true:false;}),
@@ -465,20 +477,27 @@ buildCkechboxList(list) {
     );
 
   }
-  Future<PlatformFile?> getFile(context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'pdf', 'doc','png'],
-    );
+  Future<File?> getFile(context) async {
 
-    if (result == null) {
+    PickedFile? pickedFile =
+    await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
       return null;
     }
+    final File f = File(pickedFile.path);
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    final String fileName = Path.basename(pickedFile.path);
+    final String fileExtension = Path.extension(fileName);
+    File newImage = await f.copy('$path/$fileName');
+    if(fileExtension == ".png" || fileExtension == ".jpg"){
+      file = newImage;
+    }else{ ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(
+      content: Text(
+          "امتداد الصورة المسموح به jpg, png",style: TextStyle(color: Colors.red)),
+    ));}
 
-    PlatformFile filee = result.files.first;
-      setState(() {
-        file = filee;
-      });
     // }else{ ScaffoldMessenger.of(context)
     //     .showSnackBar(const SnackBar(
     //   content: Text(
@@ -494,13 +513,11 @@ buildCkechboxList(list) {
     var uri;
     var request;
     Map<String, String> headers;
-    var multipartFile;
     var response ;
 
-
-     // stream = http.ByteStream(DelegatingStream.typed(file!.bytes.toList())),
+     stream = await http.ByteStream(DelegatingStream.typed(file!.openRead()));
     // get file length
-       length = await file!.size;
+       length = await file!.length();
 
     // string to uri
     uri = Uri.parse("https://mobile.celebrityads.net/api/order/advertising/add");
@@ -510,17 +527,17 @@ buildCkechboxList(list) {
       "Authorization": "Bearer $token2"
     };
     // create multipart request
-    request = new http.MultipartRequest("POST", uri);
-
+    request = http.MultipartRequest("POST", uri);
+   var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: Path.basename(file!.path));
     // multipart that takes file
     // multipartFile = new http.MultipartFile('file', file!.bytes.toList(), length,
     //     filename: file!.name),
 
     // listen for response
-
+    request.files.add(multipartFile);
     request.headers.addAll(headers);
-      request.fields["file"] = file!.path;
-    request.fields["celebrity_id"] = 77.toString();
+    request.fields["celebrity_id"] = widget.id.toString();
     request.fields["date"]= current.toString();
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;
