@@ -161,7 +161,7 @@ class _advAreaState extends State<advArea>{
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = 6.toString();
+    request.fields["celebrity_id"] = 77.toString();
     request.fields["date"]=dateTime.toString();
     request.fields["link"]= link.text;
 

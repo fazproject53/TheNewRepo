@@ -431,7 +431,7 @@ class _gifttingFormState extends State<gifttingForm>{
         'Authorization': 'Bearer $token2'
       },
       body: jsonEncode(<String, dynamic>{
-        'celebrity_id' : 6,
+        'celebrity_id' : 77,
         'date': current.toString(),
         'occasion_id': _selectedTest == null ? ocassionlist.indexOf(0) : ocassionlist.indexOf(_selectedTest),
         'gift_type_id': _selectedTest2 == null ? ocassionlist.indexOf(0): typelist.indexOf(_selectedTest2),
