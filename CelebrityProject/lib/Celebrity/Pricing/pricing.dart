@@ -590,12 +590,14 @@ class _PricingHomeState extends State<PricingHome> {
                                     child: text(context, 'حفظ', 12, purple),
 
                                     onPressed: (){
+                                      //to
                                       var ad1 = int.parse(pricingAd1.text);
+                                      //from
                                       var ad = int.parse(pricingAd.text);
-
 
                                       _formKey.currentState!.validate()? {
                                         ///var c = int. parse(b);
+                                        //to < from
                                         ad1 < ad ? ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                             SnackBar(

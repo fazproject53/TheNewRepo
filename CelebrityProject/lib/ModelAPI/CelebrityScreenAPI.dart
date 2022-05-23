@@ -1,4 +1,3 @@
-
 class introModel {
   bool? success;
   Data? data;
@@ -30,9 +29,15 @@ class Data {
   Celebrity? celebrity;
   List<News>? news;
   List<Studio>? studio;
+  List<AdSpaceOrders>? adSpaceOrders;
   int? status;
 
-  Data({this.celebrity, this.news, this.studio, this.status});
+  Data(
+      {this.celebrity,
+        this.news,
+        this.studio,
+        this.adSpaceOrders,
+        this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     celebrity = json['celebrity'] != null
@@ -50,6 +55,12 @@ class Data {
         studio!.add(new Studio.fromJson(v));
       });
     }
+    if (json['adSpaceOrders'] != null) {
+      adSpaceOrders = <AdSpaceOrders>[];
+      json['adSpaceOrders'].forEach((v) {
+        adSpaceOrders!.add(new AdSpaceOrders.fromJson(v));
+      });
+    }
     status = json['status'];
   }
 
@@ -63,6 +74,10 @@ class Data {
     }
     if (this.studio != null) {
       data['studio'] = this.studio!.map((v) => v.toJson()).toList();
+    }
+    if (this.adSpaceOrders != null) {
+      data['adSpaceOrders'] =
+          this.adSpaceOrders!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     return data;
@@ -261,6 +276,143 @@ class Studio {
     data['description'] = this.description;
     data['image'] = this.image;
     data['type'] = this.type;
+    return data;
+  }
+}
+
+class AdSpaceOrders {
+  int? id;
+  Celebrity? celebrity;
+  User? user;
+  String? date;
+  AdType? adType;
+  AdType? status;
+  int? price;
+  String? image;
+  String? link;
+
+  AdSpaceOrders(
+      {this.id,
+        this.celebrity,
+        this.user,
+        this.date,
+        this.adType,
+        this.status,
+        this.price,
+        this.image,
+        this.link});
+
+  AdSpaceOrders.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    celebrity = json['celebrity'] != null
+        ? new Celebrity.fromJson(json['celebrity'])
+        : null;
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    date = json['date'];
+    adType =
+    json['ad_type'] != null ? new AdType.fromJson(json['ad_type']) : null;
+    status =
+    json['status'] != null ? new AdType.fromJson(json['status']) : null;
+    price = json['price'];
+    image = json['image'];
+    link = json['link'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    if (this.celebrity != null) {
+      data['celebrity'] = this.celebrity!.toJson();
+    }
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    data['date'] = this.date;
+    if (this.adType != null) {
+      data['ad_type'] = this.adType!.toJson();
+    }
+    if (this.status != null) {
+      data['status'] = this.status!.toJson();
+    }
+    data['price'] = this.price;
+    data['image'] = this.image;
+    data['link'] = this.link;
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? username;
+  String? name;
+  String? image;
+  String? email;
+  String? phonenumber;
+  Country? country;
+  City? city;
+  String? type;
+
+  User(
+      {this.id,
+        this.username,
+        this.name,
+        this.image,
+        this.email,
+        this.phonenumber,
+        this.country,
+        this.city,
+        this.type});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
+    name = json['name'];
+    image = json['image'];
+    email = json['email'];
+    phonenumber = json['phonenumber'];
+    country =
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['email'] = this.email;
+    data['phonenumber'] = this.phonenumber;
+    if (this.country != null) {
+      data['country'] = this.country!.toJson();
+    }
+    if (this.city != null) {
+      data['city'] = this.city!.toJson();
+    }
+    data['type'] = this.type;
+    return data;
+  }
+}
+
+class AdType {
+  int? id;
+  String? name;
+  String? nameEn;
+
+  AdType({this.id, this.name, this.nameEn});
+
+  AdType.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
     return data;
   }
 }
