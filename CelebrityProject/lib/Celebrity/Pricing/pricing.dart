@@ -185,7 +185,7 @@ class _PricingHomeState extends State<PricingHome> {
                                           '2000 ر.س',
                                           12,
                                           false,
-                                          pricingAd1,
+                                          pricingAd,
                                               (String? value) {
                                             /// Validation text field
                                             if (value == null ||
@@ -212,7 +212,7 @@ class _PricingHomeState extends State<PricingHome> {
                                           '5000 ر.س',
                                           12,
                                           false,
-                                          pricingAd,
+                                          pricingAd1,
                                               (String? value) {
                                             /// Validation text field
                                             if (value == null ||
@@ -596,7 +596,7 @@ class _PricingHomeState extends State<PricingHome> {
 
                                       _formKey.currentState!.validate()? {
                                         ///var c = int. parse(b);
-                                        ad < ad1 ? ScaffoldMessenger.of(context)
+                                        ad1 < ad ? ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                             SnackBar(
                                               content: text(context, 'يجب ان يكون الحد الاعلى للإعلان أكبر', 12, black),
