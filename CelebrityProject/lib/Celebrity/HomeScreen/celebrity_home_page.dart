@@ -465,109 +465,112 @@ class _CelebrityHomeState extends State<CelebrityHome>
                           SizedBox(
                             height: 10.h,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 10.w, left: 10.w),
-                            child: SizedBox(
-                              height: 350.h,
-                              width: 400.w,
-                              child: GridView.builder(
-                                itemCount: snapshot.data!.data!.studio!.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, //عدد العناصر في كل صف
-                                  crossAxisSpacing: 15.h, // المسافات الراسية
-                                  childAspectRatio: 0.90, //حجم العناصر
-                                  mainAxisSpacing: 5.w,
-                                ),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, i) {
-                                  ///play the celebrity video
-                                  return Card(
-                                    elevation: 10,
-                                    child: Stack(
-                                      children: [
-                                        snapshot.data!.data!.studio![i].type! ==
-                                                "image"
-                                            ? Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(4.r)),
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        snapshot.data!.data!
-                                                            .studio![i].image!,
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    )))
-                                            : Stack(
-                                                children: [
-                                                  ///Video
-                                                  VideoPlayer(
-                                                      VideoPlayerController.network(
+                          Visibility(
+                            visible: snapshot.data!.data!.studio!.isEmpty ? false : true,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                              child: SizedBox(
+                                height: 350.h,
+                                width: 400.w,
+                                child: GridView.builder(
+                                  itemCount: snapshot.data!.data!.studio!.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, //عدد العناصر في كل صف
+                                    crossAxisSpacing: 15.h, // المسافات الراسية
+                                    childAspectRatio: 0.90, //حجم العناصر
+                                    mainAxisSpacing: 5.w,
+                                  ),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, i) {
+                                    ///play the celebrity video
+                                    return Card(
+                                      elevation: 10,
+                                      child: Stack(
+                                        children: [
+                                          snapshot.data!.data!.studio![i].type! ==
+                                                  "image"
+                                              ? Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(4.r)),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
                                                           snapshot.data!.data!
-                                                              .studio![i].image!)
-                                                        ..initialize()),
+                                                              .studio![i].image!,
+                                                        ),
+                                                        fit: BoxFit.fill,
+                                                      )))
+                                              : Stack(
+                                                  children: [
+                                                    ///Video
+                                                    VideoPlayer(
+                                                        VideoPlayerController.network(
+                                                            snapshot.data!.data!
+                                                                .studio![i].image!)
+                                                          ..initialize()),
 
-                                                  ///Play Icon
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      ///play video
-                                                      Expanded(
-                                                          flex: 1,
-                                                          child: Padding(
-                                                            padding:  EdgeInsets.only(top: 10.h,right: 55.w),
-                                                            child: IconButton(
-                                                                    onPressed: () {
-                                                                      Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder:
-                                                                                  (context) =>
-                                                                                  viewData(
-                                                                                    video: snapshot.data!.data!.studio![i].image!,
-                                                                                  )));
-                                                                      print('Tap it');
-                                                                    },
-                                                                    icon: GradientIcon(
-                                                                            playViduo,
-                                                                            40.sp,
-                                                                            const LinearGradient(
-                                                                              begin:
-                                                                                  Alignment(
-                                                                                      0.7,
-                                                                                      2.0),
-                                                                              end: Alignment(
-                                                                                  -0.69,
-                                                                                  -1.0),
-                                                                              colors: [
-                                                                                Color(
-                                                                                    0xff0ab3d0),
-                                                                                Color(
-                                                                                    0xffe468ca)
-                                                                              ],
-                                                                              stops: [
-                                                                                0.0,
-                                                                                1.0
-                                                                              ],
-                                                                            )),
+                                                    ///Play Icon
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        ///play video
+                                                        Expanded(
+                                                            flex: 1,
+                                                            child: Padding(
+                                                              padding:  EdgeInsets.only(top: 10.h,right: 55.w),
+                                                              child: IconButton(
+                                                                      onPressed: () {
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder:
+                                                                                    (context) =>
+                                                                                    viewData(
+                                                                                      video: snapshot.data!.data!.studio![i].image!,
+                                                                                    )));
+                                                                        print('Tap it');
+                                                                      },
+                                                                      icon: GradientIcon(
+                                                                              playViduo,
+                                                                              40.sp,
+                                                                              const LinearGradient(
+                                                                                begin:
+                                                                                    Alignment(
+                                                                                        0.7,
+                                                                                        2.0),
+                                                                                end: Alignment(
+                                                                                    -0.69,
+                                                                                    -1.0),
+                                                                                colors: [
+                                                                                  Color(
+                                                                                      0xff0ab3d0),
+                                                                                  Color(
+                                                                                      0xffe468ca)
+                                                                                ],
+                                                                                stops: [
+                                                                                  0.0,
+                                                                                  1.0
+                                                                                ],
+                                                                              )),
 
 
-                                                                  ),
+                                                                    ),
+                                                            ),
+
+
+
                                                           ),
 
-
-
-                                                        ),
-
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                      ],
-                                    ),
-                                  );
-                                },
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),

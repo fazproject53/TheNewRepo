@@ -176,6 +176,7 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
                                     ),
                                     onTap: () {
                                       ///Click on it then you can share the details
+
                                     },
                                   ),
                                 ]),

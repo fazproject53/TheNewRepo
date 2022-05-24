@@ -61,7 +61,7 @@ class _userProfileState extends State<userProfile>
     Invoice(),
     const UserBalance(),
     UserRequestMainPage(),
-    const ContactWithUsMain(),
+    const ContactWithUsHome(),
     const Logging()
   ];
 
