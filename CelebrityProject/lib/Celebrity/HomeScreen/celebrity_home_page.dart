@@ -498,6 +498,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                         image: NetworkImage(
                                                           snapshot.data!.data!
                                                               .studio![i].image!,
+
                                                         ),
                                                         fit: BoxFit.fill,
                                                       )))
