@@ -68,7 +68,7 @@ class _PricingHomeState extends State<PricingHome> {
               future: pricing,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: lodeing(context));
+                  return Center(child:  lodeing(context));
                 } else if (snapshot.connectionState == ConnectionState.active ||
                     snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
