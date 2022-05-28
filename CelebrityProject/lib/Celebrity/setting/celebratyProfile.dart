@@ -83,7 +83,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     ActivityScreen(),
     PrivacyPolicyMain(),
     blockList(),
-    ContactWithUsMain(),
+    ContactWithUsHome(),
     Logging()
   ];
   @override

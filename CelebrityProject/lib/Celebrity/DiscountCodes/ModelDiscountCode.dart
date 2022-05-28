@@ -61,7 +61,7 @@ class PromoCode {
   List<AdTypes>? adTypes;
   String? dateFrom;
   String? dateTo;
-  Status? status;
+  AdTypes? status;
 
   PromoCode(
       {this.id,
@@ -91,7 +91,7 @@ class PromoCode {
     dateFrom = json['date_from'];
     dateTo = json['date_to'];
     status =
-    json['status'] != null ? new Status.fromJson(json['status']) : null;
+    json['status'] != null ? new AdTypes.fromJson(json['status']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -130,25 +130,6 @@ class AdTypes {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
-    return data;
-  }
-}
-
-class Status {
-  String? name;
-  String? nameEn;
-
-  Status({this.name, this.nameEn});
-
-  Status.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    nameEn = json['name_en'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['name_en'] = this.nameEn;
     return data;

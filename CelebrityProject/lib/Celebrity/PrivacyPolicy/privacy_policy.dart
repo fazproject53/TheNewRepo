@@ -89,8 +89,8 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                               } else if (snapshot.hasData) {
                                 if (helper == 0) {
                                   ///get data and fill controller
-                                  addYourAdvPP.text = snapshot
-                                      .data!.data!.celebrity!.advertisingPolicy!;
+                                  addYourAdvPP.text = snapshot.data!.data!
+                                      .celebrity!.advertisingPolicy!;
                                   addYourGiftingPP.text = snapshot
                                       .data!.data!.celebrity!.giftingPolicy!;
                                   addYourAdvAreaPP.text = snapshot
@@ -187,7 +187,13 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                           required isFocused,
                                                           maxLength}) {
                                                         return Text(
-                                                            '$maxLength' '/'  '$currentLength', style: TextStyle(fontSize: 12.sp , color: grey),);
+                                                          '$maxLength'
+                                                          '/'
+                                                          '$currentLength',
+                                                          style: TextStyle(
+                                                              fontSize: 12.sp,
+                                                              color: grey),
+                                                        );
                                                       },
                                                       maxLenth: 500,
                                                     ),
@@ -208,8 +214,10 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                     ad,
                                                     30.w,
                                                     const LinearGradient(
-                                                      begin: Alignment(0.7, 2.0),
-                                                      end: Alignment(-0.69, -1.0),
+                                                      begin:
+                                                          Alignment(0.7, 2.0),
+                                                      end: Alignment(
+                                                          -0.69, -1.0),
                                                       colors: [
                                                         Color(0xff0ab3d0),
                                                         Color(0xffe468ca)
@@ -267,7 +275,13 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                           required isFocused,
                                                           maxLength}) {
                                                         return Text(
-                                                            '$maxLength' '/' '$currentLength', style: TextStyle(fontSize: 12.sp , color: grey),);
+                                                          '$maxLength'
+                                                          '/'
+                                                          '$currentLength',
+                                                          style: TextStyle(
+                                                              fontSize: 12.sp,
+                                                              color: grey),
+                                                        );
                                                       },
                                                       maxLenth: 500,
                                                     ),
@@ -288,8 +302,10 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                     ad,
                                                     30.w,
                                                     const LinearGradient(
-                                                      begin: Alignment(0.7, 2.0),
-                                                      end: Alignment(-0.69, -1.0),
+                                                      begin:
+                                                          Alignment(0.7, 2.0),
+                                                      end: Alignment(
+                                                          -0.69, -1.0),
                                                       colors: [
                                                         Color(0xff0ab3d0),
                                                         Color(0xffe468ca)
@@ -347,7 +363,13 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                           required isFocused,
                                                           maxLength}) {
                                                         return Text(
-                                                            '$maxLength'  '/'  '$currentLength', style: TextStyle(fontSize: 12.sp , color: grey),);
+                                                          '$maxLength'
+                                                          '/'
+                                                          '$currentLength',
+                                                          style: TextStyle(
+                                                              fontSize: 12.sp,
+                                                              color: grey),
+                                                        );
                                                       },
                                                       maxLenth: 500,
                                                     ),
@@ -359,32 +381,61 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                           SizedBox(
                                             height: 30.h,
                                           ),
+
                                           ///save button
                                           Visibility(
-                                            visible: isVisible || isVisible2 || isVisible3 ? true : false,
-                                            child: padding(
-                                              15,
-                                              15,
-                                              gradientContainerNoborder(
-                                                  100.w,
-                                                  buttoms(context, 'حفظ', 15, white, () {
-                                                    _formKey.currentState!.validate()
-                                                        ? postFunction()
-                                                        .whenComplete(() => {
-                                                      ScaffoldMessenger.of(
-                                                          context)
-                                                          .showSnackBar(
-                                                           SnackBar(
-                                                            content: text(context, 'تم الحفظ بنجاح', 12, black),
-                                                             backgroundColor: white,
+                                              visible: isVisible ||
+                                                      isVisible2 ||
+                                                      isVisible3
+                                                  ? true
+                                                  : false,
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 20.w),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    ElevatedButton(
+                                                        style: ButtonStyle(
+                                                          shape: MaterialStateProperty.all<
+                                                                  RoundedRectangleBorder>(
+                                                              RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15.r))),
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all<Color>(
+                                                                      white),
+                                                          shadowColor:
+                                                              MaterialStateProperty
+                                                                  .all<Color>(
+                                                            Colors.black38,
+                                                          ),
+                                                        ),
+                                                        child: text(context,
+                                                            'حفظ', 12, purple),
+                                                        onPressed: () {
+                                                          _formKey.currentState!.validate()
+                                                              ? postFunction()
+                                                              .whenComplete(() => {
+                                                            ScaffoldMessenger.of(
+                                                                context)
+                                                                .showSnackBar(
+                                                                SnackBar(
+                                                                  content: text(context, 'تم الحفظ بنجاح', 12, black),
+                                                                  backgroundColor: white,
 
 
-                                                          ))
-                                                    })
-                                                        : null;
-                                                  }), height: 30)
-                                            ),
-                                          ),
+                                                                ))
+                                                          })
+                                                              : null;
+
+                                                        }),
+                                                  ],
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -395,8 +446,8 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                               }
                             } else {
                               return Center(
-                                  child:
-                                      Text('State: ${snapshot.connectionState}'));
+                                  child: Text(
+                                      'State: ${snapshot.connectionState}'));
                             }
                           }),
                     ),

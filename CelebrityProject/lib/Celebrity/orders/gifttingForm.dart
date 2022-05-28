@@ -1,16 +1,13 @@
-import 'dart:collection';
-import 'dart:convert';
 
+import 'dart:convert';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/celebrity/orders/gifttingForm.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
-import '../setting/profileInformation.dart';
-import 'gifttingForm.dart';
+
 
 class gifttingForm extends StatefulWidget{
 
@@ -40,6 +37,7 @@ class _gifttingFormState extends State<gifttingForm>{
   bool  datewarn = false;
   List<DropdownMenuItem<Object?>> _dropdownTestItem = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItem2 = [];
+
   ///_value
   var _selectedTest;
   onChangeDropdownTests(selectedTest) {
@@ -437,7 +435,7 @@ class _gifttingFormState extends State<gifttingForm>{
         'celebrity_id' : widget.id,
         'date': current.toString(),
         'occasion_id': _selectedTest == null ? ocassionlist.indexOf(0) : ocassionlist.indexOf(_selectedTest),
-        'gift_type_id': _selectedTest2 == null ? ocassionlist.indexOf(0): typelist.indexOf(_selectedTest2),
+        'gift_type_id': _selectedTest2 == null ? ocassionlist.indexOf(0) : typelist.indexOf(_selectedTest2),
         'description': desc.text,
         'from': from.text,
         'to': to.text,
