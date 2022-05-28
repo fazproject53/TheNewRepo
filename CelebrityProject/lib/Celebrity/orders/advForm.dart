@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -7,6 +8,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
@@ -20,12 +22,43 @@ class advForm extends StatefulWidget{
 }
 
 class _advFormState extends State<advForm>{
+
+  Future<Platform>? platforms;
   int? _value = 1;
   bool isValue1 = false;
-
   int? _value2 = 1;
   int? _value3 = 1;
   int? _value4 = 1;
+
+  var platformlist = [];
+
+  String platform = 'اختر منصة العرض';
+
+  List<DropdownMenuItem<Object?>> _dropdownTestItem = [];
+
+  var _selectedTest;
+  onChangeDropdownTests(selectedTest) {
+    print(selectedTest);
+    setState(() {
+      _selectedTest = selectedTest;
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildDropdownTestItems(List _testList) {
+    List<DropdownMenuItem<Object?>> items = [];
+    for (var i in _testList) {
+      items.add(
+        DropdownMenuItem(
+
+          alignment: Alignment.centerRight,
+          value: i,
+          child: Text(i['keyword']),
+
+        ),
+      );
+    }
+    return items;
+  }
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController description = new TextEditingController();
@@ -40,6 +73,30 @@ class _advFormState extends State<advForm>{
   File? file;
   Stream? streamm;
   @override
+  void initState() {
+    platforms = fetchPlatform();
+    _dropdownTestItem = buildDropdownTestItems(platformlist);
+    super.initState();
+  }
+
+  Future<Platform> fetchPlatform() async {
+    final response = await http.get(
+      Uri.parse('https://mobile.celebrityads.net/api/platforms'),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+
+      return Platform.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return Directionality(
@@ -51,8 +108,8 @@ class _advFormState extends State<advForm>{
               children: [
                 Stack(
                     alignment: Alignment.bottomRight,
-                    children: [Container(height: 365.h,
-                        width: 1000.w,
+                    children: [Container(height: 355.h,
+                        width: double.infinity,
                         child: Image.asset('assets/image/featured.png', color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
                        const Padding(
                         padding: EdgeInsets.all(20.0),
@@ -73,6 +130,106 @@ class _advFormState extends State<advForm>{
                           //========================== form ===============================================
 
                           SizedBox(height: 30,),
+                          FutureBuilder(
+                              future: platforms,
+                              builder: ((context, AsyncSnapshot<Platform> snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return  paddingg(15, 15, 12,
+                                    DropdownBelow(
+                                      itemWidth: 380.w,
+                                      ///text style inside the menu
+                                      itemTextstyle: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: black,
+                                        fontFamily: 'Cairo',),
+                                      ///hint style
+                                      boxTextstyle: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: grey,
+                                          fontFamily: 'Cairo'),
+                                      ///box style
+                                      boxPadding:
+                                      EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                                      boxWidth: 500.w,
+                                      boxHeight: 40.h,
+                                      boxDecoration: BoxDecoration(
+                                          color: textFieldBlack2.withOpacity(0.70),
+                                          borderRadius: BorderRadius.circular(8.r)),
+                                      ///Icons
+                                      icon: const Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.white54,
+                                      ),
+                                      hint:  Text(
+                                        platform,
+                                        textDirection: TextDirection.rtl,
+                                      ),
+                                      value: _selectedTest,
+                                      items: _dropdownTestItem,
+                                      onChanged: onChangeDropdownTests,
+                                    ),
+                                  );
+                                } else if (snapshot.connectionState == ConnectionState.active ||
+                                    snapshot.connectionState == ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Center(child: Text(snapshot.error.toString()));
+                                    //---------------------------------------------------------------------------
+                                  } else if (snapshot.hasData) {
+                                    _dropdownTestItem.isEmpty?{
+                                      platformlist.add({'no': 0, 'keyword': 'اختر منصة الاعلان'}),
+                                      for(int i =0; i< snapshot.data!.data!.length; i++) {
+                                        platformlist.add({'no': snapshot.data!.data![i].id!, 'keyword': '${snapshot.data!.data![i].name!}'}),
+                                      },
+                                      _dropdownTestItem = buildDropdownTestItems(platformlist),
+                                    } : null;
+
+                                    return paddingg(15, 15, 12,
+                                      DropdownBelow(
+                                        itemWidth: 380.w,
+                                        ///text style inside the menu
+                                        itemTextstyle: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: black,
+                                          fontFamily: 'Cairo',),
+                                        ///hint style
+                                        boxTextstyle: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: grey,
+                                            fontFamily: 'Cairo'),
+                                        ///box style
+                                        boxPadding:
+                                        EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                                        boxWidth: 500.w,
+                                        boxHeight: 40.h,
+                                        boxDecoration: BoxDecoration(
+                                            color: textFieldBlack2.withOpacity(0.70),
+                                            borderRadius: BorderRadius.circular(8.r)),
+                                        ///Icons
+                                        icon: const Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.white54,
+                                        ),
+                                        hint:  Text(
+                                          platform,
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        value: _selectedTest,
+                                        items: _dropdownTestItem,
+                                        onChanged: onChangeDropdownTests,
+                                      ),
+                                    );
+                                  } else {
+                                    return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                                  }
+                                } else {
+                                  return Center(
+                                      child: Text('State: ${snapshot.connectionState}'));
+                                }
+                              })),
 
                           paddingg(15.w, 15.w, 12.h,textFieldDesc(context, ' الوصف الخاص بالاعلان', 14.sp, true, description,(String? value) {
                             if (value == null || value.isEmpty) {
@@ -438,12 +595,11 @@ class _advFormState extends State<advForm>{
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context,'رفع الطلب', 15, white, (){
                             _formKey.currentState!.validate()? {
                               checkit && current.day != DateTime.now().day && image != null?{
-                            addAdOrder().whenComplete(() => {    ScaffoldMessenger.of(
+                            addAdOrder().then((value) => {
+                              ScaffoldMessenger.of(
                                 context)
                                 .showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      "تم ارسال الطلب بنجاح"),
+                                 SnackBar(content: Text('تم رفع الطلب'),
                                 ))})
                           } : setState((){ !checkit? warn2 = true: false;
                               current.day == DateTime.now().day? datewarn2 = true: false;
@@ -466,6 +622,7 @@ class _advFormState extends State<advForm>{
 
 
   }
+
 buildCkechboxList(list) {
 
     return SizedBox(
@@ -505,7 +662,7 @@ buildCkechboxList(list) {
     // ));}
   }
 
-  addAdOrder() async {
+  Future<StreamedResponse> addAdOrder() async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     var stream;
@@ -514,7 +671,7 @@ buildCkechboxList(list) {
     var request;
     Map<String, String> headers;
     var response ;
-
+    var body;
      stream = await http.ByteStream(DelegatingStream.typed(file!.openRead()));
     // get file length
        length = await file!.length();
@@ -533,12 +690,12 @@ buildCkechboxList(list) {
     // multipart that takes file
     // multipartFile = new http.MultipartFile('file', file!.bytes.toList(), length,
     //     filename: file!.name),
-
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = widget.id.toString();
+    request.fields["celebrity_id"] =widget.id;
     request.fields["date"]= current.toString();
+    request.fields[" platform_id"]= platformlist.indexOf(_selectedTest).toString();
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;
     request.fields["ad_owner_id"]= _value.toString();
@@ -546,11 +703,88 @@ buildCkechboxList(list) {
     request.fields["ad_feature_id"]= _value2.toString();
     request.fields["ad_timing_id"]= _value4.toString();
     request.fields["advertising_ad_type_id"]= _value3.toString();
-
+    request.fields["advertising_name"] = '';
+    request.fields["advertising_link"] = '';
     response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) {
+    response.stream.transform(utf8.decoder).listen((value) async {
       print(value);
-    });}
+    });
+    return response;
+  }
 
 
+}
+
+
+class Platform {
+  bool? success;
+  List<Data>? data;
+  Message? message;
+
+  Platform({this.success, this.data, this.message});
+
+  Platform.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+    message =
+    json['message'] != null ? new Message.fromJson(json['message']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (this.message != null) {
+      data['message'] = this.message!.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  int? id;
+  String? name;
+  String? nameEn;
+
+  Data({this.id, this.name, this.nameEn});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class Message {
+  String? en;
+  String? ar;
+
+  Message({this.en, this.ar});
+
+  Message.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+    ar = json['ar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['en'] = this.en;
+    data['ar'] = this.ar;
+    return data;
+  }
 }
