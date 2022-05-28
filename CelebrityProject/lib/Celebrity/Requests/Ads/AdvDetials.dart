@@ -1,11 +1,24 @@
+import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdvDetials extends StatefulWidget {
-  int? i;
-  AdvDetials({this.i});
+  final int? i;
+  final String? description;
+  final String? image;
+  final int? price;
+  final String? advTitle;
+
+  const AdvDetials(
+      {Key? key,
+      this.i,
+      this.description,
+      this.image,
+      this.price,
+      this.advTitle})
+      : super(key: key);
 
   @override
   State<AdvDetials> createState() => _AdvDetialsState();
@@ -17,7 +30,7 @@ class _AdvDetialsState extends State<AdvDetials> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-     // appBar: drowAppBar("تفاصيل الطلب",context),
+          // appBar: drowAppBar("تفاصيل الطلب",context),
           body: Column(children: [
 //image-----------------------------------------------------
         Expanded(
@@ -30,16 +43,16 @@ class _AdvDetialsState extends State<AdvDetials> {
                 boxShadow: const [BoxShadow(blurRadius: 2)],
                 color: Colors.white,
                 borderRadius: BorderRadius.all(
-                  Radius.circular(50.r),
+                  Radius.circular(10.r),
                 ),
                 image: DecorationImage(
-                  image: AssetImage(
-                    adsImage[widget.i!],
+                  image: NetworkImage(
+                    widget.image!,
                   ),
                   fit: BoxFit.fill,
                 )),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0.r),
 //price--------------------------------------------------------------
               child: Align(
                   alignment: Alignment.bottomLeft,
@@ -47,11 +60,13 @@ class _AdvDetialsState extends State<AdvDetials> {
                       radius: 40.r,
                       backgroundColor: pink,
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             width: 15.r,
                           ),
-                          text(context, "5200", 15, white,
+                          text(context, "${widget.price}", 15, white,
                               fontWeight: FontWeight.bold),
                           SizedBox(
                             width: 3.r,
@@ -62,12 +77,12 @@ class _AdvDetialsState extends State<AdvDetials> {
             ),
           ),
         ),
-//ad titel-----------------------------------------------------
+//ad title-----------------------------------------------------
 
         Container(
           //color: black,
           width: double.infinity,
-          margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.w, top: 8.w),
+          margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.h, top: 8.h),
           child: Align(
               alignment: Alignment.bottomRight,
               child: Row(
@@ -75,7 +90,7 @@ class _AdvDetialsState extends State<AdvDetials> {
                   const Icon(Icons.star_border_outlined, color: pink),
                   text(
                     context,
-                    "اعلان لمنتجات تجميل",
+                    'اعلان ل' + widget.advTitle!,
                     20,
                     deepgrey!,
                     fontWeight: FontWeight.bold,
@@ -88,11 +103,13 @@ class _AdvDetialsState extends State<AdvDetials> {
         Expanded(
           flex: 1,
           child: Container(
-            color: deepwhite,
-            margin: EdgeInsets.all(8.w),
+            width: double.infinity,
+            //color: Colors.red,
+            margin:
+                EdgeInsets.only(left: 13.w, right: 13.w, bottom: 8.h, top: 8.h),
             child: text(
               context,
-              "ارغب في طلب اعلان للخدمات التي تقدمها شركة فاز التقنية وارجو منكم قبول الطلب, لدي مجموعة من الخدمات التي اقدمها للعملاء المميزين",
+              widget.description!,
               15,
               grey!,
               fontWeight: FontWeight.bold,
@@ -101,15 +118,16 @@ class _AdvDetialsState extends State<AdvDetials> {
           ),
         ),
 
-//accapt buttom-----------------------------------------------------
+//accept buttom-----------------------------------------------------
 
         Container(
             width: double.infinity,
             height: 50,
+            //color: Colors.red,
             margin: EdgeInsets.all(20),
             child: Row(children: [
               Expanded(
-                flex:2,
+                flex: 2,
                 child: gradientContainer(
                   double.infinity,
                   buttoms(
@@ -121,9 +139,8 @@ class _AdvDetialsState extends State<AdvDetials> {
                     evaluation: 0,
                   ),
                   height: 50,
-                  
+                  color: Colors.transparent,
                 ),
-                
               ),
               SizedBox(
                 width: 10.w,
@@ -136,41 +153,42 @@ class _AdvDetialsState extends State<AdvDetials> {
                 child: gradientContainer(
                   double.infinity,
                   InkWell(
-                      onTap: () {
-                        print("go to chat home");
-                      },
-                      child: buttoms(
-                    context,
-                    "رفض ",
-                    15,
-                    pink,
-                    () {},
-                    //evaluation: 1,
+                    onTap: () {
+                      print("go to chat home");
+                    },
+                    child: buttoms(
+                      context,
+                      "رفض ",
+                      15,
+                      black,
+                      () {},
+                      //evaluation: 1,
+                    ),
                   ),
-                      ),
                   height: 50,
                   gradient: true,
+                  color: pink,
                 ),
               ),
               SizedBox(
                 width: 10.w,
               ),
-//---------------------------------------------------------              
+//---------------------------------------------------------
               const Expanded(
-                flex: 1,
-                //child:
-                //  gradientContainer(
-                //   double.infinity,
-                //   InkWell(
-                //       onTap: () {
-                //         print("go to chat home");
-                //       },
-                      child: Icon(Icons.textsms_outlined, color: pink)),
-                  //height: 50,
-                  //gradient: true,
-                //),
+                  flex: 1,
+                  //child:
+                  //  gradientContainer(
+                  //   double.infinity,
+                  //   InkWell(
+                  //       onTap: () {
+                  //         print("go to chat home");
+                  //       },
+                  child: Icon(Icons.forum_outlined, color: pink)),
+              //height: 50,
+              //gradient: true,
+              //),
               //)
-            ]))
+            ])),
       ])),
     );
   }

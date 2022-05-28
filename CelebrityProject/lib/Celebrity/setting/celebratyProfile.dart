@@ -83,7 +83,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     ActivityScreen(),
     PrivacyPolicyMain(),
     blockList(),
-    ContactWithUsMain(),
+    ContactWithUsHome(),
     Logging()
   ];
   @override
@@ -333,7 +333,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     var request = new http.MultipartRequest("POST", uri);
 
     // multipart that takes file
-    var multipartFile = new http.MultipartFile('image', stream, length,
+    var multipartFile =  http.MultipartFile('image', stream, length,
         filename: basename(imagefile!.path));
 
     // add file to multipart
@@ -388,7 +388,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
       goTopageReplacement(context, const Logging());
     } else {
       Navigator.pop(context);
-      throw Exception('loggout field');
+      throw Exception('logout field');
     }
   }
 }

@@ -53,6 +53,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
+
       return introModel.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
@@ -79,6 +80,12 @@ class _CelebrityHomeState extends State<CelebrityHome>
                       return Center(child: Text(snapshot.error.toString()));
                       //---------------------------------------------------------------------------
                     } else if (snapshot.hasData) {
+                      ///get the adv image from API and store it inside th list
+
+                      for(int i = 0 ; i < snapshot.data!.data!.adSpaceOrders!.length ; i++) {
+                        advImage.contains(snapshot.data!.data!.adSpaceOrders![i].image!) ? null
+                        : advImage.add(snapshot.data!.data!.adSpaceOrders![i].image!)  ;
+                      }
                       return Column(
                         children: [
                           ///Stack for image and there information
@@ -400,13 +407,20 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             height: 5.h,
                           ),
 
-                          ///get the adv image from API and store it inside th list
-                          //for(int i = 0 ; i < snapshot.data!.data!.celebrity!.images!.length ; i++)
-                          //advImage.add(snapshot.data!.data!.celebrity!.image!),
+                          Visibility(
+                            visible: advImage.isEmpty ? false : true,
+                            child: Container(
+                                margin: EdgeInsets.only(right: 10.w, left: 10.w),
+                                height: 150.h,
+                                decoration: BoxDecoration(
+                                    color: black,
+                                    borderRadius: BorderRadius.circular(7.r)),
+                                child: imageSlider(advImage)),
+                          ),
 
-                          ///image slider for advertising area
-                          //imageSlider(advImage),
-
+                          SizedBox(
+                            height: 20.h,
+                          ),
                           ///Container for celebrity store
                           Container(
                             margin: EdgeInsets.only(right: 10.w, left: 10.w),
@@ -451,115 +465,119 @@ class _CelebrityHomeState extends State<CelebrityHome>
                           SizedBox(
                             height: 10.h,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 10.w, left: 10.w),
-                            child: SizedBox(
-                              height: 350.h,
-                              width: 400.w,
-                              child: GridView.builder(
-                                itemCount: snapshot.data!.data!.studio!.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, //عدد العناصر في كل صف
-                                  crossAxisSpacing: 15.h, // المسافات الراسية
-                                  childAspectRatio: 0.90, //حجم العناصر
-                                  mainAxisSpacing: 5.w,
-                                ),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, i) {
-                                  ///play the celebrity video
-                                  return Card(
-                                    elevation: 10,
-                                    child: Stack(
-                                      children: [
-                                        snapshot.data!.data!.studio![i].type! ==
-                                                "image"
-                                            ? Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(4.r)),
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        snapshot.data!.data!
-                                                            .studio![i].image!,
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    )))
-                                            : Stack(
-                                                children: [
-                                                  ///Video
-                                                  VideoPlayer(
-                                                      VideoPlayerController.network(
+                          Visibility(
+                            visible: snapshot.data!.data!.studio!.isEmpty ? false : true,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                              child: SizedBox(
+                                height: 350.h,
+                                width: 400.w,
+                                child: GridView.builder(
+                                  itemCount: snapshot.data!.data!.studio!.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, //عدد العناصر في كل صف
+                                    crossAxisSpacing: 15.h, // المسافات الراسية
+                                    childAspectRatio: 0.90, //حجم العناصر
+                                    mainAxisSpacing: 5.w,
+                                  ),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, i) {
+                                    ///play the celebrity video
+                                    return Card(
+                                      elevation: 10,
+                                      child: Stack(
+                                        children: [
+                                          snapshot.data!.data!.studio![i].type! ==
+                                                  "image"
+                                              ? Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(4.r)),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(
                                                           snapshot.data!.data!
-                                                              .studio![i].image!)
-                                                        ..initialize()),
-
-                                                  ///Play Icon
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: [
-                                                      ///play video
-                                                      Expanded(
-                                                          flex: 1,
-                                                          child: Padding(
-                                                            padding:  EdgeInsets.only(top: 10.h,right: 55.w),
-                                                            child: IconButton(
-                                                                    onPressed: () {
-                                                                      Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder:
-                                                                                  (context) =>
-                                                                                  viewData(
-                                                                                    video: snapshot.data!.data!.studio![i].image!,
-                                                                                  )));
-                                                                      print('Tap it');
-                                                                    },
-                                                                    icon: GradientIcon(
-                                                                            playViduo,
-                                                                            40.sp,
-                                                                            const LinearGradient(
-                                                                              begin:
-                                                                                  Alignment(
-                                                                                      0.7,
-                                                                                      2.0),
-                                                                              end: Alignment(
-                                                                                  -0.69,
-                                                                                  -1.0),
-                                                                              colors: [
-                                                                                Color(
-                                                                                    0xff0ab3d0),
-                                                                                Color(
-                                                                                    0xffe468ca)
-                                                                              ],
-                                                                              stops: [
-                                                                                0.0,
-                                                                                1.0
-                                                                              ],
-                                                                            )),
-
-
-                                                                  ),
-                                                          ),
-
-
+                                                              .studio![i].image!,
 
                                                         ),
+                                                        fit: BoxFit.fill,
+                                                      )))
+                                              : Stack(
+                                                  children: [
+                                                    ///Video
+                                                    VideoPlayer(
+                                                        VideoPlayerController.network(
+                                                            snapshot.data!.data!
+                                                                .studio![i].image!)
+                                                          ..initialize()),
 
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                      ],
-                                    ),
-                                  );
-                                },
+                                                    ///Play Icon
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        ///play video
+                                                        Expanded(
+                                                            flex: 1,
+                                                            child: Padding(
+                                                              padding:  EdgeInsets.only(top: 10.h,right: 55.w),
+                                                              child: IconButton(
+                                                                      onPressed: () {
+                                                                        Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                                builder:
+                                                                                    (context) =>
+                                                                                    viewData(
+                                                                                      video: snapshot.data!.data!.studio![i].image!,
+                                                                                    )));
+                                                                        print('Tap it');
+                                                                      },
+                                                                      icon: GradientIcon(
+                                                                              playViduo,
+                                                                              40.sp,
+                                                                              const LinearGradient(
+                                                                                begin:
+                                                                                    Alignment(
+                                                                                        0.7,
+                                                                                        2.0),
+                                                                                end: Alignment(
+                                                                                    -0.69,
+                                                                                    -1.0),
+                                                                                colors: [
+                                                                                  Color(
+                                                                                      0xff0ab3d0),
+                                                                                  Color(
+                                                                                      0xffe468ca)
+                                                                                ],
+                                                                                stops: [
+                                                                                  0.0,
+                                                                                  1.0
+                                                                                ],
+                                                                              )),
+
+
+                                                                    ),
+                                                            ),
+
+
+
+                                                          ),
+
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
 
                           SizedBox(
-                            height: 20.h,
+                            height: 10.h,
                           ),
 
                           padding(
@@ -600,17 +618,18 @@ class _CelebrityHomeState extends State<CelebrityHome>
       itemCount: adImage.length,
       pagination: const SwiperPagination(),
       control: SwiperControl(
-          color: grey, padding: EdgeInsets.only(left: 20.w, right: 5.w)),
+          color: white, padding: EdgeInsets.only( right: 8.w)),
       itemBuilder: (context, index) {
         return Container(
           height: 90.h,
           width: 440.w,
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7.r),
               image: DecorationImage(
             image: NetworkImage(
               adImage[index],
             ),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           )),
         );
       },

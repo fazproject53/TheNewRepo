@@ -353,8 +353,7 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style:
-          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -369,6 +368,7 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
           alignLabelWithHint: true,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: key,
+          errorStyle: TextStyle(color: red!, fontSize: 10.sp, fontFamily: 'Cairo',),
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );
@@ -416,6 +416,7 @@ Widget textFieldDesc(
           focusedBorder:
               OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
           hintText: key,
+
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );

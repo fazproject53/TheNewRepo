@@ -120,7 +120,7 @@ class _SingUpState extends State<SingUp> {
                         setState(() {
                           isChang = false;
                         });
-                        // print("fallower$isChang");
+                        // print("follower$isChang");
                       },
                     ),
                     gradient: isChang! ? true : false,
@@ -128,7 +128,7 @@ class _SingUpState extends State<SingUp> {
                   SizedBox(
                     width: 21.w,
                   ),
-//follwer buttom-------------------------------------
+//follower buttom-------------------------------------
 
                   gradientContainer(
                     130,
@@ -141,7 +141,7 @@ class _SingUpState extends State<SingUp> {
                         setState(() {
                           isChang = true;
                         });
-                        print("famus$isChang");
+                        print("famous$isChang");
                       },
                     ),
                     gradient: isChang! ? false : true,
@@ -164,9 +164,6 @@ class _SingUpState extends State<SingUp> {
                       gradientContainer(
                           347,
                           buttoms(context, 'انشاء حساب', 14, white, () {
-                            print('cel Catogary is:$celCatogary');
-                            print('celContry $celContry');
-                            print('userContry$userContry');
                             isChang == true
                                 ?
                             //create famous account------------------------------
@@ -184,7 +181,7 @@ class _SingUpState extends State<SingUp> {
                                     passUserController.text,
                                     '$userContry');
                           })),
-//singup with-----------------------------------------------------------
+//signup with-----------------------------------------------------------
                       SizedBox(
                         height: 14.h,
                       ),
@@ -198,7 +195,7 @@ class _SingUpState extends State<SingUp> {
                       SizedBox(
                         height: 14.h,
                       ),
-//googel buttom-----------------------------------------------------------
+//google buttom-----------------------------------------------------------
                       solidContainer(
                           347,
                           white,

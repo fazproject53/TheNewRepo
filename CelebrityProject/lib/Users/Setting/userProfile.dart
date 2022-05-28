@@ -38,7 +38,7 @@ class userProfile extends StatefulWidget {
 class _userProfileState extends State<userProfile>
     with AutomaticKeepAliveClientMixin {
   Future<UserProfile>? getUsers;
-  String userToken ="";
+  String userToken = "";
   List<Data>? data;
   final labels = [
     'المعلومات الشخصية',
@@ -61,11 +61,12 @@ class _userProfileState extends State<userProfile>
     Invoice(),
     const UserBalance(),
     UserRequestMainPage(),
-    const ContactWithUsMain(),
+    const ContactWithUsHome(),
     const Logging()
   ];
 
   File? userImage;
+
   @override
   void initState() {
     DatabaseHelper.getToken().then((value) {
@@ -78,6 +79,7 @@ class _userProfileState extends State<userProfile>
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -115,16 +117,23 @@ class _userProfileState extends State<userProfile>
                                   child: CircleAvatar(
                                       radius: 48.r,
                                       backgroundImage: userImage == null
-                                          ? Image.network(
-                                                  snapshot.data!.data!.user!.image!)
-                                              .image
-                                          : Image.file(userImage!).image)),
+                                          ? Image
+                                          .network(
+                                          snapshot.data!.data!.user!.image!)
+                                          .image
+                                          : Image
+                                          .file(userImage!)
+                                          .image)),
                             ),
                             onTap: () {
-                              getImage().whenComplete(() => {
-                                updateImageUser(userToken).whenComplete(() => {
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("تم تعديل الصورة بنجاح"),))
+                              getImage().whenComplete(() =>
+                              {
+                                updateImageUser(userToken).whenComplete(() =>
+                                {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "تم تعديل الصورة بنجاح"),))
                                 })
                               });
                             },
@@ -132,11 +141,13 @@ class _userProfileState extends State<userProfile>
                           padding(
                             8,
                             8,
-                            text(context, snapshot.data!.data!.user!.name!, 20, black,
+                            text(context, snapshot.data!.data!.user!.name!, 20,
+                                black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
                         ],
-                      ), //profile image
+                      ),
+                      //profile image
 
                       //=========================== buttons listView =============================
 
@@ -153,28 +164,23 @@ class _userProfileState extends State<userProfile>
                                 return MaterialButton(
                                     onPressed: index == labels.length - 1
                                         ? () {
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      page[index]),
-                                            );
-                                          }
+                                      singOut(context, userToken);
+                                    }
                                         : () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      page[index]),
-                                            );
-                                          },
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                            page[index]),
+                                      );
+                                    },
                                     child: addListViewButton(
                                       labels[index],
                                       icons[index],
                                     ));
                               },
                               separatorBuilder: (context, index) =>
-                                  const Divider(),
+                              const Divider(),
                               itemCount: labels.length,
                             ),
                           ),
@@ -267,24 +273,24 @@ class _userProfileState extends State<userProfile>
         ),
       ),
     );
-
   }
 
   updateImageUser(String token) async {
-
-    var stream = new http.ByteStream(DelegatingStream.typed(userImage!.openRead()));
+    var stream = new http.ByteStream(
+        DelegatingStream.typed(userImage!.openRead()));
     // get file length
     var length = await userImage!.length();
 
     // string to uri
-    var uri = Uri.parse("https://mobile.celebrityads.net/api/user/image/update");
+    var uri = Uri.parse(
+        "https://mobile.celebrityads.net/api/user/image/update");
 
     Map<String, String> headers = {
       "Accept": "application/json",
       "Authorization": "Bearer $token"
     };
     // create multipart request
-    var request = new http.MultipartRequest( "POST", uri);
+    var request = new http.MultipartRequest("POST", uri);
 
     // multipart that takes file
     var multipartFile = new http.MultipartFile('image', stream, length,
@@ -300,13 +306,12 @@ class _userProfileState extends State<userProfile>
     // listen for response
     response.stream.transform(utf8.decoder).listen((value) {
       print(value);
-
-
     });
   }
+
   Future<File?> getImage() async {
     PickedFile? pickedFile =
-        await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    await ImagePicker.platform.pickImage(source: ImageSource.gallery);
     if (pickedFile == null) {
       return null;
     }
@@ -325,8 +330,28 @@ class _userProfileState extends State<userProfile>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
+//-----------------------------------------------------
+  void singOut(context, String token) async {
+    loadingDialogue(context);
+    const url = 'https://mobile.celebrityads.net/api/logout';
+    final respons = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
+    if (respons.statusCode == 200) {
+      Navigator.pop(context);
+      String massage=jsonDecode(respons.body)['message']['ar'];
+      ScaffoldMessenger.of(context).showSnackBar(
+          snackBar(context, massage, green, done));
+      goTopageReplacement(context, const Logging());
+    } else {
+      Navigator.pop(context);
+      throw Exception('logout field');
+    }
+  }
 
-
+//------------------------------------------------------------
 Future<UserProfile> fetchUsers(String token) async {
   final response = await http.get(
       Uri.parse('https://mobile.celebrityads.net/api/user/profile'),

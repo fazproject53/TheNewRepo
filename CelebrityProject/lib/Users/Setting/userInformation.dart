@@ -21,13 +21,13 @@ class _userInformationState extends State<userInformation> {
 
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
-  final TextEditingController name = new TextEditingController();
-  final TextEditingController email = new TextEditingController();
-  final TextEditingController password = new TextEditingController();
-  final TextEditingController newPassword = new TextEditingController();
-  final TextEditingController currentPassword = new TextEditingController();
-  final TextEditingController confirmPassword = new TextEditingController();
-  final TextEditingController phone = new TextEditingController();
+  final TextEditingController name =  TextEditingController();
+  final TextEditingController email =  TextEditingController();
+  final TextEditingController password =  TextEditingController();
+  final TextEditingController newPassword =  TextEditingController();
+  final TextEditingController currentPassword =  TextEditingController();
+  final TextEditingController confirmPassword =  TextEditingController();
+  final TextEditingController phone =  TextEditingController();
   String userToken ="";
   Future<CountryL>? countries;
   Future<CityL>? cities;
@@ -173,7 +173,7 @@ class _userInformationState extends State<userInformation> {
 
                               //========================== form ===============================================
 
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
 

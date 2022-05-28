@@ -1058,7 +1058,7 @@ class _profileInformaionState extends State<profileInformaion>
                                           : null;
                                     })),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                             ]);

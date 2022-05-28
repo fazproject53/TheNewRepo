@@ -53,7 +53,14 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  goTopagepush(context, GiftDetials(i: i));
+                                  goTopagepush(context, GiftDetials(
+                                    i: i,
+                                    price: snapshot.data!.data!.giftOrders![i].price,
+                                    description:snapshot.data!.data!.giftOrders![i].description ,
+                                    advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
+                                    advType: snapshot.data!.data!.giftOrders![i].giftType?.name ,
+
+                                  ));
                                 },
                                 child: Column(
                                   children: [
@@ -122,7 +129,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding:  EdgeInsets.all(8.0.r),
                             child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
@@ -137,7 +144,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           ),
 //-------------------------------------------------------------------------------
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding:  EdgeInsets.all(8.0.r),
                             child: Align(
                                 alignment: Alignment.topLeft,
                                 child: giftOrders[i].giftType!.name == 'صورة'
@@ -157,7 +164,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding:  EdgeInsets.all(8.0.r),
                             child: Align(
                                 alignment: Alignment.bottomRight,
                                 child: Padding(
