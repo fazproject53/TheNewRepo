@@ -446,7 +446,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           15,
                           12,
                           DropdownBelow(
-                            itemWidth: 320.w,
+                            itemWidth: 330.w,
                             dropdownColor: newGrey,
 
                             ///text style inside the menu
@@ -533,7 +533,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           15,
                           12,
                           DropdownBelow(
-                            itemWidth: 320.w,
+                            itemWidth: 330.w,
                             dropdownColor: newGrey,
 
                             ///text style inside the menu
