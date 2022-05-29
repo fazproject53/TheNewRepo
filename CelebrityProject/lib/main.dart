@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             child: widget!,
           );
         },
-          home: celebratyProfile()
+          home: const Logging()
 
           // celebratyProfile()
 

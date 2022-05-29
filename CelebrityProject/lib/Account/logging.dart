@@ -218,6 +218,7 @@ class _LoggingState extends State<Logging> {
   }
 
 //---------------------------------------------------------------------
+
   void forgetPassword(String username) async {
     getCreatePassword(username).then((result) {
       if (result == true) {
@@ -231,7 +232,9 @@ class _LoggingState extends State<Logging> {
     });
   }
 
+
 //--------------------------------------------------------------------------------
+
   Future<String?> verifyCode(String username, int code) async {
     getVerifyCode(username, code).then((sendCode) async {
       if (sendCode == 'not verified') {

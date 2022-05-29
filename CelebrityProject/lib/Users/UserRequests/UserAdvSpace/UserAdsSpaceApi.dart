@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 
 String serverUrl = "https://mobile.celebrityads.net/api";
-Future<UserAdvsSpace> getUsreAdvSpaceOrder(String token) async {
+Future<UserAdvsSpace> getUserAdvSpaceOrder(String token) async {
   print('user advertising token: $token');
 
   String url = "$serverUrl/user/AdSpaceOrders";
