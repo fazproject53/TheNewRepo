@@ -1,13 +1,14 @@
+
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../Account/LoggingSingUpAPI.dart';
-
-
 String serverUrl = "https://mobile.celebrityads.net/api";
-Future<Advertising> getAdvertisingOrder(String token) async {
-  print('advatisting token: $token');
 
-  String url = "$serverUrl/celebrity/AdvertisingOrders";
+
+Future<UserAdvertising> getUserAdvertisingOrder(String token) async {
+  print('user advertising token: $token');
+
+  String url = "$serverUrl/user/AdvertisingOrders";
   //try{
   final respons = await http.get(Uri.parse(url), headers: {
     'Content-Type': 'application/json',
@@ -18,7 +19,7 @@ Future<Advertising> getAdvertisingOrder(String token) async {
 
   if (respons.statusCode == 200) {
     final body = respons.body;
-    Advertising advertising = Advertising.fromJson(jsonDecode(body));
+    UserAdvertising advertising = UserAdvertising.fromJson(jsonDecode(body));
     print('*************************************************');
     print(respons.body.runtimeType);
     print(respons.body);
@@ -29,22 +30,20 @@ Future<Advertising> getAdvertisingOrder(String token) async {
     throw Exception('Failed to load Advertising request');
   }
   //} catch (e) {
-   // print(e.toString());
+  // print(e.toString());
   //}
   //return null;
 
 }
-
-//--------------------------------------------------------------------------------------
-
-class Advertising {
+//-----------------------------------------------------------------
+class UserAdvertising {
   bool? success;
   Data? data;
   Message? message;
 
-  Advertising({this.success, this.data, this.message});
+  UserAdvertising({this.success, this.data, this.message});
 
-  Advertising.fromJson(Map<String, dynamic> json) {
+  UserAdvertising.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message =
@@ -108,7 +107,7 @@ class AdvertisingOrders {
   String? file;
   String? advertisingName;
   String? advertisingLink;
-  AccountStatus? platform;
+  Platform? platform;
 
   AdvertisingOrders(
       {this.id,
@@ -161,7 +160,7 @@ class AdvertisingOrders {
     advertisingName = json['advertising_name'];
     advertisingLink = json['advertising_link'];
     platform = json['platform'] != null
-        ? new AccountStatus.fromJson(json['platform'])
+        ?  Platform.fromJson(json['platform'])
         : null;
   }
 
@@ -432,10 +431,32 @@ class AccountStatus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
+    final Map<String, dynamic> data =  Map<String, dynamic>();
+    data['id'] = id;
+    data['name'] = name;
+    data['name_en'] = nameEn;
+    return data;
+  }
+}
+
+class Platform {
+  int? id;
+  String? name;
+  String? nameEn;
+
+  Platform({this.id, this.name, this.nameEn});
+
+  Platform.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  Map<String, dynamic>();
+    data['id'] = id;
+    data['name'] = name;
+    data['name_en'] = nameEn;
     return data;
   }
 }
@@ -453,8 +474,8 @@ class Message {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['en'] = this.en;
-    data['ar'] = this.ar;
+    data['en'] = en;
+    data['ar'] = ar;
     return data;
   }
 }

@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Account/LoggingSingUpAPI.dart';
+import 'UserAdsSpaceApi.dart';
+
 class UserAdSpace extends StatefulWidget {
   const UserAdSpace({Key? key}) : super(key: key);
 
@@ -12,20 +15,82 @@ class UserAdSpace extends StatefulWidget {
   State<UserAdSpace> createState() => _UserAdSpaceState();
 }
 
-class _UserAdSpaceState extends State<UserAdSpace> {
+class _UserAdSpaceState extends State<UserAdSpace>
+    with AutomaticKeepAliveClientMixin {
+  String token = '';
+  Future<UserAdvsSpace>? userAdSpaceRequests;
+
+  @override
+  void initState() {
+    super.initState();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        // token = value;
+        token =
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
+
+        userAdSpaceRequests = getUserAdvSpaceOrder(token);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView.builder(
-          itemCount: 4,
-          itemBuilder: (context, i) {
-            return body(i);
-          }),
-    );
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+            future: userAdSpaceRequests,
+            builder: ((context, AsyncSnapshot<UserAdvsSpace> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.connectionState == ConnectionState.active ||
+                  snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Center(child: Text(snapshot.error.toString())));
+                  //---------------------------------------------------------------------------
+                } else if (snapshot.hasData) {
+                  return snapshot.data!.data!.adSpaceOrders!.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: snapshot.data!.data!.adSpaceOrders!.length,
+                          itemBuilder: (context, i) {
+                            return InkWell(
+                                onTap: () {
+                                  // goTopagepush(context, adSpaceOrders(i: i));
+                                },
+                                child: Column(
+                                  children: [
+                                    getData(
+                                        i, snapshot.data!.data!.adSpaceOrders),
+                                  ],
+                                ));
+                          })
+                      : Center(
+                          child: Center(
+                              child: text(
+                          context,
+                          "لاتوجد طلبات لعرضها حاليا",
+                          15,
+                          black,
+                        )));
+                } else {
+                  return text(
+                    context,
+                    "لاتوجد طلبات لعرضها حاليا",
+                    15,
+                    black,
+                  );
+                }
+              } else {
+                return Center(
+                    child: Text('State: ${snapshot.connectionState}'));
+              }
+            })));
   }
 
-  Widget body(int i) {
+  Widget getData(int i, List<AdSpaceOrders>? adSpaceOrders) {
     return container(
         200,
         double.infinity,
@@ -44,18 +109,17 @@ class _UserAdSpaceState extends State<UserAdSpace> {
                     topLeft: Radius.circular(10.h),
                     topRight: Radius.circular(10.h),
                   ),
-                  image: const DecorationImage(
-                      image: AssetImage("assets/image/advspace.jpg"),
+                  image: DecorationImage(
+                      image: NetworkImage(adSpaceOrders![i].image!),
                       fit: BoxFit.cover,
-                      // colorFilter:
-                      //     ColorFilter.mode(Colors.black45, BlendMode.darken)
-                         ),
+                      colorFilter: const ColorFilter.mode(
+                          Colors.black45, BlendMode.darken)),
                 ),
 // مناسبه الاهداء-----------------------------------------
               ),
             ),
 
-//detaiels-----------------------------------------
+//details-----------------------------------------
 
             Expanded(
                 flex: 2,
@@ -86,7 +150,7 @@ class _UserAdSpaceState extends State<UserAdSpace> {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    text(context, "احمد عبد العزيز", 16, white)
+                                    text(context, adSpaceOrders[i].celebrity!.name!, 16, white)
                                   ],
                                 ),
 //order number--------------------------------------------------------------------------
@@ -101,7 +165,7 @@ class _UserAdSpaceState extends State<UserAdSpace> {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    text(context, "100056076", 16, white)
+                                    text(context, '${adSpaceOrders[i].id}', 16, white)
                                   ],
                                 ),
 //date--------------------------------------------------------------------------
@@ -115,7 +179,7 @@ class _UserAdSpaceState extends State<UserAdSpace> {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    text(context, "26/02/2022", 16, white),
+                                    text(context, adSpaceOrders[i].date!, 16, white),
                                   ],
                                 ),
                               ],
@@ -139,7 +203,7 @@ class _UserAdSpaceState extends State<UserAdSpace> {
                                     SizedBox(
                                       width: 10.w,
                                     ),
-                                    text(context, "تم الموافقة", 16, white)
+                                    text(context, adSpaceOrders[i].status!.name!, 16, white)
                                   ],
                                 ),
 
@@ -173,4 +237,8 @@ class _UserAdSpaceState extends State<UserAdSpace> {
         blur: 5,
         marginT: 5);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

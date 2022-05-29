@@ -1,13 +1,14 @@
+
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import '../../../Account/LoggingSingUpAPI.dart';
 
 
 String serverUrl = "https://mobile.celebrityads.net/api";
-Future<Advertising> getAdvertisingOrder(String token) async {
-  print('advatisting token: $token');
+Future<UserAdvsSpace> getUserAdvSpaceOrder(String token) async {
+  print('user advertising token: $token');
 
-  String url = "$serverUrl/celebrity/AdvertisingOrders";
+  String url = "$serverUrl/user/AdSpaceOrders";
   //try{
   final respons = await http.get(Uri.parse(url), headers: {
     'Content-Type': 'application/json',
@@ -18,33 +19,34 @@ Future<Advertising> getAdvertisingOrder(String token) async {
 
   if (respons.statusCode == 200) {
     final body = respons.body;
-    Advertising advertising = Advertising.fromJson(jsonDecode(body));
+    UserAdvsSpace userAdvsSpace = UserAdvsSpace.fromJson(jsonDecode(body));
     print('*************************************************');
     print(respons.body.runtimeType);
     print(respons.body);
     print('*************************************************');
 
-    return advertising;
+    return userAdvsSpace;
   } else {
     throw Exception('Failed to load Advertising request');
   }
   //} catch (e) {
-   // print(e.toString());
+  // print(e.toString());
   //}
   //return null;
 
 }
 
-//--------------------------------------------------------------------------------------
 
-class Advertising {
+
+//------------------------------------------------------------------
+class UserAdvsSpace {
   bool? success;
   Data? data;
   Message? message;
 
-  Advertising({this.success, this.data, this.message});
+  UserAdvsSpace({this.success, this.data, this.message});
 
-  Advertising.fromJson(Map<String, dynamic> json) {
+  UserAdvsSpace.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message =
@@ -65,16 +67,16 @@ class Advertising {
 }
 
 class Data {
-  List<AdvertisingOrders>? advertisingOrders;
+  List<AdSpaceOrders>? adSpaceOrders;
   int? status;
 
-  Data({this.advertisingOrders, this.status});
+  Data({this.adSpaceOrders, this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['advertisingOrders'] != null) {
-      advertisingOrders = <AdvertisingOrders>[];
-      json['advertisingOrders'].forEach((v) {
-        advertisingOrders!.add(new AdvertisingOrders.fromJson(v));
+    if (json['adSpaceOrders'] != null) {
+      adSpaceOrders = <AdSpaceOrders>[];
+      json['adSpaceOrders'].forEach((v) {
+        adSpaceOrders!.add(new AdSpaceOrders.fromJson(v));
       });
     }
     status = json['status'];
@@ -82,16 +84,16 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.advertisingOrders != null) {
-      data['advertisingOrders'] =
-          this.advertisingOrders!.map((v) => v.toJson()).toList();
+    if (this.adSpaceOrders != null) {
+      data['adSpaceOrders'] =
+          this.adSpaceOrders!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
     return data;
   }
 }
 
-class AdvertisingOrders {
+class AdSpaceOrders {
   int? id;
   Celebrity? celebrity;
   User? user;
@@ -99,18 +101,10 @@ class AdvertisingOrders {
   AccountStatus? adType;
   AccountStatus? status;
   int? price;
-  String? description;
-  Null? celebrityPromoCode;
-  AccountStatus? adOwner;
-  AccountStatus? advertisingAdType;
-  AccountStatus? adFeature;
-  AccountStatus? adTiming;
-  String? file;
-  String? advertisingName;
-  String? advertisingLink;
-  AccountStatus? platform;
+  String? image;
+  String? link;
 
-  AdvertisingOrders(
+  AdSpaceOrders(
       {this.id,
         this.celebrity,
         this.user,
@@ -118,18 +112,10 @@ class AdvertisingOrders {
         this.adType,
         this.status,
         this.price,
-        this.description,
-        this.celebrityPromoCode,
-        this.adOwner,
-        this.advertisingAdType,
-        this.adFeature,
-        this.adTiming,
-        this.file,
-        this.advertisingName,
-        this.advertisingLink,
-        this.platform});
+        this.image,
+        this.link});
 
-  AdvertisingOrders.fromJson(Map<String, dynamic> json) {
+  AdSpaceOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     celebrity = json['celebrity'] != null
         ? new Celebrity.fromJson(json['celebrity'])
@@ -143,26 +129,8 @@ class AdvertisingOrders {
         ? new AccountStatus.fromJson(json['status'])
         : null;
     price = json['price'];
-    description = json['description'];
-    celebrityPromoCode = json['celebrity_promo_code'];
-    adOwner = json['ad_owner'] != null
-        ? new AccountStatus.fromJson(json['ad_owner'])
-        : null;
-    advertisingAdType = json['advertising_ad_type'] != null
-        ? new AccountStatus.fromJson(json['advertising_ad_type'])
-        : null;
-    adFeature = json['ad_feature'] != null
-        ? new AccountStatus.fromJson(json['ad_feature'])
-        : null;
-    adTiming = json['ad_timing'] != null
-        ? new AccountStatus.fromJson(json['ad_timing'])
-        : null;
-    file = json['file'];
-    advertisingName = json['advertising_name'];
-    advertisingLink = json['advertising_link'];
-    platform = json['platform'] != null
-        ? new AccountStatus.fromJson(json['platform'])
-        : null;
+    image = json['image'];
+    link = json['link'];
   }
 
   Map<String, dynamic> toJson() {
@@ -182,26 +150,8 @@ class AdvertisingOrders {
       data['status'] = this.status!.toJson();
     }
     data['price'] = this.price;
-    data['description'] = this.description;
-    data['celebrity_promo_code'] = this.celebrityPromoCode;
-    if (this.adOwner != null) {
-      data['ad_owner'] = this.adOwner!.toJson();
-    }
-    if (this.advertisingAdType != null) {
-      data['advertising_ad_type'] = this.advertisingAdType!.toJson();
-    }
-    if (this.adFeature != null) {
-      data['ad_feature'] = this.adFeature!.toJson();
-    }
-    if (this.adTiming != null) {
-      data['ad_timing'] = this.adTiming!.toJson();
-    }
-    data['file'] = this.file;
-    data['advertising_name'] = this.advertisingName;
-    data['advertising_link'] = this.advertisingLink;
-    if (this.platform != null) {
-      data['platform'] = this.platform!.toJson();
-    }
+    data['image'] = this.image;
+    data['link'] = this.link;
     return data;
   }
 }

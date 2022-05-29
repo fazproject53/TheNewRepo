@@ -16,6 +16,7 @@ import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
 import 'HomeScreen/celebrity_home_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 class celebrityHomePage extends StatefulWidget {
   const celebrityHomePage({Key? key}) : super(key: key);
@@ -26,20 +27,18 @@ class celebrityHomePage extends StatefulWidget {
 
 int currentIndex = 0;
 
-
 Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 //Map<int, Future<Category>> newSection = HashMap<int, Future<Category>>();
 
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
-
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
   List<int> pag = [];
-
+  bool isLoading = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -47,7 +46,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    //h.getToken();
+    // Future.delayed(const Duration(seconds: 2),() {
+    //   setState(() {
+    //     isLoading=false;
+    //  });
+    // },);
     super.initState();
   }
 
@@ -62,11 +65,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       for (int i = 0; i < sections.data!.length; i++) {
         if (sections.data?[i].sectionName == 'category') {
           setState(() {
-            category.putIfAbsent(
-                sections.data![i].categoryId!,
-                () =>
-                    fetchCategories(sections.data![i].categoryId!, 1
-                    ));
+            category.putIfAbsent(sections.data![i].categoryId!,
+                () => fetchCategories(sections.data![i].categoryId!, 1));
             // pagNumber1++;
           });
         }
@@ -85,8 +85,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: purple),
         home: Scaffold(
-            body: SingleChildScrollView(
-              child: FutureBuilder<Section>(
+          body: SingleChildScrollView(
+          child: FutureBuilder<Section>(
             future: sections,
             builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -166,7 +166,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               }
             },
           ),
-        )),
+        )
+        ),
       ),
     );
   }
@@ -213,20 +214,22 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //mainAxisSize: MainAxisSize.min,
         children: [
-          currentuser =='user'?
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            child: SizedBox(
-                height: 60.h,
-                width: 60.w,
-                child: InkWell(
-                  child: GradientIcon(Icons.add, 40, gradient()),
-                  onTap: () {
-                    goTopagepush(context, buildAdvOrder());
-                  },
-                )),
-          ):SizedBox(),
-          Spacer(),
+          currentuser == 'User'
+              ? Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  child: SizedBox(
+                      height: 60.h,
+                      width: 60.w,
+                      child: InkWell(
+                        child: GradientIcon(Icons.add, 40, gradient()),
+                        onTap: () {
+                          goTopagepush(context, buildAdvOrder());
+                        },
+                      )),
+                )
+              : const SizedBox(),
+          const Spacer(),
           Padding(
             padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
             child: SizedBox(
@@ -454,91 +457,93 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         textDirection: TextDirection.rtl,
                         child: InkWell(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 7.0.h, vertical: 4.h),
-                                  child: text(context, title!, 14, black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 10.h),
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: snapshot
-                                            .data!.data!.celebrities!.length,
-                                        itemBuilder:
-                                            (context, int itemPosition) {
-                                          if (snapshot.data!.data!.celebrities!
-                                              .isEmpty) {
-                                            return const SizedBox();
-                                          }
-                                          return SizedBox(
-                                            width: 180.w,
-                                            child: InkWell(
-                                              onTap: () {
-                                                goTopagepush(context, CelebrityHome(pageUrl: snapshot
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 7.0.h, vertical: 4.h),
+                              child: text(context, title!, 14, black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: 10.h),
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: snapshot
+                                        .data!.data!.celebrities!.length,
+                                    itemBuilder: (context, int itemPosition) {
+                                      if (snapshot
+                                          .data!.data!.celebrities!.isEmpty) {
+                                        return const SizedBox();
+                                      }
+                                      return SizedBox(
+                                        width: 180.w,
+                                        child: InkWell(
+                                          onTap: () {
+                                            goTopagepush(
+                                                context,
+                                                CelebrityHome(
+                                                  pageUrl: snapshot
+                                                      .data!
+                                                      .data!
+                                                      .celebrities![
+                                                          itemPosition]
+                                                      .pageUrl!,
+                                                ));
+                                          },
+                                          child: Card(
+                                              elevation: 5,
+                                              child: Container(
+                                                decoration: decoration(snapshot
                                                     .data!
                                                     .data!
-                                                    .celebrities![
-                                                itemPosition].pageUrl!,));
-                                              },
-                                              child: Card(
-                                                  elevation: 5,
-                                                  child: Container(
-                                                    decoration: decoration(
+                                                    .celebrities![itemPosition]
+                                                    .image!),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10.0.w),
+                                                    child: text(
+                                                        context,
                                                         snapshot
-                                                            .data!
-                                                            .data!
-                                                            .celebrities![
-                                                                itemPosition]
-                                                            .image!),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.bottomRight,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(
-                                                            10.0.w),
-                                                        child: text(
-                                                            context,
-                                                            snapshot
-                                                                        .data!
-                                                                        .data!
-                                                                        .celebrities![
-                                                                            itemPosition]
-                                                                        .name ==
-                                                                    ''
-                                                                ? "name"
-                                                                : snapshot
                                                                     .data!
                                                                     .data!
                                                                     .celebrities![
                                                                         itemPosition]
-                                                                    .name!,
-                                                            18,
-                                                            white,
-                                                            fontWeight:
-                                                                FontWeight.bold),
-                                                      ),
-                                                    ),
-                                                  )
-                                                  //:Container(color: Colors.green,),
+                                                                    .name ==
+                                                                ''
+                                                            ? "name"
+                                                            : snapshot
+                                                                .data!
+                                                                .data!
+                                                                .celebrities![
+                                                                    itemPosition]
+                                                                .name!,
+                                                        18,
+                                                        white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                            ),
-                                          );
-                                        }),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                              ],
-                            )),
+                                                ),
+                                              )
+                                              //:Container(color: Colors.green,),
+                                              ),
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                          ],
+                        )),
                       ));
                 } else {
                   return const Center(
@@ -554,7 +559,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //headerSection---------------------------------------------------------------------------
 
   headerSection(int? active) {
-
     List<String> image = [];
     List<String> titel = [];
     return active == 1
@@ -757,26 +761,123 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  Widget lodeing() {
-    return Container(
-      height: 205.h,
-      width: 205.w,
-      child: Align(
-          alignment: Alignment.center,
-          child: Lottie.asset('assets/lottie/lode.json')),
-    );
-  }
-
+//new section----------------------------------------------------------------------
   newSection(int? secId, String? title, int? active) {
     return active == 1
-        ? Container(
-            color: Colors.green,
-            height: 100.h,
-            width: 100.w,
+        ? Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
+            child: SizedBox(
+              width: double.infinity,
+              height: 150.h,
+              child: gradientContainerNoborder(
+                  double.infinity,
+                  Center(
+                    child: text(context, "اعلان", 18, white,
+                        fontWeight: FontWeight.bold),
+                  )),
+            ),
           )
         : const SizedBox();
   }
 
-//---------------------------------------------------------------------------
+//lodaing methode---------------------------------------------------------------------------
+  Widget lodeing() {
+    return Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Expanded(
+            child: Shimmer.fromColors(
+              baseColor: grey!,
+              highlightColor: deepwhite,
+              enabled: isLoading,
+              child: ListView.builder(
+                itemBuilder: (_, __) => Column(
 
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    shape(360),
+                    SizedBox(height: 10.w,),
+                    shapeRow(61),
+                    SizedBox(height: 10.h),
+                    shape(10,width: 90.w),
+                    SizedBox(height: 10.h),
+                    shapeRow(180),
+                    SizedBox(height: 10.h),
+                    shape(10,width: 90.w),
+                    shapeRow(180),
+                    SizedBox(height: 10.h),
+                    shape(196),
+                    SizedBox(height: 10.h),
+                    shape(10,width: 90.w),
+                    shapeRow(180),
+                    SizedBox(height: 10.h),
+                    shape(250),
+
+                  ],
+                ),
+                itemCount: 1,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  shape(int j,{double? width}) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(0.r))),
+          width: width??double.infinity,
+          height: j.h,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 2.0.h),
+        ),
+      ],
+    );
+  }
+
+  shapeRow(int j) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(5.r))),
+            width: 354.w,
+            height: j.h,
+          ),
+        ),
+        SizedBox(width: 10.w,),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(5.r))),
+            width: 354.w,
+            height: j.h,
+          ),
+        ),
+        SizedBox(width: 10.w,),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(5.r))),
+            width: 354.w,
+            height: j.h,
+          ),
+        )
+      ],
+    );
+  }
 }

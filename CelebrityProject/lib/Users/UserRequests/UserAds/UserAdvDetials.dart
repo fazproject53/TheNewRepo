@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserAdvDetials extends StatefulWidget {
   int? i;
-  UserAdvDetials({this.i});
+  UserAdvDetials({this.i, String? image, String? advTitle, String? description, int? price});
 
   @override
   State<UserAdvDetials> createState() => _UserAdvDetialsState();
