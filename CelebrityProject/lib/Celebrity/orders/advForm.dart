@@ -15,6 +15,8 @@ import 'package:async/async.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 
+import 'AdvFormResponse.dart';
+
 class advForm extends StatefulWidget{
   final String? id;
   const advForm({Key? key,  this.id}) : super(key: key);
@@ -22,7 +24,7 @@ class advForm extends StatefulWidget{
 }
 
 class _advFormState extends State<advForm>{
-
+  static var resp = new Responsee();
   Future<Platform>? platforms;
   int? _value = 1;
   bool isValue1 = false;
@@ -102,6 +104,7 @@ class _advFormState extends State<advForm>{
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: drowAppBar('طلب اعلان', context),
         body:  SingleChildScrollView(
             child: Column(
@@ -599,7 +602,7 @@ class _advFormState extends State<advForm>{
                               ScaffoldMessenger.of(
                                 context)
                                 .showSnackBar(
-                                 SnackBar(content: Text('تم رفع الطلب'),
+                                 SnackBar(content: Text(resp.message!.ar!),
                                 ))})
                           } : setState((){ !checkit? warn2 = true: false;
                               current.day == DateTime.now().day? datewarn2 = true: false;
@@ -662,7 +665,7 @@ buildCkechboxList(list) {
     // ));}
   }
 
-  Future<StreamedResponse> addAdOrder() async {
+  Future<Responsee> addAdOrder() async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     var stream;
@@ -670,7 +673,7 @@ buildCkechboxList(list) {
     var uri;
     var request;
     Map<String, String> headers;
-    var response ;
+    var response;
     var body;
      stream = await http.ByteStream(DelegatingStream.typed(file!.openRead()));
     // get file length
@@ -693,7 +696,7 @@ buildCkechboxList(list) {
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] =widget.id;
+    request.fields["celebrity_id"] =1.toString();
     request.fields["date"]= current.toString();
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest).toString();
     request.fields["description"]= description.text;
@@ -708,8 +711,12 @@ buildCkechboxList(list) {
     response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) async {
       print(value);
+      setState(() {
+        resp = Responsee.fromJson(jsonDecode(value));
+
+      });
     });
-    return response;
+    return resp;
   }
 
 

@@ -48,17 +48,19 @@ class _profileInformaionState extends State<profileInformaion>
   String country = 'الدولة';
   String city = 'المدينة';
   String category = 'التصنيف';
-
+  String gender = 'الجنس';
   String? ContryKey;
   int helper = 0;
 
   var citilist = [];
   var countrylist = [];
   var categorylist = [];
+  var genderlist = [{'no':1,'keyword':'انثى'},{'no':0,'keyword':'ذكر'}];
 
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems3 = [];
+  List<DropdownMenuItem<Object?>> _dropdownTestItems4 = [];
 
   ///_value
   var _selectedTest;
@@ -90,6 +92,15 @@ class _profileInformaionState extends State<profileInformaion>
     });
   }
 
+  var _selectedTest4;
+
+  onChangeDropdownTests4(selectedTest) {
+    print(selectedTest);
+    setState(() {
+      _selectedTest4 = selectedTest;
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -118,6 +129,7 @@ class _profileInformaionState extends State<profileInformaion>
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems2 = buildDropdownTestItems(categorylist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
+    _dropdownTestItems4 = buildDropdownTestItems(genderlist);
     super.initState();
   }
 
@@ -438,26 +450,13 @@ class _profileInformaionState extends State<profileInformaion>
                                                         : 'SA',
                                         countryFilter: const [
                                           'SA',
-                                          'JO',
-                                          'SD',
-                                          'DZ',
                                           'BH',
-                                          'EG',
                                           'KW',
-                                          'PS',
-                                          'SY',
-                                          'IQ',
-                                          'LB',
-                                          'LY',
                                           'OM',
-                                          'MA',
                                           'AE',
-                                          'YE',
-                                          'DJ',
-                                          'TN',
-                                          'KM',
-                                          'SO',
-                                          'MR'
+                                          'KW',
+                                          'QA',
+
                                         ],
                                         showFlag: true,
                                         // optional. Shows only country name and flag
@@ -474,6 +473,54 @@ class _profileInformaionState extends State<profileInformaion>
                               ),
 
                               // ===========dropdown lists ==================
+                                 paddingg(
+                                  15,
+                    15,
+                    12,
+                    DropdownBelow(
+                    itemWidth: 370.w,
+                    dropdownColor: newGrey,
+
+                    ///text style inside the menu
+                    itemTextstyle: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                    color: white,
+                    fontFamily: 'Cairo',
+                    ),
+
+                    ///hint style
+                    boxTextstyle: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                    color: white,
+                    fontFamily: 'Cairo'),
+
+                    ///box style
+                    boxPadding: EdgeInsets.fromLTRB(
+                    13.w, 12.h, 13.w, 12.h),
+                    boxWidth: 500.w,
+                    boxHeight: 45.h,
+                    boxDecoration: BoxDecoration(
+                    color: textFieldBlack2
+                        .withOpacity(0.70),
+                    borderRadius:
+                    BorderRadius.circular(8.r)),
+
+                    ///Icons
+                    icon: const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.white54,
+                    ),
+                    hint: Text(
+                    gender,
+                    textDirection: TextDirection.rtl,
+                    ),
+                    value: _selectedTest4,
+                    items: _dropdownTestItems4,
+                    onChanged: onChangeDropdownTests4,
+                    ),
+                    ),
 
                               FutureBuilder(
                                   future: countries,
@@ -543,7 +590,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxPadding: EdgeInsets.fromLTRB(
                                                 13.w, 12.h, 13.w, 12.h),
                                             boxWidth: 500.w,
-                                            boxHeight: 40.h,
+                                            boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 color: textFieldBlack2
                                                     .withOpacity(0.70),
@@ -644,7 +691,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxPadding: EdgeInsets.fromLTRB(
                                                 13.w, 12.h, 13.w, 12.h),
                                             boxWidth: 500.w,
-                                            boxHeight: 40.h,
+                                            boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 color: textFieldBlack2
                                                     .withOpacity(0.70),
@@ -745,7 +792,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxPadding: EdgeInsets.fromLTRB(
                                                 13.w, 12.h, 13.w, 12.h),
                                             boxWidth: 500.w,
-                                            boxHeight: 40.h,
+                                            boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 color: textFieldBlack2
                                                     .withOpacity(0.70),
@@ -1008,7 +1055,7 @@ class _profileInformaionState extends State<profileInformaion>
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
                                       ( currentPassword.text != null && newPassword.text != null ) ||  ( currentPassword.text.isNotEmpty && newPassword.text.isNotEmpty)?{
-                                        _formKey2.currentState ==null?null:
+                                        _formKey2.currentState == null?null:
                                         _formKey2.currentState!.validate()? {
                                           newPassword.text == confirmPassword.text?{ changePassword().then((value) => ScaffoldMessenger.of(
                                       context)
@@ -1018,43 +1065,44 @@ class _profileInformaionState extends State<profileInformaion>
                                       ))),
                                       updateInformation().whenComplete(() => fetchCelebrities())}: setState((){noMatch = true;})}:null,}:null;
 
-                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateInformation()
-                                              .whenComplete(() => {
-                                                    countryChanged
-                                                        ? setState(() {
-                                                            helper = 0;
-                                                            countryChanged =
-                                                                false;
-                                                            celebrities =
-                                                                fetchCelebrities();
-                                                          })
-                                                        : Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        celebratyProfile()),
-                                                          ),
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                            const SnackBar(
-                                                      content: Text(
-                                                          "تم تعديل المعلومات بنجاح"),
-                                                    ))
-                                                    //   setState(() {
-                                                    //     helper = 0;
-                                                    //     celebrities =
-                                                    //         fetchCelebrities();
-                                                    //   }),
-                                                    //   ScaffoldMessenger.of(
-                                                    //           context)
-                                                    //       .showSnackBar(
-                                                    //           const SnackBar(
-                                                    //     content: Text(
-                                                    //         "تم تعديل المعلومات بنجاح"),
-                                                    //   ))
-                                                  })
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateInformation().then((value) =>
+                                      {
+                                        countryChanged
+                                            ? setState(() {
+                                          helper = 0;
+                                          countryChanged =
+                                          false;
+                                          celebrities =
+                                              fetchCelebrities();
+                                        })
+                                            : Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder:
+                                                  (context) =>
+                                                  celebratyProfile()),
+                                        ),
+                                        ScaffoldMessenger.of(
+                                            context)
+                                            .showSnackBar(
+                                             SnackBar(
+                                              content: Text(
+                                                  value.message!.ar!),
+                                            ))
+                                        //   setState(() {
+                                        //     helper = 0;
+                                        //     celebrities =
+                                        //         fetchCelebrities();
+                                        //   }),
+                                        //   ScaffoldMessenger.of(
+                                        //           context)
+                                        //       .showSnackBar(
+                                        //           const SnackBar(
+                                        //     content: Text(
+                                        //         "تم تعديل المعلومات بنجاح"),
+                                        //   ))
+                                      })
+
                                           : null;
                                     })),
                               ),
@@ -1080,7 +1128,7 @@ class _profileInformaionState extends State<profileInformaion>
   }
 
  // eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDAzNzUwY2MyNjFjNDY1NjY2YjcwODJlYjgzYmFmYzA0ZjQzMGRlYzEyMzAwYTY5NTE1ZDNlZTYwYWYzYjc0Y2IxMmJiYzA3ZTYzODAwMWYiLCJpYXQiOjE2NTMxMTY4MjcuMTk0MDc3OTY4NTk3NDEyMTA5Mzc1LCJuYmYiOjE2NTMxMTY4MjcuMTk0MDg0ODgyNzM2MjA2MDU0Njg3NSwiZXhwIjoxNjg0NjUyODI3LjE5MDA0ODkzMzAyOTE3NDgwNDY4NzUsInN1YiI6IjExIiwic2NvcGVzIjpbXX0.GUQgvMFS-0VA9wOAhHf7UaX41lo7m8hRm0y4mI70eeAZ0Y9p2CB5613svXrrYJX74SfdUM4y2q48DD-IeT67uydUP3QS9inIyRVTDcEqNPd3i54YplpfP8uSyOCGehmtl5aKKEVAvZLOZS8C-aLIEgEWC2ixwRKwr89K0G70eQ7wHYYHQ3NOruxrpc_izZ5awskVSKwbDVnn9L9-HbE86uP4Y8B5Cjy9tZBGJ-6gJtj3KYP89-YiDlWj6GWs52ShPwXlbMNFVDzPa3oz44eKZ5wNnJJBiky7paAb1hUNq9Q012vJrtazHq5ENGrkQ23LL0n61ITCZ8da1RhUx_g6BYJBvc_10nMuwWxRKCr9l5wygmIItHAGXxB8f8ypQ0vLfTeDUAZa_Wrc_BJwiZU8jSdvPZuoUH937_KcwFQScKoL7VuwbbmskFHrkGZMxMnbDrEedl0TefFQpqUAs9jK4ngiaJgerJJ9qpoCCn4xMSGl_ZJmeQTQzMwcLYdjI0txbSFIieSl6M2muHedWhWscXpzzBhdMOM87cCZYuAP4Gml80jywHCUeyN9ORVkG_hji588pvW5Ur8ZzRitlqJoYtztU3Gq2n6sOn0sRShjTHQGPWWyj5fluqsok3gxpeux5esjG_uLCpJaekrfK3ji2DYp-wB-OBjTGPUqlG9W_fs
-  Future<http.Response> updateInformation() async {
+  Future<CelebrityInformation> updateInformation() async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
     final response = await http.post(
@@ -1115,7 +1163,7 @@ class _profileInformaionState extends State<profileInformaion>
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
-      return response;
+      return  CelebrityInformation.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
