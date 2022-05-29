@@ -185,7 +185,7 @@ class _UserGiftState extends State<UserGift>with AutomaticKeepAliveClientMixin  
                                   ),
                                   SizedBox(width: 10.w,),
                                   text(
-                                      context, giftOrders[i].from!, 14, blue,
+                                      context, giftOrders[i].celebrity!.name!, 14, blue,
                                       fontWeight: FontWeight.bold),
                                   Spacer(),
                                   const Icon(
