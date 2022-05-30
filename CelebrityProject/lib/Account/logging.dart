@@ -116,7 +116,7 @@ class _LoggingState extends State<Logging> {
                                     } else if (result == "celebrity") {
                                       Navigator.pop(context);
                                       setState(() {
-                                        currentuser = "famous";
+                                        currentuser = "celebrity";
                                       });
 
                                       Navigator.pushReplacement(
@@ -249,7 +249,7 @@ class _LoggingState extends State<Logging> {
             SizedBox(
               width: 4.w,
             ),
-            text(context, 'تزكرني', 17.sp, textBlack),
+            text(context, 'تذكرني', 17.sp, textBlack),
           ],
         ),
         // SizedBox(
