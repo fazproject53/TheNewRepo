@@ -399,6 +399,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
       String massage=jsonDecode(respons.body)['message']['ar'];
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, massage, green, done));
+      DatabaseHelper.removeRememberToken();
       goTopageReplacement(context, const Logging());
     } else {
       Navigator.pop(context);

@@ -84,11 +84,11 @@ class _LoggingState extends State<Logging> {
                           height: 15.h,
                         ),
 //remember me && forget pass------------------------------------------
-                        remmerberMe(),
+                        rememberMe(),
                         SizedBox(
                           height: 15.h,
                         ),
-//logging buttom------------------------------
+//logging buttom-----------------------------------------------------------------------------
                         gradientContainer(
                             347,
                             buttoms(context, 'تسجيل الدخول', 14, white, () {
@@ -98,45 +98,93 @@ class _LoggingState extends State<Logging> {
                                     .loggingMethod(lgoingEmailConttroller.text,
                                         lgoingPassConttroller.text)
                                     .then((result) {
-                                  if (result == "user") {
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      currentuser = "user";
-                                    });
+//if user select remember me----------------------------------------------------------------------------
 
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const MainScreen()));
-                                  } else if (result == "celebrity") {
-                                    Navigator.pop(context);
-                                    setState(() {
-                                      currentuser = "famous";
-                                    });
+                                  if(isChckid){
+                                      DatabaseHelper.saveRememberToken();
+                                    if (result == "user") {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        currentuser = "user";
+                                      });
 
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const MainScreen()));
-                                  } else if (result == "Invalid Credentials") {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        snackBar(
-                                            context,
-                                            'البيانات المدخلة غير صالحة ',
-                                            red,
-                                            error));
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        snackBar(
-                                            context,
-                                            'تاكد من ملء جميع الحقول',
-                                            red,
-                                            error));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const MainScreen()));
+                                    } else if (result == "celebrity") {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        currentuser = "celebrity";
+                                      });
+
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const MainScreen()));
+                                    } else if (result == "Invalid Credentials") {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          snackBar(
+                                              context,
+                                               'خطأ في كلمة المرور او اسم المستخدم',
+                                              red,
+                                              error));
+                                    } else {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          snackBar(
+                                              context,
+                                              'تاكد من ملء جميع الحقول',
+                                              red,
+                                              error));
+                                    }
+//if user not select remember me----------------------------------------------------------------------------
+                                  }else{
+                                    if (result == "user") {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        currentuser = "user";
+                                      });
+
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const MainScreen()));
+                                    } else if (result == "celebrity") {
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        currentuser = "famous";
+                                      });
+
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const MainScreen()));
+                                    } else if (result == "Invalid Credentials") {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          snackBar(
+                                              context,
+                                               'خطأ في كلمة المرور او اسم المستخدم',
+                                              red,
+                                              error));
+                                    } else {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          snackBar(
+                                              context,
+                                              'تاكد من ملء جميع الحقول',
+                                              red,
+                                              error));
+                                    }
+
                                   }
+
                                 });
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -184,7 +232,7 @@ class _LoggingState extends State<Logging> {
   }
 
 //-------------------------------------------------------
-  Widget remmerberMe() {
+  Widget rememberMe() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -194,7 +242,6 @@ class _LoggingState extends State<Logging> {
                 child: Icon(Icons.check_circle_rounded,
                     color: isChckid ? purple : ligthtBlack, size: 23.sp),
                 onTap: () {
-                  verifyCode('tatooo7331@gmail.com', 471109);
                   setState(() {
                     isChckid = !isChckid;
                   });
@@ -202,7 +249,7 @@ class _LoggingState extends State<Logging> {
             SizedBox(
               width: 4.w,
             ),
-            text(context, 'تزكرني', 17.sp, textBlack),
+            text(context, 'تذكرني', 17.sp, textBlack),
           ],
         ),
         // SizedBox(
@@ -232,7 +279,6 @@ class _LoggingState extends State<Logging> {
     });
   }
 
-
 //--------------------------------------------------------------------------------
 
   Future<String?> verifyCode(String username, int code) async {
@@ -242,7 +288,6 @@ class _LoggingState extends State<Logging> {
             .showSnackBar(snackBar(context, 'الرمز المدخل خاطئ', red, error));
       } else {
         verifyToken();
-
       }
     });
     return '';
@@ -251,25 +296,22 @@ class _LoggingState extends State<Logging> {
 //-----------------------------------------------------------------------------------------------
   void verifyToken() async {
     getVerifyToken(forgetToken).then((sendToken) async {
-      if (sendToken ==true) {
-        getResetPassword('tatooo7331@gmail.com', '123123', '123123', forgetToken).then((value) {
+      if (sendToken == true) {
+        getResetPassword(
+                'tatooo7331@gmail.com', '123123', '123123', forgetToken)
+            .then((value) {
           if (value == true) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(snackBar(context, 'تم استعادة كلمة المرور بنجاح', green, done));
+            ScaffoldMessenger.of(context).showSnackBar(
+                snackBar(context, 'تم استعادة كلمة المرور بنجاح', green, done));
           } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(snackBar(context, 'حدث خطا عليك اعادة الخطوات من البداية', red, error));
-
-
+            ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                context, 'حدث خطا عليك اعادة الخطوات من البداية', red, error));
           }
         });
-
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(snackBar(context, 'لم يتممممم التحقق من التوكن', red, error));
-
+        ScaffoldMessenger.of(context).showSnackBar(
+            snackBar(context, 'لم يتممممم التحقق من التوكن', red, error));
       }
     });
-
   }
 }
