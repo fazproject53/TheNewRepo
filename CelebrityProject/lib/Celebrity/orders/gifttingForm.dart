@@ -73,6 +73,7 @@ class _gifttingFormState extends State<gifttingForm>{
           return  Directionality(
             textDirection: TextDirection.rtl,
             child:Scaffold(
+              resizeToAvoidBottomInset: false,
               appBar: drowAppBar('طلب اهداء', context),
               body: SingleChildScrollView(
                 child: Column(

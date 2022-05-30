@@ -40,6 +40,7 @@ class _advAreaState extends State<advArea>{
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
           appBar: drowAppBar('مساحة اعلانية', context),
           body: SingleChildScrollView(
           child: Container(
@@ -173,7 +174,7 @@ class _advAreaState extends State<advArea>{
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = widget.id.toString();
+    request.fields["celebrity_id"] = 77.toString();
     request.fields["date"]=dateTime.toString();
     request.fields["link"]= link.text;
 

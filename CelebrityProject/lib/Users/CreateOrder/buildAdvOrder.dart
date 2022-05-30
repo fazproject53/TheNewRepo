@@ -40,6 +40,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   final TextEditingController couponcode = new TextEditingController();
 
   Future<Platform>? platforms;
+  Future<Budget>? budgets;
   int? _value = 1;
   bool isValue1 = false;
   int? _value5 = 1;
@@ -52,12 +53,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   List sampleData = [];
   DateTime currentt = DateTime.now();
   static List<int> selectedIndex = [];
-  String balancen = 'الميزانية ';
+  String budgetn = 'الميزانية ';
   String countryn = 'الدولة';
   String categoryn = 'التصنيف';
   Future<CountryL>? countries;
   Future<CategoryL>? categories;
-  List<String> balance = ['الميزانية ', 'الميزانية ', ' 2', ' 3 '];
 
   File? file;
   bool checkit = false;
@@ -69,7 +69,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   int? status;
   var platformlist =[];
 
-  var balancelist = [];
+  var budgetlist = [];
   var countrylist = [];
   var categorylist = [];
 
@@ -157,10 +157,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   @override
   void initState() {
+    budgets = fetchBudget();
     platforms = fetchPlatform();
     countries = fetCountries();
     categories = fetCategories();
-    _dropdownTestItems = buildDropdownTestItems(balancelist);
+    _dropdownTestItems = buildDropdownTestItems(budgetlist);
     _dropdownTestItems2 = buildDropdownTestItems(categorylist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
     _dropdownTestItems4 = buildDropdownTestItems(platformlist);
@@ -281,6 +282,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     }
   }
 
+
+
   Future<CountryL> fetCountries() async {
     final response = await http.get(
       Uri.parse('https://mobile.celebrityads.net/api/countries'),
@@ -298,16 +301,16 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     }
   }
 
-  Future<CountryL> fetchBudget() async {
+  Future<Budget> fetchBudget() async {
     final response = await http.get(
-      Uri.parse('https://mobile.celebrityads.net/api/countries'),
+      Uri.parse('https://mobile.celebrityads.net/api/budgets'),
     );
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      return CountryL.fromJson(jsonDecode(response.body));
+      return Budget.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -318,7 +321,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   Future<Filter> fetchCelebrity(int country, int category, int budget,int status, int gender ) async {
     final response = await http.get(Uri.parse(
-        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=&account_status_id=&gender_id=&budget_id=$budget'));
+        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=$category&account_status_id=$status&gender_id=$gender&budget_id=$budget'));
     if (response.statusCode == 200) {
       final body = response.body;
      Filter filter =Filter.fromJson(jsonDecode(body));
@@ -360,7 +363,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] =celebrityId != null?celebrityId.toString(): 77.toString();
+    request.fields["celebrity_id"] =celebrityId != null?celebrityId.toString(): null;
     request.fields["date"]= date.toString();
     request.fields["description"]= desc.text;
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest4).toString();
@@ -443,7 +446,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           15,
                           12,
                           DropdownBelow(
-                            itemWidth: 320.w,
+                            itemWidth: 330.w,
                             dropdownColor: newGrey,
 
                             ///text style inside the menu
@@ -530,7 +533,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           15,
                           12,
                           DropdownBelow(
-                            itemWidth: 320.w,
+                            itemWidth: 330.w,
                             dropdownColor: newGrey,
 
                             ///text style inside the menu
@@ -583,12 +586,43 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
               //-------------------------------------------------------------------------------------------------------------------------------------------------------
 
-              paddingg(
+    FutureBuilder(
+    future: budgets,
+    builder: ((context, AsyncSnapshot<Budget> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return Center();
+    } else if (snapshot.connectionState ==
+    ConnectionState.active ||
+    snapshot.connectionState == ConnectionState.done) {
+    if (snapshot.hasError) {
+    return Center(child: Text(snapshot.error.toString()));
+    //---------------------------------------------------------------------------
+    } else if (snapshot.hasData) {
+    _dropdownTestItems.isEmpty
+    ? {
+    budgetlist
+        .add({'no': 0, 'keyword': 'الميزانية'}),
+    for (int i = 0;
+    i < snapshot.data!.data!.length;
+    i++)
+    {
+    budgetlist.add({
+    'no': i,
+    'keyword':
+    ' ${snapshot.data!.data![i].to} من ${snapshot.data!.data![i].from} الى   '
+    }),
+    },
+    _dropdownTestItems =
+    buildDropdownTestItems(budgetlist)
+    }
+        : null;
+
+    return paddingg(
                 10,
                 15,
                 12,
                 DropdownBelow(
-                  itemWidth: 320.w,
+                  itemWidth: 330.w,
                   dropdownColor: newGrey,
 
                   ///text style inside the menu
@@ -621,14 +655,22 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                     color: Colors.white54,
                   ),
                   hint: Text(
-                    balancen,
+                    budgetn,
                     textDirection: TextDirection.rtl,
                   ),
                   value: _selectedTest,
                   items: _dropdownTestItems,
                   onChanged: onChangeDropdownTests,
                 ),
-              ),
+              );} else {
+      return const Center(
+          child: Text('لايوجد لينك لعرضهم حاليا'));
+    }
+    } else {
+      return Center(
+          child: Text('State: ${snapshot.connectionState}'));
+    }
+    })),
 
               // paddingg(10.w, 10.w, 12.h,textFieldNoIcon(context, 'موضوع الاعلان', 12.sp, true, subject,(String? value) {if (value == null || value.isEmpty) {
               //   return 'Please enter some text';} return null;},false),),
@@ -790,11 +832,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     );
   }
   stepTwo() {
-    print(countrylist.indexOf(_selectedTest3).toString()+'////////////////////////////////////-');
-    return countrylist.indexOf(_selectedTest3) != -1 && categorylist.indexOf(_selectedTest2)   != -1 ?
+    print(categorylist.indexOf(_selectedTest2).toString()+'////////////////////////////////////-');
+    return countrylist.indexOf(_selectedTest3) != -1 && categorylist.indexOf(_selectedTest2)   != -1 && budgetlist.indexOf(_selectedTest)   != -1 ?
       FutureBuilder<Filter>(
         future:
-        fetchCelebrity(countrylist.indexOf(_selectedTest3),categorylist.indexOf(_selectedTest2),1,status == null?1: status!
+        fetchCelebrity(countrylist.indexOf(_selectedTest3),categorylist.indexOf(_selectedTest2),budgetlist.indexOf(_selectedTest),status == null?1: status!
             ,gender==null? 1: gender!),
         builder: ((context, AsyncSnapshot<Filter> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -909,7 +951,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
           children: [
             Container(
                 height: 250.h,
-                width: 1000.w,
+                width: double.infinity,
                 child: Image.asset(
                   'assets/image/featured.png',
                   color: Colors.white.withOpacity(0.60),
@@ -967,7 +1009,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return  paddingg(15, 15, 12,
                           DropdownBelow(
-                            itemWidth: 380.w,
+                            itemWidth: 330.w,
                             ///text style inside the menu
                             itemTextstyle: TextStyle(
                               fontSize: 12.sp,
@@ -984,7 +1026,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             boxPadding:
                             EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                             boxWidth: 500.w,
-                            boxHeight: 40.h,
+                            boxHeight: 45.h,
                             boxDecoration: BoxDecoration(
                                 color: textFieldBlack2.withOpacity(0.70),
                                 borderRadius: BorderRadius.circular(8.r)),
@@ -1016,14 +1058,14 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             _dropdownTestItems4 = buildDropdownTestItems(platformlist),
                           } : null;
 
-                          return paddingg(15, 15, 12,
+                          return paddingg(10, 10, 12,
                             DropdownBelow(
-                              itemWidth: 380.w,
+                              itemWidth: 330.w,
                               ///text style inside the menu
                               itemTextstyle: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: black,
+                                color: white,
                                 fontFamily: 'Cairo',),
                               ///hint style
                               boxTextstyle: TextStyle(
@@ -1032,10 +1074,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                                   color: grey,
                                   fontFamily: 'Cairo'),
                               ///box style
+                              dropdownColor: newGrey,
                               boxPadding:
                               EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                               boxWidth: 500.w,
-                              boxHeight: 40.h,
+                              boxHeight: 45.h,
                               boxDecoration: BoxDecoration(
                                   color: textFieldBlack2.withOpacity(0.70),
                                   borderRadius: BorderRadius.circular(8.r)),
@@ -1107,8 +1150,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                 ),
 
                 paddingg(
-                  15.w,
-                  15.w,
+                  10.w,
+                  10.w,
                   12.h,
                   textFieldNoIcon(
                       context, 'ادخل كود الخصم', 12.sp, false, couponcode,
@@ -1723,6 +1766,80 @@ class Platform {
     if (this.message != null) {
       data['message'] = this.message!.toJson();
     }
+    return data;
+  }
+}
+
+
+class Budget {
+  bool? success;
+  List<DataBudget>? data;
+  MessageBudget? message;
+
+  Budget({this.success, this.data, this.message});
+
+  Budget.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    if (json['data'] != null) {
+      data = <DataBudget>[];
+      json['data'].forEach((v) {
+        data!.add(new DataBudget.fromJson(v));
+      });
+    }
+    message =
+    json['message'] != null ? new MessageBudget.fromJson(json['message']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (this.message != null) {
+      data['message'] = this.message!.toJson();
+    }
+    return data;
+  }
+}
+
+class DataBudget {
+  int? id;
+  int? from;
+  int? to;
+
+  DataBudget({this.id, this.from, this.to});
+
+  DataBudget.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    from = json['from'];
+    to = json['to'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['from'] = this.from;
+    data['to'] = this.to;
+    return data;
+  }
+}
+
+class MessageBudget {
+  String? en;
+  String? ar;
+
+  MessageBudget({this.en, this.ar});
+
+  MessageBudget.fromJson(Map<String, dynamic> json) {
+    en = json['en'];
+    ar = json['ar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['en'] = this.en;
+    data['ar'] = this.ar;
     return data;
   }
 }
