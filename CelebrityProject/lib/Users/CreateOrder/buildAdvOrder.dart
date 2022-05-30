@@ -945,7 +945,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   stepThree() {
     print(celebrityId.toString()+ '---------------------------------------------------------------------------------------------------------------------------------------');
     return SingleChildScrollView(
-      child: Column(children: [
+      child: Column(
+          children: [
         Stack(
           alignment: Alignment.bottomRight,
           children: [
@@ -975,8 +976,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
           child: Form(
             key: _formKey3,
             child: paddingg(
-              12,
-              12,
+              10,
+              10,
               5,
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                 SizedBox(
