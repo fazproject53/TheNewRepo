@@ -112,18 +112,28 @@ class _userProfileState extends State<userProfile>
                               8,
                               8,
                               Container(
-                                  height: 56.h,
-                                  width: 56.w,
-                                  child: CircleAvatar(
-                                      radius: 48.r,
-                                      backgroundImage: userImage == null
-                                          ? Image
-                                          .network(
-                                          snapshot.data!.data!.user!.image!)
-                                          .image
-                                          : Image
-                                          .file(userImage!)
-                                          .image)),
+                                height: 80.h,
+                                width: 90.w,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(70.r),
+                                  child: Image.network(
+                                    snapshot.data!.data!.user!.image!, fit: BoxFit.fill,
+                                    height: double.infinity, width: double.infinity,
+                                    loadingBuilder : (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: grey,
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },),
+                                ),
+                              ),
                             ),
                             onTap: () {
                               getImage().whenComplete(() =>
@@ -138,6 +148,7 @@ class _userProfileState extends State<userProfile>
                               });
                             },
                           ),
+                          SizedBox(height: 5.h),
                           padding(
                             8,
                             8,

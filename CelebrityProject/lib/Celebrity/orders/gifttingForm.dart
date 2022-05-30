@@ -11,8 +11,8 @@ import 'package:http/http.dart' as http;
 
 class gifttingForm extends StatefulWidget{
 
-  final String? id;
-  const gifttingForm({Key? key,  this.id}) : super(key: key);
+  final String? id, image, name;
+  const gifttingForm({Key? key,  this.id, this.image, this.name}) : super(key: key);
   _gifttingFormState createState() => _gifttingFormState();
 }
 
@@ -86,10 +86,10 @@ class _gifttingFormState extends State<gifttingForm>{
                         children: [
                           Container(height: 365.h,
                               width: 1000.w,
-                              child: Image.asset('assets/image/featured.png', color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
-                          const Padding(
+                              child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
+                           Padding(
                             padding: EdgeInsets.all(20.0),
-                            child: Text('اطلب اهداء \n شخصي من ليجسي ميوزك الان',
+                            child: Text(  'اطلب اهداء\n' + 'شخصي من ' + widget.name! + ' الان',
                               style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                           ),
                         ]),

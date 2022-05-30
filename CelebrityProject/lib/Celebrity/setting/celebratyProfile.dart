@@ -130,15 +130,28 @@ class _celebratyProfileState extends State<celebratyProfile> {
                               8,
                               8,
                               Container(
-                                  height: 80.h,
-                                  width: 80.w,
-                                  child: CircleAvatar(
-                                      radius: 48.r,
-                                      backgroundImage: imagefile == null
-                                          ? Image.network(snapshot.data!.data!
-                                                  .celebrity!.image!)
-                                              .image
-                                          : Image.file(imagefile!).image)),
+                                height: 90.h,
+                                width: 100.w,
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(70.r),
+                                          child: Image.network(
+                                          snapshot.data!.data!.celebrity!.image!, fit: BoxFit.fill,
+                                            height: double.infinity, width: double.infinity,
+                                            loadingBuilder : (context, child, loadingProgress) {
+                                            if (loadingProgress == null) return child;
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                backgroundColor: grey,
+                                                value: loadingProgress.expectedTotalBytes != null
+                                                    ? loadingProgress.cumulativeBytesLoaded /
+                                                    loadingProgress.expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                                  },),
+                                        ),
+                                      ),
                             ),
                             onTap: () {
                               getImage().whenComplete(() => {
@@ -152,6 +165,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                   });
                             },
                           ),
+                          SizedBox(height: 5.h,),
                           padding(
                             8,
                             8,

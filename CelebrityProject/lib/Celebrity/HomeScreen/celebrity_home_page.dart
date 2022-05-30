@@ -586,7 +586,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             gradientContainerNoborder(
                                 getSize(context).width,
                                 buttoms(context, 'اطلب حالا', 20, white, () {
-                                  showBottomSheett(context, bottomSheetMenu(snapshot.data!.data!.celebrity!.id!.toString()));
+                                  showBottomSheett(context, bottomSheetMenu(snapshot.data!.data!.celebrity!.id!.toString(),snapshot.data!.data!.celebrity!.image!,snapshot.data!.data!.celebrity!.name!.toString()));
                                 })),
                           ),
                           SizedBox(
@@ -642,7 +642,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
   }
 
   ///order from the celebrity
-  Widget bottomSheetMenu(String id) {
+  Widget bottomSheetMenu(String id, image, name) {
     return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
@@ -672,7 +672,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => gifttingForm(id: id,)),
+                    MaterialPageRoute(builder: (context) => gifttingForm(id: id,image: image, name: name,)),
                   );
                 },
               ),
@@ -734,7 +734,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => advForm(id: id,)),
+                    MaterialPageRoute(builder: (context) => advForm(id: id,image: image, name: name,)),
                   );
                 },
               ),

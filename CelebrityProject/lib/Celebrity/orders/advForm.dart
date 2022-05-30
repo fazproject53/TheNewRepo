@@ -18,8 +18,8 @@ import 'package:path_provider/path_provider.dart';
 import 'AdvFormResponse.dart';
 
 class advForm extends StatefulWidget{
-  final String? id;
-  const advForm({Key? key,  this.id}) : super(key: key);
+  final String? id,image, name;
+  const advForm({Key? key,  this.id, this.image, this.name}) : super(key: key);
   _advFormState createState() => _advFormState();
 }
 
@@ -111,12 +111,12 @@ class _advFormState extends State<advForm>{
               children: [
                 Stack(
                     alignment: Alignment.bottomRight,
-                    children: [Container(height: 355.h,
-                        width: double.infinity,
-                        child: Image.asset('assets/image/featured.png', color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
-                       const Padding(
+                    children: [ Container(height: 365.h,
+                        width: 1000.w,
+                        child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
+                      Padding(
                         padding: EdgeInsets.all(20.0),
-                        child: Text('اطلب اعلان \n شخصي من ليجسي ميوزك الان',
+                        child: Text(  'اطلب اعلان\n' + 'شخصي من ' + widget.name! + ' الان',
                           style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                       ),
                     ]),
