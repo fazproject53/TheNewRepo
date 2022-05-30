@@ -13,6 +13,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../Account/LoggingSingUpAPI.dart';
+String? currentuser;
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -28,7 +30,13 @@ class _MainScreenState extends State<MainScreen>
   void initState() {
     super.initState();
     pageController = PageController(initialPage: selectedIndex);
+    DatabaseHelper.getRememberUser().then((token) {
+      setState(() {
+        currentuser = token;
+        print('currentuser:$currentuser');
+      });
 
+    });
 
   }
 

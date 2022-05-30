@@ -386,6 +386,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, massage, green, done));
       DatabaseHelper.removeRememberToken();
+      DatabaseHelper.removeRememberUser();
       goTopageReplacement(context, const Logging());
     } else {
       Navigator.pop(context);
