@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+String rememberIsLogin ='' ;
 class DatabaseHelper {
+
   String serverUrl = "https://mobile.celebrityads.net/api";
   String token = '';
   //logging--------------------------------------------------------------------------------------------
@@ -20,6 +22,7 @@ class DatabaseHelper {
       var email = jsonDecode(respons.body)["data"]?["user"]['email'];
       token = jsonDecode(respons.body)['data']['token'];
       _saveToken(token);
+      rememberIsLogin=token;
       print('-----------------------------------------------------');
       print('username is: $username');
       print('emial is: $email');
@@ -110,6 +113,7 @@ class DatabaseHelper {
         token = jsonDecode(respons.body)['data']['token'];
         userType = jsonDecode(respons.body)['data']?['celebrity']?['type'];
         _saveToken(token);
+
         // print('respons body: ${jsonDecode(respons.body)}');
         // print(userType);
         return '$userType';
@@ -149,7 +153,35 @@ class DatabaseHelper {
     const key = 'token';
     String value = prefs.getString(key)?? '';
 
-    print('get Token is: $value');
+    // print('get Token is: $value');
     return value;
   }
+
+  //remember me token------------------------------------------------------------
+  static saveRememberToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'save';
+    prefs.setString(key,rememberIsLogin);
+    print('save token correct token is: $rememberIsLogin');
+  }
+
+  //get remember me token------------------------------------------------------------
+  static Future<String>  getRememberToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'save';
+    String value = prefs.getString(key)?? '';
+
+    print('get Remember me is: $value');
+    return value;
+  }
+  //remove token-----------------------------------------------------------------
+  //get remember me token------------------------------------------------------------
+  static void  removeRememberToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'save';
+    bool de=await prefs.remove(key);
+    print('dddddddddddelete $de');
+  }
+
+
 }
