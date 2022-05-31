@@ -14,7 +14,7 @@ import 'Singup.dart';
 import 'TheUser.dart';
 import 'UserForm.dart';
 
-String? currentuser;
+
 
 class Logging extends StatefulWidget {
   static TheUser? theUser;
@@ -102,50 +102,48 @@ class _LoggingState extends State<Logging> {
                                     .then((result) {
 //if user select remember me----------------------------------------------------------------------------
 
-                                  if(isChckid){
-                                      DatabaseHelper.saveRememberToken();
+                                  if (isChckid) {
                                     if (result == "user") {
+                                      DatabaseHelper.saveRememberToken(result);
                                       Navigator.pop(context);
-                                      setState(() {
-                                        currentuser = "user";
-                                      });
-
+                                      DatabaseHelper.saveRememberUser("user");
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) =>
                                                   const MainScreen()));
                                     } else if (result == "celebrity") {
+                                      DatabaseHelper.saveRememberToken(result);
                                       Navigator.pop(context);
-                                      setState(() {
-                                        currentuser = "celebrity";
-                                      });
-
+                                      DatabaseHelper.saveRememberUser(
+                                          "celebrity");
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) =>
                                                   const MainScreen()));
-                                    } else if (result == "Invalid Credentials") {
+                                    } else if (result ==
+                                        "Invalid Credentials") {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          snackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
                                               context,
-                                               'خطأ في كلمة المرور او اسم المستخدم',
+                                              'خطأ في كلمة المرور او اسم المستخدم',
                                               red,
                                               error));
                                     } else {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          snackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
                                               context,
                                               'تاكد من ملء جميع الحقول',
                                               red,
                                               error));
                                     }
 //if user not select remember me----------------------------------------------------------------------------
-                                  }else{
+                                  } else {
                                     if (result == "user") {
+                                      DatabaseHelper.saveRememberUser("user");
                                       Navigator.pop(context);
                                       setState(() {
                                         currentuser = "user";
@@ -157,6 +155,9 @@ class _LoggingState extends State<Logging> {
                                               builder: (_) =>
                                                   const MainScreen()));
                                     } else if (result == "celebrity") {
+                                      DatabaseHelper.saveRememberUser(
+                                          "celebrity");
+
                                       Navigator.pop(context);
                                       setState(() {
                                         currentuser = "famous";
@@ -167,26 +168,25 @@ class _LoggingState extends State<Logging> {
                                           MaterialPageRoute(
                                               builder: (_) =>
                                                   const MainScreen()));
-                                    } else if (result == "Invalid Credentials") {
+                                    } else if (result ==
+                                        "Invalid Credentials") {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          snackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
                                               context,
-                                               'خطأ في كلمة المرور او اسم المستخدم',
+                                              'خطأ في كلمة المرور او اسم المستخدم',
                                               red,
                                               error));
                                     } else {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          snackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
                                               context,
                                               'تاكد من ملء جميع الحقول',
                                               red,
                                               error));
                                     }
-
                                   }
-
                                 });
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(

@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import '../Account/LoggingSingUpAPI.dart';
+import '../MainScreen/main_screen_navigation.dart';
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
 import 'HomeScreen/celebrity_home_page.dart';
