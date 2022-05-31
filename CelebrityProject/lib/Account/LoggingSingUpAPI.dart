@@ -26,7 +26,7 @@ class DatabaseHelper {
       login.Logging.theUser!.name = jsonDecode(respons.body)["data"]?["user"]['name'];
       login.Logging.theUser!.email = jsonDecode(respons.body)["data"]?["user"]['email'];
       login.Logging.theUser!.id = jsonDecode(respons.body)["data"]?["user"]['id'].toString();
-      login.Logging.theUser!.phone = jsonDecode(respons.body)["data"]?["user"]['phone'];
+      login.Logging.theUser!.phone = jsonDecode(respons.body)["data"]?["user"]['phone'].toString();
       login.Logging.theUser!.image = jsonDecode(respons.body)["data"]?["user"]['image'];
       rememberIsLogin = token;
       print('-----------------------------------------------------');

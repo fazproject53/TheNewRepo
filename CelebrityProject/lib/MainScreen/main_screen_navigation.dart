@@ -135,7 +135,7 @@ class _MainScreenState extends State<MainScreen>
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: currentuser == "celebrity" ? Famousscreens : Famousscreens,
+        children: currentuser == "celebrity" ? Famousscreens : userScreen,
       ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: deepwhite,
