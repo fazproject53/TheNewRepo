@@ -105,7 +105,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                         borderRadius: BorderRadius.only(topRight: Radius.circular(10.r), topLeft: Radius.circular(10.r)),
                         child: Image.network(adSpaceOrders![i].image!,
                           fit: BoxFit.cover,
-                          color: Colors.grey.withOpacity(0.80),
+                          color: Colors.grey.withOpacity(1.0),
                           colorBlendMode: BlendMode.modulate,
                           loadingBuilder : (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
