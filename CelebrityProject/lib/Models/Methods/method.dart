@@ -265,12 +265,44 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
     controller: mycontroller,
     style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
     decoration: InputDecoration(
-
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle:
             TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
+        fillColor: ligthtBlack,
+        labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+        prefixIcon: Icon(icons, color: deepBlack, size: 25.sp),
+        labelText: key,
+        errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
+        contentPadding: EdgeInsets.all(10.h)),
+  );
+}
+
+//=============================TextFields=================================
+Widget textField2(context, icons, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali,
+    {Widget? suffixIcon,
+      void Function()? onTap,
+      List<TextInputFormatter>? inputFormatters,
+      TextInputType? keyboardType}) {
+  return TextFormField(
+    obscureText: hintPass,
+    validator: myvali,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    onTap: onTap,
+    autofocus: false,
+    inputFormatters: inputFormatters,
+    keyboardType: keyboardType,
+    controller: mycontroller,
+    style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
+    decoration: InputDecoration(
+        isDense: true,
+        filled: true,
+        suffixIcon: suffixIcon,
+        hintStyle:
+        TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
         fillColor: ligthtBlack,
         labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -863,6 +895,8 @@ Widget drowMenu(
       onChanged: onChanged);
 }
 
+
+
 loadingDialogue(context) {
   return showDialog(
       context: context,
@@ -901,3 +935,4 @@ SnackBar snackBar(context,String title, Color? color,IconData? icon) {
         ],
       ));
 }
+

@@ -58,7 +58,8 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                                   image: snapshot.data!.data!.advertisingOrders![i].file,
                                   advTitle: snapshot.data!.data!.advertisingOrders![i].advertisingAdType?.name,
                                   description: snapshot.data!.data!.advertisingOrders![i].description,
-                                  price: snapshot.data!.data!.advertisingOrders![i].price,
+                                  orderId: snapshot.data!.data!.advertisingOrders![i].id, token:token,
+                                  platform:snapshot.data!.data!.advertisingOrders![i].platform?.name,
                                   ));
                                 },
                                 child: Column(
