@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:celepraty/Account/logging.dart' as login;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'ComplaintTypes.dart';
@@ -417,8 +418,9 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
         'Authorization': 'Bearer $token2'
       },
       body: jsonEncode(<String, dynamic>{
-        'name': supportTitle.text,
-        'email': supportTitle.text,
+        'name': login.Logging.theUser!.name!,
+        'email': login.Logging.theUser!.email!,
+        'phonenumber': null,
         'subject': supportTitle.text,
         'details': supportDescription.text,
         'complaint_type_id': _selectedTest == null ? complaintList.indexOf(0) : complaintList.indexOf(_selectedTest),
