@@ -62,7 +62,7 @@ class _userProfileState extends State<userProfile>
     const UserBalance(),
     UserRequestMainPage(),
     const ContactWithUsHome(),
-    const Logging()
+     Logging()
   ];
 
   File? userImage;
@@ -356,7 +356,7 @@ class _userProfileState extends State<userProfile>
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, massage, green, done));
       DatabaseHelper.removeRememberToken();
-      goTopageReplacement(context, const Logging());
+      goTopageReplacement(context,  Logging());
 
     } else {
       Navigator.pop(context);

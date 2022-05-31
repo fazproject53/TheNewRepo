@@ -97,7 +97,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
                 ///Skip
                 InkWell(
                   onTap: () {
-                    goTopagepush(context, const Logging());
+                    goTopagepush(context,  Logging());
 
                   },
                   child: Visibility(
@@ -130,7 +130,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
                 ///Start
                 InkWell(
                     onTap: () {
-                      goTopagepush(context, const Logging());
+                      goTopagepush(context,  Logging());
                     },
                     child: Visibility(
                       visible: currentIndex == 3 ? true : false,

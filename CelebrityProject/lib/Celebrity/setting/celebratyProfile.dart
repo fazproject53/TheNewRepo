@@ -400,7 +400,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, massage, green, done));
       DatabaseHelper.removeRememberToken();
-      goTopageReplacement(context, const Logging());
+      goTopageReplacement(context,  Logging());
     } else {
       Navigator.pop(context);
       throw Exception('logout field');

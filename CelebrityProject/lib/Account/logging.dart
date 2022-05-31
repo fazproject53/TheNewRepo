@@ -11,12 +11,14 @@ import 'package:http/http.dart' as http;
 
 import 'LoggingSingUpAPI.dart';
 import 'Singup.dart';
+import 'TheUser.dart';
 import 'UserForm.dart';
 
 String? currentuser;
 
 class Logging extends StatefulWidget {
-  const Logging({Key? key}) : super(key: key);
+  static TheUser? theUser;
+   Logging({Key? key}) : super(key: key);
 
   @override
   State<Logging> createState() => _LoggingState();

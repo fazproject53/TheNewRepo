@@ -89,7 +89,7 @@ class _gifttingFormState extends State<gifttingForm>{
                               child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
                            Padding(
                             padding: EdgeInsets.all(20.0),
-                            child: Text(  'اطلب اهداء\n' + 'شخصي من ' + widget.name! + ' الان',
+                            child: Text(  'اطلب اهداء\n' + 'شخصي من ' + widget.name! + 'الان',
                               style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                           ),
                         ]),

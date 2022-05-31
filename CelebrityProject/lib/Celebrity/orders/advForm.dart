@@ -696,7 +696,7 @@ buildCkechboxList(list) {
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] =1.toString();
+    request.fields["celebrity_id"] =77.toString();
     request.fields["date"]= current.toString();
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest).toString();
     request.fields["description"]= description.text;
