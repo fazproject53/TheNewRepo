@@ -3,14 +3,13 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'TheUser.dart';
 import 'logging.dart' as login;
-String rememberIsLogin ='' ;
-class DatabaseHelper {
+String rememberIsLogin = '';
 
+class DatabaseHelper {
   String serverUrl = "https://mobile.celebrityads.net/api";
   String token = '';
   //logging--------------------------------------------------------------------------------------------
   Future<String> loggingMethod(String username, String password) async {
-
     Map<String, dynamic> data = {"username": username, "password": password};
     String url = "$serverUrl/login";
     final respons = await http.post(Uri.parse(url), body: data);
@@ -29,7 +28,7 @@ class DatabaseHelper {
       login.Logging.theUser!.id = jsonDecode(respons.body)["data"]?["user"]['id'].toString();
       login.Logging.theUser!.phone = jsonDecode(respons.body)["data"]?["user"]['phone'];
       login.Logging.theUser!.image = jsonDecode(respons.body)["data"]?["user"]['image'];
-      rememberIsLogin=token;
+      rememberIsLogin = token;
       print('-----------------------------------------------------');
       print('username is: $username');
       print('emial is: $email');
@@ -105,7 +104,7 @@ class DatabaseHelper {
         "username": username,
         "password": password,
         "email": email,
-        'country_id':  countryId,
+        'country_id': countryId,
         'category_id': categoryId
       };
       String url = "$serverUrl/celebrity/register";
@@ -126,7 +125,7 @@ class DatabaseHelper {
         return '$userType';
       } else if (message['email']?[0] == "The email has already been taken." &&
           message['username']?[0] == "The username has already been taken.") {
-       // print("email username found");
+        // print("email username found");
         return "email and username found";
         //--------------------------------------------------------
       } else if (message['username']?[0] ==
@@ -140,7 +139,7 @@ class DatabaseHelper {
       }
     } catch (e) {
       print(e.toString());
-  }
+    }
     return "";
   }
 
@@ -155,40 +154,56 @@ class DatabaseHelper {
   }
 
   //red token------------------------------------------------------------
-  static Future<String>  getToken() async {
+  static Future<String> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'token';
-    String value = prefs.getString(key)?? '';
-
-    // print('get Token is: $value');
+    String value = prefs.getString(key) ?? '';
     return value;
   }
 
   //remember me token------------------------------------------------------------
-  static saveRememberToken() async {
+  static saveRememberToken(String user) async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'save';
-    prefs.setString(key,rememberIsLogin);
-    print('save token correct token is: $rememberIsLogin');
+    prefs.setString(key, rememberIsLogin);
+
   }
-
   //get remember me token------------------------------------------------------------
-  static Future<String>  getRememberToken() async {
+  static Future<String> getRememberToken() async {
     final prefs = await SharedPreferences.getInstance();
     const key = 'save';
-    String value = prefs.getString(key)?? '';
-
-    print('get Remember me is: $value');
+    String value = prefs.getString(key) ?? '';
     return value;
   }
-  //remove token-----------------------------------------------------------------
-  //get remember me token------------------------------------------------------------
-  static void  removeRememberToken() async {
+
+//save Remember User------------------------------------------------------------
+  static saveRememberUser(String user) async {
     final prefs = await SharedPreferences.getInstance();
-    const key = 'save';
-    bool de=await prefs.remove(key);
-    print('dddddddddddelete $de');
+    const key = 'user';
+    prefs.setString(key, user);
+  }
+  //get Remember User------------------------------------------------------------
+  static Future<String> getRememberUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'user';
+    String value = prefs.getString(key) ?? '';
+    print('get Remember user: $value');
+    return value;
   }
 
-
+  //remove token-----------------------------------------------------------------
+  static void removeRememberToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'save';
+    bool de = await prefs.remove(key);
+    print('dddddddddddelete $de');
+  }
+  //remove token-----------------------------------------------------------------
+  static void removeRememberUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'user';
+    bool de = await prefs.remove(key);
+    print('dddddddddddelete user $de');
+  }
 }
+      //
