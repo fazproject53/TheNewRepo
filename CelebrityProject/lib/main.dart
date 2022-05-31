@@ -1,12 +1,22 @@
-
+///import section
+import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/Celebrity/Activity/news/addNews.dart';
+import 'package:celepraty/Celebrity/blockList.dart';
+import 'package:celepraty/Celebrity/celebrityHomePage.dart';
+import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
+import 'package:celepraty/Celebrity/setting/profileInformation.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'Account/LoggingSingUpAPI.dart';
+import 'Celebrity/HomeScreen/celebrity_home_page.dart';
+import 'Users/Exploer/Explower.dart';
+import 'celebrity/DiscountCodes/discount_codes_main.dart';
 import 'introduction_screen/introduction_screen.dart';
 
 void main() => runApp(
@@ -32,10 +42,9 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
     DatabaseHelper.getRememberToken().then((token) {
       setState(() {
         isLogging = token;
-        print('isLogging:$isLogging');
       });
     });
-
+    print('isLogging:$isLogging');
   }
 
   @override
@@ -60,10 +69,9 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             );
           },
 // if user click in remember me
-          home: isLogging == '' ? const Logging() : const MainScreen()),
+          home: isLogging == '' ?  Logging() : const MainScreen()),
     );
   }
-
 //----------------------------------------------------------------------
   Widget firstPage() {
     return FutureBuilder<IntroData>(
@@ -77,7 +85,6 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       },
     );
   }
-
 //----------------------------------------------------------------------
   Widget splash() {
     return Scaffold(

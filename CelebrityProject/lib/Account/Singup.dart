@@ -232,7 +232,7 @@ class _SingUpState extends State<SingUp> {
                                 child:
                                     text(context, "تسجيل الدخول", 13, purple),
                                 onTap: () {
-                                  goTopageReplacement(context, const Logging());
+                                  goTopageReplacement(context,  Logging());
                                 },
                               ),
                             ],

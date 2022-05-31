@@ -62,7 +62,7 @@ class _userProfileState extends State<userProfile>
     const UserBalance(),
     UserRequestMainPage(),
     const ContactWithUsHome(),
-    const Logging()
+     Logging()
   ];
 
   File? userImage;
@@ -88,18 +88,7 @@ class _userProfileState extends State<userProfile>
         appBar: AppBarNoIcon("حسابي"),
         body: Center(
           child: SingleChildScrollView(
-            child: FutureBuilder<UserProfile>(
-              future: getUsers,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: lodeing(context));
-                } else if (snapshot.connectionState == ConnectionState.active ||
-                    snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                    //---------------------------------------------------------------------------
-                  } else if (snapshot.hasData) {
-                    return Column(children: [
+            child: Column(children: [
                       //======================== profile header ===============================
 
                       Column(
@@ -118,7 +107,7 @@ class _userProfileState extends State<userProfile>
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(70.r),
                                   child: Image.network(
-                                    snapshot.data!.data!.user!.image!, fit: BoxFit.fill,
+                                    Logging.theUser!.image!, fit: BoxFit.fill,
                                     height: double.infinity, width: double.infinity,
                                     loadingBuilder : (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
@@ -152,7 +141,7 @@ class _userProfileState extends State<userProfile>
                           padding(
                             8,
                             8,
-                            text(context, snapshot.data!.data!.user!.name!, 20,
+                            text(context, Logging.theUser!.name!, 20,
                                 black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
@@ -270,16 +259,7 @@ class _userProfileState extends State<userProfile>
                       SizedBox(
                         height: 30.h,
                       )
-                    ]);
-                  } else {
-                    return const Center(child: Text('Empty data'));
-                  }
-                } else {
-                  return Center(
-                      child: Text('State: ${snapshot.connectionState}'));
-                }
-              },
-            ),
+                    ]),
           ),
         ),
       ),
@@ -356,8 +336,7 @@ class _userProfileState extends State<userProfile>
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, massage, green, done));
       DatabaseHelper.removeRememberToken();
-      DatabaseHelper.removeRememberUser();
-      goTopageReplacement(context, const Logging());
+      goTopageReplacement(context,  Logging());
 
     } else {
       Navigator.pop(context);

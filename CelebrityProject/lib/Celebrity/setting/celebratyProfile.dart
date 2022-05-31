@@ -136,7 +136,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(70.r),
                                           child: Image.network(
-                                          snapshot.data!.data!.celebrity!.image!, fit: BoxFit.fill,
+                                            Logging.theUser!.image!, fit: BoxFit.fill,
                                             height: double.infinity, width: double.infinity,
                                             loadingBuilder : (context, child, loadingProgress) {
                                             if (loadingProgress == null) return child;
@@ -169,7 +169,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                           padding(
                             8,
                             8,
-                            text(context, snapshot.data!.data!.celebrity!.name!,
+                            text(context, Logging.theUser!.name!,
                                 20, black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
@@ -400,8 +400,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, massage, green, done));
       DatabaseHelper.removeRememberToken();
-      DatabaseHelper.removeRememberUser();
-      goTopageReplacement(context, const Logging());
+      goTopageReplacement(context,  Logging());
     } else {
       Navigator.pop(context);
       throw Exception('logout field');

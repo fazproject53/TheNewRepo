@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'TheUser.dart';
+import 'logging.dart' as login;
 String rememberIsLogin = '';
 
 class DatabaseHelper {
@@ -21,6 +22,12 @@ class DatabaseHelper {
       var email = jsonDecode(respons.body)["data"]?["user"]['email'];
       token = jsonDecode(respons.body)['data']['token'];
       _saveToken(token);
+      login.Logging.theUser = new TheUser();
+      login.Logging.theUser!.name = jsonDecode(respons.body)["data"]?["user"]['name'];
+      login.Logging.theUser!.email = jsonDecode(respons.body)["data"]?["user"]['email'];
+      login.Logging.theUser!.id = jsonDecode(respons.body)["data"]?["user"]['id'].toString();
+      login.Logging.theUser!.phone = jsonDecode(respons.body)["data"]?["user"]['phone'].toString();
+      login.Logging.theUser!.image = jsonDecode(respons.body)["data"]?["user"]['image'];
       rememberIsLogin = token;
       print('-----------------------------------------------------');
       print('username is: $username');
@@ -199,3 +206,4 @@ class DatabaseHelper {
     print('dddddddddddelete user $de');
   }
 }
+      //
