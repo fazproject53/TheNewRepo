@@ -91,7 +91,8 @@ class _viewDataState extends State<viewData> {
                     )
                   ],
                 ),
-                onTap: (){setState(() {
+                onTap: (){
+                  setState(() {
                   clicked? _videoPlayerController.play(): _videoPlayerController.pause();
                   clicked = clicked? false: true;
                 });},
