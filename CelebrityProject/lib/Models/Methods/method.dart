@@ -280,7 +280,7 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
   );
 }
 
-//=============================TextFields=================================
+//=============================TextFields price=================================
 Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
@@ -296,17 +296,17 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
+    style: TextStyle(color: deepgrey, fontSize: (textScaling + fontSize).sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle:
-        TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
-        fillColor: ligthtBlack,
-        labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
+        TextStyle(color: pink, fontSize: (textScaling + fontSize).sp),
+        fillColor: white,
+        labelStyle: TextStyle(color: deepgrey, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
-        prefixIcon: Icon(icons, color: deepBlack, size: 25.sp),
+        prefixIcon: Icon(icons, color: pink, size: 25.sp),
         labelText: key,
         errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
         contentPadding: EdgeInsets.all(10.h)),

@@ -1,10 +1,8 @@
 
 import 'dart:convert';
-
 import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +33,7 @@ class AdvDetials extends StatefulWidget {
 class _AdvDetialsState extends State<AdvDetials> {
   TextEditingController  price=TextEditingController();
   List<String>rejectResonsList=[];
+  GlobalKey <FormState>priceKey=GlobalKey();
 
   @override
   void initState() {
@@ -151,18 +150,21 @@ class _AdvDetialsState extends State<AdvDetials> {
 //price field-----------------------------------------------------
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: textField2(
-                context,
-                money,
-                "أدخل سعر الاعلان",
-                10,
-                false,
-                emailCeleController,
-                empty,
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly
-                ],
+              child: Form(
+                key: priceKey,
+                child: textField2(
+                  context,
+                  money,
+                  "أدخل سعر الاعلان",
+                  14,
+                  false,
+                  price,
+                  empty,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+                ),
               ),
             ),
 
@@ -185,14 +187,20 @@ class _AdvDetialsState extends State<AdvDetials> {
                     15,
                     white,
                     () {
-                      Future<bool>result=acceptAdvertisingOrder(widget.token!, widget.orderId!,int.parse(price.text));
-                      result.then((value) {
-                        if(value==true){
-                          print('تتتتتتتتتتتتتم قبول الطلب');
-                        }else{
-                          print('تتتتتتتتتتتتتم قبول الطلب مسسسسسسسسسسسسبقا');
-                        }
-                      });
+                     if(priceKey.currentState?.validate()==true){
+                       Future<bool>result=acceptAdvertisingOrder(widget.token!, widget.orderId!,int.parse(price.text));
+                       result.then((value) {
+                         if(value==true){
+                           ScaffoldMessenger.of(context).showSnackBar(
+                               snackBar(context, 'تم قبول الطلب',
+                                   green, done));
+                         }else{
+                           ScaffoldMessenger.of(context).showSnackBar(
+                               snackBar(context, 'تم قبول الطلب مسبقا',
+                                   red, error));
+                         }
+                       });
+                     }
                     },
                     evaluation: 0,
                   ),
