@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'ComplaintTypes.dart';
 
 ///----------------------------ContactWithUsHome----------------------------
 class ContactWithUsHome extends StatefulWidget {
@@ -26,16 +27,14 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
   ///formKey
   final _formKey = GlobalKey<FormState>();
 
-  ///Type of discount drop down list
-  final List _testList = [
-    {'no': 1, 'keyword': 'دعم فني'},
-    {'no': 2, 'keyword': 'إستفسار'},
-    {'no': 3, 'keyword': 'صيانة'},
-    {'no': 4, 'keyword': 'سوال'},
-    {'no': 5, 'keyword': 'إستفسار'}
-  ];
+  ///Model Value
+  Future<ComplaintTypes>? contactModel;
 
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
+
+  var complaintList = [];
+
+  String complaintText = 'اختر نوع الشكوى';
 
   ///_value
   var _selectedTest;
@@ -48,7 +47,8 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
 
   @override
   void initState() {
-    _dropdownTestItems = buildDropdownTestItems(_testList);
+    contactModel = getComplaintTypes();
+    _dropdownTestItems = buildDropdownTestItems(complaintList);
     super.initState();
   }
 
@@ -96,60 +96,161 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                             Container(
                               alignment: Alignment.topRight,
                               child: Padding(
-                                padding: EdgeInsets.only(top: 20.h, right: 20.w),
-                                child: text(context, "قم بملئ البيانات التالية", 20,
-                                    ligthtBlack,
+                                padding:
+                                    EdgeInsets.only(top: 20.h, right: 20.w),
+                                child: text(context, "قم بملئ البيانات التالية",
+                                    20, ligthtBlack,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
 
                             ///--------------------------Text Field Section--------------------------
                             ///Dropdown Below
-                            paddingg(
-                              15,
-                              15,
-                              12,
-                              DropdownBelow(
-                                itemWidth: 380.w,
+                            FutureBuilder(
+                                future: contactModel,
+                                builder: ((context,
+                                    AsyncSnapshot<ComplaintTypes> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return paddingg(
+                                      15,
+                                      15,
+                                      12,
+                                      DropdownBelow(
+                                        itemWidth: 380.w,
 
-                                ///text style inside the menu
-                                itemTextstyle: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: black,
-                                  fontFamily: 'Cairo',
-                                ),
+                                        ///text style inside the menu
+                                        itemTextstyle: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: black,
+                                          fontFamily: 'Cairo',
+                                        ),
 
-                                ///hint style
-                                boxTextstyle: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: grey,
-                                    fontFamily: 'Cairo'),
+                                        ///hint style
+                                        boxTextstyle: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: grey,
+                                            fontFamily: 'Cairo'),
 
-                                ///box style
-                                boxPadding:
-                                    EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
-                                boxWidth: 500.w,
-                                boxHeight: 46.h,
-                                boxDecoration: BoxDecoration(
-                                    color: textFieldBlack2.withOpacity(0.70),
-                                    borderRadius: BorderRadius.circular(8.r)),
+                                        ///box style
+                                        boxPadding: EdgeInsets.fromLTRB(
+                                            13.w, 12.h, 13.w, 12.h),
+                                        boxWidth: 500.w,
+                                        boxHeight: 46.h,
+                                        boxDecoration: BoxDecoration(
+                                            color: textFieldBlack2
+                                                .withOpacity(0.70),
+                                            borderRadius:
+                                                BorderRadius.circular(8.r)),
 
-                                ///Icons
-                                icon: const Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.white54,
-                                ),
-                                hint: const Text(
-                                  'اختر نوع الشكوى',
-                                  textDirection: TextDirection.rtl,
-                                ),
-                                value: _selectedTest,
-                                items: _dropdownTestItems,
-                                onChanged: onChangeDropdownTests,
-                              ),
-                            ),
+                                        ///Icons
+                                        icon: const Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.white54,
+                                        ),
+                                        hint: Text(
+                                          complaintText,
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        value: _selectedTest,
+                                        items: _dropdownTestItems,
+                                        onChanged: onChangeDropdownTests,
+                                      ),
+                                    );
+                                  } else if (snapshot.connectionState ==
+                                          ConnectionState.active ||
+                                      snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                    if (snapshot.hasError) {
+                                      return Center(
+                                          child:
+                                              Text(snapshot.error.toString()));
+                                    } else if (snapshot.hasData) {
+                                      _dropdownTestItems.isEmpty
+                                          ? {
+                                              complaintList.add({
+                                                'no': 0,
+                                                'keyword': 'اختر منصة الاعلان'
+                                              }),
+                                              for (int i = 0;
+                                                  i <
+                                                      snapshot
+                                                          .data!.data!.length;
+                                                  i++)
+                                                {
+                                                  complaintList.add({
+                                                    'no': snapshot
+                                                        .data!.data![i].id!,
+                                                    'keyword':
+                                                        '${snapshot.data!.data![i].name!}'
+                                                  }),
+                                                },
+                                              _dropdownTestItems =
+                                                  buildDropdownTestItems(
+                                                      complaintList),
+                                            }
+                                          : null;
+
+                                      return paddingg(
+                                        15,
+                                        15,
+                                        12,
+                                        DropdownBelow(
+                                          itemWidth: 380.w,
+
+                                          ///text style inside the menu
+                                          itemTextstyle: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: black,
+                                            fontFamily: 'Cairo',
+                                          ),
+
+                                          ///hint style
+                                          boxTextstyle: TextStyle(
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w400,
+                                              color: grey,
+                                              fontFamily: 'Cairo'),
+
+                                          ///box style
+                                          boxPadding: EdgeInsets.fromLTRB(
+                                              13.w, 12.h, 13.w, 12.h),
+                                          boxWidth: 500.w,
+                                          boxHeight: 46.h,
+                                          boxDecoration: BoxDecoration(
+                                              color: textFieldBlack2
+                                                  .withOpacity(0.70),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r)),
+
+                                          ///Icons
+                                          icon: const Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.white54,
+                                          ),
+                                          hint: Text(
+                                            complaintText,
+                                            textDirection: TextDirection.rtl,
+                                          ),
+                                          value: _selectedTest,
+                                          items: _dropdownTestItems,
+                                          onChanged: onChangeDropdownTests,
+                                        ),
+                                      );
+                                    } else {
+                                      return const Center(
+                                          child:
+                                              Text('لايوجد لينك لعرضهم حاليا'));
+                                    }
+                                  } else {
+                                    return Center(
+                                        child: Text(
+                                            'State: ${snapshot.connectionState}'));
+                                  }
+                                })),
 
                             ///Title
                             paddingg(
@@ -222,7 +323,8 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                     '$maxLength'
                                     '/'
                                     '$currentLength',
-                                    style: TextStyle(fontSize: 12.sp, color: grey),
+                                    style:
+                                        TextStyle(fontSize: 12.sp, color: grey),
                                   );
                                 },
                                 maxLenth: 500,
@@ -244,23 +346,29 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                             ///Save box
                             Container(
                               margin: EdgeInsets.only(
-                                  top: 20.h, right: 20.w, left: 20.w, bottom: 20.h),
+                                  top: 20.h,
+                                  right: 20.w,
+                                  left: 20.w,
+                                  bottom: 20.h),
                               child: gradientContainerNoborder(
                                   500.w,
                                   buttoms(context, 'إرسال', 15, white, () {
                                     _formKey.currentState!.validate()
                                         ? {
-                                            postContactWithUs().whenComplete(() => {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                    content: text(
-                                                        context,
-                                                        'تم الارسال بنجاح',
-                                                        12,
-                                                        black),
-                                                    backgroundColor: white,
-                                                  ))
-                                                })
+                                            postContactWithUs()
+                                                .whenComplete(() => {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              SnackBar(
+                                                        content: text(
+                                                            context,
+                                                            'تم الارسال بنجاح',
+                                                            12,
+                                                            black),
+                                                        backgroundColor: white,
+                                                      ))
+                                                    })
                                           }
                                         : null;
                                   })),
@@ -279,14 +387,29 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
     );
   }
 
+  ///Get Complaint Types
+  Future<ComplaintTypes> getComplaintTypes() async {
+    final response = await http.get(
+      Uri.parse('https://mobile.celebrityads.net/api/complaint-types'),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      ComplaintTypes g = ComplaintTypes.fromJson(jsonDecode(response.body));
+      return g;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
+
   ///POST
   Future<http.Response> postContactWithUs() async {
-    String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
-
+    String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     final response = await http.post(
-      Uri.parse(
-        'https://mobile.celebrityads.net/api/celebrity/promo-codes/add',
+      Uri.parse('https://mobile.celebrityads.net/api/technical-support',
       ),
       headers: {
         'Content-Type': 'application/json',
@@ -294,15 +417,18 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
         'Authorization': 'Bearer $token2'
       },
       body: jsonEncode(<String, dynamic>{
-        'code': supportTitle.text,
-        'discount': supportDescription.text,
+        'name': supportTitle.text,
+        'email': supportTitle.text,
+        'subject': supportTitle.text,
+        'details': supportDescription.text,
+        'complaint_type_id': _selectedTest == null ? complaintList.indexOf(0) : complaintList.indexOf(_selectedTest),
       }),
     );
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      // print(response.body);
+      print(response.body);
       return response;
     } else {
       // If the server did not return a 200 OK response,

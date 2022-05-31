@@ -5,6 +5,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/viewData.dart';
+import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -490,18 +491,27 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                         children: [
                                           snapshot.data!.data!.studio![i].type! ==
                                                   "image"
-                                              ? Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(4.r)),
-                                                      image: DecorationImage(
-                                                        image: NetworkImage(
-                                                          snapshot.data!.data!
-                                                              .studio![i].image!,
+                                              ? InkWell(
+                                                child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(4.r)),
+                                                        image: DecorationImage(
+                                                          image: NetworkImage(
+                                                            snapshot.data!.data!
+                                                                .studio![i].image!,
 
-                                                        ),
-                                                        fit: BoxFit.fill,
-                                                      )))
+                                                          ),
+                                                          fit: BoxFit.fill,
+                                                        ))),
+                                              onTap: (){
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder:
+                                                            (context) => ImageData(image: snapshot.data!.data!
+                                                                .studio![i].image!,)));
+                                              },)
                                               : Stack(
                                                   children: [
                                                     ///Video
