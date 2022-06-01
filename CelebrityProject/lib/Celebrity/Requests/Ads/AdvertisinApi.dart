@@ -35,15 +35,26 @@ Future<Advertising> getAdvertisingOrder(String token) async {
 //accept Advertising Order--------------------------------------------------------------------------------------
 Future<bool> acceptAdvertisingOrder(
     String token, int orderId, int price) async {
-  Map<String, dynamic> data = {"price": price};
+  Map<String, dynamic> data = {"price": '$price'};
   String url =
       "https://mobile.celebrityads.net/api/celebrity/order/accept/$orderId";
-  final respons = await http.post(Uri.parse(url), body: data);
+  final respons = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: data);
 
   if (respons.statusCode == 200) {
-    var state = jsonDecode(respons.body)["success"];
+    print(respons.body);
+    var success = jsonDecode(respons.body)["success"];
+    print('------------------------------------');
+    print(success);
+    print('------------------------------------');
 
-    if (state == true) {
+    if (success == true) {
       return true;
     } else {
       return false;

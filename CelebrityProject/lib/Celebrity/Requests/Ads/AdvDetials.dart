@@ -1,16 +1,14 @@
-
 import 'dart:convert';
-
 import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../Account/UserForm.dart';
+
 class AdvDetials extends StatefulWidget {
   final int? i;
   final String? description;
@@ -18,14 +16,20 @@ class AdvDetials extends StatefulWidget {
   final String? advTitle;
   final String? platform;
   final String? token;
+  final int? state;
   final int? orderId;
+  final int? price;
   const AdvDetials(
       {Key? key,
       this.i,
       this.description,
       this.image,
       this.advTitle,
-      this.platform, this.token, this.orderId})
+      this.platform,
+      this.token,
+      this.orderId,
+      this.state,
+      this.price})
       : super(key: key);
 
   @override
@@ -33,13 +37,19 @@ class AdvDetials extends StatefulWidget {
 }
 
 class _AdvDetialsState extends State<AdvDetials> {
-  TextEditingController  price=TextEditingController();
-  List<String>rejectResonsList=[];
+  bool isAccepted = false;
+  TextEditingController? price;
+  List<String> rejectResonsList = [];
+  GlobalKey<FormState> priceKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     getRejectReson();
+    print(widget.state);
+    price = widget.price! > 0
+        ? TextEditingController(text: '${widget.price}')
+        : TextEditingController();
   }
 
   @override
@@ -129,14 +139,14 @@ class _AdvDetialsState extends State<AdvDetials> {
         ),
 //description----------------------------------------------------------------------
         Expanded(
-          flex:2,
+          flex: 2,
           child: SingleChildScrollView(
             child: Container(
               width: double.infinity,
               //height:MediaQuery.of(context).size.height/6,
               //color: Colors.red,
-              margin:
-                  EdgeInsets.only(left: 13.w, right: 13.w, bottom: 8.h, top: 8.h),
+              margin: EdgeInsets.only(
+                  left: 13.w, right: 13.w, bottom: 8.h, top: 8.h),
               child: text(
                 context,
                 widget.description!,
@@ -149,23 +159,24 @@ class _AdvDetialsState extends State<AdvDetials> {
           ),
         ),
 //price field-----------------------------------------------------
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: textField2(
-                context,
-                money,
-                "أدخل سعر الاعلان",
-                10,
-                false,
-                emailCeleController,
-                empty,
-                keyboardType: TextInputType.phone,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-              ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: priceKey,
+            child: textField2(
+              context,
+              money,
+              widget.price! > 0 ? "سعر الاعلان" : 'أدخل سعر الاعلان',
+              14,
+              false,
+              price!,
+              empty,
+              keyboardType: TextInputType.phone,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              isEdit: widget.price! > 0 ? true : false,
             ),
-
+          ),
+        ),
 
 //accept buttom-----------------------------------------------------
 
@@ -181,19 +192,37 @@ class _AdvDetialsState extends State<AdvDetials> {
                   double.infinity,
                   buttoms(
                     context,
-                    "قبول",
+                    widget.state == 4
+                        ? "لقد قبلت الطلب"
+                        : widget.state == 3
+                            ? '----'
+                            : "قبول",
                     15,
                     white,
-                    () {
-                      Future<bool>result=acceptAdvertisingOrder(widget.token!, widget.orderId!,int.parse(price.text));
-                      result.then((value) {
-                        if(value==true){
-                          print('تتتتتتتتتتتتتم قبول الطلب');
-                        }else{
-                          print('تتتتتتتتتتتتتم قبول الطلب مسسسسسسسسسسسسبقا');
-                        }
-                      });
-                    },
+                    widget.state == 4 || widget.state == 3
+                        ? null
+                        : () {
+                            if (priceKey.currentState?.validate() == true) {
+                              loadingDialogue(context);
+                              Future<bool> result = acceptAdvertisingOrder(
+                                  widget.token!,
+                                  widget.orderId!,
+                                  int.parse(price!.text));
+                              result.then((value) {
+                                if (value == true) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      snackBar(context, 'تم قبول الطلب', green,
+                                          done));
+                                } else {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      snackBar(context, 'تم قبول الطلب مسبقا',
+                                          red, error));
+                                }
+                              });
+                            }
+                          },
                     evaluation: 0,
                   ),
                   height: 50,
@@ -212,12 +241,18 @@ class _AdvDetialsState extends State<AdvDetials> {
                   double.infinity,
                   buttoms(
                     context,
-                    "رفض ",
+                    widget.state == 3
+                        ? "لقد رفضت الطلب "
+                        : widget.state == 4
+                            ? '----'
+                            : 'رفض',
                     15,
-                    black,
-                    () {
-                     ;
-                    },
+                    widget.state == 3 || widget.state == 4 ? deepgrey! : black,
+                    widget.state == 4 || widget.state == 3
+                        ? null
+                        : () {
+                            showBottomSheetModel(context);
+                          },
                     //evaluation: 1,
                   ),
                   height: 50,
@@ -229,16 +264,22 @@ class _AdvDetialsState extends State<AdvDetials> {
                 width: 10.w,
               ),
 //---------------------------------------------------------
-              const Expanded(
-                  flex: 1,
-                  //child:
-                  //  gradientContainer(
-                  //   double.infinity,
-                  //   InkWell(
-                  //       onTap: () {
-                  //         print("go to chat home");
-                  //       },
-                  child: Icon(Icons.forum_outlined, color: pink)),
+              Expanded(
+                child: Row(
+                  children: const [
+                    Expanded(
+                        flex: 1,
+                        //child:
+                        //  gradientContainer(
+                        //   double.infinity,
+                        //   InkWell(
+                        //       onTap: () {
+                        //         print("go to chat home");
+                        //       },
+                        child: Icon(Icons.forum_outlined, color: pink))
+                  ],
+                ),
+              ),
               //height: 50,
               //gradient: true,
               //),
@@ -248,21 +289,84 @@ class _AdvDetialsState extends State<AdvDetials> {
     );
   }
 
-   void getRejectReson()async {
-     String url = "https://mobile.celebrityads.net/api/reject-resons";
-     final response = await http.get(Uri.parse(url));
+  void getRejectReson() async {
+    String url = "https://mobile.celebrityads.net/api/reject-resons";
+    final response = await http.get(Uri.parse(url));
 
-     if (response.statusCode == 200) {
-       final body = jsonDecode(response.body);
-       for (int i = 0; i < body['data'].length; i++) {
-         rejectResonsList.add(body['data'][i]['name']);
-       }
-       print(rejectResonsList);
-     } else {
-       throw Exception('Failed to load celebrity catogary');
-     }
-   }
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      for (int i = 0; i < body['data'].length; i++) {
+        rejectResonsList.add(body['data'][i]['name']);
+      }
+      print(rejectResonsList);
+    } else {
+      throw Exception('Failed to load celebrity catogary');
+    }
+  }
 
-
+  showBottomSheetModel(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        elevation: 10,
+        backgroundColor: white,
+        //isDismissible: false,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30.r), topLeft: Radius.circular(30.r)),
+          //side: BorderSide(color: Colors.white, width: 1),
+        ),
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 15.h,
+              ),
+              Center(
+                child: text(
+                  context,
+                  'إختر سبب الرفض',
+                  18,
+                  black,
+                  //fontWeight: FontWeight.bold,
+                  align: TextAlign.justify,
+                ),
+              ),
+              SizedBox(
+                height: 15.h,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2.5,
+                child: ListView.builder(
+                    itemCount: rejectResonsList.length,
+                    itemBuilder: (context, i) {
+                      return Padding(
+                        padding:  EdgeInsets.all(5.0.r),
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0.r)),
+                          tileColor: deepPink,
+                          title: Center(
+                            child: text(
+                              context,
+                              rejectResonsList[i],
+                              15,
+                              white,
+                              fontWeight: FontWeight.bold,
+                              align: TextAlign.justify,
+                            ),
+                          ),
+                          onTap:(){
+                            print('obbbbb');
+                          },
+                        ),
+                      );
+                    }),
+              ),
+            ],
+          );
+        });
+  }
 }
 //
