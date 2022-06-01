@@ -81,14 +81,21 @@ class _gifttingFormState extends State<gifttingForm>{
                     Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          Container(height: 365.h,
+                          Container(height: 335.h,
                               width: 1000.w,
-                              child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
-                           Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: Text('اطلب اهداء\n' + 'شخصي من ' + widget.name! + ' الان',
-                              style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                              child: Image.network(widget.image!, color: Colors.black45, colorBlendMode:BlendMode.darken,fit: BoxFit.cover,)),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Text(' اطلب اهداء\n' + 'شخصي من  ' + widget.name! + ' الان',
+                                  style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                           ),
+
+
+                              ],
+                           ),
                         ]),
                     Container(
                       child: Form(
@@ -96,7 +103,7 @@ class _gifttingFormState extends State<gifttingForm>{
                         child: paddingg(12, 12, 5, Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              SizedBox(height: 20.h,),
+                              SizedBox(height: 10.h,),
                               padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' قم بملئ   البيانات التالية',18,textBlack,fontWeight: FontWeight.normal,
                                 family: 'Cairo', )),),
 
@@ -105,6 +112,19 @@ class _gifttingFormState extends State<gifttingForm>{
 
                               const SizedBox(height: 30,),
 
+                              Container(margin: EdgeInsets.only(left: 10.w, right: 10.w),height: 55.h,decoration: BoxDecoration(color: purple, borderRadius: BorderRadius.circular(8)),
+                              child:   Padding(
+                                padding: EdgeInsets.all(10),
+                                child:Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8.0),
+                                      child: Text('سعر الاهداء', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                                    ),
+                                    Text('250 ر.س  ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                                  ],
+                                ),),),
                               FutureBuilder(
                                   future: otypes,
                                   builder: ((context, AsyncSnapshot<OccasionType> snapshot) {

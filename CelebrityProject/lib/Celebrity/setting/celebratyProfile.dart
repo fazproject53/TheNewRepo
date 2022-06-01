@@ -131,12 +131,12 @@ class _celebratyProfileState extends State<celebratyProfile> {
                               8,
                               Container(
                                 height: 90.h,
-                                width: 100.w,
+                                width: 110.w,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(70.r),
                                           child: Image.network(
-                                            Logging.theUser!.image!, fit: BoxFit.fill,
+                                            snapshot.data!.data!.celebrity!.image!, fit: BoxFit.fill,
                                             height: double.infinity, width: double.infinity,
                                             loadingBuilder : (context, child, loadingProgress) {
                                             if (loadingProgress == null) return child;
@@ -165,11 +165,11 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                   });
                             },
                           ),
-                          SizedBox(height: 5.h,),
+
                           padding(
                             8,
                             8,
-                            text(context, Logging.theUser!.name!,
+                            text(context, snapshot.data!.data!.celebrity!.name!,
                                 20, black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
@@ -207,7 +207,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                           child: paddingg(
                             8,
                             0,
-                            8,
+                            20,
                             ListView.separated(
                               primary: false,
                               shrinkWrap: true,

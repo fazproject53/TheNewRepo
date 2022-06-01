@@ -211,7 +211,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                 },
                 currentStep: current,
                 onStepTapped: (value) => setState(() {
-                  current = value;
+                  selectedIndex.isNotEmpty || current == 0?
+                  current = value : current;
                 }),
                 controlsBuilder: (context, controls) {
                   return Row(
@@ -321,7 +322,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   Future<Filter> fetchCelebrity(int country, int category, int budget,int status, int gender ) async {
     final response = await http.get(Uri.parse(
-        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=$category&account_status_id=$status&gender_id=$gender&budget_id=$budget'));
+        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=$category&account_status_id=&gender_id=&budget_id=$budget'));
     if (response.statusCode == 200) {
       final body = response.body;
      Filter filter =Filter.fromJson(jsonDecode(body));
@@ -944,129 +945,79 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   stepThree() {
     print(celebrityId.toString()+ '---------------------------------------------------------------------------------------------------------------------------------------');
-    return SingleChildScrollView(
-      child: Column(
-          children: [
-        Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Container(
-                height: 250.h,
-                width: double.infinity,
-                child: Image.asset(
-                  'assets/image/featured.png',
-                  color: Colors.white.withOpacity(0.60),
-                  colorBlendMode: BlendMode.modulate,
-                  fit: BoxFit.fill,
-                )),
-            Container(
-              margin: EdgeInsets.only(bottom: 10.h, right: 10.h),
-              child: const Text(
-                'اطلب اعلان \n شخصي من ليجسي ميوزك الان',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: white,
-                    fontFamily: 'DINNextLTArabic-Regular-2'),
-              ),
-            )
-          ],
-        ),
-        Container(
-          child: Form(
-            key: _formKey3,
-            child: paddingg(
-              10,
-              10,
-              5,
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                SizedBox(
-                  height: 20.h,
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+            children: [
+          Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                  height: 250.h,
+                  width: double.infinity,
+                  child: Image.asset(
+                    'assets/image/featured.png',
+                    color: Colors.white.withOpacity(0.60),
+                    colorBlendMode: BlendMode.modulate,
+                    fit: BoxFit.fill,
+                  )),
+              Container(
+                margin: EdgeInsets.only(bottom: 10.h, right: 10.h),
+                child: const Text(
+                  'اطلب اعلان \n شخصي من ليجسي ميوزك الان',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: white,
+                      fontFamily: 'DINNextLTArabic-Regular-2'),
                 ),
-                padding(
-                  10,
-                  12,
-                  Container(
-                      alignment: Alignment.topRight,
-                      child: text(
-                        context,
-                        ' قم بملئ   \n البيانات التالية',
-                        18,
-                        textBlack,
-                        fontWeight: FontWeight.bold,
-                        family: 'DINNextLTArabic-Regular-2',
-                      )),
-                ),
+              )
+            ],
+          ),
+          Container(
+            child: Form(
+              key: _formKey3,
+              child: paddingg(
+                10,
+                10,
+                5,
+                Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  padding(
+                    10,
+                    12,
+                    Container(
+                        alignment: Alignment.topRight,
+                        child: text(
+                          context,
+                          ' قم بملئ   \n البيانات التالية',
+                          18,
+                          textBlack,
+                          fontWeight: FontWeight.bold,
+                          family: 'DINNextLTArabic-Regular-2',
+                        )),
+                  ),
 
-                //========================== form ===============================================
+                  //========================== form ===============================================
 
-                SizedBox(
-                  height: 10,
-                ),
+                  SizedBox(
+                    height: 10,
+                  ),
 
-                FutureBuilder(
-                    future: platforms,
-                    builder: ((context, AsyncSnapshot<Platform> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return  paddingg(15, 15, 12,
-                          DropdownBelow(
-                            itemWidth: 330.w,
-                            ///text style inside the menu
-                            itemTextstyle: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              color: black,
-                              fontFamily: 'Cairo',),
-                            ///hint style
-                            boxTextstyle: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                color: grey,
-                                fontFamily: 'Cairo'),
-                            ///box style
-                            boxPadding:
-                            EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
-                            boxWidth: 500.w,
-                            boxHeight: 45.h,
-                            boxDecoration: BoxDecoration(
-                                color: textFieldBlack2.withOpacity(0.70),
-                                borderRadius: BorderRadius.circular(8.r)),
-                            ///Icons
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                              color: Colors.white54,
-                            ),
-                            hint:  Text(
-                              platform,
-                              textDirection: TextDirection.rtl,
-                            ),
-                            value: _selectedTest4,
-                            items: _dropdownTestItems4,
-                            onChanged: onChangeDropdownTests4,
-                          ),
-                        );
-                      } else if (snapshot.connectionState == ConnectionState.active ||
-                          snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text(snapshot.error.toString()));
-                          //---------------------------------------------------------------------------
-                        } else if (snapshot.hasData) {
-                          _dropdownTestItems4.isEmpty?{
-                            platformlist.add({'no': 0, 'keyword': 'اختر منصة الاعلان'}),
-                            for(int i =0; i< snapshot.data!.data!.length; i++) {
-                              platformlist.add({'no': snapshot.data!.data![i].id!, 'keyword': '${snapshot.data!.data![i].name!}'}),
-                            },
-                            _dropdownTestItems4 = buildDropdownTestItems(platformlist),
-                          } : null;
-
-                          return paddingg(10, 10, 12,
+                  FutureBuilder(
+                      future: platforms,
+                      builder: ((context, AsyncSnapshot<Platform> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return  paddingg(15, 15, 12,
                             DropdownBelow(
                               itemWidth: 330.w,
                               ///text style inside the menu
                               itemTextstyle: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: white,
+                                color: black,
                                 fontFamily: 'Cairo',),
                               ///hint style
                               boxTextstyle: TextStyle(
@@ -1075,7 +1026,6 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                                   color: grey,
                                   fontFamily: 'Cairo'),
                               ///box style
-                              dropdownColor: newGrey,
                               boxPadding:
                               EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                               boxWidth: 500.w,
@@ -1097,397 +1047,450 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                               onChanged: onChangeDropdownTests4,
                             ),
                           );
+                        } else if (snapshot.connectionState == ConnectionState.active ||
+                            snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasError) {
+                            return Center(child: Text(snapshot.error.toString()));
+                            //---------------------------------------------------------------------------
+                          } else if (snapshot.hasData) {
+                            _dropdownTestItems4.isEmpty?{
+                              platformlist.add({'no': 0, 'keyword': 'اختر منصة الاعلان'}),
+                              for(int i =0; i< snapshot.data!.data!.length; i++) {
+                                platformlist.add({'no': snapshot.data!.data![i].id!, 'keyword': '${snapshot.data!.data![i].name!}'}),
+                              },
+                              _dropdownTestItems4 = buildDropdownTestItems(platformlist),
+                            } : null;
+
+                            return paddingg(10, 10, 12,
+                              DropdownBelow(
+                                itemWidth: 330.w,
+                                ///text style inside the menu
+                                itemTextstyle: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: white,
+                                  fontFamily: 'Cairo',),
+                                ///hint style
+                                boxTextstyle: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: grey,
+                                    fontFamily: 'Cairo'),
+                                ///box style
+                                dropdownColor: newGrey,
+                                boxPadding:
+                                EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                                boxWidth: 500.w,
+                                boxHeight: 45.h,
+                                boxDecoration: BoxDecoration(
+                                    color: textFieldBlack2.withOpacity(0.70),
+                                    borderRadius: BorderRadius.circular(8.r)),
+                                ///Icons
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.white54,
+                                ),
+                                hint:  Text(
+                                  platform,
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                value: _selectedTest4,
+                                items: _dropdownTestItems4,
+                                onChanged: onChangeDropdownTests4,
+                              ),
+                            );
+                          } else {
+                            return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                          }
                         } else {
-                          return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                          return Center(
+                              child: Text('State: ${snapshot.connectionState}'));
                         }
-                      } else {
-                        return Center(
-                            child: Text('State: ${snapshot.connectionState}'));
-                      }
-                    })),
-                paddingg(
-                  10.w,
-                  10.w,
-                  12.h,
-                  textFieldNoIcon(
-                      context, 'موضوع الاعلان', 12.sp, false, subject,
-                      (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  }, false),
-                ),
-                paddingg(
-                  10.w,
-                  10.w,
-                  12.h,
-                  textFieldDesc(
-                    context,
-                    'وصف الاعلان',
-                    12.sp,
-                    true,
-                    desc,
-                    (String? value) {
+                      })),
+                  paddingg(
+                    10.w,
+                    10.w,
+                    12.h,
+                    textFieldNoIcon(
+                        context, 'موضوع الاعلان', 12.sp, false, subject,
+                        (String? value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
                       }
                       return null;
-                    },
+                    }, false),
                   ),
-                ),
-                paddingg(
-                  10.w,
-                  10.w,
-                  12.h,
-                  textFieldNoIcon(
-                      context, 'رابط صفحة الاعلان', 12.sp, false, pageLink,
+                  paddingg(
+                    10.w,
+                    10.w,
+                    12.h,
+                    textFieldDesc(
+                      context,
+                      'وصف الاعلان',
+                      12.sp,
+                      true,
+                      desc,
                       (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  }, false),
-                ),
-
-                paddingg(
-                  10.w,
-                  10.w,
-                  12.h,
-                  textFieldNoIcon(
-                      context, 'ادخل كود الخصم', 12.sp, false, couponcode,
-                      (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  }, false),
-                ),
-
-                SizedBox(
-                  height: 20,
-                ),
-
-                padding(
-                    8,
-                    20,
-                    text(context, 'مالك الاعلان', 14, black,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  margin: EdgeInsets.only(top: 3.h, right: 2.w),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 1,
-                                groupValue: _value,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value = value;
-                                    isValue1 = false;
-                                  });
-                                }),
-                          ),
-                          text(context, "فرد", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 2,
-                                groupValue: _value,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value = value;
-                                    isValue1 = true;
-                                  });
-                                }),
-                          ),
-                          text(context, "مؤسسة", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 3,
-                                groupValue: _value,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value = value;
-                                    isValue1 = true;
-                                  });
-                                }),
-                          ),
-                          text(context, "شركة", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                    ],
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                ),
-
-                padding(
-                    8,
-                    20,
-                    text(context, 'صفة الاعلان', 14, black,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  margin: EdgeInsets.only(top: 3.h, right: 2.w),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 1,
-                                groupValue: _value2,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value2 = value;
-                                    isValue1 = false;
-                                  });
-                                }),
-                          ),
-                          text(context, "يلزم الحضور", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 2,
-                                groupValue: _value2,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value2 = value;
-                                    isValue1 = true;
-                                  });
-                                }),
-                          ),
-                          text(context, "لا يلزم الحضور", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                    ],
+                  paddingg(
+                    10.w,
+                    10.w,
+                    12.h,
+                    textFieldNoIcon(
+                        context, 'رابط صفحة الاعلان', 12.sp, false, pageLink,
+                        (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    }, false),
                   ),
-                ),
 
-                padding(
-                    8,
-                    20,
-                    text(context, 'نوع الاعلان', 14, black,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  margin: EdgeInsets.only(top: 3.h, right: 2.w),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 1,
-                                groupValue: _value3,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value3 = value;
-                                    isValue1 = false;
-                                  });
-                                }),
-                          ),
-                          text(context, "خدمة", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 2,
-                                groupValue: _value3,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value3 = value;
-                                    isValue1 = true;
-                                  });
-                                }),
-                          ),
-                          text(context, "منتج", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                    ],
+                  paddingg(
+                    10.w,
+                    10.w,
+                    12.h,
+                    textFieldNoIcon(
+                        context, 'ادخل كود الخصم', 12.sp, false, couponcode,
+                        (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    }, false),
                   ),
-                ),
 
-                padding(
-                    8,
-                    20,
-                    text(context, 'توقيت الاعلان', 14, black,
-                        fontWeight: FontWeight.bold)),
-                Container(
-                  margin: EdgeInsets.only(top: 3.h, right: 2.w),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 1,
-                                groupValue: _value4,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value4 = value;
-                                    isValue1 = false;
-                                  });
-                                }),
-                          ),
-                          text(context, "صباحا", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8,
-                            child: Radio<int>(
-                                value: 2,
-                                groupValue: _value4,
-                                activeColor: blue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value4 = value;
-                                    isValue1 = true;
-                                  });
-                                }),
-                          ),
-                          text(context, "مساءا", 14, ligthtBlack,
-                              family: 'DINNextLTArabic'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(),
-
-                paddingg(
-                  15,
-                  15,
-                  15,
-                  uploadImg(
-                      50, 45, text(context, 'فم ارفاق ملف الاعلان', 12, black),
-                      () {
-                    getFile(context);
-                  }),
-                ),
-
-                paddingg(
-                  15,
-                  15,
-                  15,
                   SizedBox(
-                      height: 45.h,
-                      child: InkWell(
-                        child: gradientContainerNoborder(
-                            97,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  scheduale,
-                                  color: white,
-                                ),
-                                SizedBox(
-                                  width: 15.w,
-                                ),
-                                text(context, 'تاريخ الاعلان', 15.sp, white,
-                                    fontWeight: FontWeight.bold),
-                              ],
-                            )),
-                        onTap: () async {
-                          DateTime? endDate =
-                              await showDatePicker(
-                                context: this.context,
-                              builder: (context, child) {
-                                return Theme(
-                                    data: ThemeData.light().copyWith(
-                                        colorScheme:
-                                        const ColorScheme.light(primary: purple, onPrimary: white)),
-                                    child: child!);}
-                              initialDate:
-                              date,
-                              firstDate:
-                              DateTime(2000),
-                              lastDate: DateTime(2100));
-
-                          if (endDate == null)
-                            return;
-                          setState(() {
-                            date= endDate;
-                          });
-                        },
-                      )),
-                ),
-
-                paddingg(
-                  0,
-                  0,
-                  12,
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: RichText(
-                        text: const TextSpan(children: [
-                      TextSpan(
-                          text:
-                              ' عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ',
-                          style: TextStyle(
-                              color: black, fontFamily: 'Cairo', fontSize: 12)),
-                      TextSpan(
-                          text: 'الشروط والاحكام',
-                          style: TextStyle(
-                              color: blue, fontFamily: 'Cairo', fontSize: 12))
-                    ])),
-                    value: checkit2,
-                    selectedTileColor: black,
-                    onChanged: (value) {
-                      setState(() {
-                        setState(() {
-                          checkit2 = value!;
-                        });
-                      });
-                    },
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-              ]),
+
+                  padding(
+                      8,
+                      20,
+                      text(context, 'مالك الاعلان', 14, black,
+                          fontWeight: FontWeight.bold)),
+                  Container(
+                    margin: EdgeInsets.only(top: 3.h, right: 2.w),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 1,
+                                  groupValue: _value,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value = value;
+                                      isValue1 = false;
+                                    });
+                                  }),
+                            ),
+                            text(context, "فرد", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 2,
+                                  groupValue: _value,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value = value;
+                                      isValue1 = true;
+                                    });
+                                  }),
+                            ),
+                            text(context, "مؤسسة", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 3,
+                                  groupValue: _value,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value = value;
+                                      isValue1 = true;
+                                    });
+                                  }),
+                            ),
+                            text(context, "شركة", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  padding(
+                      8,
+                      20,
+                      text(context, 'صفة الاعلان', 14, black,
+                          fontWeight: FontWeight.bold)),
+                  Container(
+                    margin: EdgeInsets.only(top: 3.h, right: 2.w),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 1,
+                                  groupValue: _value2,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value2 = value;
+                                      isValue1 = false;
+                                    });
+                                  }),
+                            ),
+                            text(context, "يلزم الحضور", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 2,
+                                  groupValue: _value2,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value2 = value;
+                                      isValue1 = true;
+                                    });
+                                  }),
+                            ),
+                            text(context, "لا يلزم الحضور", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  padding(
+                      8,
+                      20,
+                      text(context, 'نوع الاعلان', 14, black,
+                          fontWeight: FontWeight.bold)),
+                  Container(
+                    margin: EdgeInsets.only(top: 3.h, right: 2.w),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 1,
+                                  groupValue: _value3,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value3 = value;
+                                      isValue1 = false;
+                                    });
+                                  }),
+                            ),
+                            text(context, "خدمة", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 2,
+                                  groupValue: _value3,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value3 = value;
+                                      isValue1 = true;
+                                    });
+                                  }),
+                            ),
+                            text(context, "منتج", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  padding(
+                      8,
+                      20,
+                      text(context, 'توقيت الاعلان', 14, black,
+                          fontWeight: FontWeight.bold)),
+                  Container(
+                    margin: EdgeInsets.only(top: 3.h, right: 2.w),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 1,
+                                  groupValue: _value4,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value4 = value;
+                                      isValue1 = false;
+                                    });
+                                  }),
+                            ),
+                            text(context, "صباحا", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8,
+                              child: Radio<int>(
+                                  value: 2,
+                                  groupValue: _value4,
+                                  activeColor: blue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _value4 = value;
+                                      isValue1 = true;
+                                    });
+                                  }),
+                            ),
+                            text(context, "مساءا", 14, ligthtBlack,
+                                family: 'DINNextLTArabic'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(),
+
+                  paddingg(
+                    15,
+                    15,
+                    15,
+                    uploadImg(
+                        50, 45, text(context, 'فم ارفاق ملف الاعلان', 12, black),
+                        () {
+                      getFile(context);
+                    }),
+                  ),
+
+                  paddingg(
+                    15,
+                    15,
+                    15,
+                    SizedBox(
+                        height: 45.h,
+                        child: InkWell(
+                          child: gradientContainerNoborder(
+                              97,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    scheduale,
+                                    color: white,
+                                  ),
+                                  SizedBox(
+                                    width: 15.w,
+                                  ),
+                                  text(context, 'تاريخ الاعلان', 15.sp, white,
+                                      fontWeight: FontWeight.bold),
+                                ],
+                              )),
+                          onTap: () async {
+                            DateTime? endDate =
+                                await showDatePicker(
+                                  context: this.context,
+                                builder: (context, child) {
+                                  return Theme(
+                                      data: ThemeData.light().copyWith(
+                                          colorScheme:
+                                          const ColorScheme.light(primary: purple, onPrimary: white)),
+                                      child: child!);}
+                                initialDate:
+                                date,
+                                firstDate:
+                                DateTime(2000),
+                                lastDate: DateTime(2100));
+
+                            if (endDate == null)
+                              return;
+                            setState(() {
+                              date= endDate;
+                            });
+                          },
+                        )),
+                  ),
+
+                  paddingg(
+                    0,
+                    0,
+                    12,
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: RichText(
+                          text: const TextSpan(children: [
+                        TextSpan(
+                            text:
+                                ' عند الطلب ، فإنك توافق على شروط الإستخدام و سياسة الخصوصية الخاصة بـ',
+                            style: TextStyle(
+                                color: black, fontFamily: 'Cairo', fontSize: 12)),
+                        TextSpan(
+                            text: 'الشروط والاحكام',
+                            style: TextStyle(
+                                color: blue, fontFamily: 'Cairo', fontSize: 12))
+                      ])),
+                      value: checkit2,
+                      selectedTileColor: black,
+                      onChanged: (value) {
+                        setState(() {
+                          setState(() {
+                            checkit2 = value!;
+                          });
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                ]),
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 

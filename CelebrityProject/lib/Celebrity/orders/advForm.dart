@@ -113,7 +113,7 @@ class _advFormState extends State<advForm>{
                     alignment: Alignment.bottomRight,
                     children: [ Container(height: 365.h,
                         width: 1000.w,
-                        child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
+                        child: Image.network(widget.image!, color: Colors.black45, colorBlendMode:BlendMode.darken,fit: BoxFit.cover,)),
                       Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(  'اطلب اعلان\n' + 'شخصي من ' + widget.name! + ' الان',
