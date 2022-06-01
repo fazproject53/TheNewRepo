@@ -85,7 +85,7 @@ Widget gradientContainer(double width, Widget child,
     height: height.h,
     child: child,
     decoration: BoxDecoration(
-      border: Border.all(color: color, width: 1.5.w),
+      border: Border.all(color: color, width: 0.92.r),
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(bottomLeft.r),
           topRight: Radius.circular(topRight.r),
@@ -102,6 +102,7 @@ Widget gradientContainer(double width, Widget child,
     ),
   );
 }
+
 
 Widget gradientContainerNoborder(double width, Widget child,
     {height = 40.0, double reids = 8.0}) {
@@ -284,14 +285,14 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
 Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    bool isEdit = false,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
+    readOnly: isEdit,
     validator: myvali,
     autovalidateMode: AutovalidateMode.onUserInteraction,
-    onTap: onTap,
     autofocus: false,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
@@ -302,10 +303,13 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle:
-        TextStyle(color: pink, fontSize: (textScaling + fontSize).sp),
+            TextStyle(color: pink, fontSize: (textScaling + fontSize).sp),
         fillColor: white,
         labelStyle: TextStyle(color: deepgrey, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: deepgrey!, width: 1.r),
+            borderRadius: BorderRadius.circular(10.r)),
         prefixIcon: Icon(icons, color: pink, size: 25.sp),
         labelText: key,
         errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
@@ -337,10 +341,8 @@ Widget singWthisButtom(
 }
 
 Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
-    TextEditingController mycontroller, myvali, isOptional, {
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType
-}) {
+    TextEditingController mycontroller, myvali, isOptional,
+    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -370,8 +372,10 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
 ///Text Field small
 Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
-    {Widget? suffixIcon, void Function()? onTap, List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType})
+    {Widget? suffixIcon,
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType})
 
 ///The icons will be optional
 
@@ -385,7 +389,8 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style:TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -400,28 +405,27 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
           alignLabelWithHint: true,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: key,
-          errorStyle: TextStyle(color: red!, fontSize: 10.sp, fontFamily: 'Cairo',),
+          errorStyle: TextStyle(
+            color: red!,
+            fontSize: 10.sp,
+            fontFamily: 'Cairo',
+          ),
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );
 }
 
 //======================== for description multiline ====================
-Widget textFieldDesc(
-  context,
-  String key,
-  double fontSize,
-  bool hintPass,
-  TextEditingController mycontroller,
-  myvali,{InputCounterWidgetBuilder? counter,
-    int? maxLenth, List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}
-) {
-
+Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali,
+    {InputCounterWidgetBuilder? counter,
+    int? maxLenth,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return SizedBox(
     height: 200.h,
     child: TextFormField(
-      buildCounter :counter ,
+      buildCounter: counter,
       controller: mycontroller,
       keyboardType: TextInputType.multiline,
       validator: myvali,
@@ -429,7 +433,7 @@ Widget textFieldDesc(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       maxLines: null,
       minLines: 10,
-      maxLength: maxLenth ,
+      maxLength: maxLenth,
       textAlignVertical: TextAlignVertical.top,
       style:
           TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
@@ -448,7 +452,6 @@ Widget textFieldDesc(
           focusedBorder:
               OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
           hintText: key,
-
           contentPadding: EdgeInsets.all(10.h)),
     ),
   );
@@ -597,9 +600,7 @@ Widget buildCkechboxList22(list) {
         padding: const EdgeInsets.all(2.0),
         child: Row(
           children: [
-            Checkbox(value: false, onChanged: (value) {
-
-            }),
+            Checkbox(value: false, onChanged: (value) {}),
             Text(list[i])
           ],
         ),
@@ -618,9 +619,7 @@ Widget buildCkechboxList2(list) {
     cb = Expanded(
       child: Row(
         children: [
-          Checkbox(value: false, onChanged: (value) {
-
-          }),
+          Checkbox(value: false, onChanged: (value) {}),
           Text(list[i])
         ],
       ),
@@ -662,17 +661,9 @@ LinearGradient gradient() {
 }
 
 ///on change text filed
-Widget textFieldDescOnChange(
-  context,
-  String key,
-  double fontSize,
-  bool hintPass,
-  TextEditingController mycontroller,
-  myvali,
-  {InputCounterWidgetBuilder? counter,
-    int? maxLenth
-  }
-) {
+Widget textFieldDescOnChange(context, String key, double fontSize,
+    bool hintPass, TextEditingController mycontroller, myvali,
+    {InputCounterWidgetBuilder? counter, int? maxLenth}) {
   var expand = false;
   return SizedBox(
     height: 150.h,
@@ -683,7 +674,7 @@ Widget textFieldDescOnChange(
       validator: myvali,
       maxLines: null,
       minLines: 10,
-      maxLength: maxLenth ,
+      maxLength: maxLenth,
       textAlignVertical: TextAlignVertical.top,
       style:
           TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
@@ -895,8 +886,6 @@ Widget drowMenu(
       onChanged: onChanged);
 }
 
-
-
 loadingDialogue(context) {
   return showDialog(
       context: context,
@@ -920,7 +909,7 @@ loadingDialogue(context) {
       });
 }
 
-SnackBar snackBar(context,String title, Color? color,IconData? icon) {
+SnackBar snackBar(context, String title, Color? color, IconData? icon) {
   return SnackBar(
       backgroundColor: color ?? white,
       //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0.r)),
@@ -929,10 +918,15 @@ SnackBar snackBar(context,String title, Color? color,IconData? icon) {
 
       content: Row(
         children: [
-          Icon(icon,color: white,size: 20.sp,),
-          SizedBox(width: 5.w,),
-          text(context, title, 13,white)
+          Icon(
+            icon,
+            color: white,
+            size: 20.sp,
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
+          text(context, title, 13, white)
         ],
       ));
 }
-

@@ -135,21 +135,21 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(70.r),
-                                          child: Image.network(
-                                            Logging.theUser!.image!, fit: BoxFit.fill,
-                                            height: double.infinity, width: double.infinity,
-                                            loadingBuilder : (context, child, loadingProgress) {
-                                            if (loadingProgress == null) return child;
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                backgroundColor: grey,
-                                                value: loadingProgress.expectedTotalBytes != null
-                                                    ? loadingProgress.cumulativeBytesLoaded /
-                                                    loadingProgress.expectedTotalBytes!
-                                                    : null,
-                                              ),
-                                            );
-                                                  },),
+                                        //   child: Image.network(
+                                        //     Logging.theUser!.image!, fit: BoxFit.fill,
+                                        //     height: double.infinity, width: double.infinity,
+                                        //     loadingBuilder : (context, child, loadingProgress) {
+                                        //     if (loadingProgress == null) return child;
+                                        //     return Center(
+                                        //       child: CircularProgressIndicator(
+                                        //         backgroundColor: grey,
+                                        //         value: loadingProgress.expectedTotalBytes != null
+                                        //             ? loadingProgress.cumulativeBytesLoaded /
+                                        //             loadingProgress.expectedTotalBytes!
+                                        //             : null,
+                                        //       ),
+                                        //     );
+                                        //           },),
                                         ),
                                       ),
                             ),
@@ -169,7 +169,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                           padding(
                             8,
                             8,
-                            text(context, Logging.theUser!.name!,
+                            text(context, 'Logging.theUser!.name!',
                                 20, black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
