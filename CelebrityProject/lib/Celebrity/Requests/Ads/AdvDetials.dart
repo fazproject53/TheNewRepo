@@ -221,7 +221,7 @@ class _AdvDetialsState extends State<AdvDetials>
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        isEdit: widget.price! > 0 ? true : false,
+                        isEdit: widget.price! > 0 ? false : true,
                       ),
                     ),
                   )),
@@ -244,10 +244,10 @@ class _AdvDetialsState extends State<AdvDetials>
                         widget.state == 4
                             ? "لقد قبلت الطلب"
                             : widget.state == 3
-                                ? '----'
+                                ? 'قبول'
                                 : "قبول",
                         15,
-                        white,
+                        widget.state == 4 || widget.state == 3?deepBlack:white,
                         widget.state == 4 || widget.state == 3
                             ? null
                             : () {
@@ -278,7 +278,8 @@ class _AdvDetialsState extends State<AdvDetials>
                         evaluation: 0,
                       ),
                       height: 50,
-                      color: Colors.transparent,
+                      color: widget.state == 4 || widget.state == 3?deepBlack:Colors.transparent,
+                    gradient: widget.state == 4 || widget.state == 3?true:false,
                     ),
                   ),
                   SizedBox(
@@ -296,7 +297,7 @@ class _AdvDetialsState extends State<AdvDetials>
                         widget.state == 3
                             ? "لقد رفضت الطلب "
                             : widget.state == 4
-                                ? '----'
+                                ? 'رفض'
                                 : 'رفض',
                         15,
                         widget.state == 3 || widget.state == 4
