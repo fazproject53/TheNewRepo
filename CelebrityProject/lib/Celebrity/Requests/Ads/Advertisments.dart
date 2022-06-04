@@ -62,6 +62,8 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                                   platform:snapshot.data!.data!.advertisingOrders![i].platform?.name,
                                   state:snapshot.data!.data!.advertisingOrders![i].status?.id,
                                   price:snapshot.data!.data!.advertisingOrders![i].price,
+                                  rejectResonName: snapshot.data!.data!.advertisingOrders![i].rejectReson?.name!,
+                                  rejectResonId: snapshot.data!.data!.advertisingOrders![i].rejectReson?.id,
                                   ));
                                 },
                                 child: Column(
