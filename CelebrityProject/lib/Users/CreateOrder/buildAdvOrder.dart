@@ -364,13 +364,12 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] =celebrityId != null?celebrityId.toString(): null;
+    request.fields["celebrity_id"] =celebrityId != null?77.toString(): 77.toString();
     request.fields["date"]= date.toString();
     request.fields["description"]= desc.text;
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest4).toString();
     request.fields["celebrity_promo_code_id"]= couponcode.text;
     request.fields["ad_owner_id"]= _value.toString();
-    request.fields["advertising_ad_type_id"]= _value3.toString();
     request.fields["ad_feature_id"]= _value2.toString();
     request.fields["ad_timing_id"]= _value4.toString();
     request.fields["advertising_ad_type_id"]= _value3.toString();

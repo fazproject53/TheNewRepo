@@ -112,7 +112,7 @@ class _gifttingFormState extends State<gifttingForm>{
 
                               const SizedBox(height: 30,),
 
-                              Container(margin: EdgeInsets.only(left: 10.w, right: 10.w),height: 55.h,decoration: BoxDecoration(color: purple, borderRadius: BorderRadius.circular(8)),
+                              Container(margin: EdgeInsets.only(left: 10.w, right: 10.w),height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
                               child:   Padding(
                                 padding: EdgeInsets.all(10),
                                 child:Row(

@@ -418,7 +418,7 @@ class _advFormState extends State<advForm>{
                                     Transform.scale(
                                       scale: 0.8,
                                       child: Radio<int>(
-                                          value: 1,
+                                          value: 2,
                                           groupValue:
                                           _value3,
                                           activeColor:
@@ -447,7 +447,7 @@ class _advFormState extends State<advForm>{
                                     Transform.scale(
                                       scale: 0.8,
                                       child: Radio<int>(
-                                          value: 2,
+                                          value: 1,
                                           groupValue:
                                           _value3,
                                           activeColor:
@@ -702,7 +702,6 @@ buildCkechboxList(list) {
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;
     request.fields["ad_owner_id"]= _value.toString();
-    request.fields["advertising_ad_type_id"]= _value3.toString();
     request.fields["ad_feature_id"]= _value2.toString();
     request.fields["ad_timing_id"]= _value4.toString();
     request.fields["advertising_ad_type_id"]= _value3.toString();
