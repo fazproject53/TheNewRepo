@@ -244,11 +244,11 @@ class _AdvDetialsState extends State<AdvDetials>
                         widget.state == 4
                             ? "لقد قبلت الطلب"
                             : widget.state == 3
-                                ? 'قبول'
+                                ? 'قبول': widget.state == 2?'قبول من المتابع'
                                 : "قبول",
                         15,
-                        widget.state == 4 || widget.state == 3?deepBlack:white,
-                        widget.state == 4 || widget.state == 3
+                        widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5?deepBlack:white,
+                        widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5
                             ? null
                             : () {
                                 if (priceKey.currentState?.validate() == true) {
@@ -278,8 +278,8 @@ class _AdvDetialsState extends State<AdvDetials>
                         evaluation: 0,
                       ),
                       height: 50,
-                      color: widget.state == 4 || widget.state == 3?deepBlack:Colors.transparent,
-                    gradient: widget.state == 4 || widget.state == 3?true:false,
+                      color: widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5?deepBlack:Colors.transparent,
+                    gradient: widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5?true:false,
                     ),
                   ),
                   SizedBox(
@@ -297,13 +297,13 @@ class _AdvDetialsState extends State<AdvDetials>
                         widget.state == 3
                             ? "لقد رفضت الطلب "
                             : widget.state == 4
-                                ? 'رفض'
+                                ? 'رفض':widget.state == 5?'رفض من المتابع'
                                 : 'رفض',
                         15,
-                        widget.state == 3 || widget.state == 4
+                        widget.state == 3 || widget.state == 4|| widget.state == 5||widget.state == 2
                             ? deepgrey!
                             : black,
-                        widget.state == 4 || widget.state == 3
+                        widget.state == 4 || widget.state == 3|| widget.state == 5||widget.state == 2
                             ? null
                             : () {
                                 rejectResonsList.isNotEmpty
@@ -314,7 +314,7 @@ class _AdvDetialsState extends State<AdvDetials>
                       ),
                       height: 50,
                       gradient: true,
-                      color: widget.state == 3 || widget.state == 4
+                      color: widget.state == 3 || widget.state == 4|| widget.state == 5||widget.state == 2
                           ? deepBlack
                           : pink,
                     ),
@@ -399,6 +399,7 @@ class _AdvDetialsState extends State<AdvDetials>
                               ScaffoldMessenger.of(context).showSnackBar(
                                   snackBar(
                                       context, 'تم رفض الطلب', green, done));
+
                             } else {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
