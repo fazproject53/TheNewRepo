@@ -1,3 +1,4 @@
+import 'package:celepraty/celebrity/setting/profileInformation.dart' as info;
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'dart:io';
@@ -88,14 +89,37 @@ class _celebratyProfileState extends State<celebratyProfile> {
   ];
   @override
   void initState() {
-    celebrity = fetchCelebrities();
+
     super.initState();
 
     DatabaseHelper.getToken().then((value) {
       setState(() {
         userToken = value;
+        celebrity = fetchCelebrities(userToken);
       });
     });
+  }
+  Future<CelebrityInformation> fetchCelebrities(String tokenn) async {
+    String token =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNmNiMTQxN2NlMWY1NmQ5NDYwYWZlNmFiODkxN2YxZjUzNmU5NDFkYTFhZjkzZThkZTRhODg0MDhjY2NmODU5MTk1N2FlZDIyZmNiOTNlYWYiLCJpYXQiOjE2NTQ0MjY5NzguODI0OTc0MDYwMDU4NTkzNzUsIm5iZiI6MTY1NDQyNjk3OC44MjQ5NzgxMTMxNzQ0Mzg0NzY1NjI1LCJleHAiOjE2ODU5NjI5NzguODE2NTA0MDAxNjE3NDMxNjQwNjI1LCJzdWIiOiI3NyIsInNjb3BlcyI6W119.gi37nJk06pb4_27W45l8oItE3JkLa_gxyzUmYxJDQjFTMCHBllDU3GKXpJNWq_qEXTDUQB66QeP0mFCSmZZYdOczNSqu-0RfqQyzpOTUCp2uyXZGPehl7IhQ9T9cceKBzoz71kcHinYJLv-O0666XrEQMS7w6aRhi69TPRqew2RehPHgMmZuiXcF9uET2WYOGGZl3OIzDRrIP2PSt0GvgSWsWDLlOEgOwgJqBHeuBa7tVyoK2K1ZVQdJPRT0T2PPO9jc5w9nG82aXYUPqku-GqzYeGijdXukIjkStJJvBAiSvYeD1lQNXpLdy6dScN_SUyOEMgbwWnS8rDoD97QY59MY7GG3KYhOdTMpAzfO4h8tEoUT20olshRSPkfZZCAPAvVm158cA6_GEDRlCrHSBMfuDK7Em3xiUtOjbZaEtKuBfLLCws8IYLiJxXkEYCmOUNAmHP0Ml-xJN_jkv8ZYqy2CzAmHodvSGkw2z9XBSqMUi7MVKibH0yr486OmCEPmSwtT84qDE03XgwYaX4qCXB5RAhy3YoV_35hOgeoA51ONFdYawejMeQQa-CjiDLfLLdYzDS-cXRbz-wTFaem0qDOtL0VOi_Tn0Dhlx8oNuxVdbMA-E42vbSm76G9nL4WCd67JA9fE-K37e8DOrNVg2FNRsVACW';
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/celebrity/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $tokenn'
+        });
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return CelebrityInformation.fromJson(jsonDecode(response.body));
+    } else {
+      print(userToken);
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
   }
 
   @override
@@ -324,6 +348,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
         ),
       ),
     );
+
   }
 
   updateImage() async {
@@ -341,7 +366,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
 
     Map<String, String> headers = {
       "Accept": "application/json",
-      "Authorization": "Bearer $token2"
+      "Authorization": "Bearer $userToken"
     };
     // create multipart request
     var request = new http.MultipartRequest("POST", uri);
@@ -392,7 +417,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     final respons = await http.get(Uri.parse(url), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $userToken'
     });
     if (respons.statusCode == 200) {
       Navigator.pop(context);

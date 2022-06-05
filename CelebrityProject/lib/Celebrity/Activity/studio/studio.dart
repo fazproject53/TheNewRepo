@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../Account/LoggingSingUpAPI.dart';
 import '../../setting/profileInformation.dart';
 
 class Studio extends StatefulWidget {
@@ -22,11 +23,18 @@ class _StudioState extends State<Studio> {
   late VideoPlayerController _videoPlayerController;
   bool addp = false;
   bool addv = false;
+  String? userToken;
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
 
   @override
   void initState() {
-    getStudio = fetchStudio();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        getStudio = fetchStudio(userToken!);
+
+      });
+    });
     super.initState();
   }
 
@@ -268,14 +276,14 @@ class _StudioState extends State<Studio> {
     );
 
     setState(() {
-      getStudio = fetchStudio();
+      getStudio = fetchStudio(userToken!);
     });
     return response;
   }
 
 }
 
-Future<TheStudio> fetchStudio() async {
+Future<TheStudio> fetchStudio(String usertoken) async {
   String token =
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
   final response = await http.get(
@@ -283,7 +291,7 @@ Future<TheStudio> fetchStudio() async {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer $usertoken'
       });
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

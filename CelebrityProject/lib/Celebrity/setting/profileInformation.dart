@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:celepraty/Account/LoggingSingUpAPI.dart';
 import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,7 @@ class _profileInformaionState extends State<profileInformaion>
   Future<CountryL>? countries;
   Future<CategoryL>? categories;
   bool countryChanged = false;
-
+  String? userToken;
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
   final TextEditingController name = TextEditingController();
@@ -122,8 +123,13 @@ class _profileInformaionState extends State<profileInformaion>
 
   @override
   void initState() {
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        celebrities = fetchCelebrities(userToken!);
+      });
+    });
     countries = fetCountries();
-    celebrities = fetchCelebrities();
     cities = fetCities();
     categories = fetCategories();
     _dropdownTestItems = buildDropdownTestItems(citilist);
@@ -223,8 +229,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             ? country = snapshot.data!.data!
                                                 .celebrity!.country!.name!
                                             : '',
-                                        snapshot.data!.data!.celebrity!.city!
-                                                    .name !=
+                                        snapshot.data!.data!.celebrity!.city !=
                                                 null
                                             ? city = snapshot.data!.data!
                                                 .celebrity!.city!.name
@@ -1063,7 +1068,7 @@ class _profileInformaionState extends State<profileInformaion>
                                        SnackBar(
                                       content: Text('${value.message!.ar}'),
                                       ))),
-                                      updateInformation().whenComplete(() => fetchCelebrities())}: setState((){noMatch = true;})}:null,}:null;
+                                      updateInformation().whenComplete(() => fetchCelebrities(userToken!))}: setState((){noMatch = true;})}:null,}:null;
 
                                       _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateInformation().then((value) =>
                                       {
@@ -1073,7 +1078,7 @@ class _profileInformaionState extends State<profileInformaion>
                                           countryChanged =
                                           false;
                                           celebrities =
-                                              fetchCelebrities();
+                                              fetchCelebrities(userToken!);
                                         })
                                             : Navigator.push(
                                           context,
@@ -1138,7 +1143,7 @@ class _profileInformaionState extends State<profileInformaion>
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $userToken'
       },
       body: jsonEncode(<String, dynamic>{
         'name': name.text,
@@ -1182,7 +1187,7 @@ class _profileInformaionState extends State<profileInformaion>
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $userToken'
       },
       body: jsonEncode(<String, dynamic>{
         'current_password': currentPassword.text,
@@ -1258,6 +1263,28 @@ class _profileInformaionState extends State<profileInformaion>
       throw Exception('Failed to load activity');
     }
   }
+
+  Future<CelebrityInformation> fetchCelebrities(String tokenn) async {
+    String token =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/celebrity/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $tokenn'
+        });
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return CelebrityInformation.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
 }
 
 @override
@@ -1275,27 +1302,7 @@ Widget lodeing(context) {
   );
 }
 
-Future<CelebrityInformation> fetchCelebrities() async {
-  String token =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
-  final response = await http.get(
-      Uri.parse('https://mobile.celebrityads.net/api/celebrity/profile'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token'
-      });
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    print(response.body);
-    return CelebrityInformation.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load activity');
-  }
-}
+
 
 class CelebrityInformation {
   bool? success;
