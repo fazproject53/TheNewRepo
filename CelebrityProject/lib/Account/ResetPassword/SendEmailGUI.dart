@@ -67,7 +67,7 @@ class _SendEmailState extends State<SendEmail> {
                       context,
                       emailIcon,
                       "اسم المستخدم او البريد الالكتروني",
-                      15,
+                      12,
                       false,
                       userNameEmailController,
                       empty,

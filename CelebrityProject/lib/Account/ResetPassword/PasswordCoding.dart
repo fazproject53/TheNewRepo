@@ -86,7 +86,7 @@ class _PasswordCodingState extends State<PasswordCoding> {
                       context,
                       Icons.lock,
                       "رمز التحقق",
-                      10,
+                      12,
                       false,
                       codeController,
                       code,
