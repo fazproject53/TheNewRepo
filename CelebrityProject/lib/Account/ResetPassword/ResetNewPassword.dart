@@ -23,6 +23,8 @@ class ResetNewPassword extends StatefulWidget {
 }
 
 class _ResetNewPasswordState extends State<ResetNewPassword> {
+  bool isVisibility = false;
+  bool isVisibilityNew = false;
   GlobalKey<FormState> resetNewKey = GlobalKey();
   final TextEditingController passController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
@@ -68,32 +70,34 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                   child: Column(
                     children: [
 // new password Text field---------------------------------------------------------------
-                      textField(
-                        context,
-                        Icons.password,
-                        "كلمة المرور الجديدة",
-                        10,
-                        false,
-                        passController,
-                        empty,
-                        keyboardType: TextInputType.text,
-
-                      ),
+                      textField3(context, Icons.password, "كلمة المرور الجديدة",
+                          12, isVisibility, passController, empty,
+                          keyboardType: TextInputType.text,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isVisibility = !isVisibility;
+                              });
+                            },
+                            icon: Icon(Icons.visibility,
+                                color: deepBlack, size: 25.sp),
+                          )),
                       SizedBox(
                         height: 10.h,
                       ),
 //confirm new password Text field---------------------------------------------------------------
-                      textField(
-                        context,
-                        Icons.lock,
-                        "تاكيد كلمة المرور",
-                        10,
-                        false,
-                        newPassController,
-                        confirm,
-                        keyboardType: TextInputType.text,
-
-                      ),
+                      textField3(context, Icons.lock, "تاكيد كلمة المرور", 12,
+                          isVisibilityNew, newPassController, confirm,
+                          keyboardType: TextInputType.text,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isVisibilityNew = !isVisibilityNew;
+                              });
+                            },
+                            icon: Icon(Icons.visibility,
+                                color: deepBlack, size: 25.sp),
+                          )),
                     ],
                   ),
                 ),
@@ -111,7 +115,8 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                     white,
                     () {
                       if (resetNewKey.currentState?.validate() == true) {
-                        resetNewPasswordMethod(widget.username!, passController.text, newPassController.text);
+                        resetNewPasswordMethod(widget.username!,
+                            passController.text, newPassController.text);
                       }
                     },
                     evaluation: 0,
@@ -153,7 +158,8 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
   String? confirm(value) {
     if (value.isEmpty) {
       return "املء الحقل اعلاه";
-    }if (value!=passController.text) {
+    }
+    if (value != passController.text) {
       return "كلمة المرور غير متطابقة";
     }
     return null;
