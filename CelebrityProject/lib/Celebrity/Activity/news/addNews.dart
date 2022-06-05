@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Account/LoggingSingUpAPI.dart';
 import '../activity_screen.dart';
 
 class addNews extends StatefulWidget{
@@ -19,7 +20,17 @@ class _addNewsState extends State<addNews> {
   final _formKey = GlobalKey<FormState>();
    TextEditingController controlnewstitle = new TextEditingController();
    TextEditingController controlnewsdesc = new TextEditingController();
+   String? userToken;
 
+   @override
+  void initState() {
+     DatabaseHelper.getToken().then((value) {
+       setState(() {
+         userToken = value;
+       });
+       super.initState();
+     });
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -50,7 +61,7 @@ class _addNewsState extends State<addNews> {
                           SizedBox(height: 20.h),
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة الخبر', 15, white, (){
                             if(_formKey.currentState!.validate()){
-                              addNews().whenComplete(() => goTopageReplacement(context, ActivityScreen()));
+                              addNews(userToken!).whenComplete(() => goTopageReplacement(context, ActivityScreen()));
                             }
                           })),),
                           const SizedBox(height: 30,),
@@ -63,7 +74,7 @@ class _addNewsState extends State<addNews> {
       ),
     );
   }
-  Future<http.Response> addNews() async {
+  Future<http.Response> addNews(String token) async {
     String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
     final response = await http.post(
       Uri.parse(
@@ -72,7 +83,7 @@ class _addNewsState extends State<addNews> {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $token'
       },
       body: jsonEncode(<String, dynamic>{
         "title" : controlnewstitle.text,

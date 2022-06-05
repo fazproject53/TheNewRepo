@@ -113,7 +113,7 @@ class _advFormState extends State<advForm>{
                     alignment: Alignment.bottomRight,
                     children: [ Container(height: 365.h,
                         width: 1000.w,
-                        child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
+                        child: Image.network(widget.image!, color: Colors.black45, colorBlendMode:BlendMode.darken,fit: BoxFit.cover,)),
                       Padding(
                         padding: EdgeInsets.all(20.0),
                         child: Text(  'اطلب اعلان\n' + 'شخصي من ' + widget.name! + ' الان',
@@ -418,7 +418,7 @@ class _advFormState extends State<advForm>{
                                     Transform.scale(
                                       scale: 0.8,
                                       child: Radio<int>(
-                                          value: 1,
+                                          value: 2,
                                           groupValue:
                                           _value3,
                                           activeColor:
@@ -447,7 +447,7 @@ class _advFormState extends State<advForm>{
                                     Transform.scale(
                                       scale: 0.8,
                                       child: Radio<int>(
-                                          value: 2,
+                                          value: 1,
                                           groupValue:
                                           _value3,
                                           activeColor:
@@ -702,7 +702,6 @@ buildCkechboxList(list) {
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;
     request.fields["ad_owner_id"]= _value.toString();
-    request.fields["advertising_ad_type_id"]= _value3.toString();
     request.fields["ad_feature_id"]= _value2.toString();
     request.fields["ad_timing_id"]= _value4.toString();
     request.fields["advertising_ad_type_id"]= _value3.toString();

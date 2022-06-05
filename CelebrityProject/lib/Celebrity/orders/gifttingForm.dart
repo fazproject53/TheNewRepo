@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Account/LoggingSingUpAPI.dart';
+import '../Pricing/ModelPricing.dart';
+
 
 
 class gifttingForm extends StatefulWidget{
@@ -20,7 +23,7 @@ class _gifttingFormState extends State<gifttingForm>{
   final _formKey = GlobalKey<FormState>();
   Future<GiftType>? types;
   Future<OccasionType>? otypes;
-
+  Future<Pricing>? pricing;
   final TextEditingController desc = new TextEditingController();
   final TextEditingController from = new TextEditingController();
   final TextEditingController to = new TextEditingController();
@@ -47,6 +50,8 @@ class _gifttingFormState extends State<gifttingForm>{
     });
   }
 
+  String? userToken;
+
   var _selectedTest2;
   onChangeDropdownTests2(selectedTest) {
     print(selectedTest);
@@ -59,6 +64,12 @@ class _gifttingFormState extends State<gifttingForm>{
   void initState() {
     types = getGiftType();
     otypes = getOcassionType();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        pricing = fetchCelebrityPricing(userToken!);
+      });
+    });
     super.initState();
   }
 
@@ -81,14 +92,21 @@ class _gifttingFormState extends State<gifttingForm>{
                     Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          Container(height: 365.h,
+                          Container(height: 335.h,
                               width: 1000.w,
-                              child: Image.network(widget.image!, color: Colors.white.withOpacity(0.60), colorBlendMode: BlendMode.modulate,fit: BoxFit.cover,)),
-                           Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: Text('اطلب اهداء\n' + 'شخصي من ' + widget.name! + ' الان',
-                              style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                              child: Image.network(widget.image!, color: Colors.black45, colorBlendMode:BlendMode.darken,fit: BoxFit.cover,)),
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: Text(' اطلب اهداء\n' + 'شخصي من  ' + widget.name! + ' الان',
+                                  style: TextStyle(fontWeight: FontWeight.normal,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                           ),
+
+
+                              ],
+                           ),
                         ]),
                     Container(
                       child: Form(
@@ -96,7 +114,7 @@ class _gifttingFormState extends State<gifttingForm>{
                         child: paddingg(12, 12, 5, Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              SizedBox(height: 20.h,),
+                              SizedBox(height: 10.h,),
                               padding(10, 12, Container( alignment : Alignment.topRight,child:  text(context, ' قم بملئ   البيانات التالية',18,textBlack,fontWeight: FontWeight.normal,
                                 family: 'Cairo', )),),
 
@@ -105,6 +123,40 @@ class _gifttingFormState extends State<gifttingForm>{
 
                               const SizedBox(height: 30,),
 
+                          FutureBuilder(
+                            future: pricing,
+    builder: ((context, AsyncSnapshot<Pricing> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return Center();
+    } else if (snapshot.connectionState ==
+    ConnectionState.active ||
+    snapshot.connectionState == ConnectionState.done) {
+    if (snapshot.hasError) {
+    return Center(child: Text(snapshot.error.toString()));
+    //---------------------------------------------------------------------------
+    } else if (snapshot.hasData) {
+    return paddingg(15, 15, 12, Container(height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
+                                  child:   Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: const [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Text('سعر الاهداء', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                                        ),
+                                        Text('250 ر.س  ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                                      ],
+                                    ),),),
+                                );
+    } else {
+      return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+    }
+    } else {
+      return Center(
+          child: Text('State: ${snapshot.connectionState}'));
+    }
+    })),
                               FutureBuilder(
                                   future: otypes,
                                   builder: ((context, AsyncSnapshot<OccasionType> snapshot) {
@@ -161,40 +213,42 @@ class _gifttingFormState extends State<gifttingForm>{
                                         } : null;
 
                                         return   paddingg(15, 15, 12,
-                                          DropdownBelow(
-                                            itemWidth: 380.w,
-                                            ///text style inside the menu
-                                            itemTextstyle: TextStyle(
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400,
-                                              color: black,
-                                              fontFamily: 'Cairo',),
-                                            ///hint style
-                                            boxTextstyle: TextStyle(
+                                          Container(
+                                            child: DropdownBelow(
+                                              itemWidth: 380.w,
+                                              ///text style inside the menu
+                                              itemTextstyle: TextStyle(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w400,
-                                                color: grey,
-                                                fontFamily: 'Cairo'),
-                                            ///box style
-                                            boxPadding:
-                                            EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
-                                            boxWidth: 500.w,
-                                            boxHeight: 40.h,
-                                            boxDecoration: BoxDecoration(
-                                                color: textFieldBlack2.withOpacity(0.70),
-                                                borderRadius: BorderRadius.circular(8.r)),
-                                            ///Icons
-                                            icon: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Colors.white54,
+                                                color: black,
+                                                fontFamily: 'Cairo',),
+                                              ///hint style
+                                              boxTextstyle: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: grey,
+                                                  fontFamily: 'Cairo'),
+                                              ///box style
+                                              boxPadding:
+                                              EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
+                                              boxWidth: 500.w,
+                                              boxHeight: 45.h,
+                                              boxDecoration: BoxDecoration(
+                                                  color: textFieldBlack2.withOpacity(0.70),
+                                                  borderRadius: BorderRadius.circular(8.r)),
+                                              ///Icons
+                                              icon: const Icon(
+                                                Icons.arrow_drop_down,
+                                                color: Colors.white54,
+                                              ),
+                                              hint:  Text(
+                                                ocassion,
+                                                textDirection: TextDirection.rtl,
+                                              ),
+                                              value: _selectedTest,
+                                              items: _dropdownTestItem,
+                                              onChanged: onChangeDropdownTests,
                                             ),
-                                            hint:  Text(
-                                              ocassion,
-                                              textDirection: TextDirection.rtl,
-                                            ),
-                                            value: _selectedTest,
-                                            items: _dropdownTestItem,
-                                            onChanged: onChangeDropdownTests,
                                           ),
                                         );
                                       } else {
@@ -229,7 +283,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                           boxPadding:
                                           EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                                           boxWidth: 500.w,
-                                          boxHeight: 40.h,
+                                          boxHeight: 45.h,
                                           boxDecoration: BoxDecoration(
                                               color: textFieldBlack2.withOpacity(0.70),
                                               borderRadius: BorderRadius.circular(8.r)),
@@ -280,7 +334,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                             boxPadding:
                                             EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                                             boxWidth: 500.w,
-                                            boxHeight: 40.h,
+                                            boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 color: textFieldBlack2.withOpacity(0.70),
                                                 borderRadius: BorderRadius.circular(8.r)),
@@ -580,6 +634,27 @@ Future<OccasionType> getOcassionType() async {
     // then parse the JSON.
     OccasionType o= OccasionType.fromJson(jsonDecode(response.body));
     return o;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load activity');
+  }
+}
+
+Future<Pricing> fetchCelebrityPricing(String tokenn) async {
+  String token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDAzNzUwY2MyNjFjNDY1NjY2YjcwODJlYjgzYmFmYzA0ZjQzMGRlYzEyMzAwYTY5NTE1ZDNlZTYwYWYzYjc0Y2IxMmJiYzA3ZTYzODAwMWYiLCJpYXQiOjE2NTMxMTY4MjcuMTk0MDc3OTY4NTk3NDEyMTA5Mzc1LCJuYmYiOjE2NTMxMTY4MjcuMTk0MDg0ODgyNzM2MjA2MDU0Njg3NSwiZXhwIjoxNjg0NjUyODI3LjE5MDA0ODkzMzAyOTE3NDgwNDY4NzUsInN1YiI6IjExIiwic2NvcGVzIjpbXX0.GUQgvMFS-0VA9wOAhHf7UaX41lo7m8hRm0y4mI70eeAZ0Y9p2CB5613svXrrYJX74SfdUM4y2q48DD-IeT67uydUP3QS9inIyRVTDcEqNPd3i54YplpfP8uSyOCGehmtl5aKKEVAvZLOZS8C-aLIEgEWC2ixwRKwr89K0G70eQ7wHYYHQ3NOruxrpc_izZ5awskVSKwbDVnn9L9-HbE86uP4Y8B5Cjy9tZBGJ-6gJtj3KYP89-YiDlWj6GWs52ShPwXlbMNFVDzPa3oz44eKZ5wNnJJBiky7paAb1hUNq9Q012vJrtazHq5ENGrkQ23LL0n61ITCZ8da1RhUx_g6BYJBvc_10nMuwWxRKCr9l5wygmIItHAGXxB8f8ypQ0vLfTeDUAZa_Wrc_BJwiZU8jSdvPZuoUH937_KcwFQScKoL7VuwbbmskFHrkGZMxMnbDrEedl0TefFQpqUAs9jK4ngiaJgerJJ9qpoCCn4xMSGl_ZJmeQTQzMwcLYdjI0txbSFIieSl6M2muHedWhWscXpzzBhdMOM87cCZYuAP4Gml80jywHCUeyN9ORVkG_hji588pvW5Ur8ZzRitlqJoYtztU3Gq2n6sOn0sRShjTHQGPWWyj5fluqsok3gxpeux5esjG_uLCpJaekrfK3ji2DYp-wB-OBjTGPUqlG9W_fs';
+  final response = await http.get(
+      Uri.parse('https://mobile.celebrityads.net/api/celebrity/price'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $tokenn'
+      });
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    //print(response.body);
+    return Pricing.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

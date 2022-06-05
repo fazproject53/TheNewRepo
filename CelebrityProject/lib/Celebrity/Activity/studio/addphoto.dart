@@ -10,6 +10,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path/path.dart' as Path;
+import '../../../Account/LoggingSingUpAPI.dart';
 import '../activity_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -29,6 +30,16 @@ class _addphotoState extends State<addphoto> {
    TextEditingController controlphotodesc = new TextEditingController();
 
   File? studioimage;
+  String? userToken;
+  @override
+  void initState() {
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -60,7 +71,7 @@ class _addphotoState extends State<addphoto> {
                             SizedBox(height: 20.h),
                             padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'اضافة ', 15, white, (){
                               if(_formKey.currentState!.validate()){
-                                addPhoto().whenComplete(() => goTopageReplacement(context, ActivityScreen()));
+                                addPhoto(userToken!).whenComplete(() => goTopageReplacement(context, ActivityScreen()));
 
                               }
                               })),),
@@ -75,7 +86,7 @@ class _addphotoState extends State<addphoto> {
     );
   }
 
-   addPhoto() async {
+   addPhoto(String token) async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
 
@@ -89,7 +100,7 @@ class _addphotoState extends State<addphoto> {
 
     Map<String, String> headers = {
       "Accept": "application/json",
-      "Authorization": "Bearer $token2"
+      "Authorization": "Bearer $token"
     };
     // create multipart request
     var request = new http.MultipartRequest("POST", uri);

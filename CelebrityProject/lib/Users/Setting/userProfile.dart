@@ -91,61 +91,81 @@ class _userProfileState extends State<userProfile>
             child: Column(children: [
                       //======================== profile header ===============================
 
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          InkWell(
-                            child: padding(
-                              8,
-                              8,
-                              Container(
-                                height: 80.h,
-                                width: 90.w,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(70.r),
-                                  child: Image.network(
-                                    Logging.theUser!.image!, fit: BoxFit.fill,
-                                    height: double.infinity, width: double.infinity,
-                                    loadingBuilder : (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          backgroundColor: grey,
-                                          value: loadingProgress.expectedTotalBytes != null
-                                              ? loadingProgress.cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes!
-                                              : null,
-                                        ),
-                                      );
-                                    },),
+                      FutureBuilder(
+                        future: getUsers,
+    builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return Center(child: lodeing(context));
+    } else if (snapshot.connectionState == ConnectionState.active ||
+    snapshot.connectionState == ConnectionState.done) {
+    if (snapshot.hasError) {
+    return Text(snapshot.error.toString());
+    //---------------------------------------------------------------------------
+    } else if (snapshot.hasData) {
+    return  Column(
+                          children: [
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            InkWell(
+                              child: padding(
+                                8,
+                                8,
+                                Container(
+                                  height: 80.h,
+                                  width: 100.w,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(70.r),
+                                    child: Image.network(
+                                      Logging.theUser!.image!, fit: BoxFit.fill,
+                                      height: double.infinity, width: double.infinity,
+                                      loadingBuilder : (context, child, loadingProgress) {
+                                        if (loadingProgress == null) return child;
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            backgroundColor: grey,
+                                            value: loadingProgress.expectedTotalBytes != null
+                                                ? loadingProgress.cumulativeBytesLoaded /
+                                                loadingProgress.expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },),
+                                  ),
                                 ),
                               ),
-                            ),
-                            onTap: () {
-                              getImage().whenComplete(() =>
-                              {
-                                updateImageUser(userToken).whenComplete(() =>
+                              onTap: () {
+                                getImage().whenComplete(() =>
                                 {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "تم تعديل الصورة بنجاح"),))
-                                })
-                              });
-                            },
-                          ),
-                          SizedBox(height: 5.h),
-                          padding(
-                            8,
-                            8,
-                            text(context, Logging.theUser!.name!, 20,
-                                black,
-                                fontWeight: FontWeight.bold, family: 'Cairo'),
-                          ),
-                        ],
+                                  updateImageUser(userToken).whenComplete(() =>
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "تم تعديل الصورة بنجاح"),))
+                                  })
+                                });
+                              },
+                            ),
+                            SizedBox(height: 5.h),
+                            padding(
+                              8,
+                              8,
+                              text(context, Logging.theUser!.name!, 20,
+                                  black,
+                                  fontWeight: FontWeight.bold, family: 'Cairo'),
+                            ),
+                          ],
+                        );
+    } else {
+      return const Center(child: Text('Empty data'));
+    }
+    } else {
+      return Center(
+          child: Text('State: ${snapshot.connectionState}'));
+    }
+    },
                       ),
                       //profile image
 
