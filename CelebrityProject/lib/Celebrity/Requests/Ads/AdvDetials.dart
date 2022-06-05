@@ -49,9 +49,10 @@ class _AdvDetialsState extends State<AdvDetials>
   String? resonReject;
   bool isReject = true;
   TextEditingController? price;
-  TextEditingController reson=TextEditingController();
+  TextEditingController reson = TextEditingController();
   List<String> rejectResonsList = [];
   GlobalKey<FormState> priceKey = GlobalKey();
+  GlobalKey<FormState> resonKey = GlobalKey();
 
   @override
   void initState() {
@@ -70,8 +71,7 @@ class _AdvDetialsState extends State<AdvDetials>
       child: Scaffold(
 
           // appBar: drowAppBar("تفاصيل الطلب",context),
-          body: Column(
-              children: [
+          body: Column(children: [
 //image-----------------------------------------------------
         ConstrainedBox(
           constraints: BoxConstraints(
@@ -98,329 +98,356 @@ class _AdvDetialsState extends State<AdvDetials>
             ),
           ),
         ),
-                //ad title-----------------------------------------------------
+        //ad title-----------------------------------------------------
 
-                Container(
-                  //color: black,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.h, top: 8.h),
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Row(
-                        children: [
-                          const Icon(Icons.star_border_outlined, color: pink),
-                          text(
-                            context,
-                            'اعلان ل' + widget.advTitle!,
-                            20,
-                            deepgrey!,
-                            fontWeight: FontWeight.bold,
-                            align: TextAlign.justify,
-                          ),
-                          const Spacer(),
+        Container(
+          //color: black,
+          width: double.infinity,
+          margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.h, top: 8.h),
+          child: Align(
+              alignment: Alignment.bottomRight,
+              child: Row(
+                children: [
+                  const Icon(Icons.star_border_outlined, color: pink),
+                  text(
+                    context,
+                    'اعلان ل' + widget.advTitle!,
+                    20,
+                    deepgrey!,
+                    fontWeight: FontWeight.bold,
+                    align: TextAlign.justify,
+                  ),
+                  const Spacer(),
 //platform----------------------------------------------------------------
-                          const Icon(Icons.star_border_outlined, color: pink),
+                  const Icon(Icons.star_border_outlined, color: pink),
+                  text(
+                    context,
+                    'اعلان علي  ${widget.platform}',
+                    20,
+                    deepgrey!,
+                    fontWeight: FontWeight.bold,
+                    align: TextAlign.justify,
+                  ),
+                ],
+              )),
+        ),
+//description----------------------------------------------------------------------
+        Expanded(
+          flex: 1,
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              //height:MediaQuery.of(context).size.height/6,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10.r))),
+              margin: EdgeInsets.only(
+                  left: 13.w, right: 13.w, bottom: 8.h, top: 8.h),
+              child: text(
+                context,
+                widget.description!,
+                15,
+                grey!,
+                fontWeight: FontWeight.bold,
+                align: TextAlign.justify,
+              ),
+            ),
+          ),
+        ),
+//price field-----------------------------------------------------
+        Visibility(
+            visible: isReject,
+            child: widget.state == 3 || widget.state == 5
+                ? Padding(
+                    padding: EdgeInsets.all(20.h),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           text(
                             context,
-                            'اعلان علي  ${widget.platform}',
-                            20,
+                            'سبب الرفض',
+                            18,
                             deepgrey!,
                             fontWeight: FontWeight.bold,
-                            align: TextAlign.justify,
+                            align: TextAlign.right,
+                          ),
+                          //-------------------------------
+                          text(
+                            context,
+                            widget.rejectResonName!,
+                            18,
+                            deepBlack,
+                            //fontWeight: FontWeight.bold,
+                            align: TextAlign.right,
                           ),
                         ],
-                      )),
-                ),
-//description----------------------------------------------------------------------
-                Expanded(
-                  flex: 1,
-                  child: SingleChildScrollView(
-                    child: Container(
-                      width: double.infinity,
-                      //height:MediaQuery.of(context).size.height/6,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.r))),
-                      margin: EdgeInsets.only(
-                          left: 13.w, right: 13.w, bottom: 8.h, top: 8.h),
-                      child: text(
-                        context,
-                        widget.description!,
-                        15,
-                        grey!,
-                        fontWeight: FontWeight.bold,
-                        align: TextAlign.justify,
                       ),
                     ),
+                  )
+                :
+//price field-------------------------------------------------------------------------------
+                Padding(
+                    padding: EdgeInsets.all(8.0.h),
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: priceKey,
+                        child: textField2(
+                          context,
+                          money,
+                          widget.price! > 0
+                              ? "سعر الاعلان"
+                              : 'أدخل سعر الاعلان',
+                          14,
+                          false,
+                          price!,
+                          empty,
+                          keyboardType: TextInputType.phone,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          isEdit: widget.price! > 0 ? false : true,
+                        ),
+                      ),
+                    ),
+                  )),
+
+//accept buttom-----------------------------------------------------
+
+        isReject
+            ? Container(
+                width: double.infinity,
+                height: 50,
+                //color: Colors.red,
+                margin: EdgeInsets.all(20.r),
+                child: Row(children: [
+                  Expanded(
+                    flex: 2,
+                    child: gradientContainer(
+                      double.infinity,
+                      buttoms(
+                        context,
+                        widget.state == 4
+                            ? "لقد قبلت الطلب"
+                            : widget.state == 3
+                                ? 'قبول'
+                                : widget.state == 2
+                                    ? 'قبول من المتابع'
+                                    : "قبول",
+                        15,
+                        widget.state == 4 ||
+                                widget.state == 3 ||
+                                widget.state == 2 ||
+                                widget.state == 5
+                            ? deepBlack
+                            : white,
+                        widget.state == 4 ||
+                                widget.state == 3 ||
+                                widget.state == 2 ||
+                                widget.state == 5
+                            ? null
+                            : () {
+                                if (priceKey.currentState?.validate() == true) {
+                                  loadingDialogue(context);
+                                  Future<bool> result = acceptAdvertisingOrder(
+                                      widget.token!,
+                                      widget.orderId!,
+                                      int.parse(price!.text));
+                                  result.then((value) {
+                                    if (value == true) {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(context,
+                                              'تم قبول الطلب', green, done));
+                                    } else {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
+                                              context,
+                                              'تم قبول الطلب مسبقا',
+                                              red,
+                                              error));
+                                    }
+                                  });
+                                }
+                              },
+                        evaluation: 0,
+                      ),
+                      height: 50,
+                      color: widget.state == 4 ||
+                              widget.state == 3 ||
+                              widget.state == 2 ||
+                              widget.state == 5
+                          ? deepBlack
+                          : Colors.transparent,
+                      gradient: widget.state == 4 ||
+                              widget.state == 3 ||
+                              widget.state == 2 ||
+                              widget.state == 5
+                          ? true
+                          : false,
+                    ),
                   ),
-                ),
-//price field-----------------------------------------------------
-                Visibility(
-                    visible: isReject,
-                    child: widget.state == 3|| widget.state == 5
-                        ? Padding(
-                      padding: EdgeInsets.all(20.h),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            text(
+                  SizedBox(
+                    width: 10.w,
+                  ),
+
+//reject buttom-------------------------------------------------
+
+                  Expanded(
+                    flex: 2,
+                    child: gradientContainer(
+                      double.infinity,
+                      buttoms(
+                        context,
+                        widget.state == 3
+                            ? "لقد رفضت الطلب "
+                            : widget.state == 4
+                                ? 'رفض'
+                                : widget.state == 5
+                                    ? 'رفض من المتابع'
+                                    : 'رفض',
+                        15,
+                        widget.state == 3 ||
+                                widget.state == 4 ||
+                                widget.state == 5 ||
+                                widget.state == 2
+                            ? deepgrey!
+                            : black,
+                        widget.state == 4 ||
+                                widget.state == 3 ||
+                                widget.state == 5 ||
+                                widget.state == 2
+                            ? null
+                            : () {
+                                rejectResonsList.isNotEmpty
+                                    ? showBottomSheetModel(context)
+                                    : '';
+                              },
+                        //evaluation: 1,
+                      ),
+                      height: 50,
+                      gradient: true,
+                      color: widget.state == 3 ||
+                              widget.state == 4 ||
+                              widget.state == 5 ||
+                              widget.state == 2
+                          ? deepBlack
+                          : pink,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+//---------------------------------------------------------
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: InkWell(
+                                onTap: widget.state == 3
+                                    ? null
+                                    : () {
+                                        goTopagepush(context, chatScreen());
+                                      },
+                                child: Icon(Icons.forum_outlined,
+                                    color:
+                                        widget.state == 3 ? deepBlack : pink)))
+                      ],
+                    ),
+                  ),
+                  //height: 50,
+                  //gradient: true,
+                  //),
+                  //)
+                ]))
+            :
+//confirm reject---------------------------------------------------------------
+            Padding(
+                padding: EdgeInsets.all(8.0.h),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0.w),
+                      child: text(
+                        context,
+                        'سبب الرفض',
+                        18,
+                        deepgrey!,
+                        fontWeight: FontWeight.bold,
+                        align: TextAlign.right,
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+//-------------------------------------------------------------------------
+                    resonReject == 'أخرى'
+                        ? Form(
+                            key: resonKey,
+                            child: textField2(
                               context,
-                              'سبب الرفض',
-                              18,
-                              deepgrey!,
-                              fontWeight: FontWeight.bold,
-                              align: TextAlign.right,
+                              Icons.unpublished,
+                              '',
+                              14,
+                              false,
+                              reson,
+                              empty,
                             ),
-                            //-------------------------------
-                            text(
+                          )
+                        : Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                            child: text(
                               context,
-                              widget.rejectResonName!,
+                              '$resonReject',
                               18,
                               deepBlack,
                               //fontWeight: FontWeight.bold,
                               align: TextAlign.right,
                             ),
-                          ],
-                        ),
-                      ),
-                    )
-                        :
-//price field-------------------------------------------------------------------------------
-                    Padding(
-                      padding: EdgeInsets.all(8.0.h),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: priceKey,
-                          child: textField2(
-                            context,
-                            money,
-                            widget.price! > 0 ? "سعر الاعلان" : 'أدخل سعر الاعلان',
-                            14,
-                            false,
-                            price!,
-                            empty,
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            isEdit: widget.price! > 0 ? false : true,
                           ),
-                        ),
+                    SizedBox(height: MediaQuery.of(context).size.height / 8),
+                    //--------------------------------
+                    //const Spacer(),
+                    gradientContainer(
+                      double.infinity,
+                      buttoms(
+                        context,
+                        "تاكيد",
+                        15,
+                        white,
+                        () {
+                          // if(&&resonKey.currentState?.validate()==true){}
+                          loadingDialogue(context);
+                          Future<bool> result = rejectAdvertisingOrder(
+                              widget.token!,
+                              widget.orderId!,
+                              resonReject!,
+                              resonRejectId!);
+                          result.then((value) {
+                            if (value == true) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar(
+                                      context, 'تم رفض الطلب', green, done));
+                            } else {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar(context, 'تم رفض الطلب مسبقا', red,
+                                      error));
+                            }
+                          });
+                        },
+                        evaluation: 0,
                       ),
-                    )),
-
-//accept buttom-----------------------------------------------------
-
-                isReject
-                    ? Container(
-
-                    width: double.infinity,
-                    height: 50,
-                    //color: Colors.red,
-                    margin: EdgeInsets.all(20.r),
-                    child: Row(children: [
-                      Expanded(
-                        flex: 2,
-                        child: gradientContainer(
-                          double.infinity,
-                          buttoms(
-                            context,
-                            widget.state == 4
-                                ? "لقد قبلت الطلب"
-                                : widget.state == 3
-                                ? 'قبول': widget.state == 2?'قبول من المتابع'
-                                : "قبول",
-                            15,
-                            widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5?deepBlack:white,
-                            widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5
-                                ? null
-                                : () {
-                              if (priceKey.currentState?.validate() == true) {
-                                loadingDialogue(context);
-                                Future<bool> result = acceptAdvertisingOrder(
-                                    widget.token!,
-                                    widget.orderId!,
-                                    int.parse(price!.text));
-                                result.then((value) {
-                                  if (value == true) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar(context,
-                                        'تم قبول الطلب', green, done));
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar(
-                                        context,
-                                        'تم قبول الطلب مسبقا',
-                                        red,
-                                        error));
-                                  }
-                                });
-                              }
-                            },
-                            evaluation: 0,
-                          ),
-                          height: 50,
-                          color: widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5?deepBlack:Colors.transparent,
-                          gradient: widget.state == 4 || widget.state == 3||widget.state == 2|| widget.state == 5?true:false,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-
-//reject buttom-------------------------------------------------
-
-                      Expanded(
-                        flex: 2,
-                        child: gradientContainer(
-                          double.infinity,
-                          buttoms(
-                            context,
-                            widget.state == 3
-                                ? "لقد رفضت الطلب "
-                                : widget.state == 4
-                                ? 'رفض':widget.state == 5?'رفض من المتابع'
-                                : 'رفض',
-                            15,
-                            widget.state == 3 || widget.state == 4|| widget.state == 5||widget.state == 2
-                                ? deepgrey!
-                                : black,
-                            widget.state == 4 || widget.state == 3|| widget.state == 5||widget.state == 2
-                                ? null
-                                : () {
-                              rejectResonsList.isNotEmpty
-                                  ? showBottomSheetModel(context)
-                                  : '';
-                            },
-                            //evaluation: 1,
-                          ),
-                          height: 50,
-                          gradient: true,
-                          color: widget.state == 3 || widget.state == 4|| widget.state == 5||widget.state == 2
-                              ? deepBlack
-                              : pink,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-//---------------------------------------------------------
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                    onTap: widget.state == 3
-                                        ? null
-                                        : () {
-                                      goTopagepush(context, chatScreen());
-                                    },
-                                    child: Icon(Icons.forum_outlined,
-                                        color:
-                                        widget.state == 3 ? deepBlack : pink)))
-                          ],
-                        ),
-                      ),
-                      //height: 50,
-                      //gradient: true,
-                      //),
-                      //)
-                    ]))
-                    :
-//confirm reject---------------------------------------------------------------
-                Padding(
-                  padding: EdgeInsets.all(8.0.h),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.0.w),
-                        child: text(
-                          context,
-                          'سبب الرفض',
-                          18,
-                          deepgrey!,
-                          fontWeight: FontWeight.bold,
-                          align: TextAlign.right,
-                        ),
-                      ),
-                      SizedBox(height: 15.h),
-//-------------------------------------------------------------------------
-                      resonReject=='أخرى'?
-                      Form(
-                        key: priceKey,
-                        child: textField2(
-                          context,
-                          Icons.unpublished,
-                          '',
-                          14,
-                          false,
-                          reson,
-                          empty,
-
-                        ),
-                      ):Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                        child: text(
-                          context,
-                          '$resonReject',
-                          18,
-                          deepBlack,
-                          //fontWeight: FontWeight.bold,
-                          align: TextAlign.right,
-                        ),
-                      ),
-                      SizedBox(height: MediaQuery.of(context).size.height / 8),
-                      //--------------------------------
-                      //const Spacer(),
-                      gradientContainer(
-                        double.infinity,
-                        buttoms(
-                          context,
-                          "تاكيد",
-                          15,
-                          white,
-                              () {
-
-
-                            loadingDialogue(context);
-                            Future<bool> result = rejectAdvertisingOrder(
-                                widget.token!,
-                                widget.orderId!,
-                                resonReject!,
-                                resonRejectId!);
-                            result.then((value) {
-                              if (value == true) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBar(
-                                        context, 'تم رفض الطلب', green, done));
-
-                              } else {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    snackBar(context, 'تم رفض الطلب مسبقا', red,
-                                        error));
-                              }
-                            });
-                          },
-                          evaluation: 0,
-                        ),
-                        height: 50,
-                        color: Colors.transparent,
-                      ),
-                    ],
-                  ),
+                      height: 50,
+                      color: Colors.transparent,
+                    ),
+                  ],
                 ),
-      ]
-          )
-
-      ),
+              ),
+      ])),
     );
   }
 
@@ -474,29 +501,16 @@ class _AdvDetialsState extends State<AdvDetials>
               ),
 //Reject reson-----------------------------------------------------------------------------
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.h),
+                padding: EdgeInsets.symmetric(vertical: 4.h),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 4,
+                  height: MediaQuery.of(context).size.height / 2.7.h,
                   child: ListView.builder(
                       itemCount: rejectResonsList.length,
                       itemBuilder: (context, i) {
                         return Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 30.0.w, vertical: 3.h),
-                          child: ListTile(
-                            visualDensity:
-                                VisualDensity(horizontal: 1.w, vertical: -4.h),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0.r)),
-                            tileColor: deepPink,
-                            title: text(
-                              context,
-                              rejectResonsList[i],
-                              15,
-                              white,
-                              fontWeight: FontWeight.bold,
-                              align: TextAlign.right,
-                            ),
+                          child: InkWell(
                             onTap: () {
                               setState(() {
                                 resonReject = rejectResonsList[i];
@@ -505,6 +519,23 @@ class _AdvDetialsState extends State<AdvDetials>
                               });
                               Navigator.pop(context);
                             },
+                            child: Container(
+                              height: 46.h,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0.r),
+                                  color: deepPink),
+                              child: Padding(
+                                padding:  EdgeInsets.all(8.0.r),
+                                child: text(
+                                  context,
+                                  rejectResonsList[i],
+                                  15,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                  align: TextAlign.right,
+                                ),
+                              ),
+                            ),
                           ),
                         );
                       }),
@@ -513,21 +544,9 @@ class _AdvDetialsState extends State<AdvDetials>
 //Another reson-----------------------------------------------------------------------------
 
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 30.0.w, vertical: 3.h),
-                child: ListTile(
-                  visualDensity: VisualDensity(horizontal: 1.w, vertical: -4.h),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0.r)),
-                  tileColor: deepPink,
-                  title: text(
-                    context,
-                    'أخرى',
-                    15,
-                    white,
-                    fontWeight: FontWeight.bold,
-                    align: TextAlign.right,
-                  ),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 30.0.w, vertical: 3.h),
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       resonReject = 'أخرى';
@@ -535,6 +554,24 @@ class _AdvDetialsState extends State<AdvDetials>
                     });
                     Navigator.pop(context);
                   },
+                  child: Container(
+                    height: 46.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0.r),
+                        color: deepPink),
+                    child: Padding(
+                      padding:  EdgeInsets.all(8.0.r),
+                      child: text(
+                        context,
+                        'أخرى',
+                        15,
+                        white,
+                        fontWeight: FontWeight.bold,
+                        align: TextAlign.right,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
