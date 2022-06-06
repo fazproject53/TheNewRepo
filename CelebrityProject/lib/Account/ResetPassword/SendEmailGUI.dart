@@ -29,30 +29,33 @@ class _SendEmailState extends State<SendEmail> {
           child: Column(
             children: [
               SizedBox(
-                height: 126.87.h,
+                height: 90.h,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 60.w),
 //image---------------------------------------------------------------
-                child: Center(
-                  child: SvgPicture.asset(
-                    'assets/Svg/forgot password.svg',
-                    width: 190.91.w,
-                    height: 126.87.h,
-
-                  ),
+                child: Container(
+                  width: double.infinity,
+                  height: 160.h,
+                  margin: EdgeInsets.all(9.w),
+                  decoration: const BoxDecoration(
+                      color: ligthtBlack,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: AssetImage('assets/image/email1.png'))),
                 ),
               ),
               SizedBox(
-                height: 50.h,
+                height: 20.h,
               ),
 //title---------------------------------------------------------------
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w,vertical: 10.h),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 10.h),
                 child: text(
                   context,
                   'قم بإدخال اسم المستخدم او عنوان بريدك الالكتروني المرتبط بحسابك',
-                  17,
+                  15,
                   white,
                   fontWeight: FontWeight.bold,
                   align: TextAlign.right,
@@ -90,6 +93,8 @@ class _SendEmailState extends State<SendEmail> {
                     15,
                     white,
                     () {
+                      //remove focus from textField when click outside
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (emailKey.currentState?.validate() == true) {
                         forgetPassword(userNameEmailController.text);
                       }

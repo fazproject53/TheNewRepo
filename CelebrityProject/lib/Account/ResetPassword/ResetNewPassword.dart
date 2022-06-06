@@ -23,8 +23,8 @@ class ResetNewPassword extends StatefulWidget {
 }
 
 class _ResetNewPasswordState extends State<ResetNewPassword> {
-  bool isVisibility = false;
-  bool isVisibilityNew = false;
+  bool isVisibility = true;
+  bool isVisibilityNew = true;
   GlobalKey<FormState> resetNewKey = GlobalKey();
   final TextEditingController passController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
@@ -38,29 +38,27 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
           child: Column(
             children: [
               SizedBox(
-                height: 60.h,
+                height: 90.h,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 60.w),
 //image---------------------------------------------------------------
+
                 child: Container(
                   width: double.infinity,
                   height: 160.h,
                   margin: EdgeInsets.all(9.w),
-                  decoration: BoxDecoration(
-                    // boxShadow: const [BoxShadow(blurRadius: 2)],
-                    color: backBlack,
+                  decoration: const BoxDecoration(
+                    color: ligthtBlack,
                     shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset(
-                    'assets/Svg/Password Reset.svg',
-                    width: 48,
-                    height: 56,
+                    image: DecorationImage(
+                      image: AssetImage('assets/image/reset.png'),
+                    ),
                   ),
                 ),
               ),
               SizedBox(
-                height: 50.h,
+                height: 20.h,
               ),
               Padding(
                 padding:
@@ -69,6 +67,24 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                   key: resetNewKey,
                   child: Column(
                     children: [
+//title---------------------------------------------------------------
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: text(
+                            context,
+                            ' قم باعادة تعين كلمة المرور الجديدة',
+                            15,
+                            white,
+                            fontWeight: FontWeight.bold,
+                            align: TextAlign.right,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
 // new password Text field---------------------------------------------------------------
                       textField3(context, Icons.password, "كلمة المرور الجديدة",
                           12, isVisibility, passController, empty,
@@ -79,8 +95,12 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                 isVisibility = !isVisibility;
                               });
                             },
-                            icon: Icon(Icons.visibility,
-                                color: deepBlack, size: 25.sp),
+                            icon: Icon(
+                                isVisibility
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: deepBlack,
+                                size: 25.sp),
                           )),
                       SizedBox(
                         height: 10.h,
@@ -95,8 +115,12 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                                 isVisibilityNew = !isVisibilityNew;
                               });
                             },
-                            icon: Icon(Icons.visibility,
-                                color: deepBlack, size: 25.sp),
+                            icon: Icon(
+                                isVisibilityNew
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: deepBlack,
+                                size: 25.sp),
                           )),
                     ],
                   ),
@@ -114,6 +138,8 @@ class _ResetNewPasswordState extends State<ResetNewPassword> {
                     15,
                     white,
                     () {
+                      //remove focus from textField when click outside
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (resetNewKey.currentState?.validate() == true) {
                         resetNewPasswordMethod(widget.username!,
                             passController.text, newPassController.text);

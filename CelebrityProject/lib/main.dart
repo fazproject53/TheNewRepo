@@ -14,6 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'Account/LoggingSingUpAPI.dart';
+import 'Account/ResetPassword/PasswordCoding.dart';
+import 'Account/ResetPassword/ResetNewPassword.dart';
+import 'Account/ResetPassword/SendEmailGUI.dart';
 import 'Celebrity/HomeScreen/celebrity_home_page.dart';
 import 'Users/Exploer/Explower.dart';
 import 'celebrity/DiscountCodes/discount_codes_main.dart';
@@ -69,7 +72,12 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
             );
           },
 // if user click in remember me
-          home: isLogging == '' ?  Logging() : const MainScreen()),
+          home:
+          //PasswordCoding(userNameEmail: 'yyy')
+          //SendEmail()
+          //ResetNewPassword( username: 'yyy',code: 1234567,)
+         isLogging == '' ?  Logging() : const MainScreen()
+      ),
     );
   }
 //----------------------------------------------------------------------

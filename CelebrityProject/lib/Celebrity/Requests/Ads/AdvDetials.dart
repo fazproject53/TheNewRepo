@@ -424,7 +424,8 @@ class _AdvDetialsState extends State<AdvDetials>
                               widget.token!,
                               widget.orderId!,
                               resonReject!,
-                              resonRejectId!);
+                              resonRejectId
+                              !);
                           result.then((value) {
                             if (value == true) {
                               Navigator.pop(context);

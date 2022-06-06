@@ -39,7 +39,7 @@ class _PasswordCodingState extends State<PasswordCoding> {
           child: Column(
             children: [
               SizedBox(
-                height: 60.h,
+                height: 90.h,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 60.w),
@@ -48,20 +48,16 @@ class _PasswordCodingState extends State<PasswordCoding> {
                   width: double.infinity,
                   height: 160.h,
                   margin: EdgeInsets.all(9.w),
-                  decoration: BoxDecoration(
-                    // boxShadow: const [BoxShadow(blurRadius: 2)],
-                    color: backBlack,
+                  decoration: const BoxDecoration(
+                    color: ligthtBlack,
                     shape: BoxShape.circle,
-                  ),
-                  child: SvgPicture.asset(
-                    'assets/Svg/Password Coding.svg',
-                    width: 48,
-                    height: 56,
+                    image: DecorationImage(
+                        image: AssetImage('assets/image/code.png')),
                   ),
                 ),
               ),
               SizedBox(
-                height: 50.h,
+                height: 20.h,
               ),
 //title---------------------------------------------------------------
               Padding(
@@ -70,7 +66,7 @@ class _PasswordCodingState extends State<PasswordCoding> {
                 child: text(
                   context,
                   'الرجاء إدخال الرمز المكون من 4 أرقام المرسل إلى البريد الالكتروني المدخل',
-                  17,
+                  15,
                   white,
                   fontWeight: FontWeight.bold,
                   align: TextAlign.right,
@@ -91,9 +87,7 @@ class _PasswordCodingState extends State<PasswordCoding> {
                       codeController,
                       code,
                       keyboardType: TextInputType.phone,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     )),
               ),
 //reSend message ---------------------------------------------------------------
@@ -132,6 +126,8 @@ class _PasswordCodingState extends State<PasswordCoding> {
                     15,
                     white,
                     () {
+                      //remove focus from textField when click outside
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (codeKey.currentState?.validate() == true) {
                         verifyCode(widget.userNameEmail!,
                             int.parse(codeController.text));
