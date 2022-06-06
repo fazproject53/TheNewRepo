@@ -73,28 +73,31 @@ class _AdvDetialsState extends State<AdvDetials>
           // appBar: drowAppBar("تفاصيل الطلب",context),
           body: Column(children: [
 //image-----------------------------------------------------
-        ConstrainedBox(
-          constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height / 2.4,
-              maxHeight: MediaQuery.of(context).size.height / 2.4),
-          child: Container(
-            width: double.infinity,
-            // height: double.infinity,
-            margin: EdgeInsets.all(9.w),
-            decoration: BoxDecoration(
-                boxShadow: const [BoxShadow(blurRadius: 2)],
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.r),
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    widget.image!,
+        Expanded(
+          flex: 2,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height / 2.4,
+                maxHeight: MediaQuery.of(context).size.height / 2.4),
+            child: Container(
+              width: double.infinity,
+              // height: double.infinity,
+              margin: EdgeInsets.all(9.w),
+              decoration: BoxDecoration(
+                  boxShadow: const [BoxShadow(blurRadius: 2)],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.r),
                   ),
-                  fit: BoxFit.fill,
-                )),
-            child: Padding(
-              padding: EdgeInsets.all(8.0.r),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      widget.image!,
+                    ),
+                    fit: BoxFit.fill,
+                  )),
+              child: Padding(
+                padding: EdgeInsets.all(8.0.r),
+              ),
             ),
           ),
         ),
@@ -418,27 +421,51 @@ class _AdvDetialsState extends State<AdvDetials>
                         15,
                         white,
                         () {
-                          // if(&&resonKey.currentState?.validate()==true){}
-                          loadingDialogue(context);
-                          Future<bool> result = rejectAdvertisingOrder(
-                              widget.token!,
-                              widget.orderId!,
-                              resonReject!,
-                              resonRejectId
-                              !);
-                          result.then((value) {
-                            if (value == true) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  snackBar(
-                                      context, 'تم رفض الطلب', green, done));
-                            } else {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  snackBar(context, 'تم رفض الطلب مسبقا', red,
-                                      error));
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          if (resonReject == 'أخرى') {
+                            if (resonKey.currentState?.validate() == true) {
+                              loadingDialogue(context);
+                              Future<bool> result = rejectAdvertisingOrder(
+                                  widget.token!,
+                                  widget.orderId!,
+                                  reson.text,
+                                  0);
+                              result.then((value) {
+                                if (value == true) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      snackBar(context, 'تم رفض الطلب', green,
+                                          done));
+                                } else {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      snackBar(context, 'تم رفض الطلب مسبقا',
+                                          red, error));
+                                }
+                              });
+
                             }
-                          });
+                          } else {
+                            loadingDialogue(context);
+                            Future<bool> result = rejectAdvertisingOrder(
+                                widget.token!,
+                                widget.orderId!,
+                                resonReject!,
+                                resonRejectId!);
+                            result.then((value) {
+                              if (value == true) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar(
+                                        context, 'تم رفض الطلب', green, done));
+                              } else {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar(context, 'تم رفض الطلب مسبقا', red,
+                                        error));
+                              }
+                            });
+                          }
                         },
                         evaluation: 0,
                       ),
@@ -526,7 +553,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                   borderRadius: BorderRadius.circular(10.0.r),
                                   color: deepPink),
                               child: Padding(
-                                padding:  EdgeInsets.all(8.0.r),
+                                padding: EdgeInsets.all(8.0.r),
                                 child: text(
                                   context,
                                   rejectResonsList[i],
@@ -545,8 +572,8 @@ class _AdvDetialsState extends State<AdvDetials>
 //Another reson-----------------------------------------------------------------------------
 
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 30.0.w, vertical: 3.h),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 30.0.w, vertical: 3.h),
                 child: InkWell(
                   onTap: () {
                     setState(() {
@@ -562,7 +589,7 @@ class _AdvDetialsState extends State<AdvDetials>
                         borderRadius: BorderRadius.circular(10.0.r),
                         color: deepPink),
                     child: Padding(
-                      padding:  EdgeInsets.all(8.0.r),
+                      padding: EdgeInsets.all(8.0.r),
                       child: text(
                         context,
                         'أخرى',
