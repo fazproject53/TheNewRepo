@@ -66,7 +66,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
     copun,
     scheduale,
     studio,
-    pages,
+    pagesIcon,
     block,
     chat,
     support,
