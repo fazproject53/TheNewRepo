@@ -41,6 +41,8 @@ class _userInformationState extends State<userInformation> {
   String city = 'المدينة';
   String? countrycode;
   bool countryChanged = false;
+
+  int? countryId;
   Future<UserProfile>? getUser;
   var currentFocus;
   var citilist = [];
@@ -63,7 +65,7 @@ class _userInformationState extends State<userInformation> {
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
-      countryChanged  =true;
+      countryChanged  = true;
       _selectedTest3 = selectedTest;
     });
   }
@@ -77,8 +79,6 @@ class _userInformationState extends State<userInformation> {
       });
     });
     countries = fetCountries();
-    cities = fetCities();
-
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems3 = buildDropdownTestItems(countrylist);
 
@@ -472,9 +472,10 @@ class _userInformationState extends State<userInformation> {
                                     }
                                   })),
                               FutureBuilder(
-                                  future: cities,
+                                  future: fetCities(countrylist.indexOf(_selectedTest3)),
                                   builder: ((context,
                                       AsyncSnapshot<CityL> snapshot) {
+                                    print(countrylist.indexOf(_selectedTest3).toString()+'*************************************************************************************');
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
                                       return Center();
@@ -670,15 +671,15 @@ class _userInformationState extends State<userInformation> {
     }
   }
 
-  Future<CityL> fetCities() async {
+  Future<CityL> fetCities(int countryId) async {
     final response = await http.get(
-      Uri.parse('https://mobile.celebrityads.net/api/cities/1'),
+      Uri.parse('https://mobile.celebrityads.net/api/cities/$countryId'),
     );
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-
+      print(countryId);
       return CityL.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,

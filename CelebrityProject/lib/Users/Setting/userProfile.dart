@@ -114,9 +114,12 @@ class _userProfileState extends State<userProfile>
                                 Container(
                                   height: 80.h,
                                   width: 100.w,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
+
+                                  decoration: BoxDecoration(
+
+                                      shape: BoxShape.circle, color: lightGrey
+                                  ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(70.r),
                                     child: Image.network(
                                       Logging.theUser!.image!, fit: BoxFit.fill,
                                       height: double.infinity, width: double.infinity,

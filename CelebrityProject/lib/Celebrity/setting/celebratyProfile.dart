@@ -156,7 +156,10 @@ class _celebratyProfileState extends State<celebratyProfile> {
                               Container(
                                 height: 90.h,
                                 width: 110.w,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(70.r), color: lightGrey),
+                                decoration: BoxDecoration(
+
+                                    shape: BoxShape.circle, color: lightGrey
+                                ),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(70.r),
                                           child: Image.network(

@@ -13,6 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:async/async.dart';
 
+import '../Pricing/ModelPricing.dart';
+
 class advArea extends StatefulWidget{
  final String? id;
   const advArea({Key? key,  this.id}) : super(key: key);
@@ -26,13 +28,21 @@ class _advAreaState extends State<advArea>{
   final TextEditingController link = new TextEditingController();
 
 
-
+  Future<Pricing>? pricing;
   File? image;
    DateTime dateTime = DateTime.now();
+  final TextEditingController copun = new TextEditingController();
+  bool activateIt = false;
   bool datewarn2= false;
   bool check2 = false;
   bool warn2= false;
   bool warnimage= false;
+
+  @override
+  void initState() {
+        pricing = fetchCelebrityPricing(widget.id!);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +63,49 @@ class _advAreaState extends State<advArea>{
             padding(10, 12, Container( alignment : Alignment.topRight,child:  Text(' اطلب مساحتك الاعلانية', style: TextStyle(fontSize: 18.sp, color: textBlack , fontFamily: 'Cairo'), )),),
 
             SizedBox(height: 20.h,),
-
+            FutureBuilder(
+                future: pricing,
+                builder: ((context, AsyncSnapshot<Pricing> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center();
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.active ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text(snapshot.error.toString()));
+                      //---------------------------------------------------------------------------
+                    } else if (snapshot.hasData) {
+                      snapshot.data!.data != null  ?  activateIt = true :null;
+                      return snapshot.data!.data == null?
+                      SizedBox(): paddingg(15, 15, 12, Container(height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
+                        child:   Padding(
+                          padding: EdgeInsets.all(10),
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children:  [
+                              Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: Text('سعر الاعلان ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                              ),
+                              Text( snapshot.data!.data!.price!.adSpacePrice.toString() + ' ر.س ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
+                            ],
+                          ),),),
+                      );
+                    } else {
+                      return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                    }
+                  } else {
+                    return Center(
+                        child: Text('State: ${snapshot.connectionState}'));
+                  }
+                })),
             paddingg(15, 15, 12,textFieldNoIcon(context, 'رابط صفحة المعلن', 14, false, link,(String? value) {if (value == null || value.isEmpty) {
               }else{
               bool _validURL = Uri.parse(value).isAbsolute;
              return  _validURL? null: 'رابط الفحة غير صحيح';
             }},false),),
 
-
+            paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, copun,(String? value) { return null;},true),),
 
              SizedBox(height: 20.h),
             paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
@@ -121,7 +166,7 @@ class _advAreaState extends State<advArea>{
 
               ,),
              SizedBox(height: 30.h,),
-           check2? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
+           check2 && activateIt? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
               _formKey.currentState!.validate()? {
                 check2 && dateTime.day != DateTime.now().day && image != null?{
                   addAdAreaOrder().whenComplete(() => {    ScaffoldMessenger.of(
@@ -174,9 +219,10 @@ class _advAreaState extends State<advArea>{
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = 77.toString();
+    request.fields["celebrity_id"] = widget.id!;
     request.fields["date"]=dateTime.toString();
     request.fields["link"]= link.text;
+    request.fields["celebrity_promo_code_id"]=copun.text;
 
     var response = await request.send();
     response.stream.transform(utf8.decoder).listen((value) {
@@ -206,7 +252,22 @@ class _advAreaState extends State<advArea>{
     ));}
 
   }
+  Future<Pricing> fetchCelebrityPricing(String id ) async {
+    String token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDAzNzUwY2MyNjFjNDY1NjY2YjcwODJlYjgzYmFmYzA0ZjQzMGRlYzEyMzAwYTY5NTE1ZDNlZTYwYWYzYjc0Y2IxMmJiYzA3ZTYzODAwMWYiLCJpYXQiOjE2NTMxMTY4MjcuMTk0MDc3OTY4NTk3NDEyMTA5Mzc1LCJuYmYiOjE2NTMxMTY4MjcuMTk0MDg0ODgyNzM2MjA2MDU0Njg3NSwiZXhwIjoxNjg0NjUyODI3LjE5MDA0ODkzMzAyOTE3NDgwNDY4NzUsInN1YiI6IjExIiwic2NvcGVzIjpbXX0.GUQgvMFS-0VA9wOAhHf7UaX41lo7m8hRm0y4mI70eeAZ0Y9p2CB5613svXrrYJX74SfdUM4y2q48DD-IeT67uydUP3QS9inIyRVTDcEqNPd3i54YplpfP8uSyOCGehmtl5aKKEVAvZLOZS8C-aLIEgEWC2ixwRKwr89K0G70eQ7wHYYHQ3NOruxrpc_izZ5awskVSKwbDVnn9L9-HbE86uP4Y8B5Cjy9tZBGJ-6gJtj3KYP89-YiDlWj6GWs52ShPwXlbMNFVDzPa3oz44eKZ5wNnJJBiky7paAb1hUNq9Q012vJrtazHq5ENGrkQ23LL0n61ITCZ8da1RhUx_g6BYJBvc_10nMuwWxRKCr9l5wygmIItHAGXxB8f8ypQ0vLfTeDUAZa_Wrc_BJwiZU8jSdvPZuoUH937_KcwFQScKoL7VuwbbmskFHrkGZMxMnbDrEedl0TefFQpqUAs9jK4ngiaJgerJJ9qpoCCn4xMSGl_ZJmeQTQzMwcLYdjI0txbSFIieSl6M2muHedWhWscXpzzBhdMOM87cCZYuAP4Gml80jywHCUeyN9ORVkG_hji588pvW5Ur8ZzRitlqJoYtztU3Gq2n6sOn0sRShjTHQGPWWyj5fluqsok3gxpeux5esjG_uLCpJaekrfK3ji2DYp-wB-OBjTGPUqlG9W_fs';
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/celebrity/price/$id'));
 
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      //print(response.body);
+      return Pricing.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
 }
 
 
