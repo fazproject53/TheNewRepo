@@ -79,6 +79,7 @@ flutter:
   assets:
     - assets/font/
     - assets/image/
+    - assets/Svg/
     - assets/lottie/
     - assets/video/don.mp4
 

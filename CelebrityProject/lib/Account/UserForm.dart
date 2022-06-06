@@ -20,6 +20,16 @@ String? empty(value) {
   return null;
 }
 
+String? code( value) {
+  if (value.isEmpty) {
+    return "املء الحقل اعلاه";
+  }if (value.length!=6) {
+    return "عليك ادخال 6 ارقام";
+  }
+  return null;
+}
+
+
 
 String? valedEmile(value) {
   if (value.trim().isEmpty) {

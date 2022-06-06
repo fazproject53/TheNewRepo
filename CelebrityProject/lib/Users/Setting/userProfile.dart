@@ -290,7 +290,7 @@ class _userProfileState extends State<userProfile>
   }
 
   updateImageUser(String token) async {
-    var stream = new http.ByteStream(
+    var stream =  http.ByteStream(
         DelegatingStream.typed(userImage!.openRead()));
     // get file length
     var length = await userImage!.length();
@@ -307,7 +307,7 @@ class _userProfileState extends State<userProfile>
     var request = new http.MultipartRequest("POST", uri);
 
     // multipart that takes file
-    var multipartFile = new http.MultipartFile('image', stream, length,
+    var multipartFile =  http.MultipartFile('image', stream, length,
         filename: basename(userImage!.path));
 
     // add file to multipart

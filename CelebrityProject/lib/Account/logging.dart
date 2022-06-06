@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:celepraty/Account/ResetPassword/Reset.dart';
+import 'package:celepraty/Account/ResetPassword/SendEmailGUI.dart';
 import 'package:celepraty/Account/ResetPassword/VerifyToken.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -258,61 +259,12 @@ class _LoggingState extends State<Logging> {
         // ),
         InkWell(
             onTap: () {
-              forgetPassword('tatooo7331@gmail.com');
+              goTopagepush(context, const SendEmail());
             },
             child: text(context, 'هل نسيت كلمة المرور؟', 14.sp, purple)),
       ],
     );
   }
 
-//---------------------------------------------------------------------
 
-  void forgetPassword(String username) async {
-    getCreatePassword(username).then((result) {
-      if (result == true) {
-        ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
-            'تم ارسال رمز التحقق علي البريد الالكتروني الخاص بك', green, done));
-        print('تم ارسال كود في البريد الالكتروني');
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(snackBar(context, 'المستخدم غير موجود', red, error));
-      }
-    });
-  }
-
-//--------------------------------------------------------------------------------
-
-  Future<String?> verifyCode(String username, int code) async {
-    getVerifyCode(username, code).then((sendCode) async {
-      if (sendCode == 'not verified') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(snackBar(context, 'الرمز المدخل خاطئ', red, error));
-      } else {
-        verifyToken();
-      }
-    });
-    return '';
-  }
-
-//-----------------------------------------------------------------------------------------------
-  void verifyToken() async {
-    getVerifyToken(forgetToken).then((sendToken) async {
-      if (sendToken == true) {
-        getResetPassword(
-                'tatooo7331@gmail.com', '123123', '123123', forgetToken)
-            .then((value) {
-          if (value == true) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                snackBar(context, 'تم استعادة كلمة المرور بنجاح', green, done));
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar(
-                context, 'حدث خطا عليك اعادة الخطوات من البداية', red, error));
-          }
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            snackBar(context, 'لم يتممممم التحقق من التوكن', red, error));
-      }
-    });
-  }
 }
