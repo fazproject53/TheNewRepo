@@ -46,6 +46,7 @@ class _profileInformaionState extends State<profileInformaion>
   bool valid = false;
   bool noMatch =false;
   bool editPassword = false;
+  bool? genderChosen;
   String country = 'الدولة';
   String city = 'المدينة';
   String category = 'التصنيف';
@@ -56,7 +57,7 @@ class _profileInformaionState extends State<profileInformaion>
   var citilist = [];
   var countrylist = [];
   var categorylist = [];
-  var genderlist = [{'no':1,'keyword':'انثى'},{'no':0,'keyword':'ذكر'}];
+  var genderlist = [{'no':0,'keyword':'الجنس'},{'no':1,'keyword':'ذكر'},{'no':2,'keyword':'انثى'}];
 
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
@@ -99,6 +100,7 @@ class _profileInformaionState extends State<profileInformaion>
     print(selectedTest);
     setState(() {
       _selectedTest4 = selectedTest;
+      genderChosen = true;
     });
   }
 
@@ -197,6 +199,8 @@ class _profileInformaionState extends State<profileInformaion>
                                               }
                                             : phone.text = snapshot.data!.data!
                                                 .celebrity!.phonenumber!,
+                                  snapshot.data!.data!.celebrity!.gender != null?
+                                  gender = snapshot.data!.data!.celebrity!.gender!.name!: gender,
                                         pageLink.text = snapshot
                                             .data!.data!.celebrity!.pageUrl!,
                                         snapchat.text = snapshot
@@ -274,7 +278,7 @@ class _profileInformaionState extends State<profileInformaion>
                                 textFieldNoIcon(
                                     context, 'الاسم', 14, false, name,
                                     (String? value) {
-                                  if (value == null || value.isEmpty) {}
+                                  if (value == null || value.isEmpty) {return 'حقل اجباري';}
                                   return null;
                                 }, false),
                               ),
@@ -526,7 +530,11 @@ class _profileInformaionState extends State<profileInformaion>
                     onChanged: onChangeDropdownTests4,
                     ),
                     ),
-
+                              genderChosen != null?
+                              genderChosen!? SizedBox():paddingg(
+                                  10,
+                                  20,
+                                  3, text(context, 'تحديد نوع الجنس اجباري لتحديث المعلومات', 14, red!)): SizedBox(),
                               FutureBuilder(
                                   future: countries,
                                   builder: ((context,
@@ -1069,8 +1077,8 @@ class _profileInformaionState extends State<profileInformaion>
                                       content: Text('${value.message!.ar}'),
                                       ))),
                                       updateInformation().whenComplete(() => fetchCelebrities(userToken!))}: setState((){noMatch = true;})}:null,}:null;
-
-                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateInformation().then((value) =>
+                                      _selectedTest4 == null?  setState((){genderChosen = false; }): genderChosen = true;
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null && genderChosen!? updateInformation().then((value) =>
                                       {
                                         countryChanged
                                             ? setState(() {
@@ -1162,6 +1170,8 @@ class _profileInformaionState extends State<profileInformaion>
         'twitter': twitter.text,
         'facebook': facebook.text,
         'description': desc.text,
+        'gender_id' : _selectedTest4  == null ? 1 : genderlist.indexOf(_selectedTest4),
+
       }),
     );
     if (response.statusCode == 200) {
@@ -1364,6 +1374,7 @@ class Celebrity {
   Country? country;
   City? city;
   String? description;
+  Gender? gender;
   String? pageUrl;
   String? snapchat;
   String? tiktok;
@@ -1383,6 +1394,7 @@ class Celebrity {
       this.country,
       this.city,
       this.description,
+        this.gender,
       this.pageUrl,
       this.snapchat,
       this.tiktok,
@@ -1402,6 +1414,7 @@ class Celebrity {
     country =
         json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    gender = json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -1624,6 +1637,27 @@ class CityL {
     return data;
   }
 }
+
+class Gender {
+  int? id;
+  String? name;
+  String? nameEn;
+  Gender({this.name, this.nameEn, this.id});
+  Gender.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
 
 class Datacity {
   String? name;

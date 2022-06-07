@@ -19,14 +19,12 @@ class PdfClass {
     final document = Document();
     String title = 'التفاصيل الخاصة بالطلب';
     var arabicFont = Font.ttf(await rootBundle.load("assets/font/Cairo-Regular.ttf"));
+    var arabicFont2 = Font.ttf(await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage((await rootBundle.load('assets/image/logo.png')).buffer.asUint8List());
-    var pathToFile = await rootBundle.load('assets/font/MyFlutterApp.ttf');
-    final ttf = Font.ttf(pathToFile);
-
     document.addPage(Page(
       theme: ThemeData.withFont(
-        base: arabicFont,
-        icons: ttf,
+        base: arabicFont2,
+
 
       ),
       pageFormat: PdfPageFormat.roll80,
@@ -34,19 +32,28 @@ class PdfClass {
       build: (Context context) => Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: 80.w,
-                    height: 80.h,
+                    width: 90.w,
+                    height: 90.h,
                     child: Image(
                         imageImage
                     )
                 )
               ]
             ),
-            SizedBox(height: 15.h),
-            Text(title, style: TextStyle(fontSize: 10.sp)),
+            SizedBox(height: 20.h),
+            Padding(
+              padding: EdgeInsets.only(right: 10.w),
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(title, style: TextStyle(fontSize: 10.sp, font: arabicFont2)),
+                ]
+            ),
+            ),
+
             SizedBox(height: 10.h),
             Padding(
                 padding: EdgeInsets.only(right: 20.w),
@@ -55,47 +62,36 @@ class PdfClass {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text( textT, style: TextStyle(fontSize: 10.sp,color: PdfColors.black)),
-                        SizedBox(width: 5.w),
-                        Icon(IconData(mt.Icons.person.codePoint),
-                          color:
-                          PdfColors.deepPurple,
-                          size: 18,),
+                        Text( textT, style: TextStyle(fontSize: 10.sp,color: PdfColors.grey)),
+                        Text('اسم طالب الخدمة:', style: TextStyle(fontSize: 9.sp,color: PdfColors.black,)),
+
                       ]),
                   SizedBox(height: 10.h),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text( id, style: TextStyle(fontSize: 10.sp,color: PdfColors.black)),
-                        SizedBox(width: 5.w),
-                        // Icon(IconData(ttf.font.index),
-                        //   color:
-                        //   PdfColors.deepPurple,
-                        //   size: 18,),
+                        Text( id, style: TextStyle(fontSize: 10.sp,color: PdfColors.grey)),
+                        Text('رقم الطلب:', style: TextStyle(fontSize: 9.sp,color: PdfColors.black )),
+
                       ]),
                   SizedBox(height: 10.h),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text( date, style: TextStyle(fontSize: 10.sp,color: PdfColors.black)),
-                        SizedBox(width: 5.w),
-                        Icon(IconData(mt.Icons.date_range_outlined.codePoint),
-                          color:
-                          PdfColors.deepPurple,
-                          size: 18,),
+                        Text( date, style: TextStyle(fontSize: 10.sp,color: PdfColors.grey)),
+                        Text('تاريخ الطلب: ', style: TextStyle(fontSize: 9.sp,color: PdfColors.black)),
+
                       ]),
                   SizedBox(height: 10.h),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text( adType, style: TextStyle(fontSize: 10.sp,color: PdfColors.black)),
-                        SizedBox(width: 5.w),
-                        Icon(IconData(mt.Icons.campaign.codePoint),
-                          color:
-                          PdfColors.deepPurple,
-                          size: 18,),
+                        Text( adType, style: TextStyle(fontSize: 10.sp,color: PdfColors.grey)),
+                        Text('نوع الطلب: ', style: TextStyle(fontSize: 9.sp,color: PdfColors.black)),
+
                       ]),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 20.h),
+                  Text( 'جميع الحقوق محفوظة © لمنصة المشاهير', style: TextStyle(fontSize: 5.sp,color: PdfColors.black)),
                 ]
               )
             ),

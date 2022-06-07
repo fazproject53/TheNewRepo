@@ -328,7 +328,6 @@ class User {
   String? phonenumber;
   Country? country;
   Category? city;
-  Null? gender;
   AccountStatus? accountStatus;
   String? type;
 
@@ -341,7 +340,6 @@ class User {
         this.phonenumber,
         this.country,
         this.city,
-        this.gender,
         this.accountStatus,
         this.type});
 
@@ -355,7 +353,6 @@ class User {
     country =
     json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new Category.fromJson(json['city']) : null;
-    gender = json['gender'];
     accountStatus = json['account_status'] != null
         ? new AccountStatus.fromJson(json['account_status'])
         : null;
@@ -376,7 +373,6 @@ class User {
     if (this.city != null) {
       data['city'] = this.city!.toJson();
     }
-    data['gender'] = this.gender;
     if (this.accountStatus != null) {
       data['account_status'] = this.accountStatus!.toJson();
     }
