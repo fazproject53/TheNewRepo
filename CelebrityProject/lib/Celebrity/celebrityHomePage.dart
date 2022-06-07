@@ -444,7 +444,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             future: category[categoryId],
             builder: ((context, AsyncSnapshot<Category> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center();
+                return SizedBox(height: 250.h,);
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -452,7 +452,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       child: Center(child: Text(snapshot.error.toString())));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
-                  return SizedBox(
+                  return snapshot
+                      .data!.data!.celebrities!.isNotEmpty?SizedBox(
                       height: 250.h,
                       child: Directionality(
                         textDirection: TextDirection.rtl,
@@ -545,7 +546,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                             ),
                           ],
                         )),
-                      ));
+                      )):const SizedBox();
                 } else {
                   return const Center(
                       child: Center(child: Text('لايوجد مشاهير لعرضهم حاليا')));

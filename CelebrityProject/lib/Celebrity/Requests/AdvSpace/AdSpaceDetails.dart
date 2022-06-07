@@ -123,7 +123,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                         ),
                         InkWell(
                           onTap: () async {
-                            var url = widget.link!;
+                            var url =  widget.link!;
                             if(await canLaunch(url.toString())){
                                await launch(url.toString(),forceWebView: true);
                             }else {
