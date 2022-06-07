@@ -1,6 +1,5 @@
 
 import 'dart:io';
-import 'package:flutter/material.dart' as mt;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,8 +7,7 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
-import 'package:printing/printing.dart';
-import 'dart:typed_data';
+
 
 
 ///create pdf document
@@ -18,12 +16,12 @@ class PdfClass {
       String textT, String id, String date, String adType) async {
     final document = Document();
     String title = 'التفاصيل الخاصة بالطلب';
-    var arabicFont = Font.ttf(await rootBundle.load("assets/font/Cairo-Regular.ttf"));
-    var arabicFont2 = Font.ttf(await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
+
+    var arabicFont = Font.ttf(await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage((await rootBundle.load('assets/image/logo.png')).buffer.asUint8List());
     document.addPage(Page(
       theme: ThemeData.withFont(
-        base: arabicFont2,
+        base: arabicFont,
 
 
       ),
@@ -49,7 +47,7 @@ class PdfClass {
               child:  Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(title, style: TextStyle(fontSize: 10.sp, font: arabicFont2)),
+                  Text(title, style: TextStyle(fontSize: 10.sp,)),
                 ]
             ),
             ),
@@ -91,14 +89,15 @@ class PdfClass {
 
                       ]),
                   SizedBox(height: 20.h),
-                  Text( 'جميع الحقوق محفوظة © لمنصة المشاهير', style: TextStyle(fontSize: 5.sp,color: PdfColors.black)),
                 ]
               )
             ),
+            Text('جميع الحقوق محفوظة © لمنصة المشاهير', style: TextStyle(fontSize: 5.sp,color: PdfColors.black)),
+            SizedBox(height: 10.h),
       ]),
     ));
 
-    return saveDocument(name: 'CalenderInfo.pdf', pdf: document);
+    return saveDocument(name:'تفاصيل الموعد.pdf', pdf: document);
   }
 
   static Future<File> saveDocument({
