@@ -17,6 +17,7 @@ import 'Account/LoggingSingUpAPI.dart';
 import 'Account/ResetPassword/PasswordCoding.dart';
 import 'Account/ResetPassword/ResetNewPassword.dart';
 import 'Account/ResetPassword/SendEmailGUI.dart';
+import 'Celebrity/Calendar/calendar_main.dart';
 import 'Celebrity/HomeScreen/celebrity_home_page.dart';
 import 'Users/Exploer/Explower.dart';
 import 'celebrity/DiscountCodes/discount_codes_main.dart';

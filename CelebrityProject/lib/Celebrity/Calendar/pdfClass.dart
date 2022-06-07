@@ -77,7 +77,7 @@ class PdfClass {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text( date, style: TextStyle(fontSize: 10.sp,color: PdfColors.grey)),
-                        Text('تاريخ الطلب: ', style: TextStyle(fontSize: 9.sp,color: PdfColors.black)),
+                        Text('تاريخ الطلب:', style: TextStyle(fontSize: 9.sp,color: PdfColors.black)),
 
                       ]),
                   SizedBox(height: 10.h),
@@ -85,7 +85,7 @@ class PdfClass {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text( adType, style: TextStyle(fontSize: 10.sp,color: PdfColors.grey)),
-                        Text('نوع الطلب: ', style: TextStyle(fontSize: 9.sp,color: PdfColors.black)),
+                        Text('نوع الطلب:', style: TextStyle(fontSize: 9.sp,color: PdfColors.black)),
 
                       ]),
                   SizedBox(height: 20.h),

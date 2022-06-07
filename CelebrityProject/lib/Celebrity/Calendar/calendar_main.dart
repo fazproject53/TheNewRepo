@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import '../../Account/LoggingSingUpAPI.dart';
 import '../../Models/Variables/Variables.dart';
 
 
@@ -41,9 +42,16 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
   ///future discount model variable
   Future<CalenderModel>? calender;
 
+  String? userToken;
   @override
   void initState() {
-    calender = fetchCalender();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        calender = fetchCalender(userToken!);
+      });
+    });
+    // TODO: implement initState
     super.initState();
   }
 
@@ -86,7 +94,8 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
                       return Center(child: Text(snapshot.error.toString()));
                       //---------------------------------------------------------------------------
                     } else if (snapshot.hasData) {
-                      return ListView.builder(
+
+                      return snapshot.data!.data!.orders!.isNotEmpty ? ListView.builder(
                         itemCount: snapshot.data!.data!.orders!.length,
                         itemBuilder: (context, index) {
 
@@ -293,7 +302,14 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
                             ),
                           );
                         },
-                      );
+                      ) : Center(
+                          child: Center(
+                              child: text(
+                                context,
+                                "لا توجد مواعيد لعرضها حاليا",
+                                15,
+                                black,
+                              )));
                     } else {
                       return const Center(child: Text('No info to show!!'));
                     }
@@ -312,8 +328,7 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
 
 
   ///GET
-  Future<CalenderModel> fetchCalender() async {
-    String token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZDI4MTY3ZWY1YWE0ZDBjZWQ0MDBjOTViMzBmNWQwZGFiNmY4MzgxMWU3YTUwMWUyMmYwMmMyZGU2YjRjOTIwOGI0MjFjNmZjZGM3YWMzZjUiLCJpYXQiOjE2NTM5ODg2MjAuNjgyMDE4OTk1Mjg1MDM0MTc5Njg3NSwibmJmIjoxNjUzOTg4NjIwLjY4MjAyNDk1NTc0OTUxMTcxODc1LCJleHAiOjE2ODU1MjQ2MjAuNjczNjY3OTA3NzE0ODQzNzUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.OguFfzEWNOyCU4xSZ_PbLwg1xmyEbIMYAQ-J9wRApGKMq0qo1aEiM1OvcfvEaopxRiKngk-ckebhhcl7MRtGopNZcNjJwp9jWS7yZuyH7DBvct0O6tys47HL4eBU0QLwgmxMmh8nLkADARdIvVdZJFw9vLp-7X-4Huj6I2E1SFjeYnV6l7Fu_c1BYMAJmXpBwIALxTvwxg8tbxuhKmFBtLnnY3K25Tedra9IMc0nR_nXV3ifXdp4v7fsvbCLLYNr5ihc3ElE_QWczOvkkYeOPTP4yFMFlZFpWUNeER5wiEdbcO6WzzxzCRkLXriedWDI3G6qOrMAUAjiAUxS51--_7x9iI0qHalXHyGxgudUnAHGNsYpvLJ8JVCM2k_dtGazmZtA5w5wDSTI8gSuWUZxf2OpQNCmyt8k80Pbi_Olz2xDMSuDKYmiomWrUhwIwunk_gsU9lC5oLcEzJ2BLcaiiuwFex9xraMbbC1ZyipSIZZhW1l1CppYeYmPSxLC8hEIywRy5Lbvw-WQ25CpurNgEMiHefGooDxCsHqnkfWCQ1MnFAGiEs2hPtG7DVp8RArzCyXXaVrtVi2wbBFrCPDK52yNQxQjs3z8JBNlDwEFR2uDa-VRup61j2WESvyUKPMloD7gL7FsthAl6IZquYh7XujHWEcf1Lnprd6D5J6CPWM';
+  Future<CalenderModel> fetchCalender(String token) async {
     final response = await http.get(
         Uri.parse('https://mobile.celebrityads.net/api/celebrity/schedule'),
         headers: {
