@@ -270,7 +270,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             InkWell(
               onTap: () async {
                 var url = link;
-                await launch(url, forceWebView: true);
+                await launch(url.toString(), forceWebView: true);
               },
               child: Align(
                   alignment: Alignment.center,
