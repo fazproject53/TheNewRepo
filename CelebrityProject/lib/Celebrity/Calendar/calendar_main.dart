@@ -1,10 +1,16 @@
 ///import section
-import 'package:celepraty/Celebrity/Calendar/calendar_info.dart';
+import 'dart:convert';
+
+import 'package:celepraty/Celebrity/Calendar/CalenderModel.dart';
+import 'package:celepraty/Celebrity/Calendar/pdfClass.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http/http.dart' as http;
+import '../../Models/Variables/Variables.dart';
+
 
 class CelebrityCalenderMain extends StatelessWidget {
   const CelebrityCalenderMain({Key? key}) : super(key: key);
@@ -23,6 +29,7 @@ class CelebrityCalenderMain extends StatelessWidget {
 
 ///---------------------CelebrityCalenderHome---------------------
 class CelebrityCalenderHome extends StatefulWidget {
+
   const CelebrityCalenderHome({Key? key}) : super(key: key);
 
   @override
@@ -30,6 +37,23 @@ class CelebrityCalenderHome extends StatefulWidget {
 }
 
 class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
+
+  ///future discount model variable
+  Future<CalenderModel>? calender;
+
+  @override
+  void initState() {
+    calender = fetchCalender();
+    super.initState();
+  }
+
+  late DateTime dateFormat;
+
+  late String month;
+  late int day;
+  late int year;
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,150 +74,263 @@ class _CelebrityCalenderHomeState extends State<CelebrityCalenderHome> {
               60,
 
               ///ListView
-              ListView.builder(
-                itemCount: calenderList.length,
-                itemBuilder: (context, index) {
-                  return paddingg(
-                    5,
-                    12,
-                    10,
-                    SizedBox(
-                      height: 90.h,
-                      child: Card(
-                        elevation: 20,
-                        color: white,
-                        shadowColor: Colors.black38,
-                        child: paddingg(
-                          0,
-                          0,
-                          0,
+              FutureBuilder<CalenderModel>(
+                future: calender,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center();
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.active ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(child: Text(snapshot.error.toString()));
+                      //---------------------------------------------------------------------------
+                    } else if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.data!.orders!.length,
+                        itemBuilder: (context, index) {
 
-                          ///Row to store all info
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              paddingg(
-                                  10,
-                                  2,
+                          dateFormat = DateTime.parse(snapshot.data!.data!.orders![index].date!);
+
+                          ///Save the year
+                          year  = dateFormat.year;
+
+                          ///Save the day date
+                          day = dateFormat.day;
+
+                          ///Convert the month to text
+                          if(dateFormat.month == 01){ ///1
+                            month = 'يناير';
+                          }else if(dateFormat.month == 02){ ///2
+                            month = 'فبراير';
+                          }else if(dateFormat.month == 03){ ///3
+                            month = 'مارش';
+                          }else if(dateFormat.month == 04){ ///4
+                            month = 'ابريل';
+                          }else if(dateFormat.month == 05){ ///5
+                            month = 'مايو';
+                          }else if(dateFormat.month == 06){ ///6
+                            month = 'يونيو';
+                          }else if(dateFormat.month == 07){ ///7
+                            month = 'يوليو';
+                          }else if(dateFormat.month == 08){ ///8
+                            month = 'أغطسطس';
+                          }else if(dateFormat.month == 09){ ///9
+                            month = 'سبتمبر';
+                          }else if(dateFormat.month == 10){ ///10
+                            month = 'أكتوبر';
+                          }else if(dateFormat.month == 11){ ///11
+                            month = 'نوفمبر';
+                          }else{ /// 12
+                            month = 'ديسمبر';
+                          }
+
+                          return paddingg(
+                            5,
+                            12,
+                            10,
+                            SizedBox(
+                              height: 90.h,
+                              child: Card(
+                                elevation: 20,
+                                color: white,
+                                shadowColor: Colors.black38,
+                                child: paddingg(
                                   0,
+                                  0,
+                                  0,
+
+                                  ///Row to store all info
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
                                     children: [
-                                      Container(
+                                      paddingg(
+                                          10,
+                                          2,
+                                          0,
+                                          Row(
+                                            children: [
+                                              Container(
 
-                                        ///the box of date
-                                        alignment: Alignment.center,
-                                        height: 70.h,
-                                        width: 80.w,
-                                        decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment(0.8, 2.0),
-                                              end: Alignment(-0.69, -1.0),
-                                              colors: [
-                                                Color(0xff0ab3d0)
-                                                    .withOpacity(0.90),
-                                                Color(0xffe468ca)
-                                                    .withOpacity(0.90)
-                                              ],
-                                              stops: [0.0, 1.0],
+                                                ///the box of date
+                                                alignment: Alignment.center,
+                                                height: 80.h,
+                                                width: 80.w,
+                                                decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                      begin: const Alignment(
+                                                          0.8, 2.0),
+                                                      end: const Alignment(
+                                                          -0.69, -1.0),
+                                                      colors: [
+                                                        const Color(0xff0ab3d0)
+                                                            .withOpacity(0.90),
+                                                        const Color(0xffe468ca)
+                                                            .withOpacity(0.90)
+                                                      ],
+                                                      stops: const [0.0, 1.0],
+                                                    ),
+                                                    borderRadius: BorderRadius
+                                                        .only(
+                                                      bottomLeft: Radius
+                                                          .circular(10.r),
+                                                      bottomRight:
+                                                      Radius.circular(10.r),
+                                                      topRight: Radius.circular(
+                                                          10.r),
+                                                      topLeft: Radius.circular(
+                                                          10.r),
+                                                    )),
+                                                ///Text
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                     Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                           text(context, day.toString(), 16, white, fontWeight: FontWeight.bold),
+                                                           SizedBox(
+                                                             width: 5.w,
+                                                           ),
+                                                           text(context, month, 16, white, fontWeight: FontWeight.bold),
+                                                        ],
+                                                      ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                                                      child: text(context, year.toString(), 16, white, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              ///SizedBox
+                                              SizedBox(
+                                                width: 20.w,
+                                              ),
+
+                                              ///type of order and date
+                                              Center(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 10.h,
+                                                    ),
+                                                    text(
+                                                        context,
+                                                        snapshot.data!.data!.orders![index].adType!.name!,
+                                                        18,
+                                                        black.withOpacity(0.9)),
+                                                    text(
+                                                        context,
+                                                        snapshot.data!.data!.orders![index].adTiming!.name!,
+                                                        14,
+                                                        grey!.withOpacity(0.9)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 7.w),
+                                        child: Row(children: [
+                                          InkWell(
+                                            child: Icon(
+                                              infoIcon,
+                                              size: 23,
+                                              color: black,
                                             ),
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(10.r),
-                                              bottomRight:
-                                                  Radius.circular(10.r),
-                                              topRight: Radius.circular(10.r),
-                                              topLeft: Radius.circular(10.r),
-                                            )),
-
-                                        ///Text
-                                        child: text(context,
-                                            calenderList[index].date, 16, white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-
-                                      ///SizedBox
-                                      SizedBox(
-                                        width: 20.w,
-                                      ),
-
-                                      ///type of order and date
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: 10.h,
+                                            onTap: () {
+                                              ///When chick the pop card will show with all details
+                                              showDialogFunc(
+                                                  context,
+                                                  snapshot.data!.data!.orders![index].user!.name!,
+                                                  snapshot.data!.data!.orders![index].id!,
+                                                  snapshot.data!.data!.orders![index].date!,
+                                                  snapshot.data!.data!.orders![index].adType!.name!
+                                              );
+                                            },
                                           ),
-                                          text(
-                                              context,
-                                              calenderList[index].typeOfOrder,
-                                              18,
-                                              black.withOpacity(0.9)),
-                                          text(
-                                              context,
-                                              calenderList[index].time,
-                                              14,
-                                              grey!.withOpacity(0.9)),
-                                        ],
+                                          SizedBox(
+                                            width: 5.w,
+                                          ),
+
+                                          InkWell(
+                                            child: GradientIcon(
+                                              share,
+                                              25.w,
+                                              const LinearGradient(
+                                                begin: Alignment(0.7, 2.0),
+                                                end: Alignment(-0.69, -1.0),
+                                                colors: [
+                                                  Color(0xff0ab3d0),
+                                                  Color(0xffe468ca)
+                                                ],
+                                                stops: [0.0, 1.0],
+                                              ),
+                                            ),
+                                            onTap: () async {
+                                              ///Click on it then you can share the details
+                                              ///PDF File have all info of requests
+                                              //Share.shareFiles(_createPDF());
+
+                                              final pdf = await PdfClass.createPDF(
+                                                  snapshot.data!.data!.orders![index].user!.name!,
+                                                  snapshot.data!.data!.orders![index].id!.toString(),
+                                                  snapshot.data!.data!.orders![index].date!.toString(),
+                                                  snapshot.data!.data!.orders![index].adType!.name!);
+                                              PdfClass.openFile(pdf);
+                                            },
+                                          ),
+                                        ]),
                                       ),
                                     ],
-                                  )),
-                              Padding(
-                                padding: EdgeInsets.only(left: 7.w),
-                                child: Row(children: [
-                                  InkWell(
-                                    child: Icon(
-                                      infoIcon,
-                                      size: 23,
-                                      color: black,
-                                    ),
-                                    onTap: () {
-                                      ///When chick the pop card will show with all details
-                                      showDialogFunc(
-                                          context,
-                                          calenderList[index].personalName,
-                                          calenderList[index].invoices,
-                                          calenderList[index].date2,
-                                          calenderList[index].typeOfOrder);
-                                    },
                                   ),
-                                  SizedBox(
-                                    width: 5.w,
-                                  ),
-
-                                  InkWell(
-                                    child: GradientIcon(
-                                      share,
-                                      25.w,
-                                      const LinearGradient(
-                                        begin: Alignment(0.7, 2.0),
-                                        end: Alignment(-0.69, -1.0),
-                                        colors: [
-                                          Color(0xff0ab3d0),
-                                          Color(0xffe468ca)
-                                        ],
-                                        stops: [0.0, 1.0],
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      ///Click on it then you can share the details
-
-                                    },
-                                  ),
-                                ]),
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(child: Text('No info to show!!'));
+                    }
+                  } else {
+                    return Center(
+                        child: Text('State: ${snapshot.connectionState}'));
+                  }
+                }
+              )
             ),
           ]),
         ),
       ]),
     );
+  }
+
+
+  ///GET
+  Future<CalenderModel> fetchCalender() async {
+    String token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZDI4MTY3ZWY1YWE0ZDBjZWQ0MDBjOTViMzBmNWQwZGFiNmY4MzgxMWU3YTUwMWUyMmYwMmMyZGU2YjRjOTIwOGI0MjFjNmZjZGM3YWMzZjUiLCJpYXQiOjE2NTM5ODg2MjAuNjgyMDE4OTk1Mjg1MDM0MTc5Njg3NSwibmJmIjoxNjUzOTg4NjIwLjY4MjAyNDk1NTc0OTUxMTcxODc1LCJleHAiOjE2ODU1MjQ2MjAuNjczNjY3OTA3NzE0ODQzNzUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.OguFfzEWNOyCU4xSZ_PbLwg1xmyEbIMYAQ-J9wRApGKMq0qo1aEiM1OvcfvEaopxRiKngk-ckebhhcl7MRtGopNZcNjJwp9jWS7yZuyH7DBvct0O6tys47HL4eBU0QLwgmxMmh8nLkADARdIvVdZJFw9vLp-7X-4Huj6I2E1SFjeYnV6l7Fu_c1BYMAJmXpBwIALxTvwxg8tbxuhKmFBtLnnY3K25Tedra9IMc0nR_nXV3ifXdp4v7fsvbCLLYNr5ihc3ElE_QWczOvkkYeOPTP4yFMFlZFpWUNeER5wiEdbcO6WzzxzCRkLXriedWDI3G6qOrMAUAjiAUxS51--_7x9iI0qHalXHyGxgudUnAHGNsYpvLJ8JVCM2k_dtGazmZtA5w5wDSTI8gSuWUZxf2OpQNCmyt8k80Pbi_Olz2xDMSuDKYmiomWrUhwIwunk_gsU9lC5oLcEzJ2BLcaiiuwFex9xraMbbC1ZyipSIZZhW1l1CppYeYmPSxLC8hEIywRy5Lbvw-WQ25CpurNgEMiHefGooDxCsHqnkfWCQ1MnFAGiEs2hPtG7DVp8RArzCyXXaVrtVi2wbBFrCPDK52yNQxQjs3z8JBNlDwEFR2uDa-VRup61j2WESvyUKPMloD7gL7FsthAl6IZquYh7XujHWEcf1Lnprd6D5J6CPWM';
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/celebrity/schedule'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // print(response.body);
+      return CalenderModel.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
   }
 }
 
@@ -211,7 +348,7 @@ showDialogFunc(context, personalName, invoices, date2, typeOfOrder) {
               color: white,
             ),
             padding: EdgeInsets.only(top: 15.h, right: 20.w, left: 20.w),
-            height: 210.h,
+            height: 230.h,
             width: 300.w,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,7 +362,7 @@ showDialogFunc(context, personalName, invoices, date2, typeOfOrder) {
                   ],
                 ),
                 SizedBox(
-                  height: 10.h,
+                  height: 15.h,
                 ),
 
                 ///Details
@@ -281,7 +418,7 @@ showDialogFunc(context, personalName, invoices, date2, typeOfOrder) {
                     ),
 
                     ///text
-                    text(context, invoices, 17.sp, black,
+                    text(context, invoices.toString(), 17.sp, black,
                         family: 'DINNextLTArabic'),
                   ],
                 ),
@@ -353,3 +490,5 @@ showDialogFunc(context, personalName, invoices, date2, typeOfOrder) {
     },
   );
 }
+
+

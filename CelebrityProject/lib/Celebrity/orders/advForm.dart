@@ -694,6 +694,12 @@ buildCkechboxList(list) {
     // multipartFile = new http.MultipartFile('file', file!.bytes.toList(), length,
     //     filename: file!.name),
     // listen for response
+
+    ///value
+    ///value1
+    ///value2
+    ///value3
+
     request.files.add(multipartFile);
     request.headers.addAll(headers);
     request.fields["celebrity_id"] =widget.id.toString();
@@ -701,9 +707,12 @@ buildCkechboxList(list) {
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest).toString();
     request.fields["description"]= description.text;
     request.fields["celebrity_promo_code_id"]= coupon.text;
+
     request.fields["ad_owner_id"]= _value.toString();
     request.fields["ad_feature_id"]= _value2.toString();
     request.fields["ad_timing_id"]= _value4.toString();
+
+
     request.fields["advertising_ad_type_id"]= _value3.toString();
     request.fields["advertising_name"] = '';
     request.fields["advertising_link"] = '';

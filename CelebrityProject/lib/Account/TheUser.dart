@@ -7,6 +7,4 @@ class TheUser{
   String? phone;
 
   TheUser();
-
-
 }
