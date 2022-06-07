@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/chat/chatRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,11 +45,11 @@ class AdvDetials extends StatefulWidget {
 class _AdvDetialsState extends State<AdvDetials>
     with AutomaticKeepAliveClientMixin {
   int? resonRejectId;
+  List<String> rejectResonsList = [];
   String? resonReject;
   bool isReject = true;
   TextEditingController? price;
   TextEditingController reson = TextEditingController();
-  List<String> rejectResonsList = [];
   GlobalKey<FormState> priceKey = GlobalKey();
   GlobalKey<FormState> resonKey = GlobalKey();
 
@@ -443,7 +442,6 @@ class _AdvDetialsState extends State<AdvDetials>
                                           red, error));
                                 }
                               });
-
                             }
                           } else {
                             loadingDialogue(context);
@@ -477,20 +475,6 @@ class _AdvDetialsState extends State<AdvDetials>
               ),
       ])),
     );
-  }
-
-  void getRejectReson() async {
-    String url = "https://mobile.celebrityads.net/api/reject-resons";
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final body = jsonDecode(response.body);
-      for (int i = 0; i < body['data'].length; i++) {
-        rejectResonsList.add(body['data'][i]['name']);
-      }
-    } else {
-      throw Exception('Failed to load celebrity catogary');
-    }
   }
 
 //----------------------------------------------------------------------------------------------
@@ -606,7 +590,20 @@ class _AdvDetialsState extends State<AdvDetials>
           );
         });
   }
+//-------------------------------------------------------------------------
+  void getRejectReson() async {
+    String url = "https://mobile.celebrityads.net/api/reject-resons";
+    final response = await http.get(Uri.parse(url));
 
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      for (int i = 0; i < body['data'].length; i++) {
+        rejectResonsList.add(body['data'][i]['name']);
+      }
+    } else {
+      throw Exception('Failed to load celebrity Reject reson');
+    }
+  }
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;

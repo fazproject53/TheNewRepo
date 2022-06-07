@@ -59,7 +59,11 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                                     description:snapshot.data!.data!.giftOrders![i].description ,
                                     advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
                                     advType: snapshot.data!.data!.giftOrders![i].giftType?.name ,
-
+                                    orderId: snapshot.data!.data!.giftOrders![i].id,
+                                    token:token,
+                                    state:snapshot.data!.data!.giftOrders![i].status?.id,
+                                    rejectResonName: snapshot.data!.data!.giftOrders![i].rejectReson?.name!,
+                                    rejectResonId: snapshot.data!.data!.giftOrders![i].rejectReson?.id,
                                   ));
                                 },
                                 child: Column(
