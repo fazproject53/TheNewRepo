@@ -303,6 +303,13 @@
             </list>
           </value>
         </entry>
+        <entry key="google_fonts">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="html">
           <value>
             <list>
@@ -976,6 +983,7 @@
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-5.3.1/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.0.3/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/freezed_annotation-1.1.0/lib" />
+      <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/html-0.15.0/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.4/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/lib" />
