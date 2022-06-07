@@ -137,6 +137,7 @@ class _userInformationState extends State<userInformation> {
                   country = snapshot.data!.data!.user!.country != null
                       ? snapshot.data!.data!.user!.country!.name!
                       : '',
+                    cities = fetCities(1),
                   city = snapshot.data!.data!.user!.city != null
                       ? snapshot.data!.data!.user!.city!.name.toString()
                       : '',
@@ -472,7 +473,7 @@ class _userInformationState extends State<userInformation> {
                                     }
                                   })),
                               FutureBuilder(
-                                  future: fetCities(countrylist.indexOf(_selectedTest3)),
+                                  future: cities,
                                   builder: ((context,
                                       AsyncSnapshot<CityL> snapshot) {
                                     print(countrylist.indexOf(_selectedTest3).toString()+'*************************************************************************************');
