@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../Account/LoggingSingUpAPI.dart';
 import '../../celebrity/HomeScreen/celebrity_home_page.dart';
 import 'ModelDiscountCode.dart';
 
@@ -63,10 +64,19 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   int? helper2 = 0;
   int? helper3 = 0;
 
+  String? userToken;
   @override
   void initState() {
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        discount = fetchDiscountCode(userToken!);
+      });
+    });
+    // TODO: implement initState
+
     super.initState();
-    discount = fetchDiscountCode();
+
   }
 
   @override
@@ -699,7 +709,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                         if (saveList.isNotEmpty)
                                                           {
                                                             widget.putId != null
-                                                                ? updateDiscountCode(snapshot
+                                                                ? updateDiscountCode(userToken!, snapshot
                                                                         .data!
                                                                         .data!
                                                                         .promoCode![widget
@@ -805,9 +815,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   }
 
   ///GET
-  Future<DiscountModel> fetchDiscountCode() async {
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
+  Future<DiscountModel> fetchDiscountCode(String token) async {
     final response = await http.get(
         Uri.parse('https://mobile.celebrityads.net/api/celebrity/promo-codes'),
         headers: {
@@ -829,9 +837,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
   }
 
   ///UPDATE
-  Future<http.Response> updateDiscountCode(int id) async {
-    String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
+  Future<http.Response> updateDiscountCode(String token, int id) async {
+
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/promo-codes/update/$id',
@@ -839,7 +846,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $token'
       },
       body: jsonEncode(<String, dynamic>{
         'code': discountCode.text,
@@ -858,7 +865,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
       print(response.body);
       setState(() {
-        discount = fetchDiscountCode();
+        discount = fetchDiscountCode(userToken!);
       });
       return response;
     } else {
