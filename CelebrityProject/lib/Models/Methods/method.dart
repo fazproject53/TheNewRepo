@@ -316,13 +316,14 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
 //=============================TextFields price=================================
 Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
-    {Widget? suffixIcon,
+    {Widget? suffixIcon,onTap,hitText,
     bool isEdit = true,
     List<TextInputFormatter>? inputFormatters,
     TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     enabled: isEdit,
+    onTap: onTap,
     validator: myvali,
     autovalidateMode: AutovalidateMode.onUserInteraction,
     autofocus: false,
@@ -335,7 +336,7 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle:
-            TextStyle(color: pink, fontSize: (textScaling + fontSize).sp),
+        TextStyle(color: deepgrey, fontSize: 12.0.sp),
         fillColor: white,
         labelStyle: TextStyle(color: deepgrey, fontSize: 12.0.sp),
         border: OutlineInputBorder(
@@ -354,6 +355,7 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
             borderRadius: BorderRadius.circular(10.r)),
         prefixIcon: Icon(icons, color: pink, size: 25.sp),
         labelText: key,
+        hintText: hitText,
         errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
         contentPadding: EdgeInsets.all(10.h)),
   );
