@@ -28,6 +28,8 @@ class DatabaseHelper {
       login.Logging.theUser!.id = jsonDecode(respons.body)["data"]?["user"]['id'].toString();
       login.Logging.theUser!.phone = jsonDecode(respons.body)["data"]?["user"]['phone'].toString();
       login.Logging.theUser!.image = jsonDecode(respons.body)["data"]?["user"]['image'];
+      login.Logging.theUser!.country = jsonDecode(respons.body)["data"]?["user"]['country']['name'];
+
       rememberIsLogin = token;
       print('-----------------------------------------------------');
       print('username is: $username');

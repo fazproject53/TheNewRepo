@@ -60,7 +60,6 @@ class Orders {
   Gender? status;
   int? price;
   String? description;
-  String? celebrityPromoCode;
   Gender? adOwner;
   Gender? advertisingAdType;
   Gender? adFeature;
@@ -69,7 +68,7 @@ class Orders {
   String? advertisingName;
   String? advertisingLink;
   Gender? platform;
-  String? rejectReson;
+
 
   Orders(
       {this.id,
@@ -80,7 +79,7 @@ class Orders {
         this.status,
         this.price,
         this.description,
-        this.celebrityPromoCode,
+
         this.adOwner,
         this.advertisingAdType,
         this.adFeature,
@@ -89,7 +88,7 @@ class Orders {
         this.advertisingName,
         this.advertisingLink,
         this.platform,
-        this.rejectReson});
+       });
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -104,7 +103,7 @@ class Orders {
     json['status'] != null ? new Gender.fromJson(json['status']) : null;
     price = json['price'];
     description = json['description'];
-    celebrityPromoCode = json['celebrity_promo_code'];
+
     adOwner =
     json['ad_owner'] != null ? new Gender.fromJson(json['ad_owner']) : null;
     advertisingAdType = json['advertising_ad_type'] != null
@@ -121,7 +120,7 @@ class Orders {
     advertisingLink = json['advertising_link'];
     platform =
     json['platform'] != null ? new Gender.fromJson(json['platform']) : null;
-    rejectReson = json['reject_reson'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -142,7 +141,7 @@ class Orders {
     }
     data['price'] = this.price;
     data['description'] = this.description;
-    data['celebrity_promo_code'] = this.celebrityPromoCode;
+
     if (this.adOwner != null) {
       data['ad_owner'] = this.adOwner!.toJson();
     }
@@ -161,7 +160,7 @@ class Orders {
     if (this.platform != null) {
       data['platform'] = this.platform!.toJson();
     }
-    data['reject_reson'] = this.rejectReson;
+
     return data;
   }
 }
@@ -254,10 +253,10 @@ class Celebrity {
       data['country'] = this.country!.toJson();
     }
     if (this.city != null) {
-      data['city'] = this.city!.toJson();
+      data['city'] = this.city;
     }
     if (this.gender != null) {
-      data['gender'] = this.gender!.toJson();
+      data['gender'] = this.gender;
     }
     data['description'] = this.description;
     data['page_url'] = this.pageUrl;

@@ -112,7 +112,7 @@ class _userProfileState extends State<userProfile>
                                 8,
                                 8,
                                 Container(
-                                  height: 80.h,
+                                  height: 100.h,
                                   width: 100.w,
 
                                   decoration: BoxDecoration(

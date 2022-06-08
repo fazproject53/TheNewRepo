@@ -1440,6 +1440,7 @@ class Celebrity {
       data['country'] = this.country!.toJson();
     }
     data['city'] = this.city;
+    data['gender'] = this.gender;
     data['description'] = this.description;
     data['page_url'] = this.pageUrl;
     data['snapchat'] = this.snapchat;
