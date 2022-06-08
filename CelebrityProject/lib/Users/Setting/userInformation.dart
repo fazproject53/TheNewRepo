@@ -1,5 +1,7 @@
+import 'dart:collection';
 import 'dart:convert';
 
+import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
@@ -34,6 +36,7 @@ class _userInformationState extends State<userInformation> {
   bool noMatch =false;
   bool editPassword = false;
 
+  Map<int, String> getid = HashMap();
   int helper =0;
   bool hidden = true;
   bool hidden2 = true;
@@ -42,6 +45,7 @@ class _userInformationState extends State<userInformation> {
   String? countrycode;
   bool countryChanged = false;
 
+  int? countryi;
   int? countryId;
   Future<UserProfile>? getUser;
   var currentFocus;
@@ -66,8 +70,16 @@ class _userInformationState extends State<userInformation> {
     print(selectedTest);
     setState(() {
       countryChanged  = true;
+      Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
+      getid.forEach((key, value) {
+        if(value == Logging.theUser!.country){
+          print(key.toString()+ '---------------------------------------------');
+          cities = fetCities(key+1);
+        }
+      });
     });
+    print(Logging.theUser!.country);
   }
 
   @override
@@ -106,6 +118,8 @@ class _userInformationState extends State<userInformation> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -137,10 +151,17 @@ class _userInformationState extends State<userInformation> {
                   country = snapshot.data!.data!.user!.country != null
                       ? snapshot.data!.data!.user!.country!.name!
                       : '',
-                    cities = fetCities(1),
                   city = snapshot.data!.data!.user!.city != null
                       ? snapshot.data!.data!.user!.city!.name.toString()
                       : '',
+                  print('the length is = '+ getid.length.toString() + Logging.theUser!.country!),
+                  getid.forEach((key, value) {
+                    print(value);
+                    if(value == Logging.theUser!.country){
+                      print(key.toString()+ '---------------------------------------------');
+                      cities = fetCities(key+1);
+                    }
+                  }),
                     helper =1,
                   }:null;
 
@@ -373,7 +394,8 @@ class _userInformationState extends State<userInformation> {
                                 height: 0,
                               ),
                               //===========dropdown lists ==================
-                              FutureBuilder(
+
+                                FutureBuilder(
                                   future: countries,
                                   builder: ((context,
                                       AsyncSnapshot<CountryL> snapshot) {
@@ -410,9 +432,13 @@ class _userInformationState extends State<userInformation> {
                                             },
                                           _dropdownTestItems3 =
                                               buildDropdownTestItems(
-                                                  countrylist)
-                                        }
-                                            : null;
+                                                  countrylist),
+
+                                          getid.forEach((key, value) {
+                                            if(value == country){cities = fetCities(key);}
+                                          }),
+
+                                        }:{};
                                         return paddingg(
                                           15,
                                           15,
@@ -472,7 +498,8 @@ class _userInformationState extends State<userInformation> {
                                               'State: ${snapshot.connectionState}'));
                                     }
                                   })),
-                              FutureBuilder(
+
+                                FutureBuilder(
                                   future: cities,
                                   builder: ((context,
                                       AsyncSnapshot<CityL> snapshot) {
@@ -567,9 +594,9 @@ class _userInformationState extends State<userInformation> {
                                                 'لايوجد لينك لعرضهم حاليا'));
                                       }
                                     } else {
-                                      return Center(
-                                          child: Text(
-                                              'State: ${snapshot.connectionState}'));
+                                      return Center();
+                                       //   child: Text(
+                                             // 'State: ${snapshot.connectionState}'));
                                     }
                                   })),
 
@@ -664,6 +691,12 @@ class _userInformationState extends State<userInformation> {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
+      for(int i =0; i< jsonDecode(response.body)['data'].length;i++){
+        setState(() {
+          getid.putIfAbsent(i, () => jsonDecode(response.body)['data'][i]['name']);
+        });
+      }
+
       return CountryL.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
@@ -685,6 +718,7 @@ class _userInformationState extends State<userInformation> {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
+      print(countryId);
       throw Exception('Failed to load activity');
     }
   }

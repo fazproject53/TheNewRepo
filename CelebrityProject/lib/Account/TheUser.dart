@@ -5,6 +5,6 @@ class TheUser{
   String? image;
   String? email;
   String? phone;
-
+String? country;
   TheUser();
 }
