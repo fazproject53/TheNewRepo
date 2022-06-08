@@ -84,6 +84,12 @@
       <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/open_file/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/open_file/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/open_file/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/printing/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/printing/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/printing/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/printing/build" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/printing/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/CelebrityProject/ios/.symlinks/plugins/printing/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
