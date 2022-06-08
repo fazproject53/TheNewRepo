@@ -168,21 +168,25 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   widget.state == 4
                                       ? "لقد قبلت الطلب"
                                       : widget.state == 3
-                                          ? 'قبول'
-                                          : widget.state == 2
-                                              ? 'قبول من المتابع'
-                                              : "قبول",
+                                      ? 'قبول'
+                                      : widget.state == 2
+                                      ? 'قبول من المتابع'
+                                      : widget.state == 6
+                                      ? 'تم الدفع'
+                                      : 'قبول',
                                   15,
                                   widget.state == 4 ||
-                                          widget.state == 3 ||
-                                          widget.state == 2 ||
-                                          widget.state == 5
+                                      widget.state == 3 ||
+                                      widget.state == 2 ||
+                                      widget.state == 5 ||
+                                      widget.state == 6
                                       ? deepBlack
                                       : white,
                                   widget.state == 4 ||
-                                          widget.state == 3 ||
-                                          widget.state == 2 ||
-                                          widget.state == 5
+                                      widget.state == 3 ||
+                                      widget.state == 2 ||
+                                      widget.state == 5 ||
+                                      widget.state == 6
                                       ? null
                                       : () {
                                           loadingDialogue(context);
@@ -215,15 +219,17 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 ),
                                 height: 50,
                                 color: widget.state == 4 ||
-                                        widget.state == 3 ||
-                                        widget.state == 2 ||
-                                        widget.state == 5
+                                    widget.state == 3 ||
+                                    widget.state == 2 ||
+                                    widget.state == 5 ||
+                                    widget.state == 6
                                     ? deepBlack
                                     : Colors.transparent,
                                 gradient: widget.state == 4 ||
-                                        widget.state == 3 ||
-                                        widget.state == 2 ||
-                                        widget.state == 5
+                                    widget.state == 3 ||
+                                    widget.state == 2 ||
+                                    widget.state == 5 ||
+                                    widget.state == 6
                                     ? true
                                     : false,
                               ),
@@ -243,21 +249,25 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   widget.state == 3
                                       ? "لقد رفضت الطلب "
                                       : widget.state == 4
-                                          ? 'رفض'
-                                          : widget.state == 5
-                                              ? 'رفض من المتابع'
-                                              : 'رفض',
+                                      ? 'رفض'
+                                      : widget.state == 5
+                                      ? 'رفض من المتابع'
+                                      : widget.state == 6
+                                      ? 'رفض'
+                                      : 'رفض',
                                   15,
                                   widget.state == 3 ||
-                                          widget.state == 4 ||
-                                          widget.state == 5 ||
-                                          widget.state == 2
+                                      widget.state == 4 ||
+                                      widget.state == 5 ||
+                                      widget.state == 2 ||
+                                      widget.state == 6
                                       ? deepgrey!
                                       : black,
                                   widget.state == 4 ||
-                                          widget.state == 3 ||
-                                          widget.state == 5 ||
-                                          widget.state == 2
+                                      widget.state == 3 ||
+                                      widget.state == 5 ||
+                                      widget.state == 2 ||
+                                      widget.state == 6
                                       ? null
                                       : () {
                                           rejectResonsList.isNotEmpty
@@ -269,9 +279,10 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 height: 50,
                                 gradient: true,
                                 color: widget.state == 3 ||
-                                        widget.state == 4 ||
-                                        widget.state == 5 ||
-                                        widget.state == 2
+                                    widget.state == 4 ||
+                                    widget.state == 5 ||
+                                    widget.state == 2 ||
+                                    widget.state == 6
                                     ? deepBlack
                                     : pink,
                               ),

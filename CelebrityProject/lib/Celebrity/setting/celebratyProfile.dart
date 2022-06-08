@@ -154,9 +154,9 @@ class _celebratyProfileState extends State<celebratyProfile> {
                               8,
                               8,
                               Container(
-                                height: 90.h,
+                                height: 102.h,
                                 width: 110.w,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
 
                                     shape: BoxShape.circle, color: lightGrey
                                 ),

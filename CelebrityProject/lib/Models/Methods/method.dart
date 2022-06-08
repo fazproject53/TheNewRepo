@@ -103,7 +103,6 @@ Widget gradientContainer(double width, Widget child,
   );
 }
 
-
 Widget gradientContainerNoborder(double width, Widget child,
     {height = 40.0, double reids = 8.0}) {
   return Container(
@@ -285,9 +284,9 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
 Widget textField3(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -303,7 +302,7 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle:
-        TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
+            TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
         fillColor: ligthtBlack,
         labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -339,9 +338,19 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
             TextStyle(color: pink, fontSize: (textScaling + fontSize).sp),
         fillColor: white,
         labelStyle: TextStyle(color: deepgrey, fontSize: 12.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: pink, width: 1.0.r),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: pink, width: 1.0.r),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: pink, width: 1.0.r),
+            borderRadius: BorderRadius.circular(10.r)),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: deepgrey!, width: 1.r),
+            borderSide: BorderSide(color: pink, width: 1.0.r),
             borderRadius: BorderRadius.circular(10.r)),
         prefixIcon: Icon(icons, color: pink, size: 25.sp),
         labelText: key,
