@@ -9,6 +9,13 @@
             </list>
           </value>
         </entry>
+        <entry key="alert_dialog">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/alert_dialog-1.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="api_cache_manager">
           <value>
             <list>
@@ -293,6 +300,13 @@
           <value>
             <list>
               <option value="$USER_HOME$/Documents/dev/flutter/packages/flutter_web_plugins/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_windowmanager">
+          <value>
+            <list>
+              <option value="$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_windowmanager-0.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -944,6 +958,7 @@
     </properties>
     <CLASSES>
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/adobe_xd-2.0.1/lib" />
+      <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/alert_dialog-1.0.1/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/api_cache_manager-1.0.2/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/archive-3.2.1/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/args-2.3.0/lib" />
@@ -982,6 +997,7 @@
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_screenutil-5.3.1/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-1.0.3/lib" />
+      <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_windowmanager-0.2.0/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/freezed_annotation-1.1.0/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1/lib" />
       <root url="file://$USER_HOME$/Documents/dev/flutter/.pub-cache/hosted/pub.dartlang.org/html-0.15.0/lib" />

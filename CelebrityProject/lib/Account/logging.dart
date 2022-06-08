@@ -94,6 +94,7 @@ class _LoggingState extends State<Logging> {
                         gradientContainer(
                             347,
                             buttoms(context, 'تسجيل الدخول', 14, white, () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               if (logKey.currentState?.validate() == true) {
                                 loadingDialogue(context);
                                 databaseHelper

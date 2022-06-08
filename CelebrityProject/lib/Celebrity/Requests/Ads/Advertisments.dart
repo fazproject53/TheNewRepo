@@ -25,6 +25,7 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
       setState(() {
         token = value;
         celebrityAdvertisingRequests = getAdvertisingOrder(token);
+
       });
     });
   }
@@ -44,7 +45,8 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Center(
-                      child: Center(child: Text(snapshot.error.toString())));
+                      child: Text(snapshot.error.toString()));
+
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.advertisingOrders!.isNotEmpty

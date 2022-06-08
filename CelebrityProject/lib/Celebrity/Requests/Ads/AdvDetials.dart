@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/chat/chatRoom.dart';
+import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,11 +46,11 @@ class AdvDetials extends StatefulWidget {
 class _AdvDetialsState extends State<AdvDetials>
     with AutomaticKeepAliveClientMixin {
   int? resonRejectId;
+  List<String> rejectResonsList = [];
   String? resonReject;
   bool isReject = true;
   TextEditingController? price;
   TextEditingController reson = TextEditingController();
-  List<String> rejectResonsList = [];
   GlobalKey<FormState> priceKey = GlobalKey();
   GlobalKey<FormState> resonKey = GlobalKey();
 
@@ -69,8 +69,8 @@ class _AdvDetialsState extends State<AdvDetials>
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+          appBar: drowAppBar("تفاصيل طلبات الاعلانات", context),
 
-          // appBar: drowAppBar("تفاصيل الطلب",context),
           body: Column(children: [
 //image-----------------------------------------------------
         Expanded(
@@ -79,24 +79,27 @@ class _AdvDetialsState extends State<AdvDetials>
             constraints: BoxConstraints(
                 minHeight: MediaQuery.of(context).size.height / 2.4,
                 maxHeight: MediaQuery.of(context).size.height / 2.4),
-            child: Container(
-              width: double.infinity,
-              // height: double.infinity,
-              margin: EdgeInsets.all(9.w),
-              decoration: BoxDecoration(
-                  boxShadow: const [BoxShadow(blurRadius: 2)],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.r),
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      widget.image!,
+            child: InkWell(
+              onTap: (){
+                goTopagepush(context, ImageData(image: widget.image! ,));
+              },
+              child: Container(
+                width: double.infinity,
+                // height: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 20.r,vertical: 5.h),
+                decoration: BoxDecoration(
+                    //boxShadow: const [BoxShadow(blurRadius: 2)],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.r),
                     ),
-                    fit: BoxFit.fill,
-                  )),
-              child: Padding(
-                padding: EdgeInsets.all(8.0.r),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        widget.image!,
+                      ),
+                      fit: BoxFit.cover,
+                    )),
+
               ),
             ),
           ),
@@ -106,53 +109,68 @@ class _AdvDetialsState extends State<AdvDetials>
         Container(
           //color: black,
           width: double.infinity,
-          margin: EdgeInsets.only(left: 9.w, right: 9.w, bottom: 8.h, top: 8.h),
+          margin: EdgeInsets.symmetric(horizontal: 20.r,vertical: 10.h),
           child: Align(
               alignment: Alignment.bottomRight,
               child: Row(
                 children: [
-                  const Icon(Icons.star_border_outlined, color: pink),
+                   Icon(orders, color: pink,size: 33.r,),
+                  SizedBox(width: 5.w,),
                   text(
                     context,
                     'اعلان ل' + widget.advTitle!,
-                    20,
-                    deepgrey!,
-                    fontWeight: FontWeight.bold,
+                    17,
+                    black,
+                    //fontWeight: FontWeight.bold,
                     align: TextAlign.justify,
                   ),
                   const Spacer(),
 //platform----------------------------------------------------------------
-                  const Icon(Icons.star_border_outlined, color: pink),
+                  const Icon(Icons.hotel_class, color: pink),
+                  SizedBox(width: 5.w,),
                   text(
                     context,
                     'اعلان علي  ${widget.platform}',
-                    20,
-                    deepgrey!,
-                    fontWeight: FontWeight.bold,
+                    17,
+                    black,
+                    //fontWeight: FontWeight.bold,
                     align: TextAlign.justify,
                   ),
                 ],
               )),
-        ),
+        ), SizedBox(height: 5.w,),
 //description----------------------------------------------------------------------
         Expanded(
           flex: 1,
           child: SingleChildScrollView(
             child: Container(
+              padding: EdgeInsets.all(10.r),
               width: double.infinity,
-              //height:MediaQuery.of(context).size.height/6,
+              height: MediaQuery.of(context).size.height/8,
               decoration: BoxDecoration(
+                color: pink,
                   borderRadius: BorderRadius.all(Radius.circular(10.r))),
-              margin: EdgeInsets.only(
-                  left: 13.w, right: 13.w, bottom: 8.h, top: 8.h),
-              child: text(
-                context,
-                widget.description!,
-                15,
-                grey!,
-                fontWeight: FontWeight.bold,
-                align: TextAlign.justify,
-              ),
+              margin: EdgeInsets.symmetric(horizontal: 20.r,vertical: 5.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                text(
+                  context,
+                  'التفاصيل',
+                  13.5,
+                  black,
+                  //fontWeight: FontWeight.bold,
+                  align: TextAlign.justify,
+                ),
+                text(
+                  context,
+                  widget.description!,
+                  12,
+                  white,
+                  fontWeight: FontWeight.bold,
+                  align: TextAlign.justify,
+                ),
+              ],)
             ),
           ),
         ),
@@ -161,7 +179,7 @@ class _AdvDetialsState extends State<AdvDetials>
             visible: isReject,
             child: widget.state == 3 || widget.state == 5
                 ? Padding(
-                    padding: EdgeInsets.all(20.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.r),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Column(
@@ -170,16 +188,16 @@ class _AdvDetialsState extends State<AdvDetials>
                           text(
                             context,
                             'سبب الرفض',
-                            18,
-                            deepgrey!,
-                            fontWeight: FontWeight.bold,
+                            17,
+                            black,
+                            //fontWeight: FontWeight.bold,
                             align: TextAlign.right,
                           ),
                           //-------------------------------
                           text(
                             context,
                             widget.rejectResonName!,
-                            18,
+                            15,
                             deepBlack,
                             //fontWeight: FontWeight.bold,
                             align: TextAlign.right,
@@ -191,7 +209,7 @@ class _AdvDetialsState extends State<AdvDetials>
                 :
 //price field-------------------------------------------------------------------------------
                 Padding(
-                    padding: EdgeInsets.all(8.0.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.r),
                     child: SingleChildScrollView(
                       child: Form(
                         key: priceKey,
@@ -235,21 +253,22 @@ class _AdvDetialsState extends State<AdvDetials>
                             : widget.state == 3
                                 ? 'قبول'
                                 : widget.state == 2
-                                    ? 'قبول من المتابع'
-                                    : "قبول",
+                                    ? 'قبول من المتابع':widget.state == 6?
+                                    'تم الدفع':'قبول',
                         15,
                         widget.state == 4 ||
                                 widget.state == 3 ||
                                 widget.state == 2 ||
-                                widget.state == 5
+                                widget.state == 5||widget.state == 6
                             ? deepBlack
                             : white,
                         widget.state == 4 ||
                                 widget.state == 3 ||
                                 widget.state == 2 ||
-                                widget.state == 5
+                                widget.state == 5||widget.state == 6
                             ? null
                             : () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                                 if (priceKey.currentState?.validate() == true) {
                                   loadingDialogue(context);
                                   Future<bool> result = acceptAdvertisingOrder(
@@ -280,13 +299,13 @@ class _AdvDetialsState extends State<AdvDetials>
                       color: widget.state == 4 ||
                               widget.state == 3 ||
                               widget.state == 2 ||
-                              widget.state == 5
+                              widget.state == 5||widget.state == 6
                           ? deepBlack
                           : Colors.transparent,
                       gradient: widget.state == 4 ||
                               widget.state == 3 ||
                               widget.state == 2 ||
-                              widget.state == 5
+                              widget.state == 5||widget.state == 6
                           ? true
                           : false,
                     ),
@@ -309,20 +328,21 @@ class _AdvDetialsState extends State<AdvDetials>
                                 ? 'رفض'
                                 : widget.state == 5
                                     ? 'رفض من المتابع'
-                                    : 'رفض',
+                                    :widget.state == 6? 'رفض':'رفض',
                         15,
                         widget.state == 3 ||
                                 widget.state == 4 ||
                                 widget.state == 5 ||
-                                widget.state == 2
+                                widget.state == 2 ||widget.state == 6
                             ? deepgrey!
                             : black,
                         widget.state == 4 ||
                                 widget.state == 3 ||
                                 widget.state == 5 ||
-                                widget.state == 2
+                                widget.state == 2||widget.state == 6
                             ? null
                             : () {
+                          FocusManager.instance.primaryFocus?.unfocus();
                                 rejectResonsList.isNotEmpty
                                     ? showBottomSheetModel(context)
                                     : '';
@@ -334,7 +354,7 @@ class _AdvDetialsState extends State<AdvDetials>
                       color: widget.state == 3 ||
                               widget.state == 4 ||
                               widget.state == 5 ||
-                              widget.state == 2
+                              widget.state == 2||widget.state == 6
                           ? deepBlack
                           : pink,
                     ),
@@ -368,23 +388,24 @@ class _AdvDetialsState extends State<AdvDetials>
             :
 //confirm reject---------------------------------------------------------------
             Padding(
-                padding: EdgeInsets.all(8.0.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.r),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.0.w),
                       child: text(
                         context,
                         'سبب الرفض',
-                        18,
-                        deepgrey!,
-                        fontWeight: FontWeight.bold,
+                        17,
+                       black,
+                        //fontWeight: FontWeight.bold,
                         align: TextAlign.right,
                       ),
                     ),
-                    SizedBox(height: 15.h),
+                    SizedBox(height: 10.h),
 //-------------------------------------------------------------------------
                     resonReject == 'أخرى'
                         ? Form(
@@ -400,17 +421,17 @@ class _AdvDetialsState extends State<AdvDetials>
                             ),
                           )
                         : Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                            padding: EdgeInsets.symmetric(horizontal: 5.r),
                             child: text(
                               context,
                               '$resonReject',
-                              18,
-                              deepBlack,
+                              17,
+                              black,
                               //fontWeight: FontWeight.bold,
                               align: TextAlign.right,
                             ),
                           ),
-                    SizedBox(height: MediaQuery.of(context).size.height / 8),
+                    SizedBox(height: MediaQuery.of(context).size.height / 10),
                     //--------------------------------
                     //const Spacer(),
                     gradientContainer(
@@ -443,7 +464,6 @@ class _AdvDetialsState extends State<AdvDetials>
                                           red, error));
                                 }
                               });
-
                             }
                           } else {
                             loadingDialogue(context);
@@ -477,20 +497,6 @@ class _AdvDetialsState extends State<AdvDetials>
               ),
       ])),
     );
-  }
-
-  void getRejectReson() async {
-    String url = "https://mobile.celebrityads.net/api/reject-resons";
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final body = jsonDecode(response.body);
-      for (int i = 0; i < body['data'].length; i++) {
-        rejectResonsList.add(body['data'][i]['name']);
-      }
-    } else {
-      throw Exception('Failed to load celebrity catogary');
-    }
   }
 
 //----------------------------------------------------------------------------------------------
@@ -606,7 +612,20 @@ class _AdvDetialsState extends State<AdvDetials>
           );
         });
   }
+//-------------------------------------------------------------------------
+  void getRejectReson() async {
+    String url = "https://mobile.celebrityads.net/api/reject-resons";
+    final response = await http.get(Uri.parse(url));
 
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      for (int i = 0; i < body['data'].length; i++) {
+        rejectResonsList.add(body['data'][i]['name']);
+      }
+    } else {
+      throw Exception('Failed to load celebrity Reject reson');
+    }
+  }
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Account/LoggingSingUpAPI.dart';
 import 'AdSpaceApi.dart';
+import 'AdSpaceDetails.dart';
 
 class AdSpace extends StatefulWidget {
   @override
@@ -51,8 +52,19 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  // goTopagepush(context, adSpaceOrders(i: i));
-                                },
+
+                                    goTopagepush(context, AdSpaceDetails(
+                                      i: i,
+                                      image:snapshot.data!.data!.adSpaceOrders![i].image,
+                                      link:snapshot.data!.data!.adSpaceOrders![i].link,
+                                      price: snapshot.data!.data!.adSpaceOrders![i].price,
+                                      orderId: snapshot.data!.data!.adSpaceOrders![i].id,
+                                      token:token,
+                                      state:snapshot.data!.data!.adSpaceOrders![i].status?.id,
+                                      rejectResonName: snapshot.data!.data!.adSpaceOrders![i].rejectReson?.name!,
+                                      rejectResonId: snapshot.data!.data!.adSpaceOrders![i].rejectReson?.id,
+                                    ));
+                                  },
                                 child: Column(
                                   children: [
                                     getData(
@@ -213,31 +225,31 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                         ),
                                       ],
                                     ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.copy,
-                                          color: white,
-                                          size: 22.h,
-                                        ),
-                                        SizedBox(
-                                          width: 10.w,
-                                        ),
-                                        Icon(
-                                          Icons.check_circle,
-                                          color: white,
-                                          size: 22.h,
-                                        ),
-                                        SizedBox(
-                                          width: 10.w,
-                                        ),
-                                        Icon(
-                                          Icons.chat,
-                                          color: white,
-                                          size: 22.h,
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   children: [
+                                    //     Icon(
+                                    //       Icons.copy,
+                                    //       color: white,
+                                    //       size: 22.h,
+                                    //     ),
+                                    //     SizedBox(
+                                    //       width: 10.w,
+                                    //     ),
+                                    //     Icon(
+                                    //       Icons.check_circle,
+                                    //       color: white,
+                                    //       size: 22.h,
+                                    //     ),
+                                    //     SizedBox(
+                                    //       width: 10.w,
+                                    //     ),
+                                    //     Icon(
+                                    //       Icons.chat,
+                                    //       color: white,
+                                    //       size: 22.h,
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ],

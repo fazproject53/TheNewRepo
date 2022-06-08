@@ -21,20 +21,16 @@ class _SingUpState extends State<SingUp> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   GlobalKey<FormState> singUpKey = GlobalKey();
   bool? isChang = false;
-  List<String> countries=[];
-  List<String> celebrityCategories=[];
+  List<String> countries = [];
+  List<String> celebrityCategories = [];
 
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     fetCelebrityCategories();
     fetCountries();
-
-
   }
-
 
 //getCountries--------------------------------------------------------------------
   fetCountries() async {
@@ -45,9 +41,9 @@ class _SingUpState extends State<SingUp> {
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
       for (int i = 0; i < body['data'].length; i++) {
-       setState(() {
-         countries.add(body['data'][i]['name']);
-       });
+        setState(() {
+          countries.add(body['data'][i]['name']);
+        });
       }
 
       print('countries is:$countries');
@@ -55,7 +51,6 @@ class _SingUpState extends State<SingUp> {
     } else {
       throw Exception('Failed to load  countries');
     }
-
   }
 
   //get celebrity Categories--------------------------------------------------------------------
@@ -75,11 +70,11 @@ class _SingUpState extends State<SingUp> {
     } else {
       throw Exception('Failed to load celebrity catogary');
     }
-}
+  }
+
 //--------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -108,7 +103,7 @@ class _SingUpState extends State<SingUp> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-//famus buttom-------------------------------------
+//famous buttom-------------------------------------
                   gradientContainer(
                     130,
                     buttoms(
@@ -117,6 +112,7 @@ class _SingUpState extends State<SingUp> {
                       12,
                       white,
                       () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         setState(() {
                           isChang = false;
                         });
@@ -138,6 +134,7 @@ class _SingUpState extends State<SingUp> {
                       12,
                       white,
                       () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         setState(() {
                           isChang = true;
                         });
@@ -160,22 +157,26 @@ class _SingUpState extends State<SingUp> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
 //====================================TextFields=========================================================
-                      isChang! ? celebratyForm(context,countries,celebrityCategories) : userForm(context,countries),
+                      isChang!
+                          ? celebratyForm(
+                              context, countries, celebrityCategories)
+                          : userForm(context, countries),
                       gradientContainer(
                           347,
                           buttoms(context, 'انشاء حساب', 14, white, () {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             isChang == true
                                 ?
-                            //create famous account------------------------------
-                            celebrityRegister(
+                                //create famous account------------------------------
+                                celebrityRegister(
                                     userNameCeleController.text,
                                     emailCeleController.text,
                                     passCeleController.text,
                                     '$celContry',
                                     '$celCatogary')
                                 :
-                            //create user account------------------------------
-                            userRegister(
+                                //create user account------------------------------
+                                userRegister(
                                     userNameUserController.text,
                                     emailUserController.text,
                                     passUserController.text,
@@ -201,8 +202,9 @@ class _SingUpState extends State<SingUp> {
                           white,
                           singWthisButtom(
                               context, "تسجيل دخول بجوجل", black, white, () {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar(context,'تمت العملية بنجاح',green,done));
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                                context, 'تمت العملية بنجاح', green, done));
                           }, googelImage)),
                       SizedBox(
                         height: 14.h,
@@ -211,8 +213,11 @@ class _SingUpState extends State<SingUp> {
                       solidContainer(
                           347,
                           darkBlue,
-                          singWthisButtom(context, "تسجيل دخول فيسبوك", white,
-                              darkBlue, () {}, facebookImage)),
+                          singWthisButtom(
+                              context, "تسجيل دخول فيسبوك", white, darkBlue,
+                              () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          }, facebookImage)),
                       SizedBox(
                         height: 27.h,
                       ),
@@ -232,7 +237,8 @@ class _SingUpState extends State<SingUp> {
                                 child:
                                     text(context, "تسجيل الدخول", 13, purple),
                                 onTap: () {
-                                  goTopageReplacement(context,  Logging());
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  goTopageReplacement(context, Logging());
                                 },
                               ),
                             ],
@@ -251,6 +257,7 @@ class _SingUpState extends State<SingUp> {
       )),
     );
   }
+
   //----------------------------------------------------------------------------------------------------------------------
   celebrityRegister(String username, String email, String pass, String country,
       String catogary) async {
@@ -259,11 +266,11 @@ class _SingUpState extends State<SingUp> {
       databaseHelper
           .celebrityRegister(username, pass, email, country, catogary)
           .then((result) {
-           // Navigator.pop(context);
+        // Navigator.pop(context);
         if (result == "celebrity") {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar(context,'تمت انشاء حساب مشهور بنجاح',green,done));
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar(context, 'تمت انشاء حساب مشهور بنجاح', green, done));
           setState(() {
             currentuser = "famous";
           });
@@ -271,51 +278,10 @@ class _SingUpState extends State<SingUp> {
         } else if (result == "email and username found") {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
-              'البريد الالكتروني واسم المستخدم موجود سابقا',
-              red,error));
+              'البريد الالكتروني واسم المستخدم موجود سابقا', red, error));
         } else if (result == "username found") {
           Navigator.pop(context);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(snackBar(context,'اسم المستخدم موجود سابقا', red,error));
-        } else if (result == 'email found') {
-          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(context,'البريد الالكتروني موجود سابقا', red,error));
-        } else {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-              snackBar(context,'توجد مشكله في استرجاع البيانات', red,error));
-        }
-      });
-    } else {
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(snackBar(context,'تاكد من تعبئة كل الحقول',red,error));
-    }
-  }
-//------------------------------------------------------------------------------
-  userRegister(String username, String email, String pass, String country) {
-    if (userKey.currentState?.validate() == true) {
-      loadingDialogue(context);
-      databaseHelper.userRegister(username, pass, email, country).then((result) {
-        if (result == "user") {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(
-              snackBar(context, 'تمت انشاء حساب مستخدم بنجاح', green, done));
-          setState(() {
-            currentuser = "user";
-          });
-          goTopageReplacement(context, const MainScreen());
-        } else if (result == "email and username found") {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
-              'البريد الالكتروني واسم المستخدم موجود سابقا',
-              red, error));
-        } else if (result == "username found") {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(
               snackBar(context, 'اسم المستخدم موجود سابقا', red, error));
         } else if (result == 'email found') {
           Navigator.pop(context);
@@ -328,10 +294,47 @@ class _SingUpState extends State<SingUp> {
         }
       });
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
-  }}
+  }
 
-
+//------------------------------------------------------------------------------
+  userRegister(String username, String email, String pass, String country) {
+    if (userKey.currentState?.validate() == true) {
+      loadingDialogue(context);
+      databaseHelper
+          .userRegister(username, pass, email, country)
+          .then((result) {
+        if (result == "user") {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar(context, 'تمت انشاء حساب مستخدم بنجاح', green, done));
+          setState(() {
+            currentuser = "user";
+          });
+          goTopageReplacement(context, const MainScreen());
+        } else if (result == "email and username found") {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar(context,
+              'البريد الالكتروني واسم المستخدم موجود سابقا', red, error));
+        } else if (result == "username found") {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar(context, 'اسم المستخدم موجود سابقا', red, error));
+        } else if (result == 'email found') {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar(context, 'البريد الالكتروني موجود سابقا', red, error));
+        } else {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              snackBar(context, 'توجد مشكله في استرجاع البيانات', red, error));
+        }
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
+    }
+  }
+}

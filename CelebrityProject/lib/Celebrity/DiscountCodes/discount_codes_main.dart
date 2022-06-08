@@ -10,6 +10,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Account/LoggingSingUpAPI.dart';
 
 class DiscountCodes extends StatelessWidget {
   const DiscountCodes({Key? key}) : super(key: key);
@@ -30,7 +31,6 @@ class DiscountCodes extends StatelessWidget {
 class HomeBodyDiscount extends StatefulWidget {
   const HomeBodyDiscount({Key? key}) : super(key: key);
 
-
   @override
   _HomeBodyDiscountState createState() => _HomeBodyDiscountState();
 }
@@ -39,22 +39,27 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
   ///future discount model variable
   Future<DiscountModel>? discount;
 
+  String? userToken;
   @override
   void initState() {
-    discount = fetchDiscountCode();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        discount = fetchDiscountCode(userToken!);
+      });
+    });
+    // TODO: implement initState
     super.initState();
   }
 
   Future _refreshProducts(BuildContext context) async {
     setState(() {
-      discount = fetchDiscountCode();
+      discount = fetchDiscountCode(userToken!);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return SafeArea(
       child: Column(
         children: [
@@ -84,8 +89,9 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => const CreateNewDiscountCodeHome()));
-                            },
+                                    builder: (_) =>
+                                        CreateNewDiscountCodeHome()));
+                          },
                           evaluation: 0,
                         ),
                         height: 30,
@@ -105,7 +111,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
 
                 ///Expanded ListView
                 RefreshIndicator(
-                  onRefresh: () =>_refreshProducts(context),
+                  onRefresh: () => _refreshProducts(context),
                   child: FutureBuilder<DiscountModel>(
                     future: discount,
                     builder: (context, snapshot) {
@@ -122,7 +128,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                             child: Padding(
                               padding: EdgeInsets.only(top: 100.h),
                               child: ListView.builder(
-                                itemCount: snapshot.data!.data!.promoCode!.length,
+                                itemCount:
+                                    snapshot.data!.data!.promoCode!.length,
                                 itemBuilder: (context, index) {
                                   return Card(
                                     child: ExpansionTile(
@@ -137,9 +144,14 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
 
                                       subtitle: text(
                                           context,
-                                          snapshot.data!.data!.promoCode![index].status!.name!,
+                                          snapshot.data!.data!.promoCode![index]
+                                              .status!.name!,
                                           16,
-                                          snapshot.data!.data!.promoCode![index].status!.id == 1 ? green : Colors.red),
+                                          snapshot.data!.data!.promoCode![index]
+                                                      .status!.id ==
+                                                  1
+                                              ? green
+                                              : Colors.red),
 
                                       ///Inside each list
                                       children: [
@@ -159,8 +171,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                         typeOfDiscount,
                                                         25.w,
                                                         const LinearGradient(
-                                                          begin:
-                                                              Alignment(0.7, 2.0),
+                                                          begin: Alignment(
+                                                              0.7, 2.0),
                                                           end: Alignment(
                                                               -0.69, -1.0),
                                                           colors: [
@@ -192,8 +204,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                         numberOfUsers,
                                                         25.w,
                                                         const LinearGradient(
-                                                          begin:
-                                                              Alignment(0.7, 2.0),
+                                                          begin: Alignment(
+                                                              0.7, 2.0),
                                                           end: Alignment(
                                                               -0.69, -1.0),
                                                           colors: [
@@ -225,8 +237,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                         copun,
                                                         25.w,
                                                         const LinearGradient(
-                                                          begin:
-                                                              Alignment(0.7, 2.0),
+                                                          begin: Alignment(
+                                                              0.7, 2.0),
                                                           end: Alignment(
                                                               -0.69, -1.0),
                                                           colors: [
@@ -243,7 +255,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                             snapshot
                                                                 .data!
                                                                 .data!
-                                                                .promoCode![index]
+                                                                .promoCode![
+                                                                    index]
                                                                 .adTypes!
                                                                 .length;
                                                         i++)
@@ -252,7 +265,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                         snapshot
                                                                 .data!
                                                                 .data!
-                                                                .promoCode![index]
+                                                                .promoCode![
+                                                                    index]
                                                                 .adTypes![i]
                                                                 .name! +
                                                             '  ',
@@ -269,8 +283,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                         duration,
                                                         25.w,
                                                         const LinearGradient(
-                                                          begin:
-                                                              Alignment(0.7, 2.0),
+                                                          begin: Alignment(
+                                                              0.7, 2.0),
                                                           end: Alignment(
                                                               -0.69, -1.0),
                                                           colors: [
@@ -304,81 +318,115 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
 
                                                 ///Description
                                                 Row(
-                                                    children: [
-                                                      GradientIcon(
-                                                          discountDes,
-                                                          25.w,
-                                                          const LinearGradient(
-                                                            begin:
-                                                                Alignment(0.7, 2.0),
-                                                            end: Alignment(
-                                                                -0.69, -1.0),
-                                                            colors: [
-                                                              Color(0xff0ab3d0),
-                                                              Color(0xffe468ca)
-                                                            ],
-                                                            stops: [0.0, 1.0],
-                                                          )),
-                                                      SizedBox(
-                                                        width: 5.w,
-                                                      ),
-                                                      text(
-                                                          context,
-                                                          snapshot
-                                                              .data!
-                                                              .data!
-                                                              .promoCode![index]
-                                                              .description! ,
-                                                          15.sp,
-                                                          black,
-                                                        ),
-
-                                                    ],
-                                                  ),
-
+                                                  children: [
+                                                    GradientIcon(
+                                                        discountDes,
+                                                        25.w,
+                                                        const LinearGradient(
+                                                          begin: Alignment(
+                                                              0.7, 2.0),
+                                                          end: Alignment(
+                                                              -0.69, -1.0),
+                                                          colors: [
+                                                            Color(0xff0ab3d0),
+                                                            Color(0xffe468ca)
+                                                          ],
+                                                          stops: [0.0, 1.0],
+                                                        )),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    text(
+                                                      context,
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .promoCode![index]
+                                                          .description!,
+                                                      15.sp,
+                                                      black,
+                                                    ),
+                                                  ],
+                                                ),
 
                                                 ///Two button edit and delete
                                                 Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 20.w),
+                                                  margin: EdgeInsets.only(
+                                                      left: 20.w),
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.end,
                                                     children: [
                                                       IconButton(
-                                                        padding: EdgeInsets.only(
-                                                            right: 20.w),
-                                                        icon: Icon(editDiscount),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 20.w),
+                                                        icon:
+                                                            Icon(editDiscount),
                                                         color: black
                                                             .withOpacity(0.8),
                                                         onPressed: () {
-
                                                           ///go to create new discount to edit the code
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                builder: (context) =>  CreateNewDiscountCodeHome(putId: index),
+                                                                builder: (context) =>
+                                                                    CreateNewDiscountCodeHome(
+                                                                        putId:
+                                                                            index),
                                                               ));
                                                         },
                                                       ),
                                                       IconButton(
-                                                        icon:
-                                                            Icon(removeDiscount),
-                                                        color:
-                                                            red?.withOpacity(0.8),
-                                                        onPressed: () {
-                                                          ///delete the discount code
-                                                          ///Alert dialog to conform
-                                                          setState(() {
-                                                            deleteDiscountCode(
-                                                                snapshot
-                                                                    .data!
-                                                                    .data!
-                                                                    .promoCode![
-                                                                        index]
-                                                                    .id!);
-                                                          });
-                                                        },
+                                                        icon: Icon(
+                                                            removeDiscount),
+                                                        color: red
+                                                            ?.withOpacity(0.8),
+                                                        onPressed: () => showDialog<String>(
+                                                          context: context,
+                                                          builder: (BuildContext context) => AlertDialog(
+                                                            title: Directionality(
+                                                              textDirection: TextDirection.rtl,
+                                                                child: text(context, 'حذف كود الخصم', 16, black,)),
+                                                            content: Directionality(
+                                                                textDirection: TextDirection.rtl,
+                                                                child: text(context, 'هل انت متأكد من حذف كود الخصم؟', 14, black,)),
+                                                            actions: <Widget>[
+                                                              Padding(
+                                                                padding:  EdgeInsets.only(top: 10.h,),
+                                                                child: TextButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.pop(
+                                                                          context,
+                                                                          'الغاء'),
+                                                                  child: text(context, 'الغاء', 15, purple)
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:  EdgeInsets.only(top: 10.h, right: 150.w),
+                                                                child: TextButton(
+                                                                  onPressed: () => setState(() {
+                                                                      deleteDiscountCode(
+                                                                          userToken!, snapshot
+                                                                          .data!
+                                                                          .data!
+                                                                          .promoCode![
+                                                                      index]
+                                                                          .id!);
+                                                                      Navigator.pop(
+                                                                          context,
+                                                                          'حذف');
+
+                                                                  }),
+                                                                  child: text(context, 'حذف', 15, purple)
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                        ///delete the discount code
+                                                        ///Alert dialog to conform
                                                       )
                                                     ],
                                                   ),
@@ -412,11 +460,8 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
     );
   }
 
-
   ///GET
-  Future<DiscountModel> fetchDiscountCode() async {
-    String token =
-'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
+  Future<DiscountModel> fetchDiscountCode(String token) async {
     final response = await http.get(
         Uri.parse('https://mobile.celebrityads.net/api/celebrity/promo-codes'),
         headers: {
@@ -436,23 +481,19 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
     }
   }
 
-
   ///DELETE
-  Future<http.Response> deleteDiscountCode(int id) async {
-    String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWNjMTA1MjcxODRhN2QzYTIwNDJkYTdmNTMyNTA4ZTdjMDE4NWQwOWI3MzRkY2VhMGEzZjYxY2U3MjRmYmM4M2M5ZTcwNGYyYmNjYmIwNjAiLCJpYXQiOjE2NTA3MzU4NjEuMDQ2MzQwOTQyMzgyODEyNSwibmJmIjoxNjUwNzM1ODYxLjA0NjM0NTk0OTE3Mjk3MzYzMjgxMjUsImV4cCI6MTY4MjI3MTg2MS4wNDEzODQ5MzUzNzkwMjgzMjAzMTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Dp0SkGykv6S4A3maaSmgkWMfKCXbumkxg8cmCJcgoBmFOjxwiKht2vywEnOXtPyFSV7BY48IpvrO6xlrfCE9Oy5wSp86caE-uYEo-uHgzsuRqf-hHpL9DcNsrfuZBQi4h3GiiCfyYV0362FkVl_hclamppj8VL-S7C02_Ddg7Ygnlce3-k8Hm8NRutBREsk4or75C-1mL70ArOCWuLazaUbAJexN2MuLMjqQF9h-pgcaQhEY3rhBEarcEcfdREJgGy_5zARbAdSi_mwclQCqNr9KatmRhkDL_My0GqmGvkt8RUSb_Uo93NXv9lvdw41gMcrStKvVbGg4RMRSxPRD_P9I8-26Ipasx5wMlFdZU10-mSrGKDLu3d4vxVcLFcQIwQqK19m5urFdgMVznRBqEnqceQUb_UjUh8i7VOa8rRUFFbLy7ALZaAk23DtVz25AHRIaYbV_jmgXbx_9IuJc3-dslYVvfGbtgRniKgLEDHKgWgVfiljUU9aUZmIh7i1uYgDZm1LBDWY_wPRQdPoQedfSiLs0Qy1ZmfahRBRWgNKFZDMoKvhtbuuP3rJLcIiQ6nLbyu1i4ma8ly74po4bYZcQDKTFx1oSi2fkUkDF_ZtqLFnx7xvzfXY-Za8krfB-AThg7Phi8-KVCdlTza_KwqkQciGzG4MD3-eY62JXIIU';
-
+  Future<http.Response> deleteDiscountCode(String token, int id) async {
     final http.Response response = await http.delete(
       Uri.parse(
           'https://mobile.celebrityads.net/api/celebrity/promo-codes/delete/$id'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $token'
       },
     );
     setState(() {
-      discount = fetchDiscountCode();
+      discount = fetchDiscountCode(userToken!);
     });
     return response;
   }

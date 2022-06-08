@@ -28,6 +28,7 @@ class BalanceHome extends StatefulWidget {
 }
 
 class _BalanceHomeState extends State<BalanceHome> {
+  bool isSecureMode = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
