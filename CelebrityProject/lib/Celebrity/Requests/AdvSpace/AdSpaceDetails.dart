@@ -115,7 +115,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 image: NetworkImage(
                                   widget.image!,
                                 ),
-                                fit: BoxFit.fill)),
+                                fit: BoxFit.cover)),
                       ),
                     ),
                   ),

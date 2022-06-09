@@ -29,6 +29,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
         userAdvertisingRequests = getUserAdvertisingOrder(token);
       });
     });
+    //print(getUserAdvertisingOrder(token));
   }
 
   @override
