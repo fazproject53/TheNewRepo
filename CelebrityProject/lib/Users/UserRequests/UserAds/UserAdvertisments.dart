@@ -58,23 +58,17 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  // goTopagepush(
-                                  //     context,
-                                  //     UserAdvDetials(
-                                  //       i: i,
-                                  //       image: snapshot.data!.data!
-                                  //           .advertisingOrders![i].file,
-                                  //       advTitle: snapshot
-                                  //           .data!
-                                  //           .data!
-                                  //           .advertisingOrders![i]
-                                  //           .advertisingAdType
-                                  //           ?.name,
-                                  //       description: snapshot.data!.data!
-                                  //           .advertisingOrders![i].description,
-                                  //       price: snapshot.data!.data!
-                                  //           .advertisingOrders![i].price,
-                                  //     ));
+                                  goTopagepush(context, UserAdvDetials(i: i,
+                                    image: snapshot.data!.data!.advertisingOrders![i].file,
+                                    advTitle: snapshot.data!.data!.advertisingOrders![i].advertisingAdType?.name,
+                                    description: snapshot.data!.data!.advertisingOrders![i].description,
+                                    orderId: snapshot.data!.data!.advertisingOrders![i].id, token:token,
+                                    platform:snapshot.data!.data!.advertisingOrders![i].platform?.name,
+                                    state:snapshot.data!.data!.advertisingOrders![i].status?.id,
+                                    price:snapshot.data!.data!.advertisingOrders![i].price,
+                                    rejectResonName: snapshot.data!.data!.advertisingOrders![i].rejectReson?.name!,
+                                    rejectResonId: snapshot.data!.data!.advertisingOrders![i].rejectReson?.id,
+                                  ));
                                 },
                                 child: Column(
                                   children: [
@@ -107,6 +101,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
   }
 
   Widget body(int i, List<AdvertisingOrders>? advertisingOrders) {
+
     return container(
         200,
         double.infinity,
@@ -148,7 +143,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                                 padding: EdgeInsets.only(right: 10.w),
                                 child: text(
                                   context,
-                                  advertisingOrders[i].status!.name!,
+                                  advertisingOrders[i].status?.id==4?'تم القبول الرجاء اكمال الطلب':advertisingOrders[i].status!.name!,
                                   18,
                                   white,
                                   fontWeight: FontWeight.bold,
@@ -163,10 +158,10 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                           Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                  padding: EdgeInsets.only(right: 10.r),
+                                  padding: EdgeInsets.only(right: 16.w),
                                   child: text(
                                     context,
-                                    advertisingOrders[i].celebrity!.name!,
+                                   advertisingOrders[i].celebrity!.name!,
                                     18,
                                     white,
                                     fontWeight: FontWeight.bold,
@@ -190,13 +185,13 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                   )),
             ),
 
-//details-----------------------------------------
+//details-------------------------------------------------------------------------------
 
             Expanded(
                 flex: 1,
                 child: Row(
                   children: [
-//type-------------------------------------------------
+//type-----------------------------------------------------------------------------------
                     Expanded(
                         flex: 1,
                         child: Column(
