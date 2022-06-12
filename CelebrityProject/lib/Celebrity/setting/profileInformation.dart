@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../MainScreen/main_screen_navigation.dart';
+
 class profileInformaion extends StatefulWidget {
   _profileInformaionState createState() => _profileInformaionState();
 }
@@ -1093,7 +1095,7 @@ class _profileInformaionState extends State<profileInformaion>
                                           MaterialPageRoute(
                                               builder:
                                                   (context) =>
-                                                  celebratyProfile()),
+                                                  MainScreen()),
                                         ),
                                         ScaffoldMessenger.of(
                                             context)

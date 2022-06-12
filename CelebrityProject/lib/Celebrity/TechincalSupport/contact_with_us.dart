@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:celepraty/Account/logging.dart' as login;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Account/LoggingSingUpAPI.dart';
 import 'ComplaintTypes.dart';
 
 ///----------------------------ContactWithUsHome----------------------------
@@ -49,8 +50,13 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
   String? userToken;
   @override
   void initState() {
-    contactModel = getComplaintTypes();
     _dropdownTestItems = buildDropdownTestItems(complaintList);
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        contactModel = getComplaintTypes();
+      });
+    });
     super.initState();
   }
 

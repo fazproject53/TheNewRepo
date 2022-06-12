@@ -108,49 +108,46 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
 //image-----------------------------------------
             Expanded(
               flex: 2,
-              child: Container(
-                child: Stack(
-                  children: [
-                    Container(
-                      width:double.infinity ,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(10.r), topLeft: Radius.circular(10.r)),
-                        child: Image.network(adSpaceOrders![i].image!,
-                          fit: BoxFit.cover,
-                          color: Colors.grey.withOpacity(1.0),
-                          colorBlendMode: BlendMode.modulate,
-                          loadingBuilder : (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                backgroundColor: grey,
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                        ),
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width:double.infinity ,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(10.r), topLeft: Radius.circular(10.r)),
+                      child: Image.network(adSpaceOrders![i].image!,
+                        fit: BoxFit.cover,
+                        color: Colors.grey.withOpacity(1.0),
+                        colorBlendMode: BlendMode.modulate,
+                        loadingBuilder : (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: grey,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    Padding(
-                      padding:  EdgeInsets.all(8.0.r),
-                      child: Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                              padding: EdgeInsets.only(right: 10.w),
-                              child: text(
-                                context,
-                                adSpaceOrders[i].status!.name!,
-                                18,
-                                white,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                    ),
-                  ],
-                ),
-// مناسبه الاهداء-----------------------------------------
+                  ),
+                  Padding(
+                    padding:  EdgeInsets.all(8.0.r),
+                    child: Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 10.w),
+                            child: text(
+                              context,
+                              adSpaceOrders[i].status!.name!,
+                              18,
+                              white,
+                              fontWeight: FontWeight.bold,
+                            ))),
+                  ),
+                ],
               ),
             ),
 

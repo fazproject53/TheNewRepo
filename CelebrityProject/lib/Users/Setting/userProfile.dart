@@ -62,7 +62,7 @@ class _userProfileState extends State<userProfile>
     const UserBalance(),
     UserRequestMainPage(),
     const ContactWithUsHome(),
-     Logging()
+    Logging()
   ];
 
   File? userImage;
@@ -76,7 +76,6 @@ class _userProfileState extends State<userProfile>
       });
     });
 
-
     super.initState();
   }
 
@@ -89,201 +88,201 @@ class _userProfileState extends State<userProfile>
         body: Center(
           child: SingleChildScrollView(
             child: Column(children: [
-                      //======================== profile header ===============================
+              //======================== profile header ===============================
 
-                      FutureBuilder(
-                        future: getUsers,
-    builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-    return Center(child: lodeing(context));
-    } else if (snapshot.connectionState == ConnectionState.active ||
-    snapshot.connectionState == ConnectionState.done) {
-    if (snapshot.hasError) {
-    return Text(snapshot.error.toString());
-    //---------------------------------------------------------------------------
-    } else if (snapshot.hasData) {
-    return  Column(
-                          children: [
-                            SizedBox(
-                              height: 30.h,
-                            ),
-                            InkWell(
-                              child: padding(
-                                8,
-                                8,
-                                Container(
-                                  height: 100.h,
-                                  width: 100.w,
-
-                                  decoration: BoxDecoration(
-
-                                      shape: BoxShape.circle, color: lightGrey
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(70.r),
-                                    child: Image.network(
-                                      Logging.theUser!.image!, fit: BoxFit.fill,
-                                      height: double.infinity, width: double.infinity,
-                                      loadingBuilder : (context, child, loadingProgress) {
-                                        if (loadingProgress == null) return child;
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            backgroundColor: grey,
-                                            value: loadingProgress.expectedTotalBytes != null
-                                                ? loadingProgress.cumulativeBytesLoaded /
-                                                loadingProgress.expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        );
-                                      },),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                getImage().whenComplete(() =>
-                                {
-                                  updateImageUser(userToken).whenComplete(() =>
-                                  {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                              "تم تعديل الصورة بنجاح"),))
-                                  })
-                                });
-                              },
-                            ),
-                            SizedBox(height: 5.h),
-                            padding(
-                              8,
-                              8,
-                              text(context, Logging.theUser!.name!, 20,
-                                  black,
-                                  fontWeight: FontWeight.bold, family: 'Cairo'),
-                            ),
-                          ],
-                        );
-    } else {
-      return const Center(child: Text('Empty data'));
-    }
-    } else {
-      return Center(
-          child: Text('State: ${snapshot.connectionState}'));
-    }
-    },
-                      ),
-                      //profile image
-
-                      //=========================== buttons listView =============================
-
-                      SingleChildScrollView(
-                        child: Container(
-                          child: paddingg(
-                            8,
-                            0,
-                            25,
-                            ListView.separated(
-                              primary: false,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return MaterialButton(
-                                    onPressed: index == labels.length - 1
-                                        ? () {
-                                      singOut(context, userToken);
-                                    }
-                                        : () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            page[index]),
-                                      );
-                                    },
-                                    child: addListViewButton(
-                                      labels[index],
-                                      icons[index],
-                                    ));
-                              },
-                              separatorBuilder: (context, index) =>
-                              const Divider(),
-                              itemCount: labels.length,
-                            ),
+              FutureBuilder(
+                future: getUsers,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: lodeing(context));
+                  } else if (snapshot.connectionState ==
+                          ConnectionState.active ||
+                      snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                      //---------------------------------------------------------------------------
+                    } else if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          SizedBox(
+                            height: 30.h,
                           ),
-                        ),
-                      ),
-
-                      //========================== social media icons row =======================================
-
-                      SizedBox(
-                        height: 50.h,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            padding(
+                          InkWell(
+                            child: padding(
                               8,
                               8,
                               Container(
-                                  width: 30,
-                                  height: 30,
-                                  child: Image.asset(
-                                    'assets/image/icon- faceboock.png',
-                                  )),
-                            ),
-                            padding(
-                              8,
-                              8,
-                              Container(
-                                width: 30,
-                                height: 30,
-                                child: Image.asset(
-                                  'assets/image/icon- insta.png',
+                                height: 102.h,
+                                width: 110.w,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle, color: lightGrey),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(70.r),
+                                  // child: Image.network(''
+                                  //   // Logging.theUser!.image!,
+                                  //   // fit: BoxFit.fill,
+                                  //   // height: double.infinity,
+                                  //   // width: double.infinity,
+                                  //   // loadingBuilder:
+                                  //   //     (context, child, loadingProgress) {
+                                  //   //   if (loadingProgress == null) return child;
+                                  //   //   return Center(
+                                  //   //     child: CircularProgressIndicator(
+                                  //   //       backgroundColor: grey,
+                                  //   //       value: loadingProgress
+                                  //   //                   .expectedTotalBytes !=
+                                  //   //               null
+                                  //   //           ? loadingProgress
+                                  //   //                   .cumulativeBytesLoaded /
+                                  //   //               loadingProgress
+                                  //   //                   .expectedTotalBytes!
+                                  //   //           : null,
+                                  //   //     ),
+                                  //   //   );
+                                  //   // },
+                                  // ),
                                 ),
                               ),
                             ),
-                            padding(
-                              8,
-                              8,
-                              Container(
-                                width: 30,
-                                height: 30,
-                                child: Image.asset(
-                                  'assets/image/icon- snapchat.png',
-                                ),
-                              ),
-                            ),
-                            padding(
-                              8,
-                              8,
-                              Container(
-                                width: 30,
-                                height: 30,
-                                child: Image.asset(
-                                  'assets/image/icon- twitter.png',
-                                ),
-                              ),
-                            ),
-                          ]),
+                            onTap: () {
+                              getImage().whenComplete(() => {
+                                    updateImageUser(userToken)
+                                        .whenComplete(() => {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    "تم تعديل الصورة بنجاح"),
+                                              ))
+                                            })
+                                  });
+                            },
+                          ),
+                          SizedBox(height: 5.h),
+                          padding(
+                            8,
+                            8,
+                            text(context, 'Logging.theUser!.name!', 20, black,
+                                fontWeight: FontWeight.bold, family: 'Cairo'),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return const Center(child: Text('Empty data'));
+                    }
+                  } else {
+                    return Center(
+                        child: Text('State: ${snapshot.connectionState}'));
+                  }
+                },
+              ),
+              //profile image
 
-                      paddingg(
-                        8,
-                        8,
-                        12,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              copyRight,
-                              size: 14,
-                            ),
-                            text(
-                                context, 'حقوق الطبع والنشر محفوظة', 14, black),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                      )
-                    ]),
+              //=========================== buttons listView =============================
+
+              SingleChildScrollView(
+                child: Container(
+                  child: paddingg(
+                    8,
+                    0,
+                    25,
+                    ListView.separated(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return MaterialButton(
+                            onPressed: index == labels.length - 1
+                                ? () {
+                                    singOut(context, userToken);
+                                  }
+                                : () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => page[index]),
+                                    );
+                                  },
+                            child: addListViewButton(
+                              labels[index],
+                              icons[index],
+                            ));
+                      },
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: labels.length,
+                    ),
+                  ),
+                ),
+              ),
+
+              //========================== social media icons row =======================================
+
+              SizedBox(
+                height: 50.h,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                padding(
+                  8,
+                  8,
+                  Container(
+                      width: 30,
+                      height: 30,
+                      child: Image.asset(
+                        'assets/image/icon- faceboock.png',
+                      )),
+                ),
+                padding(
+                  8,
+                  8,
+                  Container(
+                    width: 30,
+                    height: 30,
+                    child: Image.asset(
+                      'assets/image/icon- insta.png',
+                    ),
+                  ),
+                ),
+                padding(
+                  8,
+                  8,
+                  Container(
+                    width: 30,
+                    height: 30,
+                    child: Image.asset(
+                      'assets/image/icon- snapchat.png',
+                    ),
+                  ),
+                ),
+                padding(
+                  8,
+                  8,
+                  Container(
+                    width: 30,
+                    height: 30,
+                    child: Image.asset(
+                      'assets/image/icon- twitter.png',
+                    ),
+                  ),
+                ),
+              ]),
+
+              paddingg(
+                8,
+                8,
+                12,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      copyRight,
+                      size: 14,
+                    ),
+                    text(context, 'حقوق الطبع والنشر محفوظة', 14, black),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30.h,
+              )
+            ]),
           ),
         ),
       ),
@@ -291,14 +290,13 @@ class _userProfileState extends State<userProfile>
   }
 
   updateImageUser(String token) async {
-    var stream =  http.ByteStream(
-        DelegatingStream.typed(userImage!.openRead()));
+    var stream = http.ByteStream(DelegatingStream.typed(userImage!.openRead()));
     // get file length
     var length = await userImage!.length();
 
     // string to uri
-    var uri = Uri.parse(
-        "https://mobile.celebrityads.net/api/user/image/update");
+    var uri =
+        Uri.parse("https://mobile.celebrityads.net/api/user/image/update");
 
     Map<String, String> headers = {
       "Accept": "application/json",
@@ -308,7 +306,7 @@ class _userProfileState extends State<userProfile>
     var request = new http.MultipartRequest("POST", uri);
 
     // multipart that takes file
-    var multipartFile =  http.MultipartFile('image', stream, length,
+    var multipartFile = http.MultipartFile('image', stream, length,
         filename: basename(userImage!.path));
 
     // add file to multipart
@@ -326,7 +324,7 @@ class _userProfileState extends State<userProfile>
 
   Future<File?> getImage() async {
     PickedFile? pickedFile =
-    await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+        await ImagePicker.platform.pickImage(source: ImageSource.gallery);
     if (pickedFile == null) {
       return null;
     }
@@ -345,28 +343,28 @@ class _userProfileState extends State<userProfile>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
-//-----------------------------------------------------
-  void singOut(context, String token) async {
-    loadingDialogue(context);
-    const url = 'https://mobile.celebrityads.net/api/logout';
-    final respons = await http.get(Uri.parse(url), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    });
-    if (respons.statusCode == 200) {
-      Navigator.pop(context);
-      String massage=jsonDecode(respons.body)['message']['ar'];
-      ScaffoldMessenger.of(context).showSnackBar(
-          snackBar(context, massage, green, done));
-      DatabaseHelper.removeRememberToken();
-      goTopageReplacement(context,  Logging());
 
-    } else {
-      Navigator.pop(context);
-      throw Exception('logout field');
-    }
+//-----------------------------------------------------
+void singOut(context, String token) async {
+  loadingDialogue(context);
+  const url = 'https://mobile.celebrityads.net/api/logout';
+  final respons = await http.get(Uri.parse(url), headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $token'
+  });
+  if (respons.statusCode == 200) {
+    Navigator.pop(context);
+    String massage = jsonDecode(respons.body)['message']['ar'];
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar(context, massage, green, done));
+    DatabaseHelper.removeRememberToken();
+    goTopageReplacement(context, Logging());
+  } else {
+    Navigator.pop(context);
+    throw Exception('logout field');
   }
+}
 
 //------------------------------------------------------------
 Future<UserProfile> fetchUsers(String token) async {
@@ -550,5 +548,3 @@ class Message {
     return data;
   }
 }
-
-

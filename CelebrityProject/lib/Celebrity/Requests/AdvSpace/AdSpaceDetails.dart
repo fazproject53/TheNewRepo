@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,7 +68,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar: drowAppBar("تفاصيل المساحة الاعلانية", context),
+            appBar: drowAppBar("تفاصيل طلبات المساحة الاعلانية", context),
             body: Container(
               //color: black,
               width: double.infinity,
@@ -87,26 +88,35 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                       context,
                       'صورة الاعلان',
                       18,
-                      deepgrey!,
-                      fontWeight: FontWeight.bold,
+                      black,
+                      //fontWeight: FontWeight.bold,
                       align: TextAlign.right,
                     ),
                   ),
 //image----------------------------------------------------------
                   Expanded(
                     flex: 3,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(
-                          vertical: 20.h, horizontal: 20.r),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                widget.image!,
-                              ),
-                              fit: BoxFit.fill)),
+                    child: InkWell(
+                      onTap: () {
+                        goTopagepush(
+                            context,
+                            ImageData(
+                              image: widget.image!,
+                            ));
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 3,
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(
+                            vertical: 20.h, horizontal: 20.r),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                  widget.image!,
+                                ),
+                                fit: BoxFit.cover)),
+                      ),
                     ),
                   ),
 //link------------------------------------------------------------------------
@@ -135,15 +145,13 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   error));
                             }
 
-
-
                           },
                           child: text(
                             context,
                             'تصفح الموقع الالكتروني لطالب الاعلان',
-                            18,
-                            deepgrey!,
-                            fontWeight: FontWeight.bold,
+                            16,
+                            black,
+                            //fontWeight: FontWeight.bold,
                             align: TextAlign.right,
                           ),
                         ),

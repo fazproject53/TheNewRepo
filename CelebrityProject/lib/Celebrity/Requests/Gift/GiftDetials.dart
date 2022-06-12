@@ -63,7 +63,7 @@ class _GiftDetialsState extends State<GiftDetials> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            //appBar: drowAppBar("تفاصيل الطلب",context),
+            appBar: drowAppBar("تفاصيل طلبات الاهداء",context),
             body:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           SizedBox(
@@ -79,22 +79,7 @@ class _GiftDetialsState extends State<GiftDetials> {
               ),
               child: Column(
                 children: [
-                  Container(
-                    //color: black,
-                    width: double.infinity,
-                    height: 50.h,
-                    margin: EdgeInsets.only(
-                        left: 20.w, right: 20.w, bottom: 0.w, top: 20.w),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(Icons.arrow_back_ios_sharp,
-                              color: black)),
-                    ),
-                  ),
+
 //ad title-----------------------------------------------------
                   Container(
                     // color: black,
