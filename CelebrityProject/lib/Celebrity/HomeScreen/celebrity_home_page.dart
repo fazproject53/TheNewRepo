@@ -94,14 +94,21 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             children: [
                               Stack(
                                 children: [
-                                  SizedBox(
-                                    width: 500.w,
-                                    height: 400.h,
-                                    child: Image.network(
-                                      snapshot.data!.data!.celebrity!.image!,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
+                                  Container(
+                                      width: 500.w,
+                                      height: 400.h,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(snapshot.data!.data!.celebrity!.image!,
+                                          ),fit: BoxFit.cover,
+                                          colorFilter: const ColorFilter.mode(
+                                              Colors.black45, BlendMode.darken)
+                                        )
+                                      ),
+
+                                      ),
+
+
                                   Padding(
                                     padding:
                                         EdgeInsets.only(top: 30.h, right: 20.w),
@@ -214,8 +221,9 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                               },
                                               child: text(
                                                   context,
-                                                  'سياسة التعامل مع مروان بابلو',
-                                                  14,
+                                                  'سياسة التعامل مع '+ snapshot.data!.data!.celebrity!
+                                                  .name!,
+                                                  16,
                                                   purple))),
 
                                       ///SizedBox
@@ -502,7 +510,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                                 .studio![i].image!,
 
                                                           ),
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                         ))),
                                               onTap: (){
                                                 Navigator.push(
