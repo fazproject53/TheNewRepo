@@ -2,14 +2,14 @@ import 'package:celepraty/Celebrity/Requests/Gift/GiftApi.dart';
 
 import '../Celebrity/blockList.dart';
 
-class Invoice {
+class InvoiceModel {
   bool? success;
   Data? data;
   Message? message;
 
-  Invoice({this.success, this.data, this.message});
+  InvoiceModel({this.success, this.data, this.message});
 
-  Invoice.fromJson(Map<String, dynamic> json) {
+  InvoiceModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message =
@@ -376,6 +376,7 @@ class Order {
   String? date;
   Gender? adType;
   Gender? status;
+  Gender? giftType;
   int? price;
   String? description;
   Null? celebrityPromoCode;
@@ -406,6 +407,7 @@ class Order {
         this.adTiming,
         this.file,
         this.occation,
+        this.giftType,
         this.advertisingName,
         this.advertisingLink,
         this.platform,
@@ -420,6 +422,8 @@ class Order {
     date = json['date'];
     adType =
     json['ad_type'] != null ? new Gender.fromJson(json['ad_type']) : null;
+    giftType =
+    json['gift_type'] != null ? new Gender.fromJson(json['gift_type']) : null;
     status =
     json['status'] != null ? new Gender.fromJson(json['status']) : null;
     price = json['price'];
@@ -444,7 +448,7 @@ class Order {
     advertisingLink = json['advertising_link'];
     platform =
     json['platform'] != null ? new Gender.fromJson(json['platform']) : null;
-    rejectReson = json['reject_reson'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -459,6 +463,9 @@ class Order {
     data['date'] = this.date;
     if (this.adType != null) {
       data['ad_type'] = this.adType!.toJson();
+    }
+    if (this.giftType != null) {
+      data['gift_type'] = this.giftType!.toJson();
     }
     if (this.status != null) {
       data['status'] = this.status!.toJson();
