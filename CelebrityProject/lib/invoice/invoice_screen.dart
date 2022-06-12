@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+
+import 'InvoicePdf.dart';
 //import 'package:pdf/widgets.dart' as pw;
 
 class invoiceScreen extends StatefulWidget {
@@ -19,8 +21,9 @@ class invoiceScreen extends StatefulWidget {
 }
 
 class _invoiceScreenState extends State<invoiceScreen> {
-  Future<Invoice>? invoices;
+  Future<InvoiceModel>? invoices;
 
+  String? desc;
   List<String> imagePaths = [];
   final imagePicker = ImagePicker();
   final file = File('example.pdf');
@@ -51,7 +54,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  FutureBuilder<Invoice>(
+                  FutureBuilder<InvoiceModel>(
                       future: invoices,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
@@ -68,6 +71,10 @@ class _invoiceScreenState extends State<invoiceScreen> {
                               shrinkWrap: true,
                               itemCount: snapshot.data!.data!.billings!.length,
                               itemBuilder: (context, index) {
+                                desc =snapshot.data!.data!.billings![index].order!.adType!.name! == "اعلان" ? ' طلب'+ snapshot.data!.data!.billings![index].order!.adType!.name! + ' ل' +
+                                    snapshot.data!.data!.billings![index].order!.advertisingAdType!.name! :
+                                snapshot.data!.data!.billings![index].order!.adType!.name! == "اهداء"? ' طلب ' +snapshot.data!.data!.billings![index].order!.adType!.name! +' / '+ snapshot.data!.data!.billings![index].order!.giftType!.name! + " بمناسبة  " + 'عيد ميلاد':
+                                snapshot.data!.data!.billings![index].order!.adType!.name! == "مساحة اعلانية"?  ' طلب '+'مساحة اعلانية':'';
                                 return Card(
                                     elevation: 3,
                                     child: ExpansionTile(
@@ -183,32 +190,12 @@ class _invoiceScreenState extends State<invoiceScreen> {
                                                             stops: [0.0, 1.0],
                                                           ),
                                                         ),
-                                                        onTap: () {
-                                                          // final pickedFile = await imagePicker.pickImage(
-                                                          //   source: ImageSource.gallery,
-                                                          // );
-                                                          // if (pickedFile != null) {
-                                                          //   setState(() {
-                                                          //     imagePaths.add(pickedFile.path);
-                                                          //   });
-                                                          // }
-                                                          // Future<void> main() async {
-                                                          //   final pdf = pw.Document();
-                                                          //
-                                                          //   pdf.addPage(
-                                                          //     pw.Page(
-                                                          //       build: (pw.Context context) => pw.Center(
-                                                          //         child: pw.Text('Hello World!'),
-                                                          //       ),
-                                                          //     ),
-                                                          //   );
-                                                          //
-                                                          //   final file = File('example.pdf');
-                                                          //   await file.writeAsBytes(await pdf.save());
-                                                          //   imagePaths.add(file);
-                                                          // }
-                                                          imagePaths
-                                                              .add(file.path);
+                                                        onTap: () async {
+                                                          final pdf = await InvoicePdf.createInvoicePDF(snapshot.data!.data!.billings![index].order!.id!.toString(), snapshot.data!.data!.billings![index].id.toString(), snapshot.data!.data!.billings![index].date.toString(), snapshot.data!.data!.taxnumber.toString(),
+                                                              snapshot.data!.data!.phone.toString(), snapshot.data!.data!.billings![index].celebrity!.phonenumber.toString(),
+                                                              snapshot.data!.data!.billings![index].celebrity!.country!.name!, snapshot.data!.data!.billings![index].celebrity!.name!, snapshot.data!.data!.billings![index].price.toString(), snapshot.data!.data!.billings![index].priceAfterTax.toString(),
+                                                              snapshot.data!.data!.billings![index].paymentMehtod!.name!, desc!);
+                                                          InvoicePdf.openFile(pdf);
                                                         },
                                                       ),
                                                     ]),
@@ -237,7 +224,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
 
   Widget invoice(index) {
     return SingleChildScrollView(
-      child: FutureBuilder<Invoice>(
+      child: FutureBuilder<InvoiceModel>(
         future: invoices,
         builder: (context, snapshot) {
       if (snapshot.connectionState ==
@@ -312,7 +299,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
                           textDirection: TextDirection.rtl,
                           child: text(
                               context,
-                              date.toString().substring(0, 16) + ' PM',
+                              snapshot.data!.data!.billings![index].date!.toString(),
                               15,
                               grey!)),
                       text(context, 'فاتورة ضريبية', 18, black.withOpacity(0.75),
@@ -327,7 +314,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      text(context, snapshot.data!.data!.billings![index].billingId.toString(), 18, black.withOpacity(0.75),
+                      text(context, snapshot.data!.data!.billings![index].order!.id.toString() + '#', 18, black.withOpacity(0.75),
                           fontWeight: FontWeight.bold),
                       SizedBox(
                         height: 15.h,
@@ -356,7 +343,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
                           children: [
                             Container(
                                 child: text(context, "منصة المشاهير", 15, black),
-                                margin: EdgeInsets.only(left: 40.w)),
+                                margin: EdgeInsets.only(left: 30.w)),
                             text(context, ': الموقع الالكتروني', 15,
                                 black.withOpacity(0.75),
                                 fontWeight: FontWeight.bold),
@@ -366,8 +353,8 @@ class _invoiceScreenState extends State<invoiceScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              child: text(context, "لا يوجد", 15, black),
-                              margin: EdgeInsets.only(left: 80.w),
+                              child: text(context, snapshot.data!.data!.taxnumber!, 15, black),
+                              margin: EdgeInsets.only(left: 10.w),
                             ),
                             text(context, ': الرقم الضريبي', 15,
                                 black.withOpacity(0.75),
@@ -378,8 +365,8 @@ class _invoiceScreenState extends State<invoiceScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                                child: text(context, "+966567427796", 15, black),
-                                margin: EdgeInsets.only(left: 30.w)),
+                                child: text(context, snapshot.data!.data!.phone!, 15, black),
+                                margin: EdgeInsets.only(left: 10.w)),
                             text(context, ': الهاتف', 15, black.withOpacity(0.75),
                                 fontWeight: FontWeight.bold),
                           ],
@@ -404,16 +391,16 @@ class _invoiceScreenState extends State<invoiceScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                                child: text(context, snapshot.data!.data!.billings![index].user!.country!.name!, 15, black),
+                                child: text(context, snapshot.data!.data!.billings![index].celebrity!.country!.name!, 15, black),
                                 margin: EdgeInsets.only(left: 75.w)),
                             Container(
-                                child: text(context, snapshot.data!.data!.billings![index].user!.name!, 15,
+                                child: text(context, snapshot.data!.data!.billings![index].celebrity!.name!, 15,
                                     black.withOpacity(0.75),
                                     fontWeight: FontWeight.bold)),
                           ],
                         ),
                         Container(
-                          child: text(context, snapshot.data!.data!.billings![index].user!.phonenumber!
+                          child: text(context, snapshot.data!.data!.billings![index].celebrity!.phonenumber!
                               , 15, black),
                           margin: EdgeInsets.only(left: 30.w),
                           alignment: Alignment.bottomLeft,
@@ -520,9 +507,9 @@ class _invoiceScreenState extends State<invoiceScreen> {
                                 width: 150.w,
                                 child: text(
                                     context,
-                                      snapshot.data!.data!.billings![index].order!.adType!.name! == "اعلان" ? ' طلب '+ snapshot.data!.data!.billings![index].order!.adType!.name! + ' ل' +
+                                      snapshot.data!.data!.billings![index].order!.adType!.name! == "اعلان" ? ' طلب'+ snapshot.data!.data!.billings![index].order!.adType!.name! + ' ل' +
                                           snapshot.data!.data!.billings![index].order!.advertisingAdType!.name! :
-                                      snapshot.data!.data!.billings![index].order!.adType!.name! == "اهداء"? ' طلب ' +snapshot.data!.data!.billings![index].order!.adType!.name! + " ل " + snapshot.data!.data!.billings![index].order!.occation!.name!:
+                                      snapshot.data!.data!.billings![index].order!.adType!.name! == "اهداء"? ' طلب ' +snapshot.data!.data!.billings![index].order!.adType!.name! +' / '+ snapshot.data!.data!.billings![index].order!.giftType!.name! + " بمناسبة  " + 'عيد ميلاد':
                                       snapshot.data!.data!.billings![index].order!.adType!.name! == "مساحة اعلانية"?  ' طلب '+'مساحة اعلانية':'',
                                     13.5,
                                     black),
@@ -623,7 +610,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
     );
   }
 
-  Future<Invoice> getInvoices() async {
+  Future<InvoiceModel> getInvoices() async {
     String token =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZDI4MTY3ZWY1YWE0ZDBjZWQ0MDBjOTViMzBmNWQwZGFiNmY4MzgxMWU3YTUwMWUyMmYwMmMyZGU2YjRjOTIwOGI0MjFjNmZjZGM3YWMzZjUiLCJpYXQiOjE2NTM5ODg2MjAuNjgyMDE4OTk1Mjg1MDM0MTc5Njg3NSwibmJmIjoxNjUzOTg4NjIwLjY4MjAyNDk1NTc0OTUxMTcxODc1LCJleHAiOjE2ODU1MjQ2MjAuNjczNjY3OTA3NzE0ODQzNzUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.OguFfzEWNOyCU4xSZ_PbLwg1xmyEbIMYAQ-J9wRApGKMq0qo1aEiM1OvcfvEaopxRiKngk-ckebhhcl7MRtGopNZcNjJwp9jWS7yZuyH7DBvct0O6tys47HL4eBU0QLwgmxMmh8nLkADARdIvVdZJFw9vLp-7X-4Huj6I2E1SFjeYnV6l7Fu_c1BYMAJmXpBwIALxTvwxg8tbxuhKmFBtLnnY3K25Tedra9IMc0nR_nXV3ifXdp4v7fsvbCLLYNr5ihc3ElE_QWczOvkkYeOPTP4yFMFlZFpWUNeER5wiEdbcO6WzzxzCRkLXriedWDI3G6qOrMAUAjiAUxS51--_7x9iI0qHalXHyGxgudUnAHGNsYpvLJ8JVCM2k_dtGazmZtA5w5wDSTI8gSuWUZxf2OpQNCmyt8k80Pbi_Olz2xDMSuDKYmiomWrUhwIwunk_gsU9lC5oLcEzJ2BLcaiiuwFex9xraMbbC1ZyipSIZZhW1l1CppYeYmPSxLC8hEIywRy5Lbvw-WQ25CpurNgEMiHefGooDxCsHqnkfWCQ1MnFAGiEs2hPtG7DVp8RArzCyXXaVrtVi2wbBFrCPDK52yNQxQjs3z8JBNlDwEFR2uDa-VRup61j2WESvyUKPMloD7gL7FsthAl6IZquYh7XujHWEcf1Lnprd6D5J6CPWM';
     final response = await http.get(
@@ -637,7 +624,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
-      return Invoice.fromJson(jsonDecode(response.body));
+      return InvoiceModel.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
