@@ -62,12 +62,17 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                                     image: snapshot.data!.data!.advertisingOrders![i].file,
                                     advTitle: snapshot.data!.data!.advertisingOrders![i].advertisingAdType?.name,
                                     description: snapshot.data!.data!.advertisingOrders![i].description,
-                                    orderId: snapshot.data!.data!.advertisingOrders![i].id, token:token,
+                                    orderId: snapshot.data!.data!.advertisingOrders![i].id,
+                                    celebrityName:snapshot.data!.data!.advertisingOrders![i].celebrity?.name!,
+                                    celebrityId:snapshot.data!.data!.advertisingOrders![i].celebrity?.id!,
+                                    celebrityImage:snapshot.data!.data!.advertisingOrders![i].celebrity?.image!,
+                                    celebrityPagUrl:snapshot.data!.data!.advertisingOrders![i].celebrity?.pageUrl!,
                                     platform:snapshot.data!.data!.advertisingOrders![i].platform?.name,
                                     state:snapshot.data!.data!.advertisingOrders![i].status?.id,
                                     price:snapshot.data!.data!.advertisingOrders![i].price,
                                     rejectResonName: snapshot.data!.data!.advertisingOrders![i].rejectReson?.name!,
                                     rejectResonId: snapshot.data!.data!.advertisingOrders![i].rejectReson?.id,
+                                    token:token,
                                   ));
                                 },
                                 child: Column(
@@ -161,7 +166,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                                   padding: EdgeInsets.only(right: 16.w),
                                   child: text(
                                     context,
-                                   advertisingOrders[i].celebrity!.name!,
+                                    advertisingOrders[i].adFeature!.name!,
                                     18,
                                     white,
                                     fontWeight: FontWeight.bold,
