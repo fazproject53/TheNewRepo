@@ -19,7 +19,6 @@ import '../orders/advForm.dart';
 import '../orders/gifttingForm.dart';
 import 'package:http/http.dart' as http;
 
-
 class CelebrityHome extends StatefulWidget {
   final String? pageUrl;
   const CelebrityHome({Key? key, this.pageUrl}) : super(key: key);
@@ -74,7 +73,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: loading(context));
-                  } else if (snapshot.connectionState == ConnectionState.active ||
+                  } else if (snapshot.connectionState ==
+                          ConnectionState.active ||
                       snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
                       //throw snapshot.error.toString();
@@ -83,9 +83,14 @@ class _CelebrityHomeState extends State<CelebrityHome>
                     } else if (snapshot.hasData) {
                       ///get the adv image from API and store it inside th list
 
-                      for(int i = 0 ; i < snapshot.data!.data!.adSpaceOrders!.length ; i++) {
-                        advImage.contains(snapshot.data!.data!.adSpaceOrders![i].image!) ? null
-                        : advImage.add(snapshot.data!.data!.adSpaceOrders![i].image!)  ;
+                      for (int i = 0;
+                          i < snapshot.data!.data!.adSpaceOrders!.length;
+                          i++) {
+                        advImage.contains(
+                                snapshot.data!.data!.adSpaceOrders![i].image!)
+                            ? null
+                            : advImage.add(
+                                snapshot.data!.data!.adSpaceOrders![i].image!);
                       }
                       return Column(
                         children: [
@@ -95,20 +100,18 @@ class _CelebrityHomeState extends State<CelebrityHome>
                               Stack(
                                 children: [
                                   Container(
-                                      width: 500.w,
-                                      height: 400.h,
-                                      decoration: BoxDecoration(
+                                    width: 500.w,
+                                    height: 400.h,
+                                    decoration: BoxDecoration(
                                         image: DecorationImage(
-                                          image: NetworkImage(snapshot.data!.data!.celebrity!.image!,
-                                          ),fit: BoxFit.cover,
-                                          colorFilter: const ColorFilter.mode(
-                                              Colors.black45, BlendMode.darken)
-                                        )
-                                      ),
-
-                                      ),
-
-
+                                            image: NetworkImage(
+                                              snapshot.data!.data!.celebrity!.image!,
+                                            ),
+                                            fit: BoxFit.cover,
+                                            colorFilter: const ColorFilter.mode(
+                                                Colors.black45,
+                                                BlendMode.darken))),
+                                  ),
                                   Padding(
                                     padding:
                                         EdgeInsets.only(top: 30.h, right: 20.w),
@@ -132,25 +135,25 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                         padding: EdgeInsets.only(
                                             top: 165.h, right: 25.w),
                                         child: Row(children: [
-                                          text(
-                                              context,
-                                              snapshot.data!.data!.celebrity!.name!,
-                                              35,
-                                              white,
-                                              fontWeight: FontWeight.bold),
-
-                                          ///SizedBox
-                                          SizedBox(
-                                            width: 10.w,
-                                          ),
                                           Padding(
-                                            padding: EdgeInsets.only(top: 10.h),
+                                            padding: EdgeInsets.only(top: 5.h),
                                             child: Icon(
                                               verified,
                                               color: blue.withOpacity(0.6),
-                                              size: 25,
+                                              size: 27,
                                             ),
-                                          )
+                                          ),
+                                          ///SizedBox
+                                          SizedBox(
+                                            width: 6.w,
+                                          ),
+                                          text(
+                                              context,
+                                              snapshot
+                                                  .data!.data!.celebrity!.name!,
+                                              35,
+                                              white,
+                                              fontWeight: FontWeight.bold),
                                         ]),
                                       ),
                                       Padding(
@@ -212,17 +215,27 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                 showDialogFunc(
                                                     context,
                                                     '',
-                                                    snapshot.data!.data!.celebrity!
+                                                    snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrity!
                                                         .advertisingPolicy!,
-                                                    snapshot.data!.data!.celebrity!
+                                                    snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrity!
                                                         .giftingPolicy!,
-                                                    snapshot.data!.data!.celebrity!
+                                                    snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrity!
                                                         .adSpacePolicy!);
                                               },
                                               child: text(
                                                   context,
-                                                  'سياسة التعامل مع '+ snapshot.data!.data!.celebrity!
-                                                  .name!,
+                                                  'سياسة التعامل مع ' +
+                                                      snapshot.data!.data!
+                                                          .celebrity!.name!,
                                                   16,
                                                   purple))),
 
@@ -239,7 +252,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                               MainAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(left: 8.w),
+                                              padding:
+                                                  EdgeInsets.only(left: 8.w),
                                               child: SizedBox(
                                                 width: 30,
                                                 height: 30,
@@ -248,8 +262,11 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                     'assets/image/icon- faceboock.png',
                                                   ),
                                                   onTap: () async {
-                                                    var url = snapshot.data!.data!
-                                                        .celebrity!.facebook!;
+                                                    var url = snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrity!
+                                                        .facebook!;
                                                     if (url == "") {
                                                       ///Do nothing
                                                     } else {
@@ -261,7 +278,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(left: 8.w),
+                                              padding:
+                                                  EdgeInsets.only(left: 8.w),
                                               child: SizedBox(
                                                 width: 30,
                                                 height: 30,
@@ -270,8 +288,11 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                       'assets/image/icon- insta.png',
                                                     ),
                                                     onTap: () async {
-                                                      var url = snapshot.data!.data!
-                                                          .celebrity!.instagram!;
+                                                      var url = snapshot
+                                                          .data!
+                                                          .data!
+                                                          .celebrity!
+                                                          .instagram!;
                                                       if (url == "") {
                                                         ///Do nothing
                                                       } else {
@@ -282,7 +303,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(left: 8.w),
+                                              padding:
+                                                  EdgeInsets.only(left: 8.w),
                                               child: SizedBox(
                                                 width: 30,
                                                 height: 30,
@@ -291,8 +313,11 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                       'assets/image/icon- snapchat.png',
                                                     ),
                                                     onTap: () async {
-                                                      var url = snapshot.data!.data!
-                                                          .celebrity!.snapchat!;
+                                                      var url = snapshot
+                                                          .data!
+                                                          .data!
+                                                          .celebrity!
+                                                          .snapchat!;
                                                       if (url == "") {
                                                         ///Do nothing
                                                       } else {
@@ -310,8 +335,11 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                     'assets/image/icon- twitter.png',
                                                   ),
                                                   onTap: () async {
-                                                    var url = snapshot.data!.data!
-                                                        .celebrity!.twitter!;
+                                                    var url = snapshot
+                                                        .data!
+                                                        .data!
+                                                        .celebrity!
+                                                        .twitter!;
                                                     if (url == "") {
                                                       ///Do nothing
                                                     } else {
@@ -337,8 +365,9 @@ class _CelebrityHomeState extends State<CelebrityHome>
 
                           ///horizontal listView for news
                           Visibility(
-                            visible:
-                                snapshot.data!.data!.news!.isEmpty ? false : true,
+                            visible: snapshot.data!.data!.news!.isEmpty
+                                ? false
+                                : true,
                             child: SizedBox(
                               height: 90.h,
                               child: ListView.builder(
@@ -354,7 +383,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(50.r),
-                                              bottomRight: Radius.circular(50.r),
+                                              bottomRight:
+                                                  Radius.circular(50.r),
                                               topLeft: Radius.circular(15.r),
                                               bottomLeft: Radius.circular(15.r),
                                             ),
@@ -369,13 +399,18 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: EdgeInsets.only(right: 8.w),
+                                            padding:
+                                                EdgeInsets.only(right: 8.w),
                                             child: Row(
                                               children: [
                                                 CircleAvatar(
-                                                  backgroundImage: Image.network(
-                                                    snapshot.data!.data!.celebrity!.image!
-                                                  ).image,
+                                                  backgroundImage:
+                                                      Image.network(snapshot
+                                                              .data!
+                                                              .data!
+                                                              .celebrity!
+                                                              .image!)
+                                                          .image,
                                                   radius: 30.r,
                                                 ),
                                                 SizedBox(
@@ -386,18 +421,19 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                   width: 110.w,
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       text(
-                                                          context,
-                                                          snapshot
-                                                              .data!
-                                                              .data!
-                                                              .news![index]
-                                                              .description!,
-                                                          11,
-                                                          white,
-                                                        ),
+                                                        context,
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .news![index]
+                                                            .description!,
+                                                        11,
+                                                        white,
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -419,7 +455,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                           Visibility(
                             visible: advImage.isEmpty ? false : true,
                             child: Container(
-                                margin: EdgeInsets.only(right: 10.w, left: 10.w),
+                                margin:
+                                    EdgeInsets.only(right: 10.w, left: 10.w),
                                 height: 150.h,
                                 decoration: BoxDecoration(
                                     color: black,
@@ -430,6 +467,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                           SizedBox(
                             height: 20.h,
                           ),
+
                           ///Container for celebrity store
                           Container(
                             margin: EdgeInsets.only(right: 10.w, left: 10.w),
@@ -444,13 +482,14 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                 Padding(
                                   padding: EdgeInsets.only(right: 10.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       text(context, 'قم بزيارة المتجر الان', 12,
                                           white),
-                                      text(context, 'المتجر الخاص بمروان بابلو', 16,
-                                          white),
+                                      text(context, 'المتجر الخاص بمروان بابلو',
+                                          16, white),
                                     ],
                                   ),
                                 ),
@@ -475,14 +514,17 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             height: 10.h,
                           ),
                           Visibility(
-                            visible: snapshot.data!.data!.studio!.isEmpty ? false : true,
+                            visible: snapshot.data!.data!.studio!.isEmpty
+                                ? false
+                                : true,
                             child: Padding(
                               padding: EdgeInsets.only(right: 10.w, left: 10.w),
                               child: SizedBox(
                                 height: 350.h,
                                 width: 400.w,
                                 child: GridView.builder(
-                                  itemCount: snapshot.data!.data!.studio!.length,
+                                  itemCount:
+                                      snapshot.data!.data!.studio!.length,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2, //عدد العناصر في كل صف
@@ -497,90 +539,107 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                       elevation: 10,
                                       child: Stack(
                                         children: [
-                                          snapshot.data!.data!.studio![i].type! ==
+                                          snapshot.data!.data!.studio![i]
+                                                      .type! ==
                                                   "image"
                                               ? InkWell(
-                                                child: Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.all(
-                                                            Radius.circular(4.r)),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                            snapshot.data!.data!
-                                                                .studio![i].image!,
-
-                                                          ),
-                                                          fit: BoxFit.cover,
-                                                        ))),
-                                              onTap: (){
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder:
-                                                            (context) => ImageData(image: snapshot.data!.data!
-                                                                .studio![i].image!,)));
-                                              },)
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          4.r)),
+                                                          image:
+                                                              DecorationImage(
+                                                            image: NetworkImage(
+                                                              snapshot
+                                                                  .data!
+                                                                  .data!
+                                                                  .studio![i]
+                                                                  .image!,
+                                                            ),
+                                                            fit: BoxFit.cover,
+                                                          ))),
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    ImageData(
+                                                                      image: snapshot
+                                                                          .data!
+                                                                          .data!
+                                                                          .studio![
+                                                                              i]
+                                                                          .image!,
+                                                                    )));
+                                                  },
+                                                )
                                               : Stack(
                                                   children: [
                                                     ///Video
                                                     VideoPlayer(
-                                                        VideoPlayerController.network(
-                                                            snapshot.data!.data!
-                                                                .studio![i].image!)
+                                                        VideoPlayerController
+                                                            .network(snapshot
+                                                                .data!
+                                                                .data!
+                                                                .studio![i]
+                                                                .image!)
                                                           ..initialize()),
 
                                                     ///Play Icon
                                                     Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         ///play video
                                                         Expanded(
-                                                            flex: 1,
-                                                            child: Padding(
-                                                              padding:  EdgeInsets.only(top: 10.h,right: 55.w),
-                                                              child: IconButton(
-                                                                      onPressed: () {
-                                                                        Navigator.push(
-                                                                            context,
-                                                                            MaterialPageRoute(
-                                                                                builder:
-                                                                                    (context) =>
-                                                                                    viewData(
-                                                                                      video: snapshot.data!.data!.studio![i].image!,
-                                                                                    )));
-                                                                        print('Tap it');
-                                                                      },
-                                                                      icon: GradientIcon(
-                                                                              playViduo,
-                                                                              40.sp,
-                                                                              const LinearGradient(
-                                                                                begin:
-                                                                                    Alignment(
-                                                                                        0.7,
-                                                                                        2.0),
-                                                                                end: Alignment(
-                                                                                    -0.69,
-                                                                                    -1.0),
-                                                                                colors: [
-                                                                                  Color(
-                                                                                      0xff0ab3d0),
-                                                                                  Color(
-                                                                                      0xffe468ca)
-                                                                                ],
-                                                                                stops: [
-                                                                                  0.0,
-                                                                                  1.0
-                                                                                ],
-                                                                              )),
-
-
-                                                                    ),
+                                                          flex: 1,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10.h,
+                                                                    right:
+                                                                        55.w),
+                                                            child: IconButton(
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            viewData(
+                                                                              video: snapshot.data!.data!.studio![i].image!,
+                                                                            )));
+                                                                print('Tap it');
+                                                              },
+                                                              icon: GradientIcon(
+                                                                  playViduo,
+                                                                  40.sp,
+                                                                  const LinearGradient(
+                                                                    begin:
+                                                                        Alignment(
+                                                                            0.7,
+                                                                            2.0),
+                                                                    end: Alignment(
+                                                                        -0.69,
+                                                                        -1.0),
+                                                                    colors: [
+                                                                      Color(
+                                                                          0xff0ab3d0),
+                                                                      Color(
+                                                                          0xffe468ca)
+                                                                    ],
+                                                                    stops: [
+                                                                      0.0,
+                                                                      1.0
+                                                                    ],
+                                                                  )),
                                                             ),
-
-
-
                                                           ),
-
+                                                        ),
                                                       ],
                                                     ),
                                                   ],
@@ -604,7 +663,15 @@ class _CelebrityHomeState extends State<CelebrityHome>
                             gradientContainerNoborder(
                                 getSize(context).width,
                                 buttoms(context, 'اطلب حالا', 20, white, () {
-                                  showBottomSheett(context, bottomSheetMenu(snapshot.data!.data!.celebrity!.id!.toString(),snapshot.data!.data!.celebrity!.image!,snapshot.data!.data!.celebrity!.name!.toString()));
+                                  showBottomSheett(
+                                      context,
+                                      bottomSheetMenu(
+                                          snapshot.data!.data!.celebrity!.id!
+                                              .toString(),
+                                          snapshot
+                                              .data!.data!.celebrity!.image!,
+                                          snapshot.data!.data!.celebrity!.name!
+                                              .toString()));
                                 })),
                           ),
                           SizedBox(
@@ -635,20 +702,20 @@ class _CelebrityHomeState extends State<CelebrityHome>
       autoplay: true,
       itemCount: adImage.length,
       pagination: const SwiperPagination(),
-      control: SwiperControl(
-          color: white, padding: EdgeInsets.only( right: 8.w)),
+      control:
+          SwiperControl(color: white, padding: EdgeInsets.only(right: 8.w)),
       itemBuilder: (context, index) {
         return Container(
           height: 90.h,
           width: 440.w,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7.r),
+              borderRadius: BorderRadius.circular(7.r),
               image: DecorationImage(
-            image: NetworkImage(
-              adImage[index],
-            ),
-            fit: BoxFit.fill,
-          )),
+                image: NetworkImage(
+                  adImage[index],
+                ),
+                fit: BoxFit.fill,
+              )),
         );
       },
       onIndexChanged: (int index) {
@@ -690,7 +757,12 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => gifttingForm(id: id,image: image, name: name,)),
+                    MaterialPageRoute(
+                        builder: (context) => gifttingForm(
+                              id: id,
+                              image: image,
+                              name: name,
+                            )),
                   );
                 },
               ),
@@ -752,7 +824,12 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => advForm(id: id,image: image, name: name,)),
+                    MaterialPageRoute(
+                        builder: (context) => advForm(
+                              id: id,
+                              image: image,
+                              name: name,
+                            )),
                   );
                 },
               ),
@@ -812,7 +889,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => advArea(id: id,)),
+                    MaterialPageRoute(
+                        builder: (context) => advArea(
+                              id: id,
+                            )),
                   );
                 },
               ),
