@@ -232,7 +232,44 @@ class _StudioState extends State<Studio> {
                                                                 height: 28.h,
                                                                 width: 32.w,
                                                               ),
-                                                              onTap: (){deleteStudio(snapshot.data!.data!.studio![index].id!);},
+                                                              onTap: (){
+                                                                showDialog<String>(
+                                                                    context: context,
+                                                                    builder: (BuildContext context) =>
+                                                                    AlertDialog(
+                                                                  title: Directionality(
+                                                                      textDirection: TextDirection.rtl,
+                                                                      child: text(context, 'حذف من الاستديو', 16, black,)),
+                                                                  content: Directionality(
+                                                                      textDirection: TextDirection.rtl,
+                                                                      child: text(context, 'هل انت متأكد من انك تريد الحذف ؟', 14, black,)),
+                                                                  actions: <Widget>[
+                                                                    Padding(
+                                                                      padding:  EdgeInsets.only(top: 0.h,),
+                                                                      child: TextButton(
+                                                                          onPressed: () =>
+                                                                              Navigator.pop(
+                                                                                  context,
+                                                                                  'الغاء'),
+                                                                          child: text(context, 'الغاء', 15, purple)
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding:  EdgeInsets.only(bottom: 0.h, right: 0.w),
+                                                                      child: TextButton(
+                                                                          onPressed: () => setState(() {
+                                                                            deleteStudio(snapshot.data!.data!.studio![index].id!);
+                                                                            Navigator.pop(
+                                                                                context,
+                                                                                'حذف');
+
+                                                                          }),
+                                                                          child: text(context, 'حذف', 15, purple)
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),);
+                                                               },
                                                             )
                                                           ],
                                                         ),
@@ -271,7 +308,7 @@ class _StudioState extends State<Studio> {
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $userToken'
       },
     );
 

@@ -403,7 +403,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                                                                 ),
                                                               ),
                                                               Padding(
-                                                                padding:  EdgeInsets.only(top: 10.h, right: 150.w),
+                                                                padding:  EdgeInsets.only(top: 10.h, right: 0.w),
                                                                 child: TextButton(
                                                                   onPressed: () => setState(() {
                                                                       deleteDiscountCode(

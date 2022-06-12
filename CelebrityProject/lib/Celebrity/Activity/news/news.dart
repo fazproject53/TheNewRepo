@@ -375,7 +375,43 @@ String? userToken;
                                                             ),
                                                             onTap: (){
                                                               setState(() {
-                                                              deleteNew(snapshot.data!.data!.news![index].id!, userToken!);
+                                                                showDialog<String>(
+                                                                  context: context,
+                                                                  builder: (BuildContext context) =>
+                                                                      AlertDialog(
+                                                                        title: Directionality(
+                                                                            textDirection: TextDirection.rtl,
+                                                                            child: text(context, 'حذف خبر', 16, black,)),
+                                                                        content: Directionality(
+                                                                            textDirection: TextDirection.rtl,
+                                                                            child: text(context, 'هل انت متأكد من انك تريد حذف الخبر ؟', 14, black,)),
+                                                                        actions: <Widget>[
+                                                                          Padding(
+                                                                            padding:  EdgeInsets.only(top: 0.h,),
+                                                                            child: TextButton(
+                                                                                onPressed: () =>
+                                                                                    Navigator.pop(
+                                                                                        context,
+                                                                                        'الغاء'),
+                                                                                child: text(context, 'الغاء', 15, purple)
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding:  EdgeInsets.only(bottom: 0.h, right: 0.w),
+                                                                            child: TextButton(
+                                                                                onPressed: () => setState(() {
+                                                                                  deleteNew(snapshot.data!.data!.news![index].id!, userToken!);
+                                                                                  Navigator.pop(
+                                                                                      context,
+                                                                                      'حذف');
+
+                                                                                }),
+                                                                                child: text(context, 'حذف', 15, purple)
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),);
+
                                                             });}
                                                           ),
                                                         ],
