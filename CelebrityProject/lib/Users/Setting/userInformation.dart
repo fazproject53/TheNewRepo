@@ -61,6 +61,7 @@ class _userInformationState extends State<userInformation> {
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
     setState(() {
+      city = selectedTest['keyword'];
       _selectedTest = selectedTest;
     });
   }
@@ -82,7 +83,7 @@ class _userInformationState extends State<userInformation> {
         }
       });
     });
-    print(Logging.theUser!.country);
+
   }
 
   @override
