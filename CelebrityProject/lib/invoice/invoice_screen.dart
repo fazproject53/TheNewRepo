@@ -191,7 +191,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
                                                           ),
                                                         ),
                                                         onTap: () async {
-                                                          final pdf = await InvoicePdf.createInvoicePDF(snapshot.data!.data!.billings![index].order!.id!.toString(), snapshot.data!.data!.billings![index].id.toString(), snapshot.data!.data!.billings![index].date.toString(), snapshot.data!.data!.taxnumber.toString(),
+                                                          final pdf = await InvoicePdf.createInvoicePDF(snapshot.data!.data!.billings![index].order!.id!.toString(), snapshot.data!.data!.billings![index].billingId.toString(), snapshot.data!.data!.billings![index].date.toString(), snapshot.data!.data!.taxnumber.toString(),
                                                               snapshot.data!.data!.phone.toString(), snapshot.data!.data!.billings![index].celebrity!.phonenumber.toString(),
                                                               snapshot.data!.data!.billings![index].celebrity!.country!.name!, snapshot.data!.data!.billings![index].celebrity!.name!, snapshot.data!.data!.billings![index].price.toString(), snapshot.data!.data!.billings![index].priceAfterTax.toString(),
                                                               snapshot.data!.data!.billings![index].paymentMehtod!.name!, desc!);

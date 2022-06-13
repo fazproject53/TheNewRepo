@@ -19,7 +19,7 @@ class InvoicePdf {
       String orderId, String invoiceId, String date, String taxNum ,String platformPhone, String userPhone, String country, String name,
       String price, String priceWithTax, String paymentMethod, String desc) async {
     final document = Document();
-    String title = 'التفاصيل الخاصة بالطلب';
+    String title = 'فاتورة';
 
     var arabicFont = Font.ttf(await rootBundle.load("assets/font/DINNextLTArabic-Regular-2.ttf"));
     var imageImage = MemoryImage((await rootBundle.load('assets/image/logo.png')).buffer.asUint8List());
@@ -27,12 +27,13 @@ class InvoicePdf {
       theme: ThemeData.withFont(
         base: arabicFont,
       ),
-      pageFormat: PdfPageFormat.roll80,
+      pageFormat: PdfPageFormat.a4,
       textDirection: TextDirection.rtl,
       build: (Context context) => Center(
 
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             children: [
@@ -58,7 +59,7 @@ class InvoicePdf {
                         style: TextStyle(fontSize: 12.sp, color: PdfColors.grey),),
                       SizedBox(width: 20.w),
                       Padding(padding: EdgeInsets.only(right: 10.w),
-                        child:Text( 'فاتورة ضريبية', style: TextStyle(fontSize: 17.sp, color: PdfColors.black),),),
+                        child:Text( 'فاتورة ضريبية', style: TextStyle(fontSize: 13.sp, color: PdfColors.black),),),
 
                     ]),
                 margin: EdgeInsets.only(top: 20.h, left: 0.w, right: 0.w),
@@ -69,12 +70,12 @@ class InvoicePdf {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text( orderId + '#'),
+                    Text( orderId + '#', style: TextStyle(fontSize: 13.sp, color: PdfColors.black),),
                     SizedBox(
                       height: 15.h,
                     ),
-                    Text( 'رقم الطلب ' + orderId + ':'),
-                    Text( 'رقم الفاتورة '+ invoiceId + ':'),
+                    Text( 'رقم الطلب ' + orderId + ':', style: TextStyle(fontSize: 13.sp, color: PdfColors.black),),
+                    Text( 'رقم الفاتورة '+ invoiceId + ':', style: TextStyle(fontSize: 13.sp, color: PdfColors.black),),
                     SizedBox(height: 10.h),
                     Divider(
                       color: PdfColors.grey,
@@ -87,7 +88,7 @@ class InvoicePdf {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(' مصدرة من :', style: TextStyle(color: PdfColors.blue,fontSize: 13.sp,)),
+                      Text(' مصدرة من :', style: TextStyle(color: PdfColors.blue,fontSize: 11.sp,)),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -95,28 +96,28 @@ class InvoicePdf {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                              child: Text( "منصة المشاهير",  style: TextStyle(color: PdfColors.grey700, fontSize: 12.sp,)),
+                              child: Text( "منصة المشاهير",  style: TextStyle(color: PdfColors.grey700, fontSize: 10.sp,)),
                               margin: EdgeInsets.only(left: 0.w)),
-                          Text( ' الموقع الالكتروني :',  style: TextStyle(color: PdfColors.black,fontSize: 12.sp,)),
+                          Text( ' الموقع الالكتروني :',  style: TextStyle(color: PdfColors.black,fontSize: 10.sp,)),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            child: Text(taxNum,  style: TextStyle(color: PdfColors.grey700, fontSize: 12.sp,)),
+                            child: Text(taxNum,  style: TextStyle(color: PdfColors.grey700, fontSize: 10.sp,)),
                             margin: EdgeInsets.only(left: 0.w),
                           ),
-                          Text( ' الرقم الضريبي :', style: TextStyle(color: PdfColors.black, fontSize: 12.sp,),),
+                          Text( ' الرقم الضريبي :', style: TextStyle(color: PdfColors.black, fontSize: 10.sp,),),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                              child: Text( platformPhone, style: TextStyle(color: PdfColors.grey700, fontSize: 13.sp,)),
+                              child: Text( platformPhone, style: TextStyle(color: PdfColors.grey700, fontSize: 11.sp,)),
                               margin: EdgeInsets.only(left: 0.w)),
-                          Text( ' الهاتف :',  style: TextStyle(color: PdfColors.black, fontSize: 13.sp,)),
+                          Text( ' الهاتف :',  style: TextStyle(color: PdfColors.black, fontSize: 11.sp,)),
                         ],
                       ),
                       Divider(
@@ -129,7 +130,7 @@ class InvoicePdf {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(' مصدرة الى :',  style: TextStyle(color: PdfColors.pink200, fontSize: 13.sp,)),
+                      Text(' مصدرة الى :',  style: TextStyle(color: PdfColors.pink200, fontSize: 11.sp,)),
                       SizedBox(
                         height: 10.h,
                       ),
@@ -137,15 +138,15 @@ class InvoicePdf {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                              child: Text( country, style: TextStyle(color: PdfColors.grey700,fontSize: 13.sp,)),
+                              child: Text( country, style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                               margin: EdgeInsets.only(left: 0.w)),
                           Container(
                             margin: EdgeInsets.only(right: 5.w),
-                            child: Text( name, style: TextStyle(color: PdfColors.grey700, fontSize: 13.sp,)),),
+                            child: Text( 'name', style: TextStyle(color: PdfColors.grey700, fontSize: 10.sp,)),),
                         ],
                       ),
                       Container(
-                        child: Text( userPhone, style: TextStyle(color: PdfColors.grey700 ,fontSize: 13.sp,)),
+                        child: Text( 'userPhone', style: TextStyle(color: PdfColors.grey700 ,fontSize: 10.sp,)),
                         margin: EdgeInsets.only(left: 0.w),
                         alignment: Alignment.bottomLeft,
                       ),
@@ -159,7 +160,7 @@ class InvoicePdf {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text( 'تفاصيل الدفع', style: TextStyle(color: PdfColors.blue,fontSize: 13.sp,)),
+                      Text( 'تفاصيل الدفع', style: TextStyle(color: PdfColors.blue,fontSize: 11.sp,)),
 
                       SizedBox(
                         height: 10.h,
@@ -170,22 +171,22 @@ class InvoicePdf {
                           Container(
                               child: Directionality(
                                 textDirection: TextDirection.rtl,
-                                child: Text(  price + " ر . س",  style: TextStyle(color: PdfColors.grey700, fontSize: 13.sp,)),
+                                child: Text(  price + " ر . س",  style: TextStyle(color: PdfColors.grey700, fontSize: 10.sp,)),
                               ),
                               margin: EdgeInsets.only(left: 0.w)),
-                          Text( ' المبلغ: ',  style: TextStyle(color: PdfColors.black, fontSize: 13.sp,)),
+                          Text( ' المبلغ: ',  style: TextStyle(color: PdfColors.black, fontSize: 10.sp,)),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            child: Text(paymentMethod, style: const TextStyle(color: PdfColors.grey700,)),
+                            child: Text(paymentMethod, style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                             margin: EdgeInsets.only(left: 0.w),
                           ),
                           Container(
                               margin: EdgeInsets.only(right: 5.w),
-                              child: Text( 'طريقة الدفع:',  style: TextStyle(color: PdfColors.black, fontSize: 13.sp,))),
+                              child: Text( 'طريقة الدفع:',  style: TextStyle(color: PdfColors.black, fontSize: 11.sp,))),
                         ],
                       ),
                       SizedBox(
@@ -204,13 +205,13 @@ class InvoicePdf {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: 20.w,
+                          width: 10.w,
                         ),
-                        Text( 'المجموع',  style: TextStyle(color: PdfColors.black,fontSize: 13.sp,)),
+                        Text( 'المجموع',  style: TextStyle(color: PdfColors.black,fontSize: 11.sp,)),
                         SizedBox(
-                          width: 20.w,
+                          width: 100.w,
                         ),
-                        Text( 'السعر', style: TextStyle(color: PdfColors.black,fontSize: 13.sp,)),
+                        Text( 'السعر', style: TextStyle(color: PdfColors.black,fontSize: 11.sp,)),
                         SizedBox(
                           width: 20.w,
                         ),
@@ -218,7 +219,7 @@ class InvoicePdf {
                     ),
                     Row(
                       children: [
-                        Text( 'المنتج', style: TextStyle(color: PdfColors.black,fontSize: 13.sp,)),
+                        Text( 'المنتج', style: TextStyle(color: PdfColors.black,fontSize: 11.sp,)),
                         SizedBox(
                           width: 10.w,
                         ),
@@ -241,11 +242,11 @@ class InvoicePdf {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
-                            Text(price + " ر . س  ", style: TextStyle(color: PdfColors.grey700,fontSize: 13.sp,)),
+                            Text(price + " ر . س  ", style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                             SizedBox(
-                              width: 10.w,
+                              width: 100.w,
                             ),
-                            Text(price + " ر . س  ",style: TextStyle(color: PdfColors.grey700,fontSize: 13.sp,)),
+                            Text(price + " ر . س  ",style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                           ],
                         ),
                         Row(
@@ -255,10 +256,11 @@ class InvoicePdf {
                             ),
 
                             Container(
-                              width: 80.w,
+                              width: 100.w,
+                              margin: EdgeInsets.only(right: 5.w),
                               child: Text(
                                   desc,
-                                  style: TextStyle(color: PdfColors.grey700,fontSize: 13.sp,)),
+                                  style: TextStyle(color: PdfColors.grey700,fontSize: 11.sp,)),
                             ),
                             // SizedBox(width: 10.w,),
                             // Image.asset('assets/image/logo.png', height: 50.h, width: 50.w,),
@@ -284,7 +286,7 @@ class InvoicePdf {
                       children: [
                         Row(
                           children: [
-                            Text(priceWithTax + ' ر . س ', style: TextStyle(color: PdfColors.grey700,fontSize: 13.sp,)),
+                            Text(priceWithTax + ' ر . س ', style: TextStyle(color: PdfColors.grey700,fontSize: 10.sp,)),
                             SizedBox(
                               width: 20.w,
                             ),
@@ -292,10 +294,11 @@ class InvoicePdf {
                         ),
                         Row(
                           children: [
+
+                            Text( 'اجمالي الطلب',style: TextStyle(color: PdfColors.grey700,fontSize: 11.sp,) ),
                             SizedBox(
-                              width: 20.w,
+                              width: 5.w,
                             ),
-                            Text( 'اجمالي الطلب',style: TextStyle(color: PdfColors.black,fontSize: 13.sp,) ),
                           ],
                         ),
 
@@ -312,7 +315,7 @@ class InvoicePdf {
                     ),
                     Text(
                         'شكرا لتعاملكم مع منصتنا ,,, نتمنى لكم يوما رائعا',
-                        style: TextStyle(color: PdfColors.black,fontSize: 12.sp,)),
+                        style: TextStyle(color: PdfColors.black,fontSize: 11.sp,)),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -325,7 +328,7 @@ class InvoicePdf {
       ),),
     ));
 
-    return saveDocument(name:'تفاصيل الموعد.pdf', pdf: document);
+    return saveDocument(name:'فاتورة.pdf', pdf: document);
   }
 
   static Future<File> saveDocument({

@@ -90,7 +90,7 @@ class _userProfileState extends State<userProfile>
             child: Column(children: [
               //======================== profile header ===============================
 
-              FutureBuilder(
+              FutureBuilder<UserProfile>(
                 future: getUsers,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -113,34 +113,34 @@ class _userProfileState extends State<userProfile>
                               8,
                               Container(
                                 height: 102.h,
-                                width: 110.w,
+                                width: 120.w,
                                 decoration: const BoxDecoration(
                                     shape: BoxShape.circle, color: lightGrey),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(70.r),
-                                  // child: Image.network(''
-                                  //   // Logging.theUser!.image!,
-                                  //   // fit: BoxFit.fill,
-                                  //   // height: double.infinity,
-                                  //   // width: double.infinity,
-                                  //   // loadingBuilder:
-                                  //   //     (context, child, loadingProgress) {
-                                  //   //   if (loadingProgress == null) return child;
-                                  //   //   return Center(
-                                  //   //     child: CircularProgressIndicator(
-                                  //   //       backgroundColor: grey,
-                                  //   //       value: loadingProgress
-                                  //   //                   .expectedTotalBytes !=
-                                  //   //               null
-                                  //   //           ? loadingProgress
-                                  //   //                   .cumulativeBytesLoaded /
-                                  //   //               loadingProgress
-                                  //   //                   .expectedTotalBytes!
-                                  //   //           : null,
-                                  //   //     ),
-                                  //   //   );
-                                  //   // },
-                                  // ),
+                                  child: Image.network(
+                                    snapshot.data!.data!.user!.image!,
+                                    fit: BoxFit.fill,
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          backgroundColor: grey,
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -161,7 +161,7 @@ class _userProfileState extends State<userProfile>
                           padding(
                             8,
                             8,
-                            text(context, 'Logging.theUser!.name!', 20, black,
+                            text(context, snapshot.data!.data!.user!.name!, 20, black,
                                 fontWeight: FontWeight.bold, family: 'Cairo'),
                           ),
                         ],

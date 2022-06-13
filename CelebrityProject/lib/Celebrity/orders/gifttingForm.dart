@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -6,6 +7,7 @@ import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
 import '../Pricing/ModelPricing.dart';
@@ -44,6 +46,8 @@ class _gifttingFormState extends State<gifttingForm>{
 
   ///_value
   var _selectedTest;
+
+  Timer? _timer;
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
     setState(() {
@@ -397,7 +401,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                   children: [
                                     Icon(scheduale, color: white,),
                                     SizedBox(width: 15.w,),
-                                    text(context, 'تاريخ الاهداء', 15.sp, white, fontWeight: FontWeight.bold),
+                                    text(context, current.day != DateTime.now().day ?current.year.toString()+ '/'+current.month.toString()+ '/'+current.day.toString() : 'تاريخ الاهداء', 15.sp, white, fontWeight: FontWeight.bold),
                                   ],
                                 )),onTap: () async {  DateTime? endDate =
                               await showDatePicker(
@@ -441,18 +445,39 @@ class _gifttingFormState extends State<gifttingForm>{
                                 },)
 
                                 ,),
+
                               SizedBox(height: 30.h,),
                               check && activateIt? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
                                 buttoms(context, 'رفع الطلب', 15, white, (){
                                 _formKey.currentState!.validate()?{
                                 check && current.day != DateTime.now().day?{
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      _timer = Timer(Duration(seconds: 1), () {
+                                        Navigator.of(context).pop();    // == First dialog closed
+                                      });
+                                      return
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Lottie.asset(
+                                            "assets/lottie/loding.json",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        );},
+                                  ),
+
                                 addGift().whenComplete(() =>   {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(
                                 const SnackBar(
+                                duration:  Duration(seconds: 1),
                                 content: Text(
                                 "تم ارسال طلبك بنجاح"),
-                                ))
+
+                                )),
+
                                 })
                                 } : setState((){ !check? warn = true: false;
                                 current.day == DateTime.now().day? datewarn = true: false;}),
