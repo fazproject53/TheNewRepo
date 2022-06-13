@@ -53,18 +53,28 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  goTopagepush(context, GiftDetials(
-                                    i: i,
-                                    price: snapshot.data!.data!.giftOrders![i].price,
-                                    description:snapshot.data!.data!.giftOrders![i].description ,
-                                    advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
-                                    advType: snapshot.data!.data!.giftOrders![i].giftType?.name ,
-                                    orderId: snapshot.data!.data!.giftOrders![i].id,
-                                    token:token,
-                                    state:snapshot.data!.data!.giftOrders![i].status?.id,
-                                    rejectResonName: snapshot.data!.data!.giftOrders![i].rejectReson?.name!,
-                                    rejectResonId: snapshot.data!.data!.giftOrders![i].rejectReson?.id,
-                                  ));
+                                  goTopagepush(
+                                      context,
+                                      GiftDetials(
+                                        i: i,
+                                        price: snapshot
+                                            .data!.data!.giftOrders![i].price,
+                                        description: snapshot.data!.data!
+                                            .giftOrders![i].description,
+                                        advTitle: snapshot.data!.data!
+                                            .giftOrders![i].occasion?.name,
+                                        advType: snapshot.data!.data!
+                                            .giftOrders![i].giftType?.name,
+                                        orderId: snapshot
+                                            .data!.data!.giftOrders![i].id,
+                                        token: token,
+                                        state: snapshot.data!.data!
+                                            .giftOrders![i].status?.id,
+                                        rejectResonName: snapshot.data!.data!
+                                            .giftOrders![i].rejectReson?.name!,
+                                        rejectResonId: snapshot.data!.data!
+                                            .giftOrders![i].rejectReson?.id,
+                                      ));
                                 },
                                 child: Column(
                                   children: [
@@ -105,10 +115,12 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
         Colors.white,
         Column(
           children: [
-//image-----------------------------------------
+//image------------------------------------------------------------------------------------
+
             Expanded(
               flex: 2,
               child: Container(
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -116,133 +128,136 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                       topRight: Radius.circular(10.h),
                     ),
                     image: DecorationImage(
-                        image: NetworkImage(
-                          giftOrders![i].occasion!.image!,
-                          //advertisingOrders[0].user!.image!,
-                        ),
+                        image: NetworkImage(giftOrders![i].occasion!.image!),
                         fit: BoxFit.cover,
                         colorFilter: const ColorFilter.mode(
                             Colors.black45, BlendMode.darken)),
                   ),
-// مناسبه الاهداء-----------------------------------------
+//status-----------------------------------------------------------------------------------
 
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0.r),
+                        child: Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 10.w),
+                                child: text(
+                                  context,
+                                  giftOrders[i].status!.name!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Padding(
-                            padding:  EdgeInsets.all(8.0.r),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: text(
-                                      context,
-                                      giftOrders[i].status!.name!,
-                                      18,
-                                      white,
-                                      fontWeight: FontWeight.bold,
-                                    ))),
-                          ),
-//-------------------------------------------------------------------------------
-                          Padding(
-                            padding:  EdgeInsets.all(8.0.r),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: giftOrders[i].giftType!.name == 'صورة'
-                                    ? Icon(imageIcon,
-                                        color: deepwhite, size: 40.sp)
-                                    : giftOrders[i].giftType!.name == 'فيديو'
-                                        ? Icon(vieduoIcon,
-                                            color: deepwhite, size: 40.sp)
-                                        : Icon(voiceIcon,
-                                            color: deepwhite, size: 40.sp)),
-                          ),
+// occasion name---------------------------------------------------------------------------------
 
-//icon-------------------------------------------------------------
+                          Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                  padding: EdgeInsets.only(right: 16.w),
+                                  child: text(
+                                    context,
+                                    "اهداء ل" + giftOrders[i].occasion!.name!,
+                                    18,
+                                    white,
+                                    fontWeight: FontWeight.bold,
+                                  ))),
+//date and icon---------------------------------------------------------------------------------
+                          const Spacer(),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: text(
+                                context,
+                                giftOrders[i].date!,
+                                18,
+                                white,
+                                fontWeight: FontWeight.bold,
+                              )),
+
+                          SizedBox(width: 10.w),
                         ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding:  EdgeInsets.all(8.0.r),
-                            child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: text(
-                                      context,
-                                      "اهداء ل" + giftOrders[i].occasion!.name!,
-                                      18,
-                                      white,
-                                      fontWeight: FontWeight.bold,
-                                    ))),
-                          ),
-                        ],
-                      ),
+                      )
                     ],
                   )),
             ),
-//details----------------------------------------------------------------------------------
+
+//details-------------------------------------------------------------------------------
 
             Expanded(
                 flex: 1,
                 child: Row(
                   children: [
-                    //from to------------------------------------------
+//giftOrders from-----------------------------------------------------------------------------------
                     Expanded(
-                        flex: 3,
-                        child: Row(
+                        flex: 1,
+                        child: Column(
                           children: [
-                            const Expanded(
-                                child: Icon(
-                              Icons.volunteer_activism,
-                              color: blue,
-                            )),
                             Expanded(
-                              flex: 2,
-                              child: text(
-                                  context, giftOrders[i].from!, 14, blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const Expanded(
-                                child: Icon(
-                              Icons.face_retouching_natural,
-                              color: pink,
-                            )),
-                            Expanded(
-                                flex: 2,
+                                flex: 1,
                                 child: text(
-                                    context, giftOrders[i].to!, 14, pink,
-                                    fontWeight: FontWeight.bold)),
+                                  context,
+                                  "اهداء من",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                    context, giftOrders[i].from!, 12, pink,
+                                    fontWeight: FontWeight.bold))
                           ],
                         )),
-//date---------------------------------------------------------------------------------
+                    divider(),
+//giftOrders to-------------------------------------------------
+
                     Expanded(
-                      flex: 1,
-                      child: gradientContainer(
-                          double.infinity,
-                          Center(
-                            child: text(
-                                context,
-                               // "يناير\n23",
-                                giftOrders[i].date!,
-                                //,
-                                15,
-                                white,
-                                align: TextAlign.center,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          height: double.infinity,
-                          color: Colors.transparent,
-                          topLeft: 0,
-                          topRight: 0,
-                          bottomLeft: 10,
-                          bottomRight: 0),
-                    ),
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "اهداء الى",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                    context, giftOrders[i].to!, 12, pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
+                    divider(),
+//giftType-------------------------------------------------
+
+                    Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "نوع الاهداء",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(context,
+                                    giftOrders[i].giftType!.name!, 12, pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
                   ],
                 ))
           ],

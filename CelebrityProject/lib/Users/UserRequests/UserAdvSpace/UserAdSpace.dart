@@ -59,7 +59,7 @@ class _UserAdSpaceState extends State<UserAdSpace>
                                 },
                                 child: Column(
                                   children: [
-                                    getData(
+                                    getAdvSpaceData(
                                         i, snapshot.data!.data!.adSpaceOrders),
                                   ],
                                 ));
@@ -87,143 +87,91 @@ class _UserAdSpaceState extends State<UserAdSpace>
             })));
   }
 
-  Widget getData(int i, List<AdSpaceOrders>? adSpaceOrders) {
+  Widget getAdvSpaceData(int i, List<AdSpaceOrders>? adSpaceOrders) {
     return container(
-        200,
+        160,
         double.infinity,
         18,
         18,
         Colors.white,
         Column(
           children: [
-//image-----------------------------------------
+//image------------------------------------------------------------------------------------
+
             Expanded(
               flex: 2,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.h),
-                    topRight: Radius.circular(10.h),
-                  ),
-                  image: DecorationImage(
-                      image: NetworkImage(adSpaceOrders![i].image!),
-                      fit: BoxFit.cover,
-                      colorFilter: const ColorFilter.mode(
-                          Colors.black45, BlendMode.darken)),
-                ),
-// مناسبه الاهداء-----------------------------------------
-              ),
-            ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.h),
+                      topRight: Radius.circular(10.h),
+                      bottomRight: Radius.circular(10.h),
+                      bottomLeft: Radius.circular(10.h),
 
-//details-----------------------------------------
-
-            Expanded(
-                flex: 2,
-                child: container(
-                    double.infinity,
-                    double.infinity,
-                    0,
-                    0,
-                    blue,
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 8.0.w, right: 8.0.w, top: 8.0.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-//name--------------------------------------------------------------------------
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.person,
-                                      color: white,
-                                      size: 22.h,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    text(context, adSpaceOrders[i].celebrity!.name!, 16, white)
-                                  ],
-                                ),
-//order number--------------------------------------------------------------------------
-
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.assignment_turned_in,
-                                      color: white,
-                                      size: 22.h,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    text(context, '${adSpaceOrders[i].id}', 16, white)
-                                  ],
-                                ),
-//date--------------------------------------------------------------------------
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.today,
-                                      color: white,
-                                      size: 22.h,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    text(context, adSpaceOrders[i].date!, 16, white),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          //Request stats---------------------------------------------------------------
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-//stats--------------------------------------------------------------------------
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.fit_screen,
-                                      color: white,
-                                      size: 25.sp,
-                                    ),
-                                    SizedBox(
-                                      width: 10.w,
-                                    ),
-                                    text(context, adSpaceOrders[i].status!.name!, 16, white)
-                                  ],
-                                ),
-
-//link--------------------------------------------------------------------------
-                                Spacer(),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: 10.0.h),
-                                  child: Icon(
-                                    Icons.copy,
-                                    color: white,
-                                    size: 0.h,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-//-----------------------------------------------------------------------------------------
-                        ],
-                      ),
                     ),
-                    bottomLeft: 8,
-                    bottomRight: 8)),
+                    image: DecorationImage(
+                        image: NetworkImage(adSpaceOrders![i].image!),
+                        fit: BoxFit.cover,
+                        colorFilter: const ColorFilter.mode(
+                            Colors.black45, BlendMode.darken)),
+                  ),
+//status-----------------------------------------------------------------------------------
+
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0.r),
+                        child: Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 10.w),
+                                child: text(
+                                  context,
+                                  adSpaceOrders[i].status!.name!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+// celebrity name---------------------------------------------------------------------------------
+
+                          Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                  padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                  child: text(
+                                    context,
+                                    'اعلان عند ' +
+                                        adSpaceOrders[i].celebrity!.name!,
+                                    18,
+                                    white,
+                                    fontWeight: FontWeight.bold,
+                                  ))),
+//date and icon---------------------------------------------------------------------------------
+                          const Spacer(),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: text(
+                                context,
+                                adSpaceOrders[i].date!,
+                                18,
+                                white,
+                                fontWeight: FontWeight.bold,
+                              )),
+
+                          SizedBox(width: 10.w),
+                        ],
+                      )
+                    ],
+                  )),
+            ),
           ],
         ),
         bottomLeft: 10,
@@ -231,6 +179,7 @@ class _UserAdSpaceState extends State<UserAdSpace>
         topLeft: 10,
         topRight: 10,
         marginB: 15,
+
         blur: 5,
         marginT: 5);
   }

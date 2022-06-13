@@ -11,6 +11,10 @@ class CelebrityPayments extends StatefulWidget {
 class _CelebrityPaymentsState extends State<CelebrityPayments> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      body: Center(
+        child: Text('قائمة الدفع'),
+      ),
+    );
   }
 }
