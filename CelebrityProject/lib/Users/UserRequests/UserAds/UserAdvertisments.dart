@@ -72,6 +72,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                                     price:snapshot.data!.data!.advertisingOrders![i].price,
                                     rejectResonName: snapshot.data!.data!.advertisingOrders![i].rejectReson?.name!,
                                     rejectResonId: snapshot.data!.data!.advertisingOrders![i].rejectReson?.id,
+                                    time: snapshot.data!.data!.advertisingOrders![i].adTiming?.name!,
                                     token:token,
                                   ));
                                 },
@@ -150,7 +151,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                                 padding: EdgeInsets.only(right: 10.w),
                                 child: text(
                                   context,
-                                  advertisingOrders[i].status?.id==4?'تم القبول الرجاء اكمال الطلب':advertisingOrders[i].status!.name!,
+                                  advertisingOrders[i].status?.id==4?'لم يتم قبول السعر بعد':advertisingOrders[i].status!.name!,
                                   18,
                                   white,
                                   fontWeight: FontWeight.bold,
@@ -177,12 +178,15 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                           const Spacer(),
                           Align(
                               alignment: Alignment.bottomLeft,
-                              child: text(
-                                context,
-                                advertisingOrders[i].date!,
-                                18,
-                                white,
-                                fontWeight: FontWeight.bold,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                child: text(
+                                  context,
+                                  advertisingOrders[i].date!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )),
 
                           SizedBox(width: 10.w),

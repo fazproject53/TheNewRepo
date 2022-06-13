@@ -6,12 +6,11 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:celepraty/Users/chat/chatRoom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../Account/UserForm.dart';
 import '../../../Celebrity/CelebrityPayments/celebrityPayment.dart';
+import 'UserAdsOrdersApi.dart';
 
 class UserAdvDetials extends StatefulWidget {
   final int? i;
@@ -29,6 +28,7 @@ class UserAdvDetials extends StatefulWidget {
   final int? celebrityId;
   final String? celebrityImage;
   final String? celebrityPagUrl;
+  final String? time;
   const UserAdvDetials({
     Key? key,
     this.i,
@@ -46,6 +46,7 @@ class UserAdvDetials extends StatefulWidget {
     this.celebrityId,
     this.celebrityImage,
     this.celebrityPagUrl,
+    this.time,
   }) : super(key: key);
 
   @override
@@ -288,32 +289,56 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
               height: 10.h,
             ),
 //adv image----------------------------------------------------------------
-            InkWell(
-              onTap: () {
-                goTopagepush(
-                    context,
-                    ImageData(
-                      image: widget.image!,
-                    ));
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.r),
-                child: Row(
-                  children: [
-                    Icon(image, color: pink),
-                    SizedBox(
-                      width: 5.w,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.r),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+//adv time-------------------------------------------------------------------------------
+
+                  Row(
+                    children: [
+                      Icon(time, color: pink),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      text(
+                        context,
+                        widget.time!,
+                        17,
+                        black,
+                        //fontWeight: FontWeight.bold,
+                        align: TextAlign.right,
+                      ),
+                    ],
+                  ),
+//adv image-------------------------------------------------------------------------------
+                  InkWell(
+                    onTap: () {
+                      goTopagepush(
+                          context,
+                          ImageData(
+                            image: widget.image!,
+                          ));
+                    },
+                    child: Row(
+                      children: [
+                        Icon(image, color: pink),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        text(
+                          context,
+                          'صورة الاعلان',
+                          17,
+                          black,
+                          //fontWeight: FontWeight.bold,
+                          align: TextAlign.right,
+                        ),
+                      ],
                     ),
-                    text(
-                      context,
-                      'صورة الاعلان',
-                      17,
-                      black,
-                      //fontWeight: FontWeight.bold,
-                      align: TextAlign.right,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 
@@ -388,7 +413,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                           buttoms(
                             context,
                             widget.state == 4
-                                ? "ادفع الان"
+                                ? "قبول"
                                 : widget.state == 3
                                     ? 'قبول'
                                     : widget.state == 2
@@ -412,48 +437,37 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 5 ||
                                     widget.state == 6
                                 ? null
-                                : widget.state == 4
-                                    ? () {
-                                        print('payment');
-                                        goTopagepush(
-                                            context, CelebrityPayments());
+                                : () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+
+                                    loadingDialogue(context);
+                                    Future<bool> result =
+                                        userAcceptAdvertisingOrder(
+                                            widget.token!,
+                                            widget.orderId!,
+                                            int.parse(price!.text));
+                                    result.then((value) {
+                                      if (value == true) {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar(context,
+                                                'تم قبول الطلب', green, done));
+                                      } else {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar(
+                                                context,
+                                                'تم قبول الطلب مسبقا',
+                                                red,
+                                                error));
                                       }
-                                    : () {
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        if (priceKey.currentState?.validate() ==
-                                            true) {
-                                          loadingDialogue(context);
-                                          // Future<bool> result =
-                                          // userAcceptAdvertisingOrder(
-                                          //     widget.token!,
-                                          //     widget.orderId!,
-                                          //     int.parse(price!.text));
-                                          // result.then((value) {
-                                          //   if (value == true) {
-                                          //     Navigator.pop(context);
-                                          //     ScaffoldMessenger.of(context)
-                                          //         .showSnackBar(snackBar(
-                                          //         context,
-                                          //         'تم قبول الطلب',
-                                          //         green,
-                                          //         done));
-                                          //   } else {
-                                          //     Navigator.pop(context);
-                                          //     ScaffoldMessenger.of(context)
-                                          //         .showSnackBar(snackBar(
-                                          //         context,
-                                          //         'تم قبول الطلب مسبقا',
-                                          //         red,
-                                          //         error));
-                                          //   }
-                                          // });
-                                        }
-                                      },
+                                    });
+                                  },
                             evaluation: 0,
                           ),
                           height: 50,
-                          color: widget.state == 3  ||
+                          color: widget.state == 3 ||
                                   widget.state == 1 ||
                                   widget.state == 2 ||
                                   widget.state == 5 ||
@@ -492,14 +506,15 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                             : 'رفض',
                             15,
                             widget.state == 3 ||
-                                    widget.state == 4 ||
+                                    // widget.state == 4 ||
                                     widget.state == 5 ||
                                     widget.state == 2 ||
                                     widget.state == 6
                                 ? deepgrey!
                                 : black,
-                            widget.state == 4 ||
-                                    widget.state == 3 ||
+                            // widget.state == 4 ||
+
+                            widget.state == 3 ||
                                     widget.state == 5 ||
                                     widget.state == 2 ||
                                     widget.state == 6
@@ -516,7 +531,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                           height: 50,
                           gradient: true,
                           color: widget.state == 3 ||
-                                  widget.state == 4 ||
+                                  // widget.state == 4 ||
                                   widget.state == 5 ||
                                   widget.state == 2 ||
                                   widget.state == 6
@@ -605,51 +620,49 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                             () {
                               FocusManager.instance.primaryFocus?.unfocus();
                               if (resonReject == 'أخرى') {
-                                // if (resonKey.currentState?.validate() == true) {
-                                //   loadingDialogue(context);
-                                //   Future<bool> result =  userRejectAdvertisingOrder(
-                                //       widget.token!,
-                                //       widget.orderId!,
-                                //       reson.text,
-                                //       0);
-                                //   result.then((value) {
-                                //     if (value == true) {
-                                //       Navigator.pop(context);
-                                //       ScaffoldMessenger.of(context)
-                                //           .showSnackBar(snackBar(context,
-                                //           'تم رفض الطلب', green, done));
-                                //     } else {
-                                //       Navigator.pop(context);
-                                //       ScaffoldMessenger.of(context)
-                                //           .showSnackBar(snackBar(
-                                //           context,
-                                //           'تم رفض الطلب مسبقا',
-                                //           red,
-                                //           error));
-                                //     }
-                                //   });
-                              }
-                              // }
-                              else {
-                                // loadingDialogue(context);
-                                // Future<bool> result = rejectAdvertisingOrder(
-                                //     widget.token!,
-                                //     widget.orderId!,
-                                //     resonReject!,
-                                //     resonRejectId!);
-                                // result.then((value) {
-                                //   if (value == true) {
-                                //     Navigator.pop(context);
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //         snackBar(context, 'تم رفض الطلب', green,
-                                //             done));
-                                //   } else {
-                                //     Navigator.pop(context);
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //         snackBar(context, 'تم رفض الطلب مسبقا',
-                                //             red, error));
-                                //   }
-                                // });
+                                if (resonKey.currentState?.validate() == true) {
+                                  loadingDialogue(context);
+                                  Future<bool> result =
+                                      userRejectAdvertisingOrder(widget.token!,
+                                          widget.orderId!, reson.text, 0);
+                                  result.then((value) {
+                                    if (value == true) {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(context,
+                                              'تم رفض الطلب', green, done));
+                                    } else {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
+                                              context,
+                                              'تم رفض الطلب مسبقا',
+                                              red,
+                                              error));
+                                    }
+                                  });
+                                }
+                              } else {
+                                loadingDialogue(context);
+                                Future<bool> result =
+                                    userRejectAdvertisingOrder(
+                                        widget.token!,
+                                        widget.orderId!,
+                                        resonReject!,
+                                        resonRejectId!);
+                                result.then((value) {
+                                  if (value == true) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        snackBar(context, 'تم رفض الطلب', green,
+                                            done));
+                                  } else {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        snackBar(context, 'تم رفض الطلب مسبقا',
+                                            red, error));
+                                  }
+                                });
                               }
                             },
                             evaluation: 0,

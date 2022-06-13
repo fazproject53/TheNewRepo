@@ -54,15 +54,27 @@ class _UserGiftState extends State<UserGift>
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  // goTopagepush(context, GiftDetials(
-                                  //   i: i,
-                                  //   price: snapshot.data!.data!.giftOrders![i].price,
-                                  //   description:snapshot.data!.data!.giftOrders![i].description ,
-                                  //   advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
-                                  //   advType: snapshot.data!.data!.giftOrders![i].giftType?.name ,
-                                  //
-                                  // )
-                                  // );
+                                  goTopagepush(context, UserGiftDetials(
+                                    i: i,
+                                    price: snapshot.data!.data!.giftOrders![i].price,
+                                    description:snapshot.data!.data!.giftOrders![i].description ,
+                                    advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
+                                    orderId: snapshot.data!.data!.giftOrders![i].id,
+                                    celebrityName:snapshot.data!.data!.giftOrders![i].celebrity?.name!,
+                                    celebrityId:snapshot.data!.data!.giftOrders![i].celebrity?.id!,
+                                    celebrityImage:snapshot.data!.data!.giftOrders![i].celebrity?.image!,
+                                    celebrityPagUrl:snapshot.data!.data!.giftOrders![i].celebrity?.pageUrl!,
+                                    state:snapshot.data!.data!.giftOrders![i].status?.id,
+                                    rejectResonName: snapshot.data!.data!.giftOrders![i].rejectReson?.name!,
+                                    rejectResonId: snapshot.data!.data!.giftOrders![i].rejectReson?.id,
+                                    token:token,
+                                    from:snapshot.data!.data!.giftOrders![i].from!,
+                                    to:snapshot.data!.data!.giftOrders![i].to!,
+                                    occasion:snapshot.data!.data!.giftOrders![i].occasion?.name!,
+
+
+                                  )
+                                  );
                                 },
                                 child: Column(
                                   children: [
@@ -96,7 +108,7 @@ class _UserGiftState extends State<UserGift>
 
   Widget getGiftOrder(int i, List<GiftOrders>? giftOrders) {
     return container(
-        200,
+        160,
         double.infinity,
         18,
         18,
@@ -109,11 +121,14 @@ class _UserGiftState extends State<UserGift>
               flex: 2,
               child: Container(
                   width: double.infinity,
+
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10.h),
                       topRight: Radius.circular(10.h),
+                      bottomLeft: Radius.circular(10.h),
+                      bottomRight: Radius.circular(10.h),
                     ),
                     image: DecorationImage(
                         image: NetworkImage(giftOrders![i].occasion!.image!),
@@ -149,7 +164,7 @@ class _UserGiftState extends State<UserGift>
                           Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                  padding: EdgeInsets.only(right: 16.w),
+                                  padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
                                   child: text(
                                     context,
                                     "اهداء ل" + giftOrders[i].occasion!.name!,
@@ -161,12 +176,15 @@ class _UserGiftState extends State<UserGift>
                           const Spacer(),
                           Align(
                               alignment: Alignment.bottomLeft,
-                              child: text(
-                                context,
-                                giftOrders[i].date!,
-                                18,
-                                white,
-                                fontWeight: FontWeight.bold,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                child: text(
+                                  context,
+                                  giftOrders[i].date!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )),
 
                           SizedBox(width: 10.w),
@@ -176,84 +194,7 @@ class _UserGiftState extends State<UserGift>
                   )),
             ),
 
-//details-------------------------------------------------------------------------------
 
-            Expanded(
-                flex: 1,
-                child: Row(
-                  children: [
-//giftOrders from-----------------------------------------------------------------------------------
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "اعلان عند",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context,
-                                    giftOrders[i].celebrity!.name!,
-                                    12,
-                                    pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                    divider(),
-//giftOrders to-------------------------------------------------
-
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "اهداء الى",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context,
-                                    giftOrders[i].to!,
-                                    12,
-                                    pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                    divider(),
-//giftType-------------------------------------------------
-
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "نوع الاهداء",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(context,
-                                    giftOrders[i].giftType!.name!, 12, pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                  ],
-                ))
           ],
         ),
         bottomLeft: 10,
