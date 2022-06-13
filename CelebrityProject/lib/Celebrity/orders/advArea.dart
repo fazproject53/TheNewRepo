@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:lottie/lottie.dart';
 import 'package:path/path.dart' as Path;
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -37,6 +39,8 @@ class _advAreaState extends State<advArea>{
   bool check2 = false;
   bool warn2= false;
   bool warnimage= false;
+
+  Timer? _timer;
 
   @override
   void initState() {
@@ -169,6 +173,23 @@ class _advAreaState extends State<advArea>{
            check2 && activateIt? padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context, 'رفع الطلب', 15, white, (){
               _formKey.currentState!.validate()? {
                 check2 && dateTime.day != DateTime.now().day && image != null?{
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      _timer = Timer(Duration(seconds: 2), () {
+                        Navigator.of(context).pop();    // == First dialog closed
+                      });
+                      return
+                        Align(
+                          alignment: Alignment.center,
+                          child: Lottie.asset(
+                            "assets/lottie/loding.json",
+                            fit: BoxFit.cover,
+                          ),
+                        );},
+                  ),
+
                   addAdAreaOrder().whenComplete(() => {    ScaffoldMessenger.of(
                       context)
                       .showSnackBar(

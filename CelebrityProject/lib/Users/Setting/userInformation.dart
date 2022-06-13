@@ -69,9 +69,12 @@ class _userInformationState extends State<userInformation> {
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
+      _dropdownTestItems.clear();
+      citilist.clear();
       countryChanged  = true;
       Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
+      city = 'المدينة';
       getid.forEach((key, value) {
         if(value == Logging.theUser!.country){
           print(key.toString()+ '---------------------------------------------');
@@ -119,7 +122,12 @@ class _userInformationState extends State<userInformation> {
   @override
   Widget build(BuildContext context) {
 
-
+    getid.forEach((key, value) {
+      if(value == Logging.theUser!.country){
+        print(key.toString()+ '---------------------------------------------');
+        cities = fetCities(key+1);
+      }
+    });
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -604,7 +612,7 @@ class _userInformationState extends State<userInformation> {
 
                               //===================== button ================================
 
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                               padding(
@@ -725,7 +733,7 @@ class _userInformationState extends State<userInformation> {
 
   Widget textFieldPassword(
     context,
-    String key,
+    String keyy,
     double fontSize,
     bool hintPass,
     TextEditingController mycontroller,
@@ -769,7 +777,7 @@ class _userInformationState extends State<userInformation> {
           //           });
           //         },
           //         icon: Icon(show, color: lightGrey)),
-          hintText: key,
+          hintText: keyy,
           contentPadding: EdgeInsets.all(10.h)),
     );
   }
