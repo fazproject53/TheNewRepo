@@ -401,7 +401,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                   children: [
                                     Icon(scheduale, color: white,),
                                     SizedBox(width: 15.w,),
-                                    text(context, 'تاريخ الاهداء', 15.sp, white, fontWeight: FontWeight.bold),
+                                    text(context, current.day != DateTime.now().day ?current.year.toString()+ '/'+current.month.toString()+ '/'+current.day.toString() : 'تاريخ الاهداء', 15.sp, white, fontWeight: FontWeight.bold),
                                   ],
                                 )),onTap: () async {  DateTime? endDate =
                               await showDatePicker(

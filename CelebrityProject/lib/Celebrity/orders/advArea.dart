@@ -124,7 +124,7 @@ class _advAreaState extends State<advArea>{
                     stops: [0.0, 1.0],
                   ),),
                  SizedBox(width: 10.w,),
-                  text(context, 'تاريخ الاعلان', 12, black)
+                  text(context, dateTime.day != DateTime.now().day ?dateTime.year.toString()+ '/'+dateTime.month.toString()+ '/'+dateTime.day.toString() : 'تاريخ الاعلان', 12, black)
                 ],),
               ),
               onTap: () async { DateTime? endDate =
