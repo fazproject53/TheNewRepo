@@ -94,9 +94,9 @@ Future<bool> rejectAdvertisingOrder(
 }
 //reject Advertising Order--------------------------------------------------------------------------------------
 
-// Future<bool> userRejectAdvertisingOrder(String token, int orderId, String reson, int resonId) {}
-//
-// //reject Advertising Order--------------------------------------------------------------------------------------
+//Future<bool> userRejectAdvertisingOrder(String token, int orderId, String reson, int resonId) {}
+
+//reject Advertising Order--------------------------------------------------------------------------------------
 // Future<bool> userAcceptAdvertisingOrder(String token, int orderId, int price) {
 //   return false;
 // }

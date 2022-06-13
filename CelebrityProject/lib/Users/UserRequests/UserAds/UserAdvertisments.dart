@@ -108,7 +108,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
   Widget body(int i, List<AdvertisingOrders>? advertisingOrders) {
 
     return container(
-        200,
+        160,
         double.infinity,
         18,
         18,
@@ -126,6 +126,8 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10.h),
                       topRight: Radius.circular(10.h),
+                      bottomRight: Radius.circular(10.h),
+                      bottomLeft: Radius.circular(10.h),
                     ),
                     image: DecorationImage(
                         image: NetworkImage(
@@ -163,7 +165,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                           Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                  padding: EdgeInsets.only(right: 16.w),
+                                  padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
                                   child: text(
                                     context,
                                     advertisingOrders[i].adFeature!.name!,
@@ -190,89 +192,7 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                   )),
             ),
 
-//details-------------------------------------------------------------------------------
 
-            Expanded(
-                flex: 1,
-                child: Row(
-                  children: [
-//type-----------------------------------------------------------------------------------
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "النوع",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context,
-                                    advertisingOrders[i]
-                                        .advertisingAdType!
-                                        .name!,
-                                    12,
-                                    pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                    divider(),
-//owner-------------------------------------------------
-
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "المنصة",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context,
-                                    '${advertisingOrders[i].platform?.name!}',
-                                    12,
-                                    pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                    divider(),
-//time-------------------------------------------------
-
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "الوقت",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context,
-                                    advertisingOrders[i].adTiming!.name!,
-                                    12,
-                                    pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                  ],
-                ))
           ],
         ),
         bottomLeft: 10,

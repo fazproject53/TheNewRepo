@@ -453,7 +453,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                             evaluation: 0,
                           ),
                           height: 50,
-                          color: widget.state == 3 ||
+                          color: widget.state == 3  ||
                                   widget.state == 1 ||
                                   widget.state == 2 ||
                                   widget.state == 5 ||

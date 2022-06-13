@@ -14,8 +14,8 @@ class UserGift extends StatefulWidget {
   State<UserGift> createState() => _UserGiftState();
 }
 
-class _UserGiftState extends State<UserGift>with AutomaticKeepAliveClientMixin  {
-
+class _UserGiftState extends State<UserGift>
+    with AutomaticKeepAliveClientMixin {
   String token = '';
   Future<UserGiftOrds>? userGiftRequests;
 
@@ -50,35 +50,35 @@ class _UserGiftState extends State<UserGift>with AutomaticKeepAliveClientMixin  
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.giftOrders!.isNotEmpty
                       ? ListView.builder(
-                      itemCount: snapshot.data!.data!.giftOrders!.length,
-                      itemBuilder: (context, i) {
-                        return InkWell(
-                            onTap: () {
-                              // goTopagepush(context, GiftDetials(
-                              //   i: i,
-                              //   price: snapshot.data!.data!.giftOrders![i].price,
-                              //   description:snapshot.data!.data!.giftOrders![i].description ,
-                              //   advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
-                              //   advType: snapshot.data!.data!.giftOrders![i].giftType?.name ,
-                              //
-                              // )
-                              // );
-                            },
-                            child: Column(
-                              children: [
-                                getGiftOrder(
-                                    i, snapshot.data!.data!.giftOrders),
-                              ],
-                            ));
-                      })
+                          itemCount: snapshot.data!.data!.giftOrders!.length,
+                          itemBuilder: (context, i) {
+                            return InkWell(
+                                onTap: () {
+                                  // goTopagepush(context, GiftDetials(
+                                  //   i: i,
+                                  //   price: snapshot.data!.data!.giftOrders![i].price,
+                                  //   description:snapshot.data!.data!.giftOrders![i].description ,
+                                  //   advTitle:snapshot.data!.data!.giftOrders![i].occasion?.name ,
+                                  //   advType: snapshot.data!.data!.giftOrders![i].giftType?.name ,
+                                  //
+                                  // )
+                                  // );
+                                },
+                                child: Column(
+                                  children: [
+                                    getGiftOrder(
+                                        i, snapshot.data!.data!.giftOrders),
+                                  ],
+                                ));
+                          })
                       : Center(
-                      child: Center(
-                          child: text(
-                            context,
-                            "لاتوجد طلبات لعرضها حاليا",
-                            15,
-                            black,
-                          )));
+                          child: Center(
+                              child: text(
+                          context,
+                          "لاتوجد طلبات لعرضها حاليا",
+                          15,
+                          black,
+                        )));
                 } else {
                   return text(
                     context,
@@ -94,7 +94,7 @@ class _UserGiftState extends State<UserGift>with AutomaticKeepAliveClientMixin  
             })));
   }
 
-  Widget  getGiftOrder(int i, List<GiftOrders>? giftOrders) {
+  Widget getGiftOrder(int i, List<GiftOrders>? giftOrders) {
     return container(
         200,
         double.infinity,
@@ -103,146 +103,155 @@ class _UserGiftState extends State<UserGift>with AutomaticKeepAliveClientMixin  
         Colors.white,
         Column(
           children: [
-//image-----------------------------------------
+//image------------------------------------------------------------------------------------
+
             Expanded(
               flex: 2,
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.h),
-                    topRight: Radius.circular(10.h),
-                  ),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        giftOrders![i].occasion!.image!,
-                        //advertisingOrders[0].user!.image!,
-                      ),
-                      fit: BoxFit.cover,
-                      colorFilter: const ColorFilter.mode(
-                          Colors.black45, BlendMode.darken)),
-                ),
-// مناسبه الاهداء-----------------------------------------
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 10.w),
-                            child: text(
-                              context,
-                              "اهداء ل" + giftOrders[i].occasion!.name!,
-                              18,
-                              white,
-                              fontWeight: FontWeight.bold,
-                            ))),
-
-//icon-------------------------------------------------------------
-
-                    Padding(
-                      padding:  EdgeInsets.all(8.0.r),
-                      child: Align(
-                          alignment: Alignment.topLeft,
-                          child: giftOrders[i].giftType!.name == 'صورة'
-                              ? Icon(imageIcon,
-                              color: deepwhite, size: 40.sp)
-                              : giftOrders[i].giftType!.name == 'فيديو'
-                              ? Icon(vieduoIcon,
-                              color: deepwhite, size: 40.sp)
-                              : Icon(voiceIcon,
-                              color: deepwhite, size: 40.sp)),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.h),
+                      topRight: Radius.circular(10.h),
                     ),
-                  ],
-                ),
-              ),
+                    image: DecorationImage(
+                        image: NetworkImage(giftOrders![i].occasion!.image!),
+                        fit: BoxFit.cover,
+                        colorFilter: const ColorFilter.mode(
+                            Colors.black45, BlendMode.darken)),
+                  ),
+//status-----------------------------------------------------------------------------------
+
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0.r),
+                        child: Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 10.w),
+                                child: text(
+                                  context,
+                                  giftOrders[i].status!.name!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+// occasion name---------------------------------------------------------------------------------
+
+                          Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                  padding: EdgeInsets.only(right: 16.w),
+                                  child: text(
+                                    context,
+                                    "اهداء ل" + giftOrders[i].occasion!.name!,
+                                    18,
+                                    white,
+                                    fontWeight: FontWeight.bold,
+                                  ))),
+//date and icon---------------------------------------------------------------------------------
+                          const Spacer(),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: text(
+                                context,
+                                giftOrders[i].date!,
+                                18,
+                                white,
+                                fontWeight: FontWeight.bold,
+                              )),
+
+                          SizedBox(width: 10.w),
+                        ],
+                      )
+                    ],
+                  )),
             ),
 
-//details-----------------------------------------
+//details-------------------------------------------------------------------------------
 
             Expanded(
                 flex: 1,
                 child: Row(
                   children: [
-//from to------------------------------------------
+//giftOrders from-----------------------------------------------------------------------------------
                     Expanded(
-                        flex: 3,
+                        flex: 1,
                         child: Column(
-
                           children: [
-                            SizedBox(
-                              height: 3.h,
-                            ),
-                            Padding(
-                              padding:  EdgeInsets.only(left: 8.0.w,right: 8.0.w),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.volunteer_activism,
-                                    color: blue,
-                                  ),
-                                  SizedBox(width: 10.w,),
-                                  text(
-                                      context, giftOrders[i].celebrity!.name!, 14, blue,
-                                      fontWeight: FontWeight.bold),
-                                  Spacer(),
-                                  const Icon(
-                                    Icons.face_retouching_natural,
-                                    color: pink,
-                                  ),
-                                  SizedBox(width: 10.w,),
-                                  text(
-                                      context, giftOrders[i].to!, 14, pink,
-                                      fontWeight: FontWeight.bold),
-                                ],
-                              ),
-                            ),
-//stats-----------------------------------------------------------------------------------------
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            Padding(
-                              padding:  EdgeInsets.only(left: 8.0.w,right: 8.0.w),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.fit_screen,
-                                    color: green,
-
-                                  ),
-                                  SizedBox(width: 10.w,),
-                                  text(context, giftOrders[i].status!.name!, 12, green,
-                                      ),
-
-                                ],
-                              ),
-                            )
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "اعلان عند",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                    context,
+                                    giftOrders[i].celebrity!.name!,
+                                    12,
+                                    pink,
+                                    fontWeight: FontWeight.bold))
                           ],
                         )),
-//date-----------------------------------------------------------------------
+                    divider(),
+//giftOrders to-------------------------------------------------
+
                     Expanded(
-                      flex: 1,
-                      child: gradientContainer(
-                          double.infinity,
-                          Padding(
-                            padding: EdgeInsets.only(top: 3.0.h),
-                            child: text(
-                                context,
-                                giftOrders[i].date!,
-                                //,
-                                15,
-                                white,
-                                align: TextAlign.center,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          height: double.infinity,
-                          color: Colors.transparent,
-                          topLeft: 0,
-                          topRight: 0,
-                          bottomLeft: 10,
-                          bottomRight: 0),
-                    ),
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "اهداء الى",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                    context,
+                                    giftOrders[i].to!,
+                                    12,
+                                    pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
+                    divider(),
+//giftType-------------------------------------------------
+
+                    Expanded(
+                        flex: 1,
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: text(
+                                  context,
+                                  "نوع الاهداء",
+                                  12,
+                                  black,
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: text(context,
+                                    giftOrders[i].giftType!.name!, 12, pink,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        )),
                   ],
                 ))
           ],
