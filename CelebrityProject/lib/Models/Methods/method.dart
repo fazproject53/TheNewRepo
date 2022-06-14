@@ -25,12 +25,15 @@ Widget text(
   return Text(
     key,
     textAlign: align,
+    softWrap: true,
     style: TextStyle(
       color: color,
       fontFamily: family,
       fontSize: fontSize.sp,
       letterSpacing: space.sp,
       fontWeight: fontWeight,
+
+
     ),
   );
 }
