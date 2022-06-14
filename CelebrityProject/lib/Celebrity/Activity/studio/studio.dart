@@ -55,7 +55,7 @@ class _StudioState extends State<Studio> {
                       })
                     },
                     icon: Icon(
-                      vieduoIcon,
+                      videoIcon,
                       color: white,
                     ),
                     color: pink,

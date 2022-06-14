@@ -316,7 +316,9 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
 //=============================TextFields price=================================
 Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
-    {Widget? suffixIcon,onTap,hitText,
+    {Widget? suffixIcon,
+    onTap,
+    hitText,
     bool isEdit = true,
     List<TextInputFormatter>? inputFormatters,
     TextInputType? keyboardType}) {
@@ -335,8 +337,7 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
-        hintStyle:
-        TextStyle(color: deepgrey, fontSize: 12.0.sp),
+        hintStyle: TextStyle(color: deepgrey, fontSize: 12.0.sp),
         fillColor: white,
         labelStyle: TextStyle(color: deepgrey, fontSize: 12.0.sp),
         border: OutlineInputBorder(
@@ -746,7 +747,8 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
 
 //Drow app bar----------------------------------------------------
 
-drowAppBar(String title, BuildContext context, {color = deepwhite}) {
+drowAppBar(String title, BuildContext context,
+    {color = deepwhite, IconData? download,onPressed}) {
   return AppBar(
     title: Text(
       title,
@@ -761,6 +763,22 @@ drowAppBar(String title, BuildContext context, {color = deepwhite}) {
         Navigator.pop(context);
       },
     ),
+    actions: [
+      download != null
+          ? Padding(
+            padding: EdgeInsets.only(left: 20.w),
+            child: IconButton(
+                padding: EdgeInsets.only(right: 20.w),
+                icon: Icon(download),
+                color: Colors.black,
+                onPressed: onPressed,
+              ),
+          )
+          : const Icon(
+              Icons.download,
+              size: 0,
+            ),
+    ],
     backgroundColor: color,
     elevation: 0,
   );

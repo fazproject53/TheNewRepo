@@ -86,7 +86,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                     margin: EdgeInsets.symmetric(horizontal: 20.r),
                     child: text(
                       context,
-                      'صورة الاعلان',
+                      'رقم الطلب: '+widget.orderId!.toString(),
                       18,
                       black,
                       //fontWeight: FontWeight.bold,

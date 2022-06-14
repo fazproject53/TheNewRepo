@@ -74,6 +74,10 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                                             .giftOrders![i].rejectReson?.name!,
                                         rejectResonId: snapshot.data!.data!
                                             .giftOrders![i].rejectReson?.id,
+                                        from: snapshot
+                                            .data!.data!.giftOrders![i].from!,
+                                        to: snapshot
+                                            .data!.data!.giftOrders![i].to!,
                                       ));
                                 },
                                 child: Column(
@@ -108,7 +112,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
 
   Widget getGiftOrder(int i, List<GiftOrders>? giftOrders) {
     return container(
-        200,
+        160,
         double.infinity,
         18,
         18,
@@ -126,6 +130,8 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10.h),
                       topRight: Radius.circular(10.h),
+                      bottomLeft: Radius.circular(10.h),
+                      bottomRight: Radius.circular(10.h),
                     ),
                     image: DecorationImage(
                         image: NetworkImage(giftOrders![i].occasion!.image!),
@@ -161,7 +167,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                  padding: EdgeInsets.only(right: 16.w),
+                                  padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
                                   child: text(
                                     context,
                                     "اهداء ل" + giftOrders[i].occasion!.name!,
@@ -173,12 +179,15 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           const Spacer(),
                           Align(
                               alignment: Alignment.bottomLeft,
-                              child: text(
-                                context,
-                                giftOrders[i].date!,
-                                18,
-                                white,
-                                fontWeight: FontWeight.bold,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                child: text(
+                                  context,
+                                  giftOrders[i].date!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )),
 
                           SizedBox(width: 10.w),
@@ -190,76 +199,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
 
 //details-------------------------------------------------------------------------------
 
-            Expanded(
-                flex: 1,
-                child: Row(
-                  children: [
-//giftOrders from-----------------------------------------------------------------------------------
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "اهداء من",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context, giftOrders[i].from!, 12, pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                    divider(),
-//giftOrders to-------------------------------------------------
 
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "اهداء الى",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                    context, giftOrders[i].to!, 12, pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                    divider(),
-//giftType-------------------------------------------------
-
-                    Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: text(
-                                  context,
-                                  "نوع الاهداء",
-                                  12,
-                                  black,
-                                )),
-                            Expanded(
-                                flex: 1,
-                                child: text(context,
-                                    giftOrders[i].giftType!.name!, 12, pink,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        )),
-                  ],
-                ))
           ],
         ),
         bottomLeft: 10,
