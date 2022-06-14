@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import '../../../Account/UserForm.dart';
-import '../../../Celebrity/CelebrityPayments/celebrityPayment.dart';
 import '../../../Celebrity/Requests/Ads/AdvertisinApi.dart';
 import '../UserAds/UserAdsOrdersApi.dart';
 
@@ -422,8 +421,8 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                                 : widget.state == 4
                                     ? () {
                                         print('payment');
-                                        goTopagepush(
-                                            context, CelebrityPayments());
+                                        // goTopagepush(
+                                        //     context, CelebrityPayments());
                                       }
                                     : () {
                                         FocusManager.instance.primaryFocus
