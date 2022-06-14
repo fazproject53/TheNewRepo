@@ -152,7 +152,9 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                                 padding: EdgeInsets.only(right: 10.w),
                                 child: text(
                                   context,
-                                  giftOrders[i].status!.name!,
+                                  giftOrders[i].status!.id == 4
+                                      ? 'في انتظار الدفع'
+                                      : giftOrders[i].status!.name!,
                                   18,
                                   white,
                                   fontWeight: FontWeight.bold,
@@ -167,7 +169,8 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                  padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                  padding: EdgeInsets.only(
+                                      right: 16.w, bottom: 10.h),
                                   child: text(
                                     context,
                                     "اهداء ل" + giftOrders[i].occasion!.name!,
@@ -180,7 +183,8 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                           Align(
                               alignment: Alignment.bottomLeft,
                               child: Padding(
-                                padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                padding:
+                                    EdgeInsets.only(right: 16.w, bottom: 10.h),
                                 child: text(
                                   context,
                                   giftOrders[i].date!,
@@ -198,8 +202,6 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
             ),
 
 //details-------------------------------------------------------------------------------
-
-
           ],
         ),
         bottomLeft: 10,

@@ -52,19 +52,31 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-
-                                    goTopagepush(context, AdSpaceDetails(
-                                      i: i,
-                                      image:snapshot.data!.data!.adSpaceOrders![i].image,
-                                      link:snapshot.data!.data!.adSpaceOrders![i].link,
-                                      price: snapshot.data!.data!.adSpaceOrders![i].price,
-                                      orderId: snapshot.data!.data!.adSpaceOrders![i].id,
-                                      token:token,
-                                      state:snapshot.data!.data!.adSpaceOrders![i].status?.id,
-                                      rejectResonName: snapshot.data!.data!.adSpaceOrders![i].rejectReson?.name!,
-                                      rejectResonId: snapshot.data!.data!.adSpaceOrders![i].rejectReson?.id,
-                                    ));
-                                  },
+                                  goTopagepush(
+                                      context,
+                                      AdSpaceDetails(
+                                        i: i,
+                                        image: snapshot.data!.data!
+                                            .adSpaceOrders![i].image,
+                                        link: snapshot
+                                            .data!.data!.adSpaceOrders![i].link,
+                                        price: snapshot.data!.data!
+                                            .adSpaceOrders![i].price,
+                                        orderId: snapshot
+                                            .data!.data!.adSpaceOrders![i].id,
+                                        token: token,
+                                        state: snapshot.data!.data!
+                                            .adSpaceOrders![i].status?.id,
+                                        rejectResonName: snapshot
+                                            .data!
+                                            .data!
+                                            .adSpaceOrders![i]
+                                            .rejectReson
+                                            ?.name!,
+                                        rejectResonId: snapshot.data!.data!
+                                            .adSpaceOrders![i].rejectReson?.id,
+                                      ));
+                                },
                                 child: Column(
                                   children: [
                                     getData(
@@ -117,7 +129,6 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                       topRight: Radius.circular(10.h),
                       bottomRight: Radius.circular(10.h),
                       bottomLeft: Radius.circular(10.h),
-
                     ),
                     image: DecorationImage(
                         image: NetworkImage(adSpaceOrders![i].image!),
@@ -138,7 +149,9 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                                 padding: EdgeInsets.only(right: 10.w),
                                 child: text(
                                   context,
-                                  adSpaceOrders[i].status!.name!,
+                                  adSpaceOrders[i].status!.id == 4
+                                      ? 'في انتظار الدفع'
+                                      : adSpaceOrders[i].status!.name!,
                                   18,
                                   white,
                                   fontWeight: FontWeight.bold,
@@ -153,11 +166,11 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                           Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                  padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                  padding: EdgeInsets.only(
+                                      right: 16.w, bottom: 10.h),
                                   child: text(
                                     context,
-                                    'اعلان من ' +
-                                        adSpaceOrders[i].user!.name!,
+                                    'اعلان من ' + adSpaceOrders[i].user!.name!,
                                     18,
                                     white,
                                     fontWeight: FontWeight.bold,
@@ -167,7 +180,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                           Align(
                               alignment: Alignment.bottomLeft,
                               child: Padding(
-                                padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                padding:
+                                    EdgeInsets.only(right: 16.w, bottom: 10.h),
                                 child: text(
                                   context,
                                   adSpaceOrders[i].date!,
@@ -183,7 +197,6 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                     ],
                   )),
             ),
-
           ],
         ),
         bottomLeft: 10,

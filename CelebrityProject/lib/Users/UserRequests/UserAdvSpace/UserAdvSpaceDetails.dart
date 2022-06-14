@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import '../../../Account/UserForm.dart';
-import '../../../Celebrity/CelebrityPayments/celebrityPayment.dart';
 import '../../../Models/Methods/method.dart';
 import '../../../Models/Variables/Variables.dart';
 import '../../Exploer/viewDataImage.dart';
@@ -199,8 +198,8 @@ class _UserAdvSpaceDetailsState extends State<UserAdvSpaceDetails> {
                                       : widget.state == 4
                                           ? () {
                                               print('payment');
-                                              goTopagepush(
-                                                  context, CelebrityPayments());
+                                              // goTopagepush(
+                                              //     context, CelebrityPayments());
                                             }
                                           : () {
                                               FocusManager.instance.primaryFocus

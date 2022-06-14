@@ -57,7 +57,7 @@ class _GiftDetialsState extends State<GiftDetials> {
   void initState() {
     super.initState();
     getRejectReson();
-    print(rejectResonsList);
+    print(widget.state);
   }
 
   @override

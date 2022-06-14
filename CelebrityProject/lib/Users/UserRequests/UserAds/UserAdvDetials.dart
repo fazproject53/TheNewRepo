@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import '../../../Account/UserForm.dart';
-import '../../../Celebrity/CelebrityPayments/celebrityPayment.dart';
 import 'UserAdsOrdersApi.dart';
 
 class UserAdvDetials extends StatefulWidget {
@@ -436,7 +435,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                     widget.state == 5 ||
                                     widget.state == 6
                                 ? null:widget.state == 2?(){
-                             goTopagepush(context, const CelebrityPayments());
+                             //goTopagepush(context, const CelebrityPayments());
                             }
                                 : () {
                                     FocusManager.instance.primaryFocus
