@@ -480,10 +480,10 @@ class _gifttingFormState extends State<gifttingForm>{
                                 addGift().then((value) =>  {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(
-                                const SnackBar(
+                                 SnackBar(
                                 duration:  Duration(seconds: 1),
                                 content: Text(
-                                "تم ارسال طلبك بنجاح"),
+                                value),
 
                                 )),
 

@@ -17,6 +17,8 @@ import 'package:async/async.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 
+import '../../Account/LoggingSingUpAPI.dart';
+import '../../Users/Exploer/viewData.dart';
 import 'AdvFormResponse.dart';
 
 class advForm extends StatefulWidget{
@@ -28,6 +30,7 @@ class advForm extends StatefulWidget{
 class _advFormState extends State<advForm>{
   String? resp;
   Future<Platform>? platforms;
+  String? userToken;
   int? _value = 1;
   bool isValue1 = false;
   int? _value2 = 1;
@@ -36,6 +39,7 @@ class _advFormState extends State<advForm>{
 
   var platformlist = [];
 
+  bool platformChosen = true;
   String platform = 'اختر منصة العرض';
 
   List<DropdownMenuItem<Object?>> _dropdownTestItem = [];
@@ -80,7 +84,12 @@ class _advFormState extends State<advForm>{
   Stream? streamm;
   @override
   void initState() {
-    platforms = fetchPlatform();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        platforms = fetchPlatform();
+      });
+    });
     _dropdownTestItem = buildDropdownTestItems(platformlist);
     super.initState();
   }
@@ -238,7 +247,8 @@ class _advFormState extends State<advForm>{
                                 }
                               })),
 
-                          paddingg(15.w, 15.w, 12.h,textFieldDesc(context, ' الوصف الخاص بالاعلان', 14.sp, true, description,(String? value) {
+                          padding( 10,20, text(context, platformChosen && _selectedTest == null?'':'الرجاء اختيار منصة الاعلان', 13, _selectedTest != null ?white:red!,)),
+                          paddingg(15.w, 15.w, 0.h,textFieldDesc(context, ' الوصف الخاص بالاعلان', 14.sp, true, description,(String? value) {
                             if (value == null || value.isEmpty) {
                             return 'حقل اجباري';} return null;},),),
                           paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, coupon,(String? value) {
@@ -536,7 +546,7 @@ class _advFormState extends State<advForm>{
                                 ),
                                 text(
                                     context,
-                                    "مساءا",
+                                    "مساء",
                                     14,
                                     ligthtBlack,
                                     family:
@@ -550,8 +560,28 @@ class _advFormState extends State<advForm>{
                               //
 
 
-                          paddingg(15, 15, 15, uploadImg(50, 45,text(context, 'فم ارفاق ملف الاعلان', 12, black),(){getFile(context);}),),
-                          paddingg(15.w, 25.w, 2.h,text(context, warnimage ? 'الرجاء اضافة صورة': '', 13,red!,)),
+                          paddingg(15, 15, 30, uploadImg(50, 45,text(context,file != null? 'تغيير الصورة': 'فم ارفاق ملف الاعلان' , 12, black),(){getFile(context);}),),
+                          InkWell(
+                            onTap: (){file != null? showDialog(
+                              useSafeArea: true,
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                _timer = Timer(Duration(seconds: 2), () {
+                                  Navigator.of(context).pop();    // == First dialog closed
+                                });
+                                return
+                                  Container(
+                                      height: double.infinity,
+                                      child: Image.file(file!));},
+                            ):null;},
+                              child: paddingg(15.w, 30.w, file != null?10.h: 0.h,Row(
+                                children: [
+                                  file != null? Icon(Icons.image, color: newGrey,): SizedBox(),
+                                  SizedBox(width: file != null?5.w: 0.w),
+                                  text(context, warnimage && file == null ? 'الرجاء اضافة صورة': file != null? 'معاينة الصورة':'' , file != null?15 :13,file != null?black:red!,),
+                                ],
+                              ))),
 
                           paddingg(15, 15, 15,SizedBox(height: 45.h,child: InkWell(
                             child: gradientContainerNoborder(97, Row(
@@ -559,7 +589,7 @@ class _advFormState extends State<advForm>{
                               children: [
                                 Icon(scheduale, color: white,),
                                 SizedBox(width: 15.w,),
-                                text(context, 'تاريخ الاعلان', 15.sp, white, fontWeight: FontWeight.bold),
+                                text(context, current.day != DateTime.now().day ?current.year.toString()+ '/'+current.month.toString()+ '/'+current.day.toString() : 'تاريخ الاعلان', 15.sp, white, fontWeight: FontWeight.bold),
                               ],
                             )),onTap: () async { DateTime? endDate =
                               await showDatePicker(
@@ -580,7 +610,9 @@ class _advFormState extends State<advForm>{
                             return;
                           setState(() {
                             current= endDate;
-                          });},
+                          });
+                          FocusManager.instance.primaryFocus
+                              ?.unfocus();},
                           )),),
                           paddingg(15.w, 20.w, 2.h,text(context, datewarn2 ? 'الرجاء اختيار تاريخ النشر': '', 13,red!,)),
 
@@ -602,33 +634,37 @@ class _advFormState extends State<advForm>{
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context,'رفع الطلب', 15, white, (){
 
                             _formKey.currentState!.validate()? {
-                              checkit && current.day != DateTime.now().day && image != null?{
-                            // showDialog(
-                            // context: context,
-                            // barrierDismissible: false,
-                            // builder: (BuildContext context) {
-                            //   _timer = Timer(Duration(seconds: 2), () {
-                            //     Navigator.of(context).pop();    // == First dialog closed
-                            //   });
-                            // return
-                            //   Align(
-                            //     alignment: Alignment.center,
-                            //     child: Lottie.asset(
-                            //       "assets/lottie/loding.json",
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   );},
-                            // ),
-                            // FocusManager.instance.primaryFocus
-                            //     ?.unfocus(),
-                            addAdOrder().whenComplete(() => {
-                              ScaffoldMessenger.of(
-                                context)
-                                .showSnackBar(
-                                 SnackBar(
-                                   content: Text(resp != null? resp! : 'تم ارسال الطلب',),
-                                ))})
-                          } : setState((){ !checkit? warn2 = true: false;
+                              checkit && current.day != DateTime.now().day && file != null && !platformChosen?{
+                            showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              _timer = Timer(Duration(seconds: 2), () {
+                                Navigator.of(context).pop();    // == First dialog closed
+                              });
+                            return
+                              Align(
+                                alignment: Alignment.center,
+                                child: Lottie.asset(
+                                  "assets/lottie/loding.json",
+                                  fit: BoxFit.cover,
+                                ),
+                              );},
+                            ),
+                            FocusManager.instance.primaryFocus
+                                ?.unfocus(),
+                            addAdOrder().then((value) => {
+                              print(value),
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                  SnackBar(
+                                    duration:  Duration(seconds: 1),
+                                    content: Text(value != null? value : 'تم ارسال الطلب',),
+                                  ))})
+                              }
+                           : setState((){
+                             _selectedTest == null? platformChosen= false: platformChosen = true;
+                             !checkit? warn2 = true: false;
                               current.day == DateTime.now().day? datewarn2 = true: false;
                               file == null? warnimage =true:false;}),
 
@@ -675,9 +711,12 @@ buildCkechboxList(list) {
     final String fileExtension = Path.extension(fileName);
     File newImage = await f.copy('$path/$fileName');
     if(fileExtension == ".png" || fileExtension == ".jpg"){
-      file = newImage;
+      setState(() {
+        file = newImage;
+      });
     }else{ ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(
+      duration:  Duration(seconds: 1),
       content: Text(
           "امتداد الصورة المسموح به jpg, png",style: TextStyle(color: Colors.red)),
     ));}
@@ -689,7 +728,7 @@ buildCkechboxList(list) {
     // ));}
   }
 
- Future<String> addAdOrder() async {
+ Future<String?> addAdOrder() async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     var stream;
@@ -699,6 +738,7 @@ buildCkechboxList(list) {
     Map<String, String> headers;
     var response;
     var body;
+    String message = '';
      stream = await http.ByteStream(DelegatingStream.typed(file!.openRead()));
     // get file length
        length = await file!.length();
@@ -708,7 +748,7 @@ buildCkechboxList(list) {
 
      headers = {
       "Accept": "application/json",
-      "Authorization": "Bearer $token2"
+      "Authorization": "Bearer $userToken"
     };
     // create multipart request
     request = http.MultipartRequest("POST", uri);
@@ -730,7 +770,7 @@ buildCkechboxList(list) {
     request.fields["date"]= current.toString();
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest).toString();
     request.fields["description"]= description.text;
-    request.fields["celebrity_promo_code_id"]= coupon.text;
+    request.fields["celebrity_promo_code"]= coupon.text;
 
     request.fields["ad_owner_id"]= _value.toString();
     request.fields["ad_feature_id"]= _value2.toString();
@@ -740,14 +780,19 @@ buildCkechboxList(list) {
     request.fields["advertising_name"] = '';
     request.fields["advertising_link"] = '';
     response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) async {
-      print(value);
-      setState(() {
-        Responsee rr = Responsee.fromJson(jsonDecode(value));
-        resp = rr.message!.ar!;
-      });
-    });
-    return '';
+    // response.stream.transform(utf8.decoder).listen((value) async {
+    //   print(value);
+    //   setState(()  {
+    //     Responsee rr = Responsee.fromJson(jsonDecode(value));
+    //     resp = 'تم';
+    //
+    //   });
+    // });
+
+    http.Response respo = await http.Response.fromStream(response);
+    print("Result: ${response.statusCode}");
+    return jsonDecode(respo.body)['message']['ar'];
+
   }
 
 

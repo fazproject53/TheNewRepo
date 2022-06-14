@@ -221,7 +221,7 @@ class _advAreaState extends State<advArea>{
                       .showSnackBar(
                        SnackBar(
                         duration:  Duration(seconds: 1),
-                        content: Text(value!),
+                        content: Text(value),
                       ))})
                 } : setState((){ !check2? warn2 = true: false;
                 dateTime.day == DateTime.now().day? datewarn2 = true: false;
