@@ -60,7 +60,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
   void initState() {
     super.initState();
     getRejectReson();
-    print(rejectResonsList);
+    print(widget.state);
+
   }
 
   @override

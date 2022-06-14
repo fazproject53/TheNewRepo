@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:celepraty/Celebrity/HomeScreen/celebrity_home_page.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:celepraty/Users/chat/chatRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import '../../../Account/UserForm.dart';
-import '../../../Celebrity/Requests/Ads/AdvertisinApi.dart';
 import '../UserAds/UserAdsOrdersApi.dart';
 
 class UserGiftDetials extends StatefulWidget {
