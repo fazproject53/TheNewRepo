@@ -96,7 +96,7 @@ class AdSpaceOrders {
   int? price;
   String? image;
   String? link;
-  Null? rejectReson;
+  Gender? rejectReson;
   Null? celebrityPromoCode;
 
   AdSpaceOrders(
@@ -344,6 +344,7 @@ class User {
   String? type;
 
   User(
+
       {this.id,
       this.username,
       this.name,

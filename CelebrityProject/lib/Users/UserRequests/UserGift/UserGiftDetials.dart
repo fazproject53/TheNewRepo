@@ -302,7 +302,11 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                 children: [
                   Row(
                     children: [
-                      Icon(orders, color: pink,size: 34.r,),
+                      Icon(
+                        orders,
+                        color: pink,
+                        size: 34.r,
+                      ),
                       SizedBox(
                         width: 5.w,
                       ),
@@ -424,34 +428,32 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                                     : () {
                                         FocusManager.instance.primaryFocus
                                             ?.unfocus();
-                                        if (priceKey.currentState?.validate() ==
-                                            true) {
-                                          loadingDialogue(context);
-                                          Future<bool> result =
-                                          userAcceptAdvertisingOrder(
-                                              widget.token!,
-                                              widget.orderId!,
-                                              int.parse(price!.text));
-                                          result.then((value) {
-                                            if (value == true) {
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(snackBar(
-                                                  context,
-                                                  'تم قبول الطلب',
-                                                  green,
-                                                  done));
-                                            } else {
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(snackBar(
-                                                  context,
-                                                  'تم قبول الطلب مسبقا',
-                                                  red,
-                                                  error));
-                                            }
-                                          });
-                                        }
+
+                                        loadingDialogue(context);
+                                        Future<bool> result =
+                                            userAcceptAdvertisingOrder(
+                                                widget.token!,
+                                                widget.orderId!,
+                                                int.parse(price!.text));
+                                        result.then((value) {
+                                          if (value == true) {
+                                            Navigator.pop(context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar(
+                                                    context,
+                                                    'تم قبول الطلب',
+                                                    green,
+                                                    done));
+                                          } else {
+                                            Navigator.pop(context);
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar(
+                                                    context,
+                                                    'تم قبول الطلب مسبقا',
+                                                    red,
+                                                    error));
+                                          }
+                                        });
                                       },
                             evaluation: 0,
                           ),
@@ -501,14 +503,13 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                                     widget.state == 6
                                 ? deepgrey!
                                 : black,
-                           widget.state == 4 ||
+                            widget.state == 4 ||
                                     widget.state == 3 ||
                                     widget.state == 5 ||
                                     widget.state == 2 ||
                                     widget.state == 6
-                               ? null
-                                :
-                              () {
+                                ? null
+                                : () {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                     rejectResonsList.isNotEmpty
@@ -611,36 +612,34 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                               if (resonReject == 'أخرى') {
                                 if (resonKey.currentState?.validate() == true) {
                                   loadingDialogue(context);
-                                  Future<bool> result =  userRejectAdvertisingOrder(
-                                      widget.token!,
-                                      widget.orderId!,
-                                      reson.text,
-                                      0);
+                                  Future<bool> result =
+                                      userRejectAdvertisingOrder(widget.token!,
+                                          widget.orderId!, reson.text, 0);
                                   result.then((value) {
                                     if (value == true) {
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar(context,
-                                          'تم رفض الطلب', green, done));
+                                              'تم رفض الطلب', green, done));
                                     } else {
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar(
-                                          context,
-                                          'تم رفض الطلب مسبقا',
-                                          red,
-                                          error));
+                                              context,
+                                              'تم رفض الطلب مسبقا',
+                                              red,
+                                              error));
                                     }
                                   });
-                              }
-                               }
-                              else {
+                                }
+                              } else {
                                 loadingDialogue(context);
-                                Future<bool> result = userRejectAdvertisingOrder(
-                                    widget.token!,
-                                    widget.orderId!,
-                                    resonReject!,
-                                    resonRejectId!);
+                                Future<bool> result =
+                                    userRejectAdvertisingOrder(
+                                        widget.token!,
+                                        widget.orderId!,
+                                        resonReject!,
+                                        resonRejectId!);
                                 result.then((value) {
                                   if (value == true) {
                                     Navigator.pop(context);

@@ -1,12 +1,11 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../Account/LoggingSingUpAPI.dart';
 import 'UserAdsSpaceApi.dart';
+import 'UserAdvSpaceDetails.dart';
 
 class UserAdSpace extends StatefulWidget {
   const UserAdSpace({Key? key}) : super(key: key);
@@ -27,6 +26,7 @@ class _UserAdSpaceState extends State<UserAdSpace>
       setState(() {
         token = value;
         userAdSpaceRequests = getUserAdvSpaceOrder(token);
+        print( getUserAdvSpaceOrder(token));
       });
     });
   }
@@ -55,7 +55,16 @@ class _UserAdSpaceState extends State<UserAdSpace>
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  // goTopagepush(context, adSpaceOrders(i: i));
+                                  goTopagepush(context, UserAdvSpaceDetails(  i: i,
+                                    image:snapshot.data!.data!.adSpaceOrders![i].image,
+                                    link:snapshot.data!.data!.adSpaceOrders![i].link,
+                                    price: snapshot.data!.data!.adSpaceOrders![i].price,
+                                    orderId: snapshot.data!.data!.adSpaceOrders![i].id,
+                                    token:token,
+                                    state:snapshot.data!.data!.adSpaceOrders![i].status?.id,
+                                    rejectResonName: snapshot.data!.data!.adSpaceOrders![i].rejectReson?.name!,
+                                    rejectResonId: snapshot.data!.data!.adSpaceOrders![i].rejectReson?.id,
+                                  ));
                                 },
                                 child: Column(
                                   children: [

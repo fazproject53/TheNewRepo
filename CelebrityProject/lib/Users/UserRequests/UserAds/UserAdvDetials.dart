@@ -417,7 +417,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                 : widget.state == 3
                                     ? 'قبول'
                                     : widget.state == 2
-                                        ? 'قبول من المتابع'
+                                        ? 'ادفع الان'
                                         : widget.state == 6
                                             ? 'تم الدفع'
                                             : widget.state == 1
@@ -426,17 +426,18 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                             15,
                             widget.state == 3 ||
                                     widget.state == 1 ||
-                                    widget.state == 2 ||
+                                    //widget.state == 2 ||
                                     widget.state == 5 ||
                                     widget.state == 6
                                 ? deepBlack
                                 : white,
                             widget.state == 3 ||
                                     widget.state == 1 ||
-                                    widget.state == 2 ||
                                     widget.state == 5 ||
                                     widget.state == 6
-                                ? null
+                                ? null:widget.state == 2?(){
+                             goTopagepush(context, const CelebrityPayments());
+                            }
                                 : () {
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
@@ -469,14 +470,14 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                           height: 50,
                           color: widget.state == 3 ||
                                   widget.state == 1 ||
-                                  widget.state == 2 ||
+                                  //widget.state == 2 ||
                                   widget.state == 5 ||
                                   widget.state == 6
                               ? deepBlack
                               : Colors.transparent,
                           gradient: widget.state == 3 ||
                                   widget.state == 1 ||
-                                  widget.state == 2 ||
+                                  //widget.state == 2 ||
                                   widget.state == 5 ||
                                   widget.state == 6
                               ? true

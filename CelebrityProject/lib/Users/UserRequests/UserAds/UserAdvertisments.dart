@@ -151,7 +151,9 @@ class _UserAdvertismentState extends State<UserAdvertisment> with AutomaticKeepA
                                 padding: EdgeInsets.only(right: 10.w),
                                 child: text(
                                   context,
-                                  advertisingOrders[i].status?.id==4?'لم يتم قبول السعر بعد':advertisingOrders[i].status!.name!,
+                                  advertisingOrders[i].status?.id==4?
+                                  'لم يتم قبول السعر بعد':  advertisingOrders[i].status?.id==2?
+                                  'في انتظار الدفع':advertisingOrders[i].status!.name!,
                                   18,
                                   white,
                                   fontWeight: FontWeight.bold,
