@@ -20,7 +20,7 @@ class gifttingForm extends StatefulWidget{
   const gifttingForm({Key? key,  this.id, this.image, this.name}) : super(key: key);
   _gifttingFormState createState() => _gifttingFormState();
 }
-
+String? userToken;
 class _gifttingFormState extends State<gifttingForm>{
 
   final _formKey = GlobalKey<FormState>();
@@ -378,10 +378,16 @@ class _gifttingFormState extends State<gifttingForm>{
                                   Expanded(
                                     child: paddingg(3.w, 15.w, 12.h,textFieldNoIcon(context, 'من', 14.sp, false, from,(String? value) {
                                       if (value == null || value.isEmpty) {
-                                      return 'حقل اجباري';} return null;},false),),),
+                                      return 'حقل اجباري';}
+                                      if (value.length > 25) {
+                                        return 'الرجاء ادخال الاسم الاول والاخير';}
+                                      return null;},false),),),
                                   Expanded(
                                     child: paddingg(15.w, 3.w, 12.h,textFieldNoIcon(context, 'الى', 14.sp, false, to,(String? value) {if (value == null || value.isEmpty) {
-                                      return 'حقل اجباري';} return null;}, false),),
+                                      return 'حقل اجباري';}
+                                    if (value.length > 25) {
+                                      return 'الرجاء ادخال الاسم الاول والاخير';}
+                                    return null;}, false),),
                                   ),
 
                                 ],
@@ -425,7 +431,9 @@ class _gifttingFormState extends State<gifttingForm>{
                                 return;
                               setState(() {
                                 current= endDate;
-                              });},
+                              });
+                              FocusManager.instance.primaryFocus
+                                  ?.unfocus();},
                               )),),
 
                               paddingg(15.w, 20.w, 5.h,text(context,datewarn?'الرجاء اختيار تاريخ الاهداء':'', 12,red!,)),
@@ -467,8 +475,9 @@ class _gifttingFormState extends State<gifttingForm>{
                                           ),
                                         );},
                                   ),
-
-                                addGift().whenComplete(() =>   {
+                                  FocusManager.instance.primaryFocus
+                                      ?.unfocus(),
+                                addGift().then((value) =>  {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(
                                 const SnackBar(
@@ -503,7 +512,7 @@ class _gifttingFormState extends State<gifttingForm>{
         }
 
 
-  Future<http.Response> addGift() async {
+        Future<String> addGift() async {
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     final response = await http.post(
@@ -513,7 +522,7 @@ class _gifttingFormState extends State<gifttingForm>{
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token2'
+        'Authorization': 'Bearer $userToken'
       },
       body: jsonEncode(<String, dynamic>{
         'celebrity_id' : widget.id!,
@@ -523,7 +532,7 @@ class _gifttingFormState extends State<gifttingForm>{
         'description': desc.text,
         'from': from.text,
         'to': to.text,
-        'celebrity_promo_code_id':copun.text,
+        'celebrity_promo_code':copun.text,
 
       }),
     );
@@ -531,7 +540,7 @@ class _gifttingFormState extends State<gifttingForm>{
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
-      return response;
+      return jsonDecode(response.body)['message']['ar'];
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

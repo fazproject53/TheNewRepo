@@ -398,6 +398,7 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
     decoration: InputDecoration(
         isDense: false,
         filled: true,
+        errorStyle: TextStyle(fontSize: 12.sp),
         helperText: isOptional ? 'اختياري' : null,
         helperStyle:
             TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
