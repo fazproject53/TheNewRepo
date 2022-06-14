@@ -158,12 +158,15 @@ class _UserAdSpaceState extends State<UserAdSpace>
                           const Spacer(),
                           Align(
                               alignment: Alignment.bottomLeft,
-                              child: text(
-                                context,
-                                adSpaceOrders[i].date!,
-                                18,
-                                white,
-                                fontWeight: FontWeight.bold,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 16.w,bottom: 10.h),
+                                child: text(
+                                  context,
+                                  adSpaceOrders[i].date!,
+                                  18,
+                                  white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )),
 
                           SizedBox(width: 10.w),

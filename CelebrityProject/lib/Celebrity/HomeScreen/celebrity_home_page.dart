@@ -753,7 +753,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                     height: 40.h,
                     width: 40.h,
                     child:
-                        Center(child: Icon(arrow, size: 25.w, color: white))),
+                        Padding(
+                          padding:  EdgeInsets.only(top: 2.h, left: 10.w),
+                          child: Icon(arrow, size: 25.w, color: white),
+                        )),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -820,7 +823,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                     height: 40.h,
                     width: 40.h,
                     child:
-                        Center(child: Icon(arrow, size: 25.w, color: white))),
+                        Padding(
+                          padding: EdgeInsets.only(top: 2.h, left: 10.w),
+                          child: Icon(arrow, size: 25.w, color: white),
+                        )),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -885,7 +891,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                     height: 40.h,
                     width: 40.h,
                     child:
-                        Center(child: Icon(arrow, size: 25.w, color: white))),
+                        Padding(
+                          padding:EdgeInsets.only(top: 2.h, left: 10.w),
+                          child: Icon(arrow, size: 25.w, color: white),
+                        )),
                 onTap: () {
                   Navigator.push(
                     context,

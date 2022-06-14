@@ -32,6 +32,67 @@ Future<UserAdvertising> getUserAdvertisingOrder(String token) async {
   //return null;
 }
 
+//User reject Advertising Order--------------------------------------------------------------------------------------
+Future<bool> userRejectAdvertisingOrder(
+    String token, int orderId, String reson, int resonId) async {
+  Map<String, dynamic> data = {
+    "reject_reson": reson,
+    "reject_reson_id": '$resonId'
+  };
+  String url = "https://mobile.celebrityads.net/api/user/order/reject/$orderId";
+  final respons = await http.post(Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: data);
+
+  if (respons.statusCode == 200) {
+    print(respons.body);
+    var success = jsonDecode(respons.body)["success"];
+    print('------------------------------------');
+    print(success);
+    print('------------------------------------');
+
+    if (success == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
+}
+
+//reject Advertising Order--------------------------------------------------------------------------------------
+Future<bool> userAcceptAdvertisingOrder(
+    String token, int orderId, int price) async {
+  Map<String, dynamic> data = {"price": '$price'};
+  String url = "https://mobile.celebrityads.net/api/user/order/accept/$orderId";
+  final respons = await http.post(Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: data);
+
+  if (respons.statusCode == 200) {
+    print(respons.body);
+    var success = jsonDecode(respons.body)["success"];
+    print('------------------------------------');
+    print(success);
+    print('------------------------------------');
+
+    if (success == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
+}
+
 //-----------------------------------------------------------------
 class UserAdvertising {
   bool? success;
