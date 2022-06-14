@@ -67,6 +67,7 @@ IconData attach = Icons.attach_file;
 IconData clander = Icons.calendar_today_rounded;
 IconData send = Icons.send;
 Icon back=Icon(Icons.arrow_back_ios_sharp,color: black,size:30.w);
+IconData backIcon = Icons.arrow_back_sharp;
 IconData image = Icons.image;
 IconData addNew = Icons.add_circle_rounded;
 IconData typeOfDiscount = Icons.local_offer_outlined;

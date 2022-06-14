@@ -399,6 +399,7 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
     decoration: InputDecoration(
         isDense: false,
         filled: true,
+        errorStyle: TextStyle(fontSize: 12.sp),
         helperText: isOptional ? 'اختياري' : null,
         helperStyle:
             TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
@@ -411,6 +412,80 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
             OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1.w)),
         hintText: key,
         contentPadding: EdgeInsets.all(10.h)),
+  );
+}
+
+
+///the long one
+Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
+    TextEditingController myController, myValidation,
+    {Widget? suffixIcon,
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
+  return TextFormField(
+    obscureText: hintPass,
+    validator: myValidation,
+    onTap: onTap,
+    autofocus: false,
+    inputFormatters: inputFormatters,
+    keyboardType: keyboardType,
+    controller: myController,
+    style: TextStyle(color: black, fontSize: 14.sp),
+    decoration: InputDecoration(
+      isDense: true,
+      filled: true,
+      hintStyle: TextStyle(color: grey, fontSize: 14.sp),
+      fillColor: white,
+      labelStyle: TextStyle(color: grey, fontSize: 14.sp),
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: BorderSide(color: purple, width: 4.w)),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.r)),
+        borderSide: BorderSide(width: 1.w, color: grey!.withOpacity(0.8)),
+      ),
+      labelText: key,
+      hintText: '0000 0000 0000 0000',
+    ),
+  );
+}
+
+///text field with width
+Widget textFieldWhiteWidth(context, String key,String hintKey, double fontSize, bool hintPass,
+    TextEditingController myController, myValidation,
+    {Widget? suffixIcon,
+      void Function()? onTap,
+      List<TextInputFormatter>? inputFormatters,
+      TextInputType? keyboardType}) {
+  return SizedBox(
+    width: 140.w,
+    child: TextFormField(
+      obscureText: hintPass,
+      validator: myValidation,
+      onTap: onTap,
+      autofocus: false,
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      controller: myController,
+      style: TextStyle(color: black, fontSize: 14.sp),
+      decoration: InputDecoration(
+        isDense: true,
+        filled: true,
+        hintStyle: TextStyle(color: grey, fontSize: 14.sp),
+        fillColor: white,
+        labelStyle: TextStyle(color: grey, fontSize: 14.sp),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(color: purple, width: 4.w)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+          borderSide: BorderSide(width: 1.w, color: grey!.withOpacity(0.8)),
+        ),
+        labelText: key,
+        hintText: hintKey,
+      ),
+    ),
   );
 }
 
@@ -583,6 +658,40 @@ void showBottomSheett(context, buttomMenue) {
       });
 }
 
+void showBottomSheetWhite(context, bottomMenu) {
+  showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+      ),
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 300.h,
+          child: bottomMenu,
+        );
+      });
+}
+
+void showBottomSheetWhite2(context, bottomMenu) {
+  showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+      ),
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 400.h,
+          child: bottomMenu,
+        );
+      });
+}
+
 Widget uploadImg(double width, double hight, child, onTap) {
   return InkWell(
     child: Container(
@@ -597,7 +706,7 @@ Widget uploadImg(double width, double hight, child, onTap) {
             child
           ]),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(8.r)),
           border: Border.all(color: black)),
     ),
     onTap: onTap,

@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:async/async.dart';
 
+import '../../Account/LoggingSingUpAPI.dart';
 import '../Pricing/ModelPricing.dart';
 
 class advArea extends StatefulWidget{
@@ -29,7 +30,7 @@ class _advAreaState extends State<advArea>{
   final _formKey = GlobalKey<FormState>();
   final TextEditingController link = new TextEditingController();
 
-
+  String? userToken;
   Future<Pricing>? pricing;
   File? image;
    DateTime dateTime = DateTime.now();
@@ -44,6 +45,11 @@ class _advAreaState extends State<advArea>{
 
   @override
   void initState() {
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+      });
+    });
         pricing = fetchCelebrityPricing(widget.id!);
     super.initState();
   }
@@ -112,8 +118,28 @@ class _advAreaState extends State<advArea>{
             paddingg(15.w, 15.w, 12.h,textFieldNoIcon(context, 'ادخل كود الخصم', 14.sp, false, copun,(String? value) { return null;},true),),
 
              SizedBox(height: 20.h),
-            paddingg(15, 15, 12, uploadImg(200, 54,text(context, 'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
-            paddingg(15.w, 25.w, 5.h,text(context,warnimage? 'الرجاء اضافة صورة': '',12,red!,)),
+            paddingg(15, 15, 12, uploadImg(200, 54,text(context, image != null? 'تغيير الصورة':'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
+            InkWell(
+                onTap: (){image != null? showDialog(
+                  useSafeArea: true,
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    _timer = Timer(Duration(seconds: 2), () {
+                      Navigator.of(context).pop();    // == First dialog closed
+                    });
+                    return
+                      Container(
+                          height: double.infinity,
+                          child: Image.file(image!));},
+                ):null;},
+                child: paddingg(15.w, 30.w, image != null?10.h: 0.h,Row(
+                  children: [
+                    image != null? Icon(Icons.image, color: newGrey,): SizedBox(),
+                    SizedBox(width: image != null?5.w: 0.w),
+                    text(context,warnimage && image == null ? 'الرجاء اضافة صورة': image != null? 'معاينة الصورة':'',12,image != null?black:red!,)
+                  ],
+                ))),
             SizedBox(height: 10.h),
             InkWell(
               child: padding(0.w,15.w, Row(children: [
@@ -190,12 +216,12 @@ class _advAreaState extends State<advArea>{
                         );},
                   ),
 
-                  addAdAreaOrder().whenComplete(() => {    ScaffoldMessenger.of(
+                  addAdAreaOrder().then((value) => {    ScaffoldMessenger.of(
                       context)
                       .showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            "تم ارسال الطلب بنجاح"),
+                       SnackBar(
+                        duration:  Duration(seconds: 1),
+                        content: Text(value),
                       ))})
                 } : setState((){ !check2? warn2 = true: false;
                 dateTime.day == DateTime.now().day? datewarn2 = true: false;
@@ -216,9 +242,8 @@ class _advAreaState extends State<advArea>{
           )))),
     );}
 
- Future<http.StreamedResponse> addAdAreaOrder() async {
-    String token2 =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
+ Future<String> addAdAreaOrder() async {
+    String token2 ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     var stream = new http.ByteStream(DelegatingStream.typed(image!.openRead()));
     // get file length
     var length = await image!.length();
@@ -228,7 +253,7 @@ class _advAreaState extends State<advArea>{
 
     Map<String, String> headers = {
       "Accept": "application/json",
-      "Authorization": "Bearer $token2"
+      "Authorization": "Bearer $userToken"
     };
     // create multipart request
     var request = new http.MultipartRequest("POST", uri);
@@ -240,16 +265,15 @@ class _advAreaState extends State<advArea>{
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] = widget.id!;
+    request.fields["celebrity_id"] = widget.id.toString();
     request.fields["date"]=dateTime.toString();
     request.fields["link"]= link.text;
-    request.fields["celebrity_promo_code_id"]=copun.text;
+    request.fields["celebrity_promo_code"]= copun.text;
 
     var response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
-    return response;
+    http.Response respo = await http.Response.fromStream(response);
+    print(jsonDecode(respo.body)['message']['ar']);
+    return jsonDecode(respo.body)['message']['ar'];
     }
 
   Future<File?> getImage(context) async {
