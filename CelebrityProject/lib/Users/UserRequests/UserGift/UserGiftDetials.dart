@@ -161,7 +161,7 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 18,
                     ),
-//describe-------------------------------------------------------------------------
+//celebrate name-------------------------------------------------------------------------
                     Row(
                       children: [
                         Expanded(
@@ -293,35 +293,6 @@ class _UserGiftDetialsState extends State<UserGiftDetials>
                 )),
             SizedBox(
               height: 10.h,
-            ),
-//occasion ----------------------------------------------------------------
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.r),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        orders,
-                        color: pink,
-                        size: 34.r,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      text(
-                        context,
-                        'اهداء ل' + widget.occasion!,
-                        17,
-                        black,
-                        //fontWeight: FontWeight.bold,
-                        align: TextAlign.right,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
 
             const Spacer(),

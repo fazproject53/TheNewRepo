@@ -67,13 +67,13 @@ class _AdvDetialsState extends State<AdvDetials>
 
   @override
   Widget build(BuildContext context) {
-    if(MediaQuery.of(context).viewInsets.bottom!=0){
-     setState(() {
-       showDetials=false;
-     });
-    }else{
+    if (MediaQuery.of(context).viewInsets.bottom != 0) {
       setState(() {
-        showDetials=true;
+        showDetials = false;
+      });
+    } else {
+      setState(() {
+        showDetials = true;
       });
     }
 
@@ -96,8 +96,7 @@ class _AdvDetialsState extends State<AdvDetials>
                 child: Container(
                   width: double.infinity,
                   // height: double.infinity,
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.r, vertical: 5.h),
+                  margin: EdgeInsets.symmetric(horizontal: 20.r, vertical: 5.h),
                   decoration: BoxDecoration(
                       //boxShadow: const [BoxShadow(blurRadius: 2)],
                       color: Colors.white,
@@ -210,22 +209,37 @@ class _AdvDetialsState extends State<AdvDetials>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              text(
-                                context,
-                                'سبب الرفض',
-                                17,
-                                black,
-                                //fontWeight: FontWeight.bold,
-                                align: TextAlign.right,
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.quiz,
+                                    color: pink,
+                                    size: 25.r,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  text(
+                                    context,
+                                    'سبب الرفض',
+                                    17,
+                                    black,
+                                    //fontWeight: FontWeight.bold,
+                                    align: TextAlign.right,
+                                  ),
+                                ],
                               ),
                               //-------------------------------
-                              text(
-                                context,
-                                widget.rejectResonName!,
-                                15,
-                                deepBlack,
-                                //fontWeight: FontWeight.bold,
-                                align: TextAlign.right,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 36.r),
+                                child: text(
+                                  context,
+                                  widget.rejectResonName!,
+                                  15,
+                                  deepBlack,
+                                  //fontWeight: FontWeight.bold,
+                                  align: TextAlign.right,
+                                ),
                               ),
                             ],
                           ),
@@ -253,8 +267,6 @@ class _AdvDetialsState extends State<AdvDetials>
                                 FilteringTextInputFormatter.digitsOnly
                               ],
                               isEdit: widget.price! > 0 ? false : true,
-
-
                             ),
                           ),
                         ),
@@ -440,7 +452,6 @@ class _AdvDetialsState extends State<AdvDetials>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.0.w),
                           child: text(
@@ -457,16 +468,9 @@ class _AdvDetialsState extends State<AdvDetials>
                         resonReject == 'أخرى'
                             ? Form(
                                 key: resonKey,
-                                child: textField2(
-                                  context,
-                                  Icons.unpublished,
-                                  '',
-                                  14,
-                                  false,
-                                  reson,
-                                  empty,
-                                  hitText:  'اختر سبب الرفض'
-                                ),
+                                child: textField2(context, Icons.unpublished,
+                                    '', 14, false, reson, empty,
+                                    hitText: 'اختر سبب الرفض'),
                               )
                             : Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5.r),

@@ -14,7 +14,8 @@ class Advertisment extends StatefulWidget {
   State<Advertisment> createState() => _AdvertismentState();
 }
 
-class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClientMixin {
+class _AdvertismentState extends State<Advertisment>
+    with AutomaticKeepAliveClientMixin {
   String token = '';
   Future<Advertising>? celebrityAdvertisingRequests;
 
@@ -25,7 +26,6 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
       setState(() {
         token = value;
         celebrityAdvertisingRequests = getAdvertisingOrder(token);
-
       });
     });
   }
@@ -44,8 +44,7 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Text(snapshot.error.toString()));
+                  return Center(child: Text(snapshot.error.toString()));
 
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
@@ -56,17 +55,46 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  goTopagepush(context, AdvDetials(i: i,
-                                  image: snapshot.data!.data!.advertisingOrders![i].file,
-                                  advTitle: snapshot.data!.data!.advertisingOrders![i].advertisingAdType?.name,
-                                  description: snapshot.data!.data!.advertisingOrders![i].description,
-                                  orderId: snapshot.data!.data!.advertisingOrders![i].id, token:token,
-                                  platform:snapshot.data!.data!.advertisingOrders![i].platform?.name,
-                                  state:snapshot.data!.data!.advertisingOrders![i].status?.id,
-                                  price:snapshot.data!.data!.advertisingOrders![i].price,
-                                  rejectResonName: snapshot.data!.data!.advertisingOrders![i].rejectReson?.name!,
-                                  rejectResonId: snapshot.data!.data!.advertisingOrders![i].rejectReson?.id,
-                                  ));
+                                  goTopagepush(
+                                      context,
+                                      AdvDetials(
+                                        i: i,
+                                        image: snapshot.data!.data!
+                                            .advertisingOrders![i].file,
+                                        advTitle: snapshot
+                                            .data!
+                                            .data!
+                                            .advertisingOrders![i]
+                                            .advertisingAdType
+                                            ?.name,
+                                        description: snapshot.data!.data!
+                                            .advertisingOrders![i].description,
+                                        orderId: snapshot.data!.data!
+                                            .advertisingOrders![i].id,
+                                        token: token,
+                                        platform: snapshot
+                                            .data!
+                                            .data!
+                                            .advertisingOrders![i]
+                                            .platform
+                                            ?.name,
+                                        state: snapshot.data!.data!
+                                            .advertisingOrders![i].status?.id,
+                                        price: snapshot.data!.data!
+                                            .advertisingOrders![i].price,
+                                        rejectResonName: snapshot
+                                            .data!
+                                            .data!
+                                            .advertisingOrders![i]
+                                            .rejectReson
+                                            ?.name!,
+                                        rejectResonId: snapshot
+                                            .data!
+                                            .data!
+                                            .advertisingOrders![i]
+                                            .rejectReson
+                                            ?.id,
+                                      ));
                                 },
                                 child: Column(
                                   children: [
@@ -83,8 +111,7 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                           15,
                           black,
                         )));
-                }
-                else {
+                } else {
                   return text(
                     context,
                     "لاتوجد طلبات لعرضها حاليا",
@@ -92,8 +119,7 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                     black,
                   );
                 }
-              }
-              else {
+              } else {
                 return Center(
                     child: Text('State: ${snapshot.connectionState}'));
               }
@@ -125,11 +151,8 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                         image: DecorationImage(
                             image: NetworkImage(
                               advertisingOrders[i].file!,
-
-
                             ),
                             fit: BoxFit.cover,
-
                             colorFilter: const ColorFilter.mode(
                                 Colors.black45, BlendMode.darken)),
                       ),
@@ -139,14 +162,20 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding:  EdgeInsets.all(8.0.r),
+                            padding: EdgeInsets.all(8.0.r),
                             child: Align(
                                 alignment: Alignment.topRight,
                                 child: Padding(
                                     padding: EdgeInsets.only(right: 10.w),
                                     child: text(
                                       context,
-                                      advertisingOrders[i].status!.name!,
+                                      advertisingOrders[i].status!.id == 2
+                                          ? 'في انتظار الدفع'
+                                          : advertisingOrders[i].status!.id == 4
+                                              ? 'في انتظار قبول السعر'
+                                              : advertisingOrders[i]
+                                                  .status!
+                                                  .name!,
                                       18,
                                       white,
                                       fontWeight: FontWeight.bold,
@@ -156,14 +185,13 @@ class _AdvertismentState extends State<Advertisment> with AutomaticKeepAliveClie
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-// 7odory---------------------------------------------------------------------------------
+// Is attendance required or not?---------------------------------------------------------------------------------
 
                               Align(
                                   alignment: Alignment.bottomRight,
                                   child: Padding(
                                       padding: EdgeInsets.only(right: 10.r),
                                       child: text(
-
                                         context,
                                         advertisingOrders[i].adFeature!.name!,
                                         18,

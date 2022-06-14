@@ -360,7 +360,7 @@ class _UserAdvDetialsState extends State<UserAdvDetials>
                                   Icon(
                                     Icons.quiz,
                                     color: pink,
-                                    size: 30.r,
+                                    size: 25.r,
                                   ),
                                   SizedBox(
                                     width: 5.w,
