@@ -428,6 +428,7 @@ Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     validator: myValidation,
     onTap: onTap,
     autofocus: false,
+
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: myController,

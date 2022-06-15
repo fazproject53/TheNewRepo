@@ -109,7 +109,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                             ),
                                             fit: BoxFit.cover,
                                             colorFilter: const ColorFilter.mode(
-                                                Colors.black45,
+                                                Colors.black54,
                                                 BlendMode.darken))),
                                   ),
                                   Padding(
@@ -455,8 +455,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                           Visibility(
                             visible: advImage.isEmpty ? false : true,
                             child: Container(
-                                margin:
-                                    EdgeInsets.only(right: 10.w, left: 10.w),
+                                margin: EdgeInsets.only(right: 10.w, left: 10.w),
                                 height: 150.h,
                                 decoration: BoxDecoration(
                                     color: black,
@@ -714,7 +713,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 image: NetworkImage(
                   adImage[index],
                 ),
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               )),
         );
       },

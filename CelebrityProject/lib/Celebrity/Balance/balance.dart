@@ -32,9 +32,53 @@ class BalanceHome extends StatefulWidget {
 class _BalanceHomeState extends State<BalanceHome> {
   bool isSecureMode = false;
 
+  List credit = [
+    1,2
+  ];
+  ///_value
+  int? _value = 1;
+
+  bool isValue1 = false;
   final TextEditingController creditCardController = TextEditingController();
   final TextEditingController creditCardDateController = TextEditingController();
   final TextEditingController creditCardCvvController = TextEditingController();
+
+  /// Declare this variable
+  late int selectedRadioTile;
+  int? selectedRadio;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedRadio = 0;
+    selectedRadioTile = 0;
+  }
+  setSelectedRadioTile(int val) {
+    setState(() {
+      selectedRadioTile = val;
+    });
+  }
+
+  createRadioListUsers() {
+    List saveCreditList = [];
+    for (var i in credit) {
+      saveCreditList.add(
+        RadioListTile<int>(
+          value: i,
+          groupValue: selectedRadioTile,
+          title: Text('rayana'),
+          subtitle: Text('omar'),
+          onChanged: (val) {
+            setSelectedRadioTile(val!);
+          },
+          selected: true  ,
+          activeColor: Colors.green,
+        ),
+      );
+    }
+    return saveCreditList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -215,11 +259,22 @@ class _BalanceHomeState extends State<BalanceHome> {
 
                   ///--------------------------
                   Visibility(
-                    visible: false,
-                    child: ListView(),
+                    visible: true,
+                    child: paddingg(
+                            15,
+                            15,
+                            9,
+                            Container(
+                                margin: EdgeInsets.only(top: 3.h, right: 2.w),
+                                child: Column(
+                                  children: createRadioListUsers(),
+                                ),
+                            ))
+
+
                   ),
                   SizedBox(
-                    height: 30.h,
+                    height: 20.h,
                   ),
                   Divider(
                     thickness: 1,
@@ -265,20 +320,18 @@ class _BalanceHomeState extends State<BalanceHome> {
                   Divider(
                     thickness: 1,
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       text(context, 'الإجمالي المستحق', 16, black,
                           fontWeight: FontWeight.bold),
-                      text(context, '140'+' ريال', 16, black,
+                      text(context, '140' + ' ريال', 16, black,
                           fontWeight: FontWeight.bold),
                     ],
                   ),
                   SizedBox(
-                    height: 50.h,
+                    height: 70.h,
                   ),
 
                   ///bottom to withdraw balance
@@ -328,66 +381,59 @@ class _BalanceHomeState extends State<BalanceHome> {
                       SizedBox(
                         height: 20.h,
                       ),
-                      ///card number text
-                      textFieldNoIconWhite(
-                            context,
-                            'رقم البطاقة',
-                            12,
-                            false,
-                            creditCardController,
-                                (String? value) {
-                              /// Validation text field
-                              if (value == null ||
-                                  value.isEmpty) {
-                                return 'حقل اجباري';
-                              }
-                              return null;
-                            }),
 
+                      ///card number text
+                      textFieldNoIconWhite(context, 'رقم البطاقة', 12, false,
+                          creditCardController, (String? value) {
+                        /// Validation text field
+                        if (value == null || value.isEmpty) {
+                          return 'حقل اجباري';
+                        }
+                        return null;
+                      }, keyboardType: TextInputType.number, inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(19),
+                      ]),
 
                       SizedBox(
                         height: 20.h,
                       ),
-                      ///card number text
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        textFieldWhiteWidth(
-                                context,
-                                'تاريخ الانتهاء',
-                                'سنة/شهر',
-                                12,
-                                false,
-                            creditCardDateController,
-                                    (String? value) {
-                                  /// Validation text field
-                                  if (value == null ||
-                                      value.isEmpty) {
-                                    return 'حقل اجباري';
-                                  }
-                                  return null;
-                                }),
-                        SizedBox(
-                          width: 30.w,
-                        ),
-                        textFieldWhiteWidth(
-                            context,
-                            'رمز التحقق (CVV)',
-                            '000',
-                            12,
-                            false,
-                            creditCardCvvController,
-                                (String? value) {
-                              /// Validation text field
-                              if (value == null ||
-                                  value.isEmpty) {
-                                return 'حقل اجباري';
-                              }
-                              return null;
-                            }),
 
-                      ],
-                    ),
+                      ///card number text
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          textFieldWhiteWidth(
+                              context,
+                              'تاريخ الانتهاء',
+                              'سنة/شهر',
+                              12,
+                              false,
+                              creditCardDateController, (String? value) {
+                            /// Validation text field
+                            if (value == null || value.isEmpty) {
+                              return 'حقل اجباري';
+                            }
+                            return null;
+                          }),
+                          SizedBox(
+                            width: 30.w,
+                          ),
+                          textFieldWhiteWidth(
+                              context,
+                              'رمز التحقق (CVV)',
+                              '000',
+                              12,
+                              false,
+                              creditCardCvvController, (String? value) {
+                            /// Validation text field
+                            if (value == null || value.isEmpty) {
+                              return 'حقل اجباري';
+                            }
+                            return null;
+                          }),
+                        ],
+                      ),
                       SizedBox(
                         height: 20.h,
                       ),
@@ -399,7 +445,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                         children: [
                           text(context, 'الإجمالي المستحق', 16, black,
                               fontWeight: FontWeight.bold),
-                          text(context, '140'+' ريال', 16, black,
+                          text(context, '140' + ' ريال', 16, black,
                               fontWeight: FontWeight.bold),
                         ],
                       ),
@@ -414,8 +460,6 @@ class _BalanceHomeState extends State<BalanceHome> {
                         gradientContainerNoborder(150.w,
                             buttoms(context, 'إسحب الرصيد', 15, white, () {})),
                       ),
-
-
                     ],
                   ))
             ],
@@ -423,3 +467,33 @@ class _BalanceHomeState extends State<BalanceHome> {
         ));
   }
 }
+
+///card validator section
+enum CardType {
+  MasterCard,
+  Visa,
+  Verve,
+  Others, // Any other card issuer
+  Invalid // We'll use this when the card is invalid
+}
+
+class PaymentCard {
+  CardType type;
+  String number;
+  String name;
+  int month;
+  int year;
+  int cvv;
+
+  PaymentCard(
+      {required this.type,
+      required this.number,
+      required this.name,
+      required this.month,
+      required this.year,
+      required this.cvv});
+}
+
+
+
+
