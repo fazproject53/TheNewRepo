@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:celepraty/Celebrity/PrivacyPolicy/ModelPrivicyPolicy.dart';
@@ -9,8 +10,10 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
+import '../../Account/LoggingSingUpAPI.dart';
 import '../../ModelAPI/ModelsAPI.dart' as cat;
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
@@ -29,6 +32,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   int? celebrityId;
   int current = 0;
   bool isCompleted = false;
+  bool platformChosen = true;
   final TextEditingController subject = new TextEditingController();
   final TextEditingController desc = new TextEditingController();
   final TextEditingController pageLink = new TextEditingController();
@@ -49,6 +53,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   int? _value3 = 1;
   int? _value4 = 1;
 
+  bool warnimage = false;
+
   static double ww = 0.0;
   List sampleData = [];
   DateTime currentt = DateTime.now();
@@ -64,11 +70,13 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   bool checkit2 = false;
   File? img;
   DateTime date = DateTime.now();
-
+  bool warn2 = false;
+  bool datewarn2 = false;
   int? gender;
   int? status;
-  var platformlist =[];
+  String? userToken;
 
+  var platformlist =[];
   var budgetlist = [];
   var countrylist = [];
   var categorylist = [];
@@ -81,6 +89,8 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   ///_value
   var _selectedTest;
+
+  Timer? _timer;
 
   onChangeDropdownTests(selectedTest) {
 
@@ -113,10 +123,13 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   var _selectedTest4;
 
   onChangeDropdownTests4(selectedTest) {
-
     setState(() {
-      print(_selectedTest);
+
+      print(selectedTest);
       _selectedTest4 = selectedTest;
+      if(selectedTest['no'] == 0){
+        _selectedTest4 =null;
+      }
     });
   }
   @override
@@ -157,6 +170,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   @override
   void initState() {
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+      });
+    });
     budgets = fetchBudget();
     platforms = fetchPlatform();
     countries = fetCountries();
@@ -188,8 +206,44 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                   bool isLastStep = current == getSteps().length - 1;
                   if (isLastStep) {
                     setState(() {
-                      addAdOrder();
-                      isCompleted = true;
+                      _formKey3.currentState!.validate()? {
+                        checkit2 && date.day != DateTime.now().day && file != null ?{
+                          showDialog(
+                          context: context,
+                          barrierDismissible: false,
+    builder: (BuildContext context) {
+    _timer = Timer(Duration(seconds: 2), () {
+    Navigator.of(context).pop();    // == First dialog closed
+    });
+    return
+    Align(
+    alignment: Alignment.center,
+    child: Lottie.asset(
+    "assets/lottie/loding.json",
+    fit: BoxFit.cover,
+    ),
+    );},
+    ),
+    FocusManager.instance.primaryFocus
+        ?.unfocus(),
+    addAdOrder().then((value) => {
+      isCompleted = true,
+    print(value),
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+    SnackBar(
+    duration:  Duration(seconds: 1),
+    content: Text(value != null? value : 'تم ارسال الطلب',),
+    ))}),
+
+    }
+        : setState((){
+    _selectedTest4 == null? platformChosen= false: platformChosen = true;
+    date.day == DateTime.now().day? datewarn2 = true: false;
+    file == null? warnimage =true:false;}),
+
+    }:null;
+
 
                     });
                   }
@@ -198,7 +252,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         ? selectedIndex.isEmpty
                             ? null
                             : current += 1
-                        : current += 1;
+                        : isLastStep?current = current: current += 1;
                   });
                 },
                 onStepCancel: () {
@@ -207,12 +261,17 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                       : setState(() {
                           current -= 1;
                           selectedIndex.clear();
+                          file =null;
+                          date = DateTime.now();
+                          checkit2 = false;
+                          _selectedTest4 = null;
                         });
                 },
                 currentStep: current,
                 onStepTapped: (value) => setState(() {
                   selectedIndex.isNotEmpty || current == 0?
                   current = value : current;
+
                 }),
                 controlsBuilder: (context, controls) {
                   return Row(
@@ -222,7 +281,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         child: (current != getSteps().length - 1 &&
                                 current != getSteps().length - 3)
                             ? const Text('متابعة')
-                            : current != getSteps().length - 3 && checkit2
+                            : current != getSteps().length - 3 && file != null && date.day != DateTime.now().day && _selectedTest4 != null
                                 ? const Text('تاكيد')
                                 : checkit == true &&
                                         current != getSteps().length - 1
@@ -322,7 +381,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   Future<Filter> fetchCelebrity(int country, int category, int budget,int status, int gender ) async {
     final response = await http.get(Uri.parse(
-        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=$category&account_status_id=&gender_id=&budget_id=$budget'));
+        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=&account_status_id=&gender_id=&budget_id='));
     if (response.statusCode == 200) {
       final body = response.body;
      Filter filter =Filter.fromJson(jsonDecode(body));
@@ -333,8 +392,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     }
   }
 
-  addAdOrder() async {
-    String token2 = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
+  Future<String> addAdOrder() async {
     var stream;
     var length;
     var uri;
@@ -351,7 +409,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
     headers = {
       "Accept": "application/json",
-      "Authorization": "Bearer $token2"
+      "Authorization": "Bearer $userToken"
     };
     // create multipart request
     request = http.MultipartRequest("POST", uri);
@@ -377,9 +435,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     request.fields["advertising_link"]= pageLink.text;
 
     response = await request.send();
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });}
+    http.Response respo = await http.Response.fromStream(response);
+    print(respo.body);
+    return jsonDecode(respo.body)['message']['ar'];
+
+  }
 
   stepOne() {
     return SingleChildScrollView(
@@ -885,7 +945,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                       child: Image.network(
                         snapshot.data!.data![index].image!,
                         color: selectedIndex.contains(index)
-                            ? deepBlack.withOpacity(0.50)
+                            ? deepBlack.withOpacity(0.90)
                             : deepwhite.withOpacity(0.60),
                         colorBlendMode: BlendMode.modulate,
                         fit: BoxFit.fill,
@@ -902,13 +962,13 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             child: FittedBox(
                                 fit: BoxFit.fitWidth,
                                 child: text(context, snapshot.data!.data![index].name! == ""? "اسم المشهور" : snapshot.data!.data![index].name!,
-                                    ww > 400 ? 30 : 12, black,
+                                    ww > 400 ? 30 : 12, selectedIndex.contains(index)?white : black,
                                     fontWeight: FontWeight.bold)),
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.only(right: 8.w),
                           ),
                           Container(
-                              child: text(context, snapshot.data!.data![index].category!.name! , 10, black),
+                              child: text(context, snapshot.data!.data![index].category!.name! , 10, selectedIndex.contains(index)? white : black),
                               alignment: Alignment.centerRight,
                               margin: EdgeInsets.only(right: 8.w)),
 
@@ -1106,6 +1166,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                               child: Text('State: ${snapshot.connectionState}'));
                         }
                       })),
+
+                  _selectedTest4 == null && checkit2?
+                  padding( 10,20, text(context, _selectedTest4 != null  && checkit2 ?'':'الرجاء اختيار منصة الاعلان', 13, _selectedTest4 != null  ?white:red!,)):
+                      SizedBox(),
+
                   paddingg(
                     10.w,
                     10.w,
@@ -1114,7 +1179,6 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         context, 'موضوع الاعلان', 12.sp, false, subject,
                         (String? value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
                       }
                       return null;
                     }, false),
@@ -1131,7 +1195,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                       desc,
                       (String? value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'حقل اجباري';
                         }
                         return null;
                       },
@@ -1145,7 +1209,6 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         context, 'رابط صفحة الاعلان', 12.sp, false, pageLink,
                         (String? value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
                       }
                       return null;
                     }, false),
@@ -1159,7 +1222,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         context, 'ادخل كود الخصم', 12.sp, false, couponcode,
                         (String? value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+
                       }
                       return null;
                     }, false),
@@ -1304,7 +1367,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             Transform.scale(
                               scale: 0.8,
                               child: Radio<int>(
-                                  value: 1,
+                                  value: 2,
                                   groupValue: _value3,
                                   activeColor: blue,
                                   onChanged: (value) {
@@ -1323,7 +1386,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             Transform.scale(
                               scale: 0.8,
                               child: Radio<int>(
-                                  value: 2,
+                                  value: 1,
                                   groupValue: _value3,
                                   activeColor: blue,
                                   onChanged: (value) {
@@ -1384,7 +1447,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                                     });
                                   }),
                             ),
-                            text(context, "مساءا", 14, ligthtBlack,
+                            text(context, "مساء", 14, ligthtBlack,
                                 family: 'DINNextLTArabic'),
                           ],
                         ),
@@ -1398,11 +1461,33 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                     15,
                     15,
                     uploadImg(
-                        50, 45, text(context, 'فم ارفاق ملف الاعلان', 12, black),
+                        50, 45, text(context,file != null? 'تغيير الصورة': 'فم ارفاق ملف الاعلان', 12, black),
                         () {
                       getFile(context);
                     }),
                   ),
+                  InkWell(
+                      onTap: (){
+                        file != null? showDialog(
+                        useSafeArea: true,
+                        context: this.context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          _timer = Timer(Duration(seconds: 2), () {
+                            Navigator.of(context).pop();    // == First dialog closed
+                          });
+                          return
+                            Container(
+                                height: double.infinity,
+                                child: Image.file(file!));},
+                      ):null;},
+                      child: paddingg(15.w, 30.w, file != null?10.h: 0.h,Row(
+                        children: [
+                          file != null? Icon(Icons.image, color: newGrey,): SizedBox(),
+                          SizedBox(width: file != null?5.w: 0.w),
+                          text(context,  file == null && checkit2 ? 'الرجاء اضافة صورة': file != null? 'معاينة الصورة':'' , file != null?15 :13,file != null?black:red!,),
+                        ],
+                      ))),
 
                   paddingg(
                     15,
@@ -1423,7 +1508,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                                   SizedBox(
                                     width: 15.w,
                                   ),
-                                  text(context, 'تاريخ الاعلان', 15.sp, white,
+                                  text(context, date.day != DateTime.now().day ?date.year.toString()+ '/'+date.month.toString()+ '/'+date.day.toString() :'تاريخ الاعلان', 15.sp, white,
                                       fontWeight: FontWeight.bold),
                                 ],
                               )),
@@ -1447,12 +1532,17 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                               return;
                             setState(() {
                               date= endDate;
+                              FocusManager.instance.primaryFocus
+                                  ?.unfocus();
                             });
                           },
                         )),
                   ),
 
-                  paddingg(
+                  paddingg(15.w, 20.w, 2.h,text(context,  checkit2 && date.day == DateTime.now().day ? 'الرجاء اختيار تاريخ النشر': '', 13,red!,)),
+
+
+  paddingg(
                     0,
                     0,
                     12,
@@ -1476,6 +1566,15 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         setState(() {
                           setState(() {
                             checkit2 = value!;
+                            if(_formKey3.currentState!.validate()){
+                            if( date.day == DateTime.now().day || file == null ){
+                            setState(() {
+                            _selectedTest4 == null? platformChosen= false: platformChosen = true;
+                            date.day == DateTime.now().day? datewarn2 = true: false;
+                            file == null? warnimage =true:false;
+                            });
+                            }
+                            }
                           });
                         });
                       },
@@ -1494,7 +1593,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   }
 
   buildCompleted(context) {
-
+    Navigator.pop(context);
   }
 
   Future<File?> getFile(context) async {
@@ -1511,7 +1610,9 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     final String fileExtension = Path.extension(fileName);
     File newImage = await f.copy('$path/$fileName');
     if(fileExtension == ".png" || fileExtension == ".jpg"){
-      file = newImage;
+     setState(() {
+       file = newImage;
+     });
     }else{ ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(
       content: Text(
@@ -1614,7 +1715,7 @@ class Data {
     phonenumber = json['phonenumber'];
     country =
     json['country'] != null ? new Country.fromJson(json['country']) : null;
-    city = json['city'];
+    city = json['city']!= null ? new City.fromJson(json['city']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -1623,8 +1724,7 @@ class Data {
     instagram = json['instagram'];
     twitter = json['twitter'];
     facebook = json['facebook'];
-    category = json['category'] != null
-        ? new CategoryFilter.fromJson(json['category'])
+    category = json['category'] != null ? new CategoryFilter.fromJson(json['category'])
         : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
