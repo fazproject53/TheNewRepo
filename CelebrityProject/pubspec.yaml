@@ -66,6 +66,7 @@ dependencies:
   printing: ^5.9.1
   shimmer: ^2.0.0
   gallery_saver:
+  dropdown_button2:
   dio:
   google_fonts: ^3.0.1
 dev_dependencies:

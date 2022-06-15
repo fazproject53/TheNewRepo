@@ -257,7 +257,11 @@ class _SingUpState extends State<SingUp> {
       )),
     );
   }
+  ref() {
+    setState(() {
 
+    });
+  }
   //----------------------------------------------------------------------------------------------------------------------
   celebrityRegister(String username, String email, String pass, String country,
       String catogary) async {
@@ -337,4 +341,5 @@ class _SingUpState extends State<SingUp> {
           snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
   }
+
 }

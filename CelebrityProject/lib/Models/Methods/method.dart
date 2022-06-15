@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,8 +33,6 @@ Widget text(
       fontSize: fontSize.sp,
       letterSpacing: space.sp,
       fontWeight: fontWeight,
-
-
     ),
   );
 }
@@ -418,7 +417,6 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
   );
 }
 
-
 ///the long one
 Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     TextEditingController myController, myValidation,
@@ -431,7 +429,6 @@ Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     validator: myValidation,
     onTap: onTap,
     autofocus: false,
-
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: myController,
@@ -456,12 +453,12 @@ Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
 }
 
 ///text field with width
-Widget textFieldWhiteWidth(context, String key,String hintKey, double fontSize, bool hintPass,
-    TextEditingController myController, myValidation,
+Widget textFieldWhiteWidth(context, String key, String hintKey, double fontSize,
+    bool hintPass, TextEditingController myController, myValidation,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return SizedBox(
     width: 140.w,
     child: TextFormField(
@@ -861,7 +858,7 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
 //Drow app bar----------------------------------------------------
 
 drowAppBar(String title, BuildContext context,
-    {color = deepwhite, IconData? download,onPressed}) {
+    {color = deepwhite, IconData? download, onPressed}) {
   return AppBar(
     title: Text(
       title,
@@ -879,14 +876,14 @@ drowAppBar(String title, BuildContext context,
     actions: [
       download != null
           ? Padding(
-            padding: EdgeInsets.only(left: 20.w),
-            child: IconButton(
+              padding: EdgeInsets.only(left: 20.w),
+              child: IconButton(
                 padding: EdgeInsets.only(right: 20.w),
                 icon: Icon(download),
                 color: Colors.black,
                 onPressed: onPressed,
               ),
-          )
+            )
           : const Icon(
               Icons.download,
               size: 0,
@@ -1024,14 +1021,82 @@ Widget drowMenu(
     void Function(String?)? onChanged,
     String? Function(String?)? validator,
     {double width = double.infinity}) {
-  return DropdownButtonFormField<String>(
+  return DropdownButtonFormField2<String>(
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    validator: validator,
+    hint: Text(
+      inisValue,
+      style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
+    ),
+    //dropdownColor: black,
+    items: item
+        .map((type) => DropdownMenuItem(
+              alignment: Alignment.center,
+              value: type,
+              child: Text(
+                type,
+                style: TextStyle(
+                  color: deepBlack,
+                  fontSize: 11.sp,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ))
+        .toList(),
+    decoration: InputDecoration(
+        isDense: false,
+        filled: true,
+        prefixIcon: Icon(
+          prefixIcon,
+          color: deepBlack,
+        ),
+        fillColor: ligthtBlack,
+        alignLabelWithHint: true,
+        errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        contentPadding: EdgeInsets.all(10.h)),
+    onChanged: onChanged,
+    dropdownMaxHeight: 140.h,
+    dropdownWidth: 150.w,
+    dropdownDecoration: const BoxDecoration(
+      color: ligthtBlack,
+
+    ),
+
+  );
+}
+//--------------------------------------------------------
+
+getMen(
+    String inisValue,
+    IconData prefixIcon,
+    double fontSize,
+    List<String> item,
+    void Function(String?)? onChanged,
+    String? Function(String?)? validator,
+    {double width = double.infinity}) {
+  return DropdownButtonHideUnderline(
+    child: DropdownButtonFormField2(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validator,
-      hint: Text(
-        inisValue,
-        style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
+      //  value: selectedValue,
+      isExpanded: true,
+      hint: Row(
+        children: [
+          Icon(
+            prefixIcon,
+            color: deepBlack,
+          ),
+          SizedBox(
+            width: 8.w,
+          ),
+          Expanded(
+            child: Text(
+              inisValue,
+              style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
+            ),
+          )
+        ],
       ),
-      dropdownColor: black,
       items: item
           .map((type) => DropdownMenuItem(
                 alignment: Alignment.center,
@@ -1039,28 +1104,46 @@ Widget drowMenu(
                 child: Text(
                   type,
                   style: TextStyle(
-                    color: white,
+                    color: deepBlack,
                     fontSize: 11.sp,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ))
           .toList(),
-      decoration: InputDecoration(
-          isDense: false,
-          filled: true,
-          prefixIcon: Icon(
-            prefixIcon,
-            color: deepBlack,
-          ),
-          fillColor: ligthtBlack,
-          alignLabelWithHint: true,
-          errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-          contentPadding: EdgeInsets.all(10.h)),
-      onChanged: onChanged);
+
+      onChanged: onChanged,
+      iconSize: 30.sp,
+      iconDisabledColor: Colors.grey,
+      buttonHeight: 52.h,
+      buttonWidth: double.infinity,
+      buttonPadding: EdgeInsets.only(left: 10.w, right: 10.w),
+      buttonDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(
+          color: Colors.black26,
+        ),
+        color: ligthtBlack,
+      ),
+      buttonElevation: 2,
+      itemHeight: 35.h,
+      //itemPadding: const EdgeInsets.only(left: 10, right: 10),
+      dropdownMaxHeight: 140.h,
+      dropdownWidth: 150.w,
+      dropdownDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        color: ligthtBlack,
+      ),
+      //dropdownElevation: 80,
+      scrollbarRadius: Radius.circular(10.r),
+      scrollbarThickness: 6,
+      scrollbarAlwaysShow: true,
+      offset: const Offset(-20, 0),
+    ),
+  );
 }
 
+//--------------------------------------------------------------
 loadingDialogue(context) {
   return showDialog(
       context: context,
