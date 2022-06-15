@@ -166,7 +166,7 @@ Widget solidContainer(double width, Color color, Widget child) {
     child: child,
     decoration: BoxDecoration(
       color: color,
-      border: Border.all(color: deepBlack, width: 1.5.w),
+      //border: Border.all(color: deepBlack, width: 1.5.w),
       borderRadius: BorderRadius.circular(10.0.r),
     ),
   );
@@ -367,22 +367,26 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
 //SingWith bouttom------------------------------------------------------------------
 Widget singWthisButtom(
     context, String key, Color textColor, Color backColor, onPressed, image) {
-  return TextButton(
-    onPressed: onPressed,
-    child: Row(mainAxisSize: MainAxisSize.min, children: [
-      Image(
-        image: AssetImage(image),
-        height: 30.h,
-        width: 30.w,
+  return SizedBox(
+    height: 44.h,
+    child: TextButton(
+      onPressed: onPressed,
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Image(
+          image: AssetImage(image),
+          height: 30.h,
+          width: 30.w,
+        ),
+        SizedBox(
+          width: 16.92.w,
+        ),
+        text(context, key, 14.sp, textColor)
+      ]),
+      style: ButtonStyle(
+
+        backgroundColor: MaterialStateProperty.all(backColor),
+        foregroundColor: MaterialStateProperty.all(textColor),
       ),
-      SizedBox(
-        width: 16.92.w,
-      ),
-      text(context, key, 14.sp, textColor)
-    ]),
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(backColor),
-      foregroundColor: MaterialStateProperty.all(textColor),
     ),
   );
 }
