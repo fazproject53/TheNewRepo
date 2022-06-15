@@ -1060,86 +1060,8 @@ Widget drowMenu(
     dropdownWidth: 150.w,
     dropdownDecoration: const BoxDecoration(
       color: ligthtBlack,
-
     ),
-
-  );
-}
-//--------------------------------------------------------
-
-getMen(
-    String inisValue,
-    IconData prefixIcon,
-    double fontSize,
-    List<String> item,
-    void Function(String?)? onChanged,
-    String? Function(String?)? validator,
-    {double width = double.infinity}) {
-  return DropdownButtonHideUnderline(
-    child: DropdownButtonFormField2(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      //  value: selectedValue,
-      isExpanded: true,
-      hint: Row(
-        children: [
-          Icon(
-            prefixIcon,
-            color: deepBlack,
-          ),
-          SizedBox(
-            width: 8.w,
-          ),
-          Expanded(
-            child: Text(
-              inisValue,
-              style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
-            ),
-          )
-        ],
-      ),
-      items: item
-          .map((type) => DropdownMenuItem(
-                alignment: Alignment.center,
-                value: type,
-                child: Text(
-                  type,
-                  style: TextStyle(
-                    color: deepBlack,
-                    fontSize: 11.sp,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ))
-          .toList(),
-
-      onChanged: onChanged,
-      iconSize: 30.sp,
-      iconDisabledColor: Colors.grey,
-      buttonHeight: 52.h,
-      buttonWidth: double.infinity,
-      buttonPadding: EdgeInsets.only(left: 10.w, right: 10.w),
-      buttonDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(
-          color: Colors.black26,
-        ),
-        color: ligthtBlack,
-      ),
-      buttonElevation: 2,
-      itemHeight: 35.h,
-      //itemPadding: const EdgeInsets.only(left: 10, right: 10),
-      dropdownMaxHeight: 140.h,
-      dropdownWidth: 150.w,
-      dropdownDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.r),
-        color: ligthtBlack,
-      ),
-      //dropdownElevation: 80,
-      scrollbarRadius: Radius.circular(10.r),
-      scrollbarThickness: 6,
-      scrollbarAlwaysShow: true,
-      offset: const Offset(-20, 0),
-    ),
+    scrollbarAlwaysShow: true,
   );
 }
 
