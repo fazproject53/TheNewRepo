@@ -67,8 +67,11 @@ class _AdvertismentState extends State<Advertisment>
                                             .advertisingOrders![i]
                                             .advertisingAdType
                                             ?.name,
-                                        description: snapshot.data!.data!
-                                            .advertisingOrders![i].description,
+                                        description: snapshot
+                                            .data!
+                                            .data!
+                                            .advertisingOrders![i]
+                                            .description,
                                         orderId: snapshot.data!.data!
                                             .advertisingOrders![i].id,
                                         token: token,
@@ -98,8 +101,10 @@ class _AdvertismentState extends State<Advertisment>
                                 },
                                 child: Column(
                                   children: [
-                                    body(i,
-                                        snapshot.data!.data!.advertisingOrders),
+                                    body(
+                                        i,
+                                        snapshot
+                                            .data!.data!.advertisingOrders),
                                   ],
                                 ));
                           })

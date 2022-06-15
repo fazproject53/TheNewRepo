@@ -119,7 +119,7 @@ class _GiftDetialsState extends State<GiftDetials> {
                   )),
                 ),
               ),
-              //from to-----------------------------------------------------------------------------
+//from to-----------------------------------------------------------------------------
               Container(
                 //color: black,
                 width: double.infinity,
@@ -127,66 +127,76 @@ class _GiftDetialsState extends State<GiftDetials> {
                 child: Align(
                     alignment: Alignment.bottomRight,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Icon(
-                          gift,
-                          color: pink,
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        text(
-                          context,
-                          'من ' + widget.from!,
-                          17,
-                          black,
-                          //fontWeight: FontWeight.bold,
-                          align: TextAlign.justify,
+                        Row(
+                          children: [
+                            Icon(
+                              gift,
+                              color: pink,
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            text(
+                              context,
+                              'من ' + widget.from!,
+                              17,
+                              black,
+                              //fontWeight: FontWeight.bold,
+                              align: TextAlign.justify,
+                            ),
+                          ],
                         ),
                         const Spacer(),
 //to----------------------------------------------------------------
-                        Icon(gift, color: pink),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        text(
-                          context,
-                          'الى ' + widget.to!,
-                          17,
-                          black,
-                          //fontWeight: FontWeight.bold,
-                          align: TextAlign.justify,
+                        Row(
+                          children: [
+                            Icon(gift, color: pink),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            text(
+                              context,
+                              'الى ' + widget.to!,
+                              17,
+                              black,
+                              //fontWeight: FontWeight.bold,
+                              align: TextAlign.justify,
+                            ),
+                          ],
                         ),
                       ],
                     )),
               ),
 
 //-----------------------------------------------------------------------------
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.r, vertical: 10.h),
-                    child: Row(
-                      children: [
-                        Icon(
-                          widget.advType=='صوت'?voiceIcon
-                              :widget.advType=='فيديو'?videoIcon
-                              :imageIcon,
-                          color: pink,
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        text(
-                          context,
-                          'اهداء  ' + widget.advType!,
-                          17,
-                          black,
-                          //fontWeight: FontWeight.bold,
-                          align: TextAlign.justify,
-                        ),
-
-                      ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.r, vertical: 10.h),
+                child: Row(
+                  children: [
+                    Icon(
+                      widget.advType == 'صوت'
+                          ? voiceIcon
+                          : widget.advType == 'فيديو'
+                              ? videoIcon
+                              : imageIcon,
+                      color: pink,
                     ),
-                  ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    text(
+                      context,
+                      'اهداء  ' + widget.advType!,
+                      15.5,
+                      black,
+                      //fontWeight: FontWeight.bold,
+                      align: TextAlign.justify,
+                    ),
+                  ],
+                ),
+              ),
 //------------------------------------------------------------------------------------
               const Spacer(),
               isReject
