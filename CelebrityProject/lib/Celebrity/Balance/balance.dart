@@ -3,8 +3,12 @@ import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+
+import 'radioListTile.dart';
 
 class BalanceMain extends StatelessWidget {
   const BalanceMain({Key? key}) : super(key: key);
@@ -32,51 +36,30 @@ class BalanceHome extends StatefulWidget {
 class _BalanceHomeState extends State<BalanceHome> {
   bool isSecureMode = false;
 
-  List credit = [
-    1,2
-  ];
-  ///_value
-  int? _value = 1;
-
-  bool isValue1 = false;
+  ///Text Filed
+  final TextEditingController selectedCVV = TextEditingController();
   final TextEditingController creditCardController = TextEditingController();
-  final TextEditingController creditCardDateController = TextEditingController();
+  final TextEditingController creditCardDateController =
+      TextEditingController();
   final TextEditingController creditCardCvvController = TextEditingController();
-
-  /// Declare this variable
-  late int selectedRadioTile;
-  int? selectedRadio;
-
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool isCvvFocused = false;
+  bool useGlassMorphism = false;
+  bool useBackgroundImage = false;
+  OutlineInputBorder? border;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
+    border = OutlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.grey.withOpacity(0.7),
+        width: 2.0,
+      ),
+    );
     super.initState();
-    selectedRadio = 0;
-    selectedRadioTile = 0;
-  }
-  setSelectedRadioTile(int val) {
-    setState(() {
-      selectedRadioTile = val;
-    });
-  }
-
-  createRadioListUsers() {
-    List saveCreditList = [];
-    for (var i in credit) {
-      saveCreditList.add(
-        RadioListTile<int>(
-          value: i,
-          groupValue: selectedRadioTile,
-          title: Text('rayana'),
-          subtitle: Text('omar'),
-          onChanged: (val) {
-            setSelectedRadioTile(val!);
-          },
-          selected: true  ,
-          activeColor: Colors.green,
-        ),
-      );
-    }
-    return saveCreditList;
   }
 
   @override
@@ -230,6 +213,16 @@ class _BalanceHomeState extends State<BalanceHome> {
     );
   }
 
+  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
+    setState(() {
+      cardNumber = creditCardModel!.cardNumber;
+      expiryDate = creditCardModel.expiryDate;
+      cardHolderName = creditCardModel.cardHolderName;
+      cvvCode = creditCardModel.cvvCode;
+      isCvvFocused = creditCardModel.isCvvFocused;
+    });
+  }
+
   ///Bottom Sheet for Payments
   Widget bottomSheetMenuPayments(String id, String name, String balance) {
     return Directionality(
@@ -256,25 +249,24 @@ class _BalanceHomeState extends State<BalanceHome> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
 
                   ///--------------------------
                   Visibility(
-                    visible: true,
-                    child: paddingg(
-                            15,
-                            15,
-                            9,
-                            Container(
-                                margin: EdgeInsets.only(top: 3.h, right: 2.w),
-                                child: Column(
-                                  children: createRadioListUsers(),
-                                ),
-                            ))
-
-
-                  ),
+                      visible: true,
+                      child: Column(
+                        children: [
+                          RadioWidgetDemo(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [],
+                          ),
+                        ],
+                      )),
                   SizedBox(
-                    height: 20.h,
+                    height: 10.h,
                   ),
                   Divider(
                     thickness: 1,
@@ -357,7 +349,7 @@ class _BalanceHomeState extends State<BalanceHome> {
           child: Column(
             children: [
               SizedBox(
-                height: 30.h,
+                height: 50.h,
               ),
               Padding(
                   padding: EdgeInsets.only(right: 20.w, left: 20.w),
@@ -373,66 +365,203 @@ class _BalanceHomeState extends State<BalanceHome> {
                             black,
                             fontWeight: FontWeight.bold,
                           ),
-
-                          ///date
-                          ///cvv
                         ],
                       ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
+                      Container(
+                        height: 600.h,
+                        decoration: BoxDecoration(
+                          image: !useBackgroundImage
+                              ?  DecorationImage(
+                                  image: ExactAssetImage('assets/image/bg.png'),
+                                  fit: BoxFit.fill,
+                                )
+                              : null,
+                          color: Colors.black,
+                        ),
 
-                      ///card number text
-                      textFieldNoIconWhite(context, 'رقم البطاقة', 12, false,
-                          creditCardController, (String? value) {
-                        /// Validation text field
-                        if (value == null || value.isEmpty) {
-                          return 'حقل اجباري';
-                        }
-                        return null;
-                      }, keyboardType: TextInputType.number, inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(19),
-                      ]),
+                        child: Column(
+                          children: <Widget>[
+                             SizedBox(
+                              height: 30.h,
+                            ),
+                            CreditCardWidget(
+                              glassmorphismConfig: useGlassMorphism
+                                  ? Glassmorphism.defaultConfig()
+                                  : null,
+                              cardNumber: cardNumber,
+                              expiryDate: expiryDate,
+                              cardHolderName: cardHolderName,
+                              cvvCode: cvvCode,
+                              showBackView: isCvvFocused,
+                              obscureCardNumber: true,
+                              obscureCardCvv: true,
+                              isHolderNameVisible: true,
+                              cardBgColor: Colors.red,
+                              backgroundImage: useBackgroundImage
+                                  ? 'assets/image/card_bg.png'
+                                  : null,
+                              isSwipeGestureEnabled: true,
+                              onCreditCardWidgetChange:
+                                  (CreditCardBrand creditCardBrand) {},
+                              customCardTypeIcons: <CustomCardTypeIcon>[
+                                CustomCardTypeIcon(
+                                  cardType: CardType.mastercard,
+                                  cardImage: Image.asset(
+                                    'assets/image/mastercard.png',
+                                    height: 48,
+                                    width: 48,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: <Widget>[
+                                    CreditCardForm(
+                                      formKey: formKey,
+                                      obscureCvv: true,
+                                      obscureNumber: true,
+                                      cardNumber: cardNumber,
+                                      cvvCode: cvvCode,
+                                      isHolderNameVisible: true,
+                                      isCardNumberVisible: true,
+                                      isExpiryDateVisible: true,
+                                      cardHolderName: cardHolderName,
+                                      expiryDate: expiryDate,
+                                      themeColor: Colors.blue,
+                                      textColor: Colors.white,
+                                      cardNumberDecoration: InputDecoration(
+                                        labelText: 'Number',
+                                        hintText: 'XXXX XXXX XXXX XXXX',
+                                        hintStyle: const TextStyle(
+                                            color: Colors.black),
+                                        labelStyle: const TextStyle(
+                                            color: Colors.black),
+                                        focusedBorder: border,
+                                        enabledBorder: border,
+                                      ),
+                                      expiryDateDecoration: InputDecoration(
+                                        hintStyle: const TextStyle(
+                                            color: Colors.black),
+                                        labelStyle: const TextStyle(
+                                            color: Colors.black),
+                                        focusedBorder: border,
+                                        enabledBorder: border,
+                                        labelText: 'Expired Date',
+                                        hintText: 'XX/XX',
+                                      ),
+                                      cvvCodeDecoration: InputDecoration(
+                                        hintStyle: const TextStyle(
+                                            color: Colors.black),
+                                        labelStyle: const TextStyle(
+                                            color: Colors.black),
+                                        focusedBorder: border,
+                                        enabledBorder: border,
+                                        labelText: 'CVV',
+                                        hintText: 'XXX',
+                                      ),
+                                      cardHolderDecoration: InputDecoration(
+                                        hintStyle: const TextStyle(
+                                            color: Colors.black),
+                                        labelStyle: const TextStyle(
+                                            color: Colors.black),
+                                        focusedBorder: border,
+                                        enabledBorder: border,
+                                        labelText: 'Card Holder',
+                                      ),
+                                      onCreditCardModelChange:
+                                          onCreditCardModelChange,
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Glassmorphism',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        Switch(
+                                          value: useGlassMorphism,
+                                          inactiveTrackColor: Colors.grey,
+                                          activeColor: Colors.black,
+                                          activeTrackColor: Colors.green,
+                                          onChanged: (bool value) =>
+                                              setState(() {
+                                            useGlassMorphism = value;
+                                          }),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        const Text(
+                                          'Card Image',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        Switch(
+                                          value: useBackgroundImage,
+                                          inactiveTrackColor: Colors.grey,
+                                          activeColor: Colors.black,
+                                          activeTrackColor: Colors.green,
+                                          onChanged: (val) =>
+                                              setState(() {
+                                                setState(() {
+                                                  useBackgroundImage = !useBackgroundImage;
+                                                });
 
-                      SizedBox(
-                        height: 20.h,
-                      ),
-
-                      ///card number text
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          textFieldWhiteWidth(
-                              context,
-                              'تاريخ الانتهاء',
-                              'سنة/شهر',
-                              12,
-                              false,
-                              creditCardDateController, (String? value) {
-                            /// Validation text field
-                            if (value == null || value.isEmpty) {
-                              return 'حقل اجباري';
-                            }
-                            return null;
-                          }),
-                          SizedBox(
-                            width: 30.w,
-                          ),
-                          textFieldWhiteWidth(
-                              context,
-                              'رمز التحقق (CVV)',
-                              '000',
-                              12,
-                              false,
-                              creditCardCvvController, (String? value) {
-                            /// Validation text field
-                            if (value == null || value.isEmpty) {
-                              return 'حقل اجباري';
-                            }
-                            return null;
-                          }),
-                        ],
+                                          }),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        primary: const Color(0xff1b447b),
+                                      ),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(12),
+                                        child: const Text(
+                                          'Validate',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'halter',
+                                            fontSize: 14,
+                                            package: 'flutter_credit_card',
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        if (formKey.currentState!.validate()) {
+                                          print('valid!');
+                                        } else {
+                                          print('invalid!');
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 20.h,
@@ -467,33 +596,3 @@ class _BalanceHomeState extends State<BalanceHome> {
         ));
   }
 }
-
-///card validator section
-enum CardType {
-  MasterCard,
-  Visa,
-  Verve,
-  Others, // Any other card issuer
-  Invalid // We'll use this when the card is invalid
-}
-
-class PaymentCard {
-  CardType type;
-  String number;
-  String name;
-  int month;
-  int year;
-  int cvv;
-
-  PaymentCard(
-      {required this.type,
-      required this.number,
-      required this.name,
-      required this.month,
-      required this.year,
-      required this.cvv});
-}
-
-
-
-

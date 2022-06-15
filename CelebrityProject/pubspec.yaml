@@ -42,7 +42,8 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   dropdown_below: ^1.0.3
   flutter_windowmanager: ^0.2.0
-  credit_card_validator: ^2.0.1
+
+  flutter_credit_card: ^3.0.1
   alert_dialog: ^1.0.1
   card_swiper: ^2.0.1
   path_provider: ^2.0.10
