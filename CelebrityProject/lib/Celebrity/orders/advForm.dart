@@ -51,6 +51,9 @@ class _advFormState extends State<advForm>{
     print(selectedTest);
     setState(() {
       _selectedTest = selectedTest;
+      if(selectedTest['no'] == 0){
+        _selectedTest =null;
+      }
     });
   }
 
