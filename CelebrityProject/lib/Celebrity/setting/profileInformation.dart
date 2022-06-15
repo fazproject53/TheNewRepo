@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:celepraty/Account/LoggingSingUpAPI.dart';
 import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../Account/logging.dart';
 import '../../MainScreen/main_screen_navigation.dart';
 
 class profileInformaion extends StatefulWidget {
@@ -56,6 +58,7 @@ class _profileInformaionState extends State<profileInformaion>
   String? ContryKey;
   int helper = 0;
 
+  Map<int, String> getid = HashMap();
   var citilist = [];
   var countrylist = [];
   var categorylist = [];
@@ -73,6 +76,7 @@ class _profileInformaionState extends State<profileInformaion>
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
     setState(() {
+      city = selectedTest['keyword'];
       _selectedTest = selectedTest;
     });
   }
@@ -91,8 +95,18 @@ class _profileInformaionState extends State<profileInformaion>
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
-      countryChanged = true;
+      _dropdownTestItems.clear();
+      citilist.clear();
+      countryChanged  = true;
+      Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
+      city = 'المدينة';
+      getid.forEach((key, value) {
+        if(value == Logging.theUser!.country){
+          print(key.toString()+ '---------------------------------------------');
+          cities = fetCities(key+1);
+        }
+      });
     });
   }
 
@@ -134,7 +148,6 @@ class _profileInformaionState extends State<profileInformaion>
       });
     });
     countries = fetCountries();
-    cities = fetCities();
     categories = fetCategories();
     _dropdownTestItems = buildDropdownTestItems(citilist);
     _dropdownTestItems2 = buildDropdownTestItems(categorylist);
@@ -145,6 +158,13 @@ class _profileInformaionState extends State<profileInformaion>
 
   @override
   Widget build(BuildContext context) {
+    getid.forEach((key, value) {
+      if(value == Logging.theUser!.country){
+        print(key.toString()+ '---------------------------------------------');
+        cities = fetCities(key+1);
+      }
+    });
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -1233,6 +1253,12 @@ class _profileInformaionState extends State<profileInformaion>
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
+      for(int i =0; i< jsonDecode(response.body)['data'].length;i++) {
+        setState(() {
+          getid.putIfAbsent(
+              i, () => jsonDecode(response.body)['data'][i]['name']);
+        });
+      }
       return CountryL.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
@@ -1241,9 +1267,9 @@ class _profileInformaionState extends State<profileInformaion>
     }
   }
 
-  Future<CityL> fetCities() async {
+  Future<CityL> fetCities(int countryId) async {
     final response = await http.get(
-      Uri.parse('https://mobile.celebrityads.net/api/cities/1'),
+      Uri.parse('https://mobile.celebrityads.net/api/cities/$countryId'),
     );
 
     if (response.statusCode == 200) {
