@@ -30,6 +30,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
+import '../../Account/TheUser.dart';
 
 class userProfile extends StatefulWidget {
   _userProfileState createState() => _userProfileState();
@@ -378,6 +379,13 @@ Future<UserProfile> fetchUsers(String token) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+    Logging.theUser = new TheUser();
+    Logging.theUser!.name = jsonDecode(response.body)["data"]?["user"]['name'] == null? '': jsonDecode(response.body)["data"]?["user"]['name'];
+    Logging.theUser!.email = jsonDecode(response.body)["data"]?["user"]['email'];
+    Logging.theUser!.id = jsonDecode(response.body)["data"]?["user"]['id'].toString();
+    Logging.theUser!.phone = jsonDecode(response.body)["data"]?["user"]['phonenumber'] == null? '': jsonDecode(response.body)["data"]?["user"]['phonenumber'].toString();
+    Logging.theUser!.image = jsonDecode(response.body)["data"]?["user"]['image'] == null? '': jsonDecode(response.body)["data"]?["user"]['image'];
+    Logging.theUser!.country = jsonDecode(response.body)["data"]?["user"]['country'] == null? '' :jsonDecode(response.body)["data"]?["user"]['country']['name'];
     print(response.body);
     return UserProfile.fromJson(jsonDecode(response.body));
   } else {

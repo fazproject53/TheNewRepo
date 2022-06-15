@@ -28,6 +28,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
+import '../../Account/TheUser.dart';
 
 CelebrityInformation? thecelerbrity = CelebrityInformation();
 
@@ -113,6 +114,14 @@ class _celebratyProfileState extends State<celebratyProfile> {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
+      Logging.theUser = new TheUser();
+
+      Logging.theUser!.name = jsonDecode(response.body)["data"]?["celebrity"]['name'] == null? '': jsonDecode(response.body)["data"]?["celebrity"]['name'];
+      Logging.theUser!.email = jsonDecode(response.body)["data"]?["celebrity"]['email'];
+      Logging.theUser!.id = jsonDecode(response.body)["data"]?["celebrity"]['id'].toString();
+      Logging.theUser!.phone = jsonDecode(response.body)["data"]?["celebrity"]['phonenumber'].toString();
+      Logging.theUser!.image = jsonDecode(response.body)["data"]?["celebrity"]['image'];
+      Logging.theUser!.country = jsonDecode(response.body)["data"]?["celebrity"]['country']['name'];
       return CelebrityInformation.fromJson(jsonDecode(response.body));
     } else {
       print(userToken);
