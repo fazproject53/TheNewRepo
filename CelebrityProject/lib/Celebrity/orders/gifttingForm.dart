@@ -23,6 +23,8 @@ class gifttingForm extends StatefulWidget{
 String? userToken;
 class _gifttingFormState extends State<gifttingForm>{
 
+  bool ocasionChosen = true;
+  bool typeChosen = true;
   final _formKey = GlobalKey<FormState>();
   Future<GiftType>? types;
   Future<OccasionType>? otypes;
@@ -268,7 +270,9 @@ class _gifttingFormState extends State<gifttingForm>{
                                           child: Text('State: ${snapshot.connectionState}'));
                                     }
                                   })),
-
+                              !ocasionChosen && _selectedTest == null?
+                              padding( 10,20, text(context, ocasionChosen && _selectedTest == null?'':'الرجاء اختيار مناسبة الاعلان', 13, _selectedTest != null ?white:red!,)):
+                                  SizedBox(height: 10.h,),
                               FutureBuilder(
                                   future: types,
                                   builder: ((context, AsyncSnapshot<GiftType> snapshot) {
@@ -325,7 +329,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                         _dropdownTestItem2 = buildDropdownTestItems(typelist),
                                         } : null;
 
-                                        return paddingg(15, 15, 12,
+                                        return paddingg(15, 15, 0,
                                           DropdownBelow(
                                             itemWidth: 370.w,
                                             ///text style inside the menu
@@ -372,18 +376,20 @@ class _gifttingFormState extends State<gifttingForm>{
                                     }
                                   })),
 
-
+                              !typeChosen && _selectedTest2 == null?
+                              padding( 10,20, text(context, typeChosen && _selectedTest2 == null?'':'الرجاء اختيار منصة الاعلان', 13, _selectedTest2 != null ?white:red!,)):
+                                  SizedBox(height: 10.h,),
                               Row(
                                 children: [
                                   Expanded(
-                                    child: paddingg(3.w, 15.w, 12.h,textFieldNoIcon(context, 'من', 14.sp, false, from,(String? value) {
+                                    child: paddingg(3.w, 15.w, 0.h,textFieldNoIcon(context, 'من', 14.sp, false, from,(String? value) {
                                       if (value == null || value.isEmpty) {
                                       return 'حقل اجباري';}
                                       if (value.length > 25) {
                                         return 'الرجاء ادخال الاسم الاول والاخير';}
                                       return null;},false),),),
                                   Expanded(
-                                    child: paddingg(15.w, 3.w, 12.h,textFieldNoIcon(context, 'الى', 14.sp, false, to,(String? value) {if (value == null || value.isEmpty) {
+                                    child: paddingg(15.w, 3.w, 0.h,textFieldNoIcon(context, 'الى', 14.sp, false, to,(String? value) {if (value == null || value.isEmpty) {
                                       return 'حقل اجباري';}
                                     if (value.length > 25) {
                                       return 'الرجاء ادخال الاسم الاول والاخير';}
@@ -455,10 +461,12 @@ class _gifttingFormState extends State<gifttingForm>{
                                 ,),
 
                               SizedBox(height: 30.h,),
-                              check && activateIt? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
+                              check? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
                                 buttoms(context, 'رفع الطلب', 15, white, (){
+                                  if(!ocasionChosen || !typeChosen){ _selectedTest == null? ocasionChosen= false: ocasionChosen = true;
+                                  _selectedTest2 == null? typeChosen= false: typeChosen = true;}
                                 _formKey.currentState!.validate()?{
-                                check && current.day != DateTime.now().day?{
+                                check && current.day != DateTime.now().day && _selectedTest != null && _selectedTest2 != null?{
                                   showDialog(
                                     context: context,
                                     barrierDismissible: false,
@@ -488,7 +496,10 @@ class _gifttingFormState extends State<gifttingForm>{
                                 )),
 
                                 })
-                                } : setState((){ !check? warn = true: false;
+                                } : setState((){
+                                  _selectedTest == null? ocasionChosen= false: ocasionChosen = true;
+                                  _selectedTest2 == null? typeChosen= false: typeChosen = true;
+                                  !check? warn = true: false;
                                 current.day == DateTime.now().day? datewarn = true: false;}),
                                 }: null;
                                 }),)):
