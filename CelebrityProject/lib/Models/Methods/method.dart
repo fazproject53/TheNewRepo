@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,8 +33,6 @@ Widget text(
       fontSize: fontSize.sp,
       letterSpacing: space.sp,
       fontWeight: fontWeight,
-
-
     ),
   );
 }
@@ -167,7 +166,7 @@ Widget solidContainer(double width, Color color, Widget child) {
     child: child,
     decoration: BoxDecoration(
       color: color,
-      border: Border.all(color: deepBlack, width: 1.5.w),
+      //border: Border.all(color: deepBlack, width: 1.5.w),
       borderRadius: BorderRadius.circular(10.0.r),
     ),
   );
@@ -368,22 +367,26 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
 //SingWith bouttom------------------------------------------------------------------
 Widget singWthisButtom(
     context, String key, Color textColor, Color backColor, onPressed, image) {
-  return TextButton(
-    onPressed: onPressed,
-    child: Row(mainAxisSize: MainAxisSize.min, children: [
-      Image(
-        image: AssetImage(image),
-        height: 30.h,
-        width: 30.w,
+  return SizedBox(
+    height: 44.h,
+    child: TextButton(
+      onPressed: onPressed,
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Image(
+          image: AssetImage(image),
+          height: 30.h,
+          width: 30.w,
+        ),
+        SizedBox(
+          width: 16.92.w,
+        ),
+        text(context, key, 14.sp, textColor)
+      ]),
+      style: ButtonStyle(
+
+        backgroundColor: MaterialStateProperty.all(backColor),
+        foregroundColor: MaterialStateProperty.all(textColor),
       ),
-      SizedBox(
-        width: 16.92.w,
-      ),
-      text(context, key, 14.sp, textColor)
-    ]),
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(backColor),
-      foregroundColor: MaterialStateProperty.all(textColor),
     ),
   );
 }
@@ -418,7 +421,6 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
   );
 }
 
-
 ///the long one
 Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     TextEditingController myController, myValidation,
@@ -431,7 +433,6 @@ Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     validator: myValidation,
     onTap: onTap,
     autofocus: false,
-
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: myController,
@@ -456,12 +457,12 @@ Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
 }
 
 ///text field with width
-Widget textFieldWhiteWidth(context, String key,String hintKey, double fontSize, bool hintPass,
-    TextEditingController myController, myValidation,
+Widget textFieldWhiteWidth(context, String key, String hintKey, double fontSize,
+    bool hintPass, TextEditingController myController, myValidation,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType}) {
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType}) {
   return SizedBox(
     width: 140.w,
     child: TextFormField(
@@ -861,7 +862,7 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
 //Drow app bar----------------------------------------------------
 
 drowAppBar(String title, BuildContext context,
-    {color = deepwhite, IconData? download,onPressed}) {
+    {color = deepwhite, IconData? download, onPressed}) {
   return AppBar(
     title: Text(
       title,
@@ -879,14 +880,14 @@ drowAppBar(String title, BuildContext context,
     actions: [
       download != null
           ? Padding(
-            padding: EdgeInsets.only(left: 20.w),
-            child: IconButton(
+              padding: EdgeInsets.only(left: 20.w),
+              child: IconButton(
                 padding: EdgeInsets.only(right: 20.w),
                 icon: Icon(download),
                 color: Colors.black,
                 onPressed: onPressed,
               ),
-          )
+            )
           : const Icon(
               Icons.download,
               size: 0,
@@ -1024,43 +1025,51 @@ Widget drowMenu(
     void Function(String?)? onChanged,
     String? Function(String?)? validator,
     {double width = double.infinity}) {
-  return DropdownButtonFormField<String>(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validator,
-      hint: Text(
-        inisValue,
-        style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
-      ),
-      dropdownColor: black,
-      items: item
-          .map((type) => DropdownMenuItem(
-                alignment: Alignment.center,
-                value: type,
-                child: Text(
-                  type,
-                  style: TextStyle(
-                    color: white,
-                    fontSize: 11.sp,
-                  ),
-                  textAlign: TextAlign.center,
+  return DropdownButtonFormField2<String>(
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    validator: validator,
+    hint: Text(
+      inisValue,
+      style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
+    ),
+    //dropdownColor: black,
+    items: item
+        .map((type) => DropdownMenuItem(
+              alignment: Alignment.center,
+              value: type,
+              child: Text(
+                type,
+                style: TextStyle(
+                  color: deepBlack,
+                  fontSize: 11.sp,
                 ),
-              ))
-          .toList(),
-      decoration: InputDecoration(
-          isDense: false,
-          filled: true,
-          prefixIcon: Icon(
-            prefixIcon,
-            color: deepBlack,
-          ),
-          fillColor: ligthtBlack,
-          alignLabelWithHint: true,
-          errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-          contentPadding: EdgeInsets.all(10.h)),
-      onChanged: onChanged);
+                textAlign: TextAlign.center,
+              ),
+            ))
+        .toList(),
+    decoration: InputDecoration(
+        isDense: false,
+        filled: true,
+        prefixIcon: Icon(
+          prefixIcon,
+          color: deepBlack,
+        ),
+        fillColor: ligthtBlack,
+        alignLabelWithHint: true,
+        errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        contentPadding: EdgeInsets.all(10.h)),
+    onChanged: onChanged,
+    dropdownMaxHeight: 140.h,
+    dropdownWidth: 150.w,
+    dropdownDecoration: const BoxDecoration(
+      color: ligthtBlack,
+    ),
+    scrollbarAlwaysShow: true,
+  );
 }
 
+//--------------------------------------------------------------
 loadingDialogue(context) {
   return showDialog(
       context: context,

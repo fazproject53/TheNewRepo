@@ -128,6 +128,20 @@
             </list>
           </value>
         </entry>
+        <entry key="credit_card_type_detector">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/credit_card_type_detector-2.0.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="credit_card_validator">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/credit_card_validator-2.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="cross_file">
           <value>
             <list>
@@ -209,6 +223,13 @@
           <value>
             <list>
               <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/dropdown_below-1.0.3/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="dropdown_button2">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/dropdown_button2-1.4.0/lib" />
             </list>
           </value>
         </entry>
@@ -989,6 +1010,8 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/country_code_picker-2.0.2/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/credit_card_type_detector-2.0.0/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/credit_card_validator-2.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.3.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.1/lib" />
@@ -1001,6 +1024,7 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/disposables-0.1.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/dots_indicator-2.1.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/dropdown_below-1.0.3/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/dropdown_button2-1.4.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/email_validator-2.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-1.1.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/lib" />

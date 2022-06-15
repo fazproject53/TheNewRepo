@@ -337,4 +337,5 @@ class _SingUpState extends State<SingUp> {
           snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
   }
+
 }

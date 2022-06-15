@@ -3,15 +3,14 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'Singup.dart';
 import 'package:email_validator/email_validator.dart';
 
 import '../ModelAPI/ModelsAPI.dart';
 
-GlobalKey<FormState>userKey=GlobalKey();
-GlobalKey<FormState>celebratyKey=GlobalKey();
-int userContry=0,celContry=0,celCatogary=0;
-
+GlobalKey<FormState> userKey = GlobalKey();
+GlobalKey<FormState> celebratyKey = GlobalKey();
+int userContry = 0, celContry = 0, celCatogary = 0;
 
 String? empty(value) {
   if (value.isEmpty) {
@@ -20,16 +19,15 @@ String? empty(value) {
   return null;
 }
 
-String? code( value) {
+String? code(value) {
   if (value.isEmpty) {
     return "املء الحقل اعلاه";
-  }if (value.length!=6) {
+  }
+  if (value.length != 6) {
     return "عليك ادخال 6 ارقام";
   }
   return null;
 }
-
-
 
 String? valedEmile(value) {
   if (value.trim().isEmpty) {
@@ -103,16 +101,15 @@ userForm(context, List<String> countries) {
       ),
 //country------------------------------------------
       drowMenu("الدولة", countryIcon, 11, countries, (va) {
-        userContry=countries.indexOf(va!)+1;
-      },
-          (val) {
+        userContry = countries.indexOf(va!) + 1;
+      }, (val) {
         if (val == null) {
           return "اختر الدولة";
         } else {
           return null;
         }
       }),
-
+      //getMen(),
       SizedBox(
         height: 15.h,
       ),
@@ -121,7 +118,7 @@ userForm(context, List<String> countries) {
 }
 
 //CELEBRITY FORM-----------------------------------------------------------
-celebratyForm(context,List<String> countries,List<String> catogary) {
+celebratyForm(context, List<String> countries, List<String> catogary) {
   return Form(
     key: celebratyKey,
     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -169,9 +166,8 @@ celebratyForm(context,List<String> countries,List<String> catogary) {
       ),
 //country------------------------------------------
       drowMenu("الدولة", countryIcon, 11, countries, (va) {
-        celContry=countries.indexOf(va!)+1;
-      },
-          (val) {
+        celContry = countries.indexOf(va!) + 1;
+      }, (val) {
         if (val == null) {
           return "اختر الدولة";
         } else {
@@ -186,9 +182,8 @@ celebratyForm(context,List<String> countries,List<String> catogary) {
       ),
 
       drowMenu("التصنيف", catogaryIcon, 11, catogary, (va) {
-        celCatogary=catogary.indexOf(va!)+1;
-      },
-          (val) {
+        celCatogary = catogary.indexOf(va!) + 1;
+      }, (val) {
         if (val == null) {
           return "اختر التصنيف";
         } else {
@@ -202,5 +197,3 @@ celebratyForm(context,List<String> countries,List<String> catogary) {
     ]),
   );
 }
-
-
