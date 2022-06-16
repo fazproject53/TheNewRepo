@@ -5,21 +5,21 @@ import 'package:http/http.dart' as http;
 
 class Section {
   bool? success;
-  List<Data>? data;
-  Message? message;
+  List<DataSection>? data;
+  MessageSection? message;
 
   Section({this.success, this.data, this.message});
 
   Section.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <DataSection>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new DataSection.fromJson(v));
       });
     }
     message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
+    json['message'] != null ? new MessageSection.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -35,7 +35,7 @@ class Section {
   }
 }
 
-class Data {
+class DataSection {
   String? sectionName;
   String? title;
   String? titleEn;
@@ -44,16 +44,16 @@ class Data {
   int? categoryId;
   int? active;
 
-  Data(
+  DataSection(
       {this.sectionName,
-      this.title,
-      this.titleEn,
-      this.value,
-      this.valueEn,
-      this.categoryId,
-      this.active});
+        this.title,
+        this.titleEn,
+        this.value,
+        this.valueEn,
+        this.categoryId,
+        this.active});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataSection.fromJson(Map<String, dynamic> json) {
     sectionName = json['section_name'];
     title = json['title'];
     titleEn = json['title_en'];
@@ -76,13 +76,13 @@ class Data {
   }
 }
 
-class Message {
+class MessageSection {
   String? en;
   String? ar;
 
-  Message({this.en, this.ar});
+  MessageSection({this.en, this.ar});
 
-  Message.fromJson(Map<String, dynamic> json) {
+  MessageSection.fromJson(Map<String, dynamic> json) {
     en = json['en'];
     ar = json['ar'];
   }
@@ -107,9 +107,8 @@ class Partner {
   Partner.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new DataPartner.fromJson(json['data']) : null;
-    message = json['message'] != null
-        ? new MessagePartner.fromJson(json['message'])
-        : null;
+    message =
+    json['message'] != null ? new MessagePartner.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -128,8 +127,9 @@ class Partner {
 class DataPartner {
   int? active;
   List<Partners>? partners;
+  int? pageCount;
 
-  DataPartner({this.active, this.partners});
+  DataPartner({this.active, this.partners, this.pageCount});
 
   DataPartner.fromJson(Map<String, dynamic> json) {
     active = json['active'];
@@ -139,6 +139,7 @@ class DataPartner {
         partners!.add(new Partners.fromJson(v));
       });
     }
+    pageCount = json['page_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -147,6 +148,7 @@ class DataPartner {
     if (this.partners != null) {
       data['partners'] = this.partners!.map((v) => v.toJson()).toList();
     }
+    data['page_count'] = this.pageCount;
     return data;
   }
 }
@@ -193,17 +195,16 @@ class MessagePartner {
 
 class header {
   bool? success;
-  DataHeader? data;
-  MessageHeader? message;
+  HeaderData? data;
+  HeaderMessage? message;
 
   header({this.success, this.data, this.message});
 
   header.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new DataHeader.fromJson(json['data']) : null;
-    message = json['message'] != null
-        ? new MessageHeader.fromJson(json['message'])
-        : null;
+    data = json['data'] != null ? new HeaderData.fromJson(json['data']) : null;
+    message =
+    json['message'] != null ? new HeaderMessage.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -219,13 +220,14 @@ class header {
   }
 }
 
-class DataHeader {
+class HeaderData {
   int? active;
   List<Header>? header;
+  int? pageCount;
 
-  DataHeader({this.active, this.header});
+  HeaderData({this.active, this.header, this.pageCount});
 
-  DataHeader.fromJson(Map<String, dynamic> json) {
+  HeaderData.fromJson(Map<String, dynamic> json) {
     active = json['active'];
     if (json['header'] != null) {
       header = <Header>[];
@@ -233,6 +235,7 @@ class DataHeader {
         header!.add(new Header.fromJson(v));
       });
     }
+    pageCount = json['page_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -241,39 +244,34 @@ class DataHeader {
     if (this.header != null) {
       data['header'] = this.header!.map((v) => v.toJson()).toList();
     }
+    data['page_count'] = this.pageCount;
     return data;
   }
 }
 
 class Header {
-  String? title;
-  String? titleEn;
   String? image;
 
-  Header({this.title, this.titleEn, this.image});
+  Header({this.image});
 
   Header.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    titleEn = json['title_en'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['title_en'] = this.titleEn;
     data['image'] = this.image;
     return data;
   }
 }
 
-class MessageHeader {
+class HeaderMessage {
   String? en;
   String? ar;
 
-  MessageHeader({this.en, this.ar});
+  HeaderMessage({this.en, this.ar});
 
-  MessageHeader.fromJson(Map<String, dynamic> json) {
+  HeaderMessage.fromJson(Map<String, dynamic> json) {
     en = json['en'];
     ar = json['ar'];
   }
@@ -290,17 +288,16 @@ class MessageHeader {
 
 class link {
   bool? success;
-  DataLink? data;
-  MessageLink? message;
+  LinkData? data;
+  LinkMessage? message;
 
   link({this.success, this.data, this.message});
 
   link.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new DataLink.fromJson(json['data']) : null;
-    message = json['message'] != null
-        ? new MessageLink.fromJson(json['message'])
-        : null;
+    data = json['data'] != null ? new LinkData.fromJson(json['data']) : null;
+    message =
+    json['message'] != null ? new LinkMessage.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -316,13 +313,14 @@ class link {
   }
 }
 
-class DataLink {
+class LinkData {
   int? active;
   List<Links>? links;
+  int? pageCount;
 
-  DataLink({this.active, this.links});
+  LinkData({this.active, this.links, this.pageCount});
 
-  DataLink.fromJson(Map<String, dynamic> json) {
+  LinkData.fromJson(Map<String, dynamic> json) {
     active = json['active'];
     if (json['links'] != null) {
       links = <Links>[];
@@ -330,6 +328,7 @@ class DataLink {
         links!.add(new Links.fromJson(v));
       });
     }
+    pageCount = json['page_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -338,39 +337,37 @@ class DataLink {
     if (this.links != null) {
       data['links'] = this.links!.map((v) => v.toJson()).toList();
     }
+    data['page_count'] = this.pageCount;
     return data;
   }
 }
 
 class Links {
   String? link;
-  String? title;
-  String? titleEn;
+  String? image;
 
-  Links({this.link, this.title, this.titleEn});
+  Links({this.link, this.image});
 
   Links.fromJson(Map<String, dynamic> json) {
     link = json['link'];
-    title = json['title'];
-    titleEn = json['title_en'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['link'] = this.link;
-    data['title'] = this.title;
-    data['title_en'] = this.titleEn;
+    data['image'] = this.image;
     return data;
   }
 }
 
-class MessageLink {
+class LinkMessage {
   String? en;
   String? ar;
 
-  MessageLink({this.en, this.ar});
+  LinkMessage({this.en, this.ar});
 
-  MessageLink.fromJson(Map<String, dynamic> json) {
+  LinkMessage.fromJson(Map<String, dynamic> json) {
     en = json['en'];
     ar = json['ar'];
   }
@@ -569,6 +566,7 @@ class MessageCategory {
     return data;
   }
 }
+
 
 // the fetch functions ===================================================================================
 

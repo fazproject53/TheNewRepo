@@ -86,7 +86,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: purple),
         home: Scaffold(
-          body: SingleChildScrollView(
+            body: SingleChildScrollView(
           child: FutureBuilder<Section>(
             future: sections,
             builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
@@ -167,31 +167,29 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               }
             },
           ),
-        )
-        ),
+        )),
       ),
     );
   }
 
 //"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
-  Widget imageSlider(List image, List title) {
+  Widget imageSlider(List image) {
     return Swiper(
       itemBuilder: (context, index) {
         return Container(
+          width: MediaQuery.of(context).size.width,
+          height:MediaQuery.of(context).size.height,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
+            //color: red,
               image: DecorationImage(
             image: NetworkImage(
               image[index],
+
             ),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
+
           )),
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 30.0.h),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: text(context, title[index], 20, white,
-                    fontWeight: FontWeight.bold)),
-          ),
         );
       },
       onIndexChanged: (int index) {
@@ -249,35 +247,38 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //explorer bottom image--------------------------------------------------------------
   Widget drowButtom(list, int length) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        showButton(list[2].title, list[2].link),
+        showButton(list[2].image, list[2].link),
         SizedBox(
           width: 10.w,
         ),
-        showButton(list[1].title, list[1].link),
+        showButton(list[1].image, list[1].link),
         SizedBox(
           width: 10.w,
         ),
-        showButton(list[0].title, list[2].link),
+        showButton(list[0].image, list[2].link),
       ],
     );
   }
 
-  Widget showButton(String utext, String link) {
+  Widget showButton(String image, String link) {
     return Expanded(
-        child: gradientContainerNoborder(
-            105,
-            InkWell(
-              onTap: () async {
-                var url = link;
-                await launch(url.toString(), forceWebView: true);
-              },
-              child: Align(
-                  alignment: Alignment.center,
-                  child: text(context, utext, 14, white,
-                      fontWeight: FontWeight.bold)),
-            ),
-            reids: 20));
+        child: Container(
+      decoration: BoxDecoration(
+          //color: red,
+          image: DecorationImage(image: NetworkImage(image), fit: BoxFit.fill)),
+      width: 105.w,
+      child: InkWell(
+        onTap: () async {
+          var url = link;
+          await launch(url.toString(), forceWebView: true);
+        },
+        // child: Align(
+        //     alignment: Alignment.center,
+        //     child: Image.network(image,height: 61.h,width: 105.w,fit: BoxFit.fill),),
+      ),
+    ));
   }
 
   BoxDecoration decoration(String famusImage) {
@@ -339,14 +340,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         await launch(url, forceWebView: true);
       },
       child: Card(
-        color: blue,
+        //color: blue,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(3.0.r),
           child: Image(
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
               image: NetworkImage(image),
               height: 26.h,
-              width: 82.w),
+              width: 160.w),
         ),
       ),
     );
@@ -444,7 +445,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             future: category[categoryId],
             builder: ((context, AsyncSnapshot<Category> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(height: 250.h,);
+                return SizedBox(
+                  height: 250.h,
+                );
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
@@ -452,101 +455,106 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       child: Center(child: Text(snapshot.error.toString())));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
-                  return snapshot
-                      .data!.data!.celebrities!.isNotEmpty?SizedBox(
-                      height: 250.h,
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: InkWell(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 7.0.h, vertical: 4.h),
-                              child: text(context, title!, 14, black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 10.h),
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: snapshot
-                                        .data!.data!.celebrities!.length,
-                                    itemBuilder: (context, int itemPosition) {
-                                      if (snapshot
-                                          .data!.data!.celebrities!.isEmpty) {
-                                        return const SizedBox();
-                                      }
-                                      return SizedBox(
-                                        width: 180.w,
-                                        child: InkWell(
-                                          onTap: () {
-                                            goTopagepush(
-                                                context,
-                                                CelebrityHome(
-                                                  pageUrl: snapshot
-                                                      .data!
-                                                      .data!
-                                                      .celebrities![
-                                                          itemPosition]
-                                                      .pageUrl!,
-                                                ));
-                                          },
-                                          child: Card(
-                                              elevation: 5,
-                                              child: Container(
-                                                decoration: decoration(snapshot
-                                                    .data!
-                                                    .data!
-                                                    .celebrities![itemPosition]
-                                                    .image!),
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10.0.w),
-                                                    child: text(
-                                                        context,
+                  return snapshot.data!.data!.celebrities!.isNotEmpty
+                      ? SizedBox(
+                          height: 250.h,
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: InkWell(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 7.0.h, vertical: 4.h),
+                                  child: text(context, title!, 14, black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 10.h),
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: snapshot
+                                            .data!.data!.celebrities!.length,
+                                        itemBuilder:
+                                            (context, int itemPosition) {
+                                          if (snapshot.data!.data!.celebrities!
+                                              .isEmpty) {
+                                            return const SizedBox();
+                                          }
+                                          return SizedBox(
+                                            width: 180.w,
+                                            child: InkWell(
+                                              onTap: () {
+                                                goTopagepush(
+                                                    context,
+                                                    CelebrityHome(
+                                                      pageUrl: snapshot
+                                                          .data!
+                                                          .data!
+                                                          .celebrities![
+                                                              itemPosition]
+                                                          .pageUrl!,
+                                                    ));
+                                              },
+                                              child: Card(
+                                                  elevation: 5,
+                                                  child: Container(
+                                                    decoration: decoration(
                                                         snapshot
+                                                            .data!
+                                                            .data!
+                                                            .celebrities![
+                                                                itemPosition]
+                                                            .image!),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                            10.0.w),
+                                                        child: text(
+                                                            context,
+                                                            snapshot
+                                                                        .data!
+                                                                        .data!
+                                                                        .celebrities![
+                                                                            itemPosition]
+                                                                        .name ==
+                                                                    ''
+                                                                ? "name"
+                                                                : snapshot
                                                                     .data!
                                                                     .data!
                                                                     .celebrities![
                                                                         itemPosition]
-                                                                    .name ==
-                                                                ''
-                                                            ? "name"
-                                                            : snapshot
-                                                                .data!
-                                                                .data!
-                                                                .celebrities![
-                                                                    itemPosition]
-                                                                .name!,
-                                                        18,
-                                                        white,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                                    .name!,
+                                                            18,
+                                                            white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  //:Container(color: Colors.green,),
                                                   ),
-                                                ),
-                                              )
-                                              //:Container(color: Colors.green,),
-                                              ),
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                          ],
-                        )),
-                      )):const SizedBox();
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                              ],
+                            )),
+                          ))
+                      : const SizedBox();
                 } else {
                   return const Center(
                       child: Center(child: Text('لايوجد مشاهير لعرضهم حاليا')));
@@ -562,7 +570,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   headerSection(int? active) {
     List<String> image = [];
-    List<String> titel = [];
+    List<String> imageLink = [];
     return active == 1
         ? FutureBuilder(
             future: futureHeader,
@@ -579,18 +587,18 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       headerIndex < snapshot.data!.data!.header!.length;
                       headerIndex++) {
                     image.add(snapshot.data!.data!.header![headerIndex].image!);
-                    titel.add(snapshot.data!.data!.header![headerIndex].title!);
+
                   }
 
                   return Column(
                     children: [
                       SizedBox(
-                          height: 360.h,
+                          height: 350.h,
                           width: double.infinity,
                           child: Stack(
                             children: [
                               //slider image----------------------------------------------------
-                              imageSlider(image, titel),
+                              imageSlider(image),
                               //icon+ logo------------------------------------------------------
                               heroLogo()
                             ],
@@ -629,8 +637,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   return Column(
                     children: [
                       SizedBox(
-                          height: 61.h,
-                          width: 354.w,
+                          height: 70.h,
+                          width: MediaQuery.of(context).size.width / 1.02,
                           child: drowButtom(snapshot.data?.data?.links,
                               snapshot.data!.data!.links!.length)),
                       SizedBox(
@@ -639,7 +647,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                     ],
                   );
                 } else {
-                  return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                  return const Center(
+                      // child: Text('لايوجد لينك لعرضهم حاليا')
+                      );
                 }
               } else {
                 return Center(
@@ -797,27 +807,27 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               enabled: isLoading,
               child: ListView.builder(
                 itemBuilder: (_, __) => Column(
-
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     shape(360),
-                    SizedBox(height: 10.w,),
+                    SizedBox(
+                      height: 10.w,
+                    ),
                     shapeRow(61),
                     SizedBox(height: 10.h),
-                    shape(10,width: 90.w),
+                    shape(10, width: 90.w),
                     SizedBox(height: 10.h),
                     shapeRow(180),
                     SizedBox(height: 10.h),
-                    shape(10,width: 90.w),
+                    shape(10, width: 90.w),
                     shapeRow(180),
                     SizedBox(height: 10.h),
                     shape(196),
                     SizedBox(height: 10.h),
-                    shape(10,width: 90.w),
+                    shape(10, width: 90.w),
                     shapeRow(180),
                     SizedBox(height: 10.h),
                     shape(250),
-
                   ],
                 ),
                 itemCount: 1,
@@ -829,14 +839,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-  shape(int j,{double? width}) {
+  shape(int j, {double? width}) {
     return Column(
       children: [
         Container(
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(0.r))),
-          width: width??double.infinity,
+          width: width ?? double.infinity,
           height: j.h,
         ),
         Padding(
@@ -859,7 +869,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             height: j.h,
           ),
         ),
-        SizedBox(width: 10.w,),
+        SizedBox(
+          width: 10.w,
+        ),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
@@ -869,7 +881,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             height: j.h,
           ),
         ),
-        SizedBox(width: 10.w,),
+        SizedBox(
+          width: 10.w,
+        ),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
