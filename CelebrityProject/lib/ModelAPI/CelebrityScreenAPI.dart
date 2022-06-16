@@ -19,6 +19,7 @@ class introModel {
       data['data'] = this.data!.toJson();
     }
     if (this.message != null) {
+
       data['message'] = this.message!.toJson();
     }
     return data;
