@@ -231,7 +231,7 @@ class _BalanceHomeState extends State<BalanceHome> {
               height: 30.h,
             ),
             Padding(
-              padding: EdgeInsets.only(right: 20.w, left: 20.w),
+              padding: EdgeInsets.only(right: 18.w, left: 20.w),
               child: Column(
                 children: [
                   Row(
@@ -257,7 +257,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                         children: [
                           Container(
                             width: double.infinity,
-                              height: 100.h,
+                              height: 115.h,
                               child: RadioWidgetDemo()),
                         ],
                       )),
@@ -369,8 +369,10 @@ class _BalanceHomeState extends State<BalanceHome> {
                                 child: Column(
                                   children: <Widget>[
                                     CreditCardForm(
+                                      cardHolderName: '',
                                       formKey: formKey,
                                       obscureCvv: true,
+                                      isHolderNameVisible: false,
                                       obscureNumber: true,
                                       cardNumber: cardNumber,
                                       cvvCode: cvvCode,
