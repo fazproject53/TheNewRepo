@@ -12,6 +12,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Account/LoggingSingUpAPI.dart';
 import 'Account/ResetPassword/PasswordCoding.dart';
@@ -23,10 +24,18 @@ import 'Users/Exploer/Explower.dart';
 import 'celebrity/DiscountCodes/discount_codes_main.dart';
 import 'introduction_screen/introduction_screen.dart';
 
-void main() => runApp(
-      MyApp(),
-      // Wrap your app
-    );
+int? initScreen;
+void main() async {
+  //show splash screen one time
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  initScreen = preferences.getInt('initScreen');
+  await preferences.setInt('initScreen', 1);
+  runApp(
+    MyApp(),
+    // Wrap your app
+  );
+}
 
 class MyApp extends StatefulWidget {
   MyApp({Key? key}) : super(key: key);
@@ -58,29 +67,37 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       // minTextAdapt: true,
       // splitScreenMode: true,
       builder: () => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'منصة المشاهير',
-          theme: ThemeData(
-            fontFamily: "Cairo",
-            colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),
-          ),
-          builder: (context, widget) {
-            ScreenUtil.setContext(context);
-            return MediaQuery(
-              //Setting font does not change with system font size
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-              child: widget!,
-            );
-          },
-// if user click in remember me
-          home:
-          //PasswordCoding(userNameEmail: 'yyy')
-          //SendEmail()
-          //ResetNewPassword( username: 'yyy',code: 1234567,)
-         isLogging == '' ?  Logging() : const MainScreen()
+        debugShowCheckedModeBanner: false,
+        title: 'منصة المشاهير',
+        theme: ThemeData(
+          fontFamily: "Cairo",
+          colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),
+        ),
+        builder: (context, widget) {
+          ScreenUtil.setContext(context);
+          return MediaQuery(
+            //Setting font does not change with system font size
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: widget!,
+          );
+        },
+        initialRoute: initScreen == 0 || initScreen == null
+            ? 'firstPage'
+            : isLogging == ''
+                ? 'logging'
+                : 'MainScreen',
+        routes: {
+          'firstPage': (context) => firstPage(),
+          'logging': (context) => Logging(),
+          'MainScreen': (context) => const MainScreen(),
+        },
+        // home:
+        //     // if user click in remember me
+        //     isLogging == '' ? firstPage() : const MainScreen()
       ),
     );
   }
+
 //----------------------------------------------------------------------
   Widget firstPage() {
     return FutureBuilder<IntroData>(
@@ -94,6 +111,7 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       },
     );
   }
+
 //----------------------------------------------------------------------
   Widget splash() {
     return Scaffold(
