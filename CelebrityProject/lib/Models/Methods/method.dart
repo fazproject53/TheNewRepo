@@ -674,7 +674,7 @@ void showBottomSheetWhite(context, bottomMenu) {
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 400.h,
+          height: 330.h,
           child: bottomMenu,
         );
       });
@@ -691,7 +691,7 @@ void showBottomSheetWhite2(context, bottomMenu) {
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 900.h,
+          height: 400.h,
           child: bottomMenu,
         );
       });

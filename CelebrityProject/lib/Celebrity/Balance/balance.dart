@@ -5,7 +5,6 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 import 'radioListTile.dart';
@@ -44,7 +43,6 @@ class _BalanceHomeState extends State<BalanceHome> {
   final TextEditingController creditCardCvvController = TextEditingController();
   String cardNumber = '';
   String expiryDate = '';
-  String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
@@ -55,8 +53,8 @@ class _BalanceHomeState extends State<BalanceHome> {
   void initState() {
     border = OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.grey.withOpacity(0.7),
-        width: 2.0,
+        color: purple.withOpacity(0.4),
+        width: 1.0,
       ),
     );
     super.initState();
@@ -217,7 +215,6 @@ class _BalanceHomeState extends State<BalanceHome> {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
       expiryDate = creditCardModel.expiryDate;
-      cardHolderName = creditCardModel.cardHolderName;
       cvvCode = creditCardModel.cvvCode;
       isCvvFocused = creditCardModel.isCvvFocused;
     });
@@ -258,11 +255,10 @@ class _BalanceHomeState extends State<BalanceHome> {
                       visible: true,
                       child: Column(
                         children: [
-                          RadioWidgetDemo(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [],
-                          ),
+                          Container(
+                            width: double.infinity,
+                              height: 100.h,
+                              child: RadioWidgetDemo()),
                         ],
                       )),
                   SizedBox(
@@ -323,7 +319,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                     ],
                   ),
                   SizedBox(
-                    height: 70.h,
+                    height: 40.h,
                   ),
 
                   ///bottom to withdraw balance
@@ -349,7 +345,7 @@ class _BalanceHomeState extends State<BalanceHome> {
           child: Column(
             children: [
               SizedBox(
-                height: 50.h,
+                height: 30.h,
               ),
               Padding(
                   padding: EdgeInsets.only(right: 20.w, left: 20.w),
@@ -367,55 +363,9 @@ class _BalanceHomeState extends State<BalanceHome> {
                           ),
                         ],
                       ),
-                      Container(
-                        height: 600.h,
-                        decoration: BoxDecoration(
-                          image: !useBackgroundImage
-                              ?  DecorationImage(
-                                  image: ExactAssetImage('assets/image/bg.png'),
-                                  fit: BoxFit.fill,
-                                )
-                              : null,
-                          color: Colors.black,
-                        ),
-
-                        child: Column(
+                      Column(
                           children: <Widget>[
-                             SizedBox(
-                              height: 30.h,
-                            ),
-                            CreditCardWidget(
-                              glassmorphismConfig: useGlassMorphism
-                                  ? Glassmorphism.defaultConfig()
-                                  : null,
-                              cardNumber: cardNumber,
-                              expiryDate: expiryDate,
-                              cardHolderName: cardHolderName,
-                              cvvCode: cvvCode,
-                              showBackView: isCvvFocused,
-                              obscureCardNumber: true,
-                              obscureCardCvv: true,
-                              isHolderNameVisible: true,
-                              cardBgColor: Colors.red,
-                              backgroundImage: useBackgroundImage
-                                  ? 'assets/image/card_bg.png'
-                                  : null,
-                              isSwipeGestureEnabled: true,
-                              onCreditCardWidgetChange:
-                                  (CreditCardBrand creditCardBrand) {},
-                              customCardTypeIcons: <CustomCardTypeIcon>[
-                                CustomCardTypeIcon(
-                                  cardType: CardType.mastercard,
-                                  cardImage: Image.asset(
-                                    'assets/image/mastercard.png',
-                                    height: 48,
-                                    width: 48,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
+                            SingleChildScrollView(
                                 child: Column(
                                   children: <Widget>[
                                     CreditCardForm(
@@ -424,145 +374,67 @@ class _BalanceHomeState extends State<BalanceHome> {
                                       obscureNumber: true,
                                       cardNumber: cardNumber,
                                       cvvCode: cvvCode,
-                                      isHolderNameVisible: true,
                                       isCardNumberVisible: true,
                                       isExpiryDateVisible: true,
-                                      cardHolderName: cardHolderName,
                                       expiryDate: expiryDate,
-                                      themeColor: Colors.blue,
+                                      themeColor: purple,
                                       textColor: Colors.white,
                                       cardNumberDecoration: InputDecoration(
-                                        labelText: 'Number',
+                                        labelText: 'رقم البطاقة',
                                         hintText: 'XXXX XXXX XXXX XXXX',
-                                        hintStyle: const TextStyle(
-                                            color: Colors.black),
-                                        labelStyle: const TextStyle(
-                                            color: Colors.black),
+                                        hintStyle:  TextStyle(
+                                            color: Colors.black, fontSize: 12.sp,fontFamily: 'Cairo' ),
+                                        labelStyle: TextStyle(
+                                            color: Colors.black, fontSize: 14.sp,fontFamily: 'Cairo' ),
                                         focusedBorder: border,
-                                        enabledBorder: border,
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: grey!.withOpacity(0.8),
+                                            width: 1.0,
+                                          ),
+                                        ),
                                       ),
                                       expiryDateDecoration: InputDecoration(
-                                        hintStyle: const TextStyle(
-                                            color: Colors.black),
-                                        labelStyle: const TextStyle(
-                                            color: Colors.black),
+                                        hintStyle: TextStyle(
+                                            color: Colors.black, fontSize: 12.sp,fontFamily: 'Cairo' ),
+                                        labelStyle: TextStyle(
+                                            color: Colors.black, fontSize: 14.sp,fontFamily: 'Cairo' ),
                                         focusedBorder: border,
-                                        enabledBorder: border,
-                                        labelText: 'Expired Date',
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: grey!.withOpacity(0.8),
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        labelText: 'تاريخ الانتهاء',
                                         hintText: 'XX/XX',
                                       ),
                                       cvvCodeDecoration: InputDecoration(
-                                        hintStyle: const TextStyle(
-                                            color: Colors.black),
-                                        labelStyle: const TextStyle(
-                                            color: Colors.black),
+                                        hintStyle: TextStyle(
+                                            color: Colors.black, fontSize: 12.sp,fontFamily: 'Cairo' ),
+                                        labelStyle: TextStyle(
+                                            color: Colors.black, fontSize: 14.sp,fontFamily: 'Cairo' ),
                                         focusedBorder: border,
-                                        enabledBorder: border,
-                                        labelText: 'CVV',
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: grey!.withOpacity(0.8),
+                                            width: 1.0,
+                                          ),
+                                        ),
+                                        labelText: 'رمز التحقق' + 'CVV',
                                         hintText: 'XXX',
                                       ),
-                                      cardHolderDecoration: InputDecoration(
-                                        hintStyle: const TextStyle(
-                                            color: Colors.black),
-                                        labelStyle: const TextStyle(
-                                            color: Colors.black),
-                                        focusedBorder: border,
-                                        enabledBorder: border,
-                                        labelText: 'Card Holder',
-                                      ),
+
                                       onCreditCardModelChange:
                                           onCreditCardModelChange,
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        const Text(
-                                          'Glassmorphism',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                        Switch(
-                                          value: useGlassMorphism,
-                                          inactiveTrackColor: Colors.grey,
-                                          activeColor: Colors.black,
-                                          activeTrackColor: Colors.green,
-                                          onChanged: (bool value) =>
-                                              setState(() {
-                                            useGlassMorphism = value;
-                                          }),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        const Text(
-                                          'Card Image',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                        Switch(
-                                          value: useBackgroundImage,
-                                          inactiveTrackColor: Colors.grey,
-                                          activeColor: Colors.black,
-                                          activeTrackColor: Colors.green,
-                                          onChanged: (val) =>
-                                              setState(() {
-                                                setState(() {
-                                                  useBackgroundImage = !useBackgroundImage;
-                                                });
-
-                                          }),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        primary: const Color(0xff1b447b),
-                                      ),
-                                      child: Container(
-                                        margin: const EdgeInsets.all(12),
-                                        child: const Text(
-                                          'Validate',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'halter',
-                                            fontSize: 14,
-                                            package: 'flutter_credit_card',
-                                          ),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        if (formKey.currentState!.validate()) {
-                                          print('valid!');
-                                        } else {
-                                          print('invalid!');
-                                        }
-                                      },
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
+
                           ],
                         ),
-                      ),
+
                       SizedBox(
                         height: 20.h,
                       ),
@@ -587,7 +459,15 @@ class _BalanceHomeState extends State<BalanceHome> {
                         22,
                         22,
                         gradientContainerNoborder(150.w,
-                            buttoms(context, 'إسحب الرصيد', 15, white, () {})),
+                            buttoms(context, 'إسحب الرصيد', 15, white, () {
+
+                              if (formKey.currentState!.validate()) {
+                              print('valid!');
+                              } else {
+                              print('invalid!');
+                              }
+
+                            })),
                       ),
                     ],
                   ))
