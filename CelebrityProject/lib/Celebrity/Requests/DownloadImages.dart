@@ -1,24 +1,18 @@
-import 'dart:typed_data';
-import 'package:dio/dio.dart';
+
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../Models/Methods/method.dart';
-import 'dart:io';
 
 import '../../Models/Variables/Variables.dart';
-
-//    <string>هل تريد السماح لتطبيق منصة المشاهير بالوصول الي الصور والوسائط والملفات الأخرى الموجودة على جهازك؟</string>
-class ImageData extends StatefulWidget {
+class DownloadImages extends StatefulWidget {
   final String? image;
-  const ImageData({Key? key, this.image}) : super(key: key);
+  const DownloadImages({Key? key, this.image}) : super(key: key);
 
   @override
-  _ImageDataState createState() => _ImageDataState();
+  _DownloadImagesState createState() => _DownloadImagesState();
 }
 
-class _ImageDataState extends State<ImageData> {
+class _DownloadImagesState extends State<DownloadImages> {
   bool clicked = false;
   String album = 'الطلبات';
   @override
@@ -26,7 +20,17 @@ class _ImageDataState extends State<ImageData> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            appBar: drowAppBar("", context),
+            appBar: drowAppBar("", context, download: Icons.download,
+                onPressed: () async {
+                  loadingDialogue(context);
+
+                  await GallerySaver.saveImage(widget.image!, albumName: album)
+                      .then((value) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                        context, 'تم حفظ الصورة في البوم ' + album, green, done));
+                  });
+                }),
             //backgroundColor: black.withOpacity(0.80),
             body: Container(
               // color: red,
@@ -34,11 +38,11 @@ class _ImageDataState extends State<ImageData> {
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: NetworkImage(
-                  widget.image!,
-                ),
-                fit: BoxFit.contain,
-              )),
+                    image: NetworkImage(
+                      widget.image!,
+                    ),
+                    fit: BoxFit.contain,
+                  )),
             )));
   }
 

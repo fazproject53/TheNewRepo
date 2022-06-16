@@ -32,7 +32,8 @@ Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 //Map<int, Future<Category>> newSection = HashMap<int, Future<Category>>();
 
 class _celebrityHomePageState extends State<celebrityHomePage>
-    with AutomaticKeepAliveClientMixin {
+  //  with AutomaticKeepAliveClientMixin
+{
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
@@ -452,7 +453,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Center(
-                      child: Center(child: Text(snapshot.error.toString())));
+                      child: Center(child: Text('ffffffffffffffff'+snapshot.error.toString())));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.celebrities!.isNotEmpty
@@ -771,7 +772,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   @override
   // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
 //new section----------------------------------------------------------------------
   newSection(int? secId, String? title, int? active) {

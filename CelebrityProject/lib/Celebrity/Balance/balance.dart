@@ -401,6 +401,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                                       ),
                                     ),
                                   ),
+                                  cvvValidationMessage: '',
                                   expiryDateDecoration: InputDecoration(
                                     hintStyle: TextStyle(
                                         color: Colors.black,
@@ -420,6 +421,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                                     labelText: 'تاريخ الانتهاء',
                                     hintText: 'XX/XX',
                                   ),
+                                  dateValidationMessage: '',
                                   cvvCodeDecoration: InputDecoration(
                                     hintStyle: TextStyle(
                                         color: Colors.black,
@@ -439,6 +441,8 @@ class _BalanceHomeState extends State<BalanceHome> {
                                     labelText: 'رمز التحقق' + 'CVV',
                                     hintText: 'XXX',
                                   ),
+
+
                                   onCreditCardModelChange:
                                       onCreditCardModelChange,
                                 ),

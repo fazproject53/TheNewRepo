@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../Ads/AdvertisinApi.dart';
+import '../DownloadImages.dart';
 
 class AdSpaceDetails extends StatefulWidget {
   int? i;
@@ -101,7 +102,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                       onTap: () {
                         goTopagepush(
                             context,
-                            ImageData(
+                            DownloadImages(
                               image: widget.image!,
                             ));
                       },

@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
+import '../DownloadImages.dart';
 import 'Advertisments.dart';
 
 class AdvDetials extends StatefulWidget {
@@ -89,7 +90,7 @@ class _AdvDetialsState extends State<AdvDetials>
                 onTap: () {
                   goTopagepush(
                       context,
-                      ImageData(
+                      DownloadImages(
                         image: widget.image!,
                       ));
                 },

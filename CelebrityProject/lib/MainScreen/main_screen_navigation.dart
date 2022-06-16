@@ -23,7 +23,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen>
-    with AutomaticKeepAliveClientMixin {
+  //  with AutomaticKeepAliveClientMixin
+{
 
   PageController? pageController;
   int selectedIndex = 2;
@@ -158,7 +159,7 @@ class _MainScreenState extends State<MainScreen>
         duration: const Duration(milliseconds: 10), curve: Curves.easeInCirc);
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  // @override
+  // // TODO: implement wantKeepAlive
+  // bool get wantKeepAlive => true;
 }

@@ -101,7 +101,7 @@ class DatabaseHelper {
       String email, String countryId, String categoryId) async {
     var userType;
 
-    try {
+   // try {
       Map<String, dynamic> data = {
         "username": username,
         "password": password,
@@ -139,9 +139,9 @@ class DatabaseHelper {
         return "email found";
         //--------------------------------------------------------
       }
-    } catch (e) {
-      print(e.toString());
-    }
+    // } catch (e) {
+    //   print(e.toString());
+    // }
     return "";
   }
 
