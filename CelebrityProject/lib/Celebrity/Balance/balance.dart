@@ -254,11 +254,8 @@ class _BalanceHomeState extends State<BalanceHome> {
                   Visibility(
                       visible: true,
                       child: Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                              height: 115.h,
-                              child: RadioWidgetDemo()),
+                        children: const [
+                          SingleChildScrollView(child: RadioWidgetDemo()),
                         ],
                       )),
                   SizedBox(
@@ -364,78 +361,88 @@ class _BalanceHomeState extends State<BalanceHome> {
                         ],
                       ),
                       Column(
-                          children: <Widget>[
-                            SingleChildScrollView(
-                                child: Column(
-                                  children: <Widget>[
-                                    CreditCardForm(
-                                      cardHolderName: '',
-                                      formKey: formKey,
-                                      obscureCvv: true,
-                                      isHolderNameVisible: false,
-                                      obscureNumber: true,
-                                      cardNumber: cardNumber,
-                                      cvvCode: cvvCode,
-                                      isCardNumberVisible: true,
-                                      isExpiryDateVisible: true,
-                                      expiryDate: expiryDate,
-                                      themeColor: purple,
-                                      textColor: Colors.white,
-                                      cardNumberDecoration: InputDecoration(
-                                        labelText: 'رقم البطاقة',
-                                        hintText: 'XXXX XXXX XXXX XXXX',
-                                        hintStyle:  TextStyle(
-                                            color: Colors.black, fontSize: 12.sp,fontFamily: 'Cairo' ),
-                                        labelStyle: TextStyle(
-                                            color: Colors.black, fontSize: 14.sp,fontFamily: 'Cairo' ),
-                                        focusedBorder: border,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: grey!.withOpacity(0.8),
-                                            width: 1.0,
-                                          ),
-                                        ),
+                        children: <Widget>[
+                          SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                CreditCardForm(
+                                  cardHolderName: '',
+                                  formKey: formKey,
+                                  obscureCvv: true,
+                                  isHolderNameVisible: false,
+                                  obscureNumber: true,
+                                  cardNumber: cardNumber,
+                                  cvvCode: cvvCode,
+                                  isCardNumberVisible: true,
+                                  isExpiryDateVisible: true,
+                                  expiryDate: expiryDate,
+                                  themeColor: purple,
+                                  textColor: Colors.white,
+                                  cardNumberDecoration: InputDecoration(
+                                    labelText: 'رقم البطاقة',
+                                    hintText: 'XXXX XXXX XXXX XXXX',
+                                    hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12.sp,
+                                        fontFamily: 'Cairo'),
+                                    labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                        fontFamily: 'Cairo'),
+                                    focusedBorder: border,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: grey!.withOpacity(0.8),
+                                        width: 1.0,
                                       ),
-                                      expiryDateDecoration: InputDecoration(
-                                        hintStyle: TextStyle(
-                                            color: Colors.black, fontSize: 12.sp,fontFamily: 'Cairo' ),
-                                        labelStyle: TextStyle(
-                                            color: Colors.black, fontSize: 14.sp,fontFamily: 'Cairo' ),
-                                        focusedBorder: border,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: grey!.withOpacity(0.8),
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                        labelText: 'تاريخ الانتهاء',
-                                        hintText: 'XX/XX',
-                                      ),
-                                      cvvCodeDecoration: InputDecoration(
-                                        hintStyle: TextStyle(
-                                            color: Colors.black, fontSize: 12.sp,fontFamily: 'Cairo' ),
-                                        labelStyle: TextStyle(
-                                            color: Colors.black, fontSize: 14.sp,fontFamily: 'Cairo' ),
-                                        focusedBorder: border,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: grey!.withOpacity(0.8),
-                                            width: 1.0,
-                                          ),
-                                        ),
-                                        labelText: 'رمز التحقق' + 'CVV',
-                                        hintText: 'XXX',
-                                      ),
-
-                                      onCreditCardModelChange:
-                                          onCreditCardModelChange,
                                     ),
-                                  ],
+                                  ),
+                                  expiryDateDecoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12.sp,
+                                        fontFamily: 'Cairo'),
+                                    labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                        fontFamily: 'Cairo'),
+                                    focusedBorder: border,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: grey!.withOpacity(0.8),
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    labelText: 'تاريخ الانتهاء',
+                                    hintText: 'XX/XX',
+                                  ),
+                                  cvvCodeDecoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12.sp,
+                                        fontFamily: 'Cairo'),
+                                    labelStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                        fontFamily: 'Cairo'),
+                                    focusedBorder: border,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: grey!.withOpacity(0.8),
+                                        width: 1.0,
+                                      ),
+                                    ),
+                                    labelText: 'رمز التحقق' + 'CVV',
+                                    hintText: 'XXX',
+                                  ),
+                                  onCreditCardModelChange:
+                                      onCreditCardModelChange,
                                 ),
-                              ),
-
-                          ],
-                        ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
 
                       SizedBox(
                         height: 20.h,
@@ -460,15 +467,14 @@ class _BalanceHomeState extends State<BalanceHome> {
                       padding(
                         22,
                         22,
-                        gradientContainerNoborder(150.w,
+                        gradientContainerNoborder(
+                            150.w,
                             buttoms(context, 'إسحب الرصيد', 15, white, () {
-
                               if (formKey.currentState!.validate()) {
-                              print('valid!');
+                                print('valid!');
                               } else {
-                              print('invalid!');
+                                print('invalid!');
                               }
-
                             })),
                       ),
                     ],
