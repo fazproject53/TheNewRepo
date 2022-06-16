@@ -119,7 +119,8 @@ class _userProfileState extends State<userProfile>
                                     shape: BoxShape.circle, color: lightGrey),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(70.r),
-                                  child: Image.network(
+                                  child: userImage != null? Image.file(userImage!,fit: BoxFit.fill,
+                                    height: double.infinity, width: double.infinity,):Image.network(
                                     snapshot.data!.data!.user!.image!,
                                     fit: BoxFit.fill,
                                     height: double.infinity,
@@ -149,13 +150,13 @@ class _userProfileState extends State<userProfile>
                               getImage().whenComplete(() => {
                                     updateImageUser(userToken)
                                         .whenComplete(() => {
+                                          if(userImage != null){
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
                                                 content: Text(
                                                     "تم تعديل الصورة بنجاح"),
-                                              ))
-                                            })
-                                  });
+                                              ))}
+                                            })});
                             },
                           ),
                           SizedBox(height: 5.h),
