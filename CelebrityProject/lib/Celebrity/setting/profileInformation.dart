@@ -50,7 +50,7 @@ class _profileInformaionState extends State<profileInformaion>
   bool valid = false;
   bool noMatch =false;
   bool editPassword = false;
-  bool? genderChosen;
+  bool genderChosen = false;
   String country = 'الدولة';
   String city = 'المدينة';
   String category = 'التصنيف';
@@ -114,9 +114,11 @@ class _profileInformaionState extends State<profileInformaion>
 
   onChangeDropdownTests4(selectedTest) {
     print(selectedTest);
+
     setState(() {
       _selectedTest4 = selectedTest;
       genderChosen = true;
+      print(_selectedTest4['no']);
     });
   }
 
@@ -158,6 +160,7 @@ class _profileInformaionState extends State<profileInformaion>
 
   @override
   Widget build(BuildContext context) {
+    print(genderChosen.toString());
     getid.forEach((key, value) {
       if(value == Logging.theUser!.country){
         print(key.toString()+ '---------------------------------------------');
@@ -221,8 +224,9 @@ class _profileInformaionState extends State<profileInformaion>
                                               }
                                             : phone.text = snapshot.data!.data!
                                                 .celebrity!.phonenumber!,
-                                  snapshot.data!.data!.celebrity!.gender != null?
-                                  gender = snapshot.data!.data!.celebrity!.gender!.name!: gender,
+                                  snapshot.data!.data!.celebrity!.gender != null?{
+                                  gender = snapshot.data!.data!.celebrity!.gender!.name!,
+                                  genderChosen = true}: gender,
                                         pageLink.text = snapshot
                                             .data!.data!.celebrity!.pageUrl!,
                                         snapchat.text = snapshot
@@ -261,6 +265,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                 .celebrity!.city!.name
                                                 .toString()
                                             : null,
+
                                         helper = 1,
                                       }
                                     : null
@@ -552,11 +557,11 @@ class _profileInformaionState extends State<profileInformaion>
                     onChanged: onChangeDropdownTests4,
                     ),
                     ),
-                              genderChosen != null?
-                              genderChosen!? SizedBox():paddingg(
+
+                              genderChosen? SizedBox():paddingg(
                                   10,
                                   20,
-                                  3, text(context, 'تحديد نوع الجنس اجباري لتحديث المعلومات', 14, red!)): SizedBox(),
+                                  3, text(context, 'تحديد نوع الجنس اجباري لتحديث المعلومات', 14, red!)),
                               FutureBuilder(
                                   future: countries,
                                   builder: ((context,
@@ -1099,8 +1104,8 @@ class _profileInformaionState extends State<profileInformaion>
                                       content: Text('${value.message!.ar}'),
                                       ))),
                                       updateInformation().whenComplete(() => fetchCelebrities(userToken!))}: setState((){noMatch = true;})}:null,}:null;
-                                      _selectedTest4 == null?  setState((){genderChosen = false; }): genderChosen = true;
-                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null && genderChosen!? updateInformation().then((value) =>
+                                      _selectedTest4 == null && gender == 'الجنس'?  setState((){genderChosen = false; }): setState((){genderChosen = true;});
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null && genderChosen? updateInformation().then((value) =>
                                       {
                                         countryChanged
                                             ? setState(() {
@@ -1192,7 +1197,7 @@ class _profileInformaionState extends State<profileInformaion>
         'twitter': twitter.text,
         'facebook': facebook.text,
         'description': desc.text,
-        'gender_id' : _selectedTest4  == null ? 1 : genderlist.indexOf(_selectedTest4),
+        'gender_id' : _selectedTest4  == null ? 1 : _selectedTest4['no'],
 
       }),
     );
