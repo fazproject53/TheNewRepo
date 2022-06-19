@@ -24,7 +24,7 @@ String? userToken;
  Map<int, String> tempDesc = HashMap<int, String>();
   int? theindex;
   bool? temp;
-
+  final _baseUrl = 'https://jsonplaceholder.typicode.com/posts';
   TextEditingController newstitle = new TextEditingController();
   TextEditingController newsdesc = new TextEditingController();
 
