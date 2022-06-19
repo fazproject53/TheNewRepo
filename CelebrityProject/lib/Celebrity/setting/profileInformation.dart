@@ -19,7 +19,8 @@ class profileInformaion extends StatefulWidget {
 }
 
 class _profileInformaionState extends State<profileInformaion>
-    with AutomaticKeepAliveClientMixin {
+   // with AutomaticKeepAliveClientMixin
+{
   Future<CelebrityInformation>? celebrities;
   Future<CityL>? cities;
   Future<CountryL>? countries;
@@ -1115,12 +1116,12 @@ class _profileInformaionState extends State<profileInformaion>
                                           celebrities =
                                               fetchCelebrities(userToken!);
                                         })
-                                            : Navigator.push(
+                                            : Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder:
                                                   (context) =>
-                                                  MainScreen()),
+                                                  const MainScreen()),
                                         ),
                                         ScaffoldMessenger.of(
                                             context)
@@ -1330,9 +1331,9 @@ class _profileInformaionState extends State<profileInformaion>
   }
 }
 
-@override
-// TODO: implement wantKeepAlive
-bool get wantKeepAlive => true;
+// @override
+ // TODO: implement wantKeepAlive
+// bool get wantKeepAlive => true;
 
 Widget lodeing(context) {
   return SizedBox(

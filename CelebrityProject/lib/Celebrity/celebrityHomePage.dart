@@ -26,14 +26,10 @@ class celebrityHomePage extends StatefulWidget {
   _celebrityHomePageState createState() => _celebrityHomePageState();
 }
 
-int currentIndex = 0;
-
-Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
-//Map<int, Future<Category>> newSection = HashMap<int, Future<Category>>();
-
 class _celebrityHomePageState extends State<celebrityHomePage>
-  //  with AutomaticKeepAliveClientMixin
-{
+    with AutomaticKeepAliveClientMixin {
+  Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
+  int currentIndex = 0;
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
@@ -48,13 +44,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    // Future.delayed(const Duration(seconds: 2),() {
-    //   setState(() {
-    //     isLoading=false;
-    //  });
-    // },);
+
     super.initState();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   Future<Section> getSectionsData() async {
     var getSections = await http
@@ -66,11 +61,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
       for (int i = 0; i < sections.data!.length; i++) {
         if (sections.data?[i].sectionName == 'category') {
-          setState(() {
-            category.putIfAbsent(sections.data![i].categoryId!,
-                () => fetchCategories(sections.data![i].categoryId!, 1));
-            // pagNumber1++;
-          });
+          category.putIfAbsent(sections.data![i].categoryId!,
+              () => fetchCategories(sections.data![i].categoryId!, 1));
+          // pagNumber1++;
+          setState(() {});
         }
       }
       return sections;
@@ -81,6 +75,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: MaterialApp(
@@ -179,17 +174,15 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       itemBuilder: (context, index) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          height:MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            //color: red,
+              //color: red,
               image: DecorationImage(
             image: NetworkImage(
               image[index],
-
             ),
             fit: BoxFit.fill,
-
           )),
         );
       },
@@ -453,7 +446,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Center(
-                      child: Center(child: Text('ffffffffffffffff'+snapshot.error.toString())));
+                      child: Center(
+                          child: Text(
+                              'ffffffffffffffff' + snapshot.error.toString())));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.celebrities!.isNotEmpty
@@ -588,7 +583,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       headerIndex < snapshot.data!.data!.header!.length;
                       headerIndex++) {
                     image.add(snapshot.data!.data!.header![headerIndex].image!);
-
                   }
 
                   return Column(
@@ -770,9 +764,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         : const SizedBox();
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => false;
+  // @override
+  // // TODO: implement wantKeepAlive
+  // bool get wantKeepAlive => false;
 
 //new section----------------------------------------------------------------------
   newSection(int? secId, String? title, int? active) {

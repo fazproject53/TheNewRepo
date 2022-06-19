@@ -28,7 +28,8 @@ class CelebrityHome extends StatefulWidget {
 }
 
 class _CelebrityHomeState extends State<CelebrityHome>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin
+{
   bool isSelect = false;
   Future<introModel>? celebrityHome;
 

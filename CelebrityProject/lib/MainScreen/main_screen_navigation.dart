@@ -23,7 +23,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen>
-  //  with AutomaticKeepAliveClientMixin
+   with AutomaticKeepAliveClientMixin
 {
 
   PageController? pageController;
@@ -132,6 +132,7 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -152,6 +153,7 @@ class _MainScreenState extends State<MainScreen>
 
   //click methos--------------------------
   void onTap(int index) {
+
     setState(() {
       selectedIndex = index;
     });
@@ -159,7 +161,7 @@ class _MainScreenState extends State<MainScreen>
         duration: const Duration(milliseconds: 10), curve: Curves.easeInCirc);
   }
 
-  // @override
+   @override
   // // TODO: implement wantKeepAlive
-  // bool get wantKeepAlive => true;
+   bool get wantKeepAlive => true;
 }

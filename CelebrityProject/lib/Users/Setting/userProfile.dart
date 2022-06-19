@@ -37,7 +37,8 @@ class userProfile extends StatefulWidget {
 }
 
 class _userProfileState extends State<userProfile>
-    with AutomaticKeepAliveClientMixin {
+    //with AutomaticKeepAliveClientMixin
+{
   Future<UserProfile>? getUsers;
   String userToken = "";
   List<Data>? data;
@@ -341,9 +342,9 @@ class _userProfileState extends State<userProfile>
     });
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  // @override
+  // // TODO: implement wantKeepAlive
+  // bool get wantKeepAlive => true;
 }
 
 //-----------------------------------------------------
