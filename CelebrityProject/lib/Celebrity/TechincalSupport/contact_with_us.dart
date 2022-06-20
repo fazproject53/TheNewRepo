@@ -180,7 +180,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                           ? {
                                               complaintList.add({
                                                 'no': 0,
-                                                'keyword': 'اختر منصة الاعلان'
+                                                'keyword': 'اختر نوع الشكوى'
                                               }),
                                               for (int i = 0;
                                                   i <
@@ -285,12 +285,6 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                   return null;
                                 },
                                 false,
-                                inputFormatters: [
-                                  ///letters and numbers only
-                                  FilteringTextInputFormatter(
-                                      RegExp(r'[a-zA-Z]|[0-9]'),
-                                      allow: true)
-                                ],
                               ),
                             ),
 
@@ -337,12 +331,6 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                 },
                                 maxLenth: 500,
                                 keyboardType: TextInputType.multiline,
-                                inputFormatters: [
-                                  ///letters and numbers only
-                                  FilteringTextInputFormatter(
-                                      RegExp(r'[a-zA-Z]|[0-9]'),
-                                      allow: true)
-                                ],
                               ),
                             ),
 
@@ -363,6 +351,18 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                   buttoms(context, 'إرسال', 15, white, () {
                                     _formKey.currentState!.validate()
                                         ? {
+                                      _selectedTest == null ? ScaffoldMessenger.of(
+                                          context)
+                                          .showSnackBar(
+                                          SnackBar(
+                                            content: text(
+                                                context,
+                                                'قم بإختيار نوع الشكوى',
+                                                12,
+                                                red!),
+                                            backgroundColor: white,
+
+                                          )):
                                             postContactWithUs(userToken!)
                                                 .whenComplete(() => {
                                                       ScaffoldMessenger.of(
@@ -373,8 +373,9 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                                             context,
                                                             'تم الارسال بنجاح',
                                                             12,
-                                                            black),
+                                                            purple),
                                                         backgroundColor: white,
+
                                                       ))
                                                     })
                                           }

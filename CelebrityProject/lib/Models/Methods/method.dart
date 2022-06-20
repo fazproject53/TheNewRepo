@@ -1,8 +1,7 @@
 //================ convert hex colors to rgb colors================
 import 'dart:core';
 import 'dart:io';
-import 'dart:ui';
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -411,7 +410,7 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
             TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         hintStyle:
             TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-        fillColor: textFieldBlack2.withOpacity(0.70),
+        fillColor: textFieldBlack2.withOpacity(0.7),
         labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
         focusedBorder:
@@ -420,7 +419,34 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
-
+///text field iban
+Widget textFieldIban(context, String key,String label, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali, isOptional,
+    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType}) {
+  return TextFormField(
+    obscureText: hintPass,
+    validator: myvali,
+    inputFormatters: inputFormatters,
+    keyboardType: keyboardType,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    controller: mycontroller,
+    style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+    decoration: InputDecoration(
+        isDense: false,
+        filled: true,
+        errorStyle: TextStyle(fontSize: 12.sp),
+        helperText: isOptional ? 'اختياري' : null,
+        helperStyle:
+        TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+        hintStyle:
+        TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+        fillColor: white,
+        labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
+        hintText: key,
+        labelText: label,
+        contentPadding: EdgeInsets.all(10.h)),
+  );
+}
 ///the long one
 Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     TextEditingController myController, myValidation,
@@ -1117,14 +1143,14 @@ SnackBar snackBar(context, String title, Color? color, IconData? icon) {
 }
 
 //check internet------------------------------------------------------------------------------------
-ConnectivityResult checkInternet(ConnectivityResult result) {
-  const hasInternet = ConnectivityResult.none;
-  return hasInternet;
-  // final massage = hasInternet
-  //     ? 'تم الاتصال بالانترنت' + result.toString()
-  //     : 'لايوجد اتصال بالانترنت حاليا';
-  // final color = hasInternet ? green : red;
-  // final icon = hasInternet ? Icons.wifi : Icons.wifi_off;
-  // ScaffoldMessenger.of(context)
-  //     .showSnackBar(snackBar(context, massage, color, icon));
-}
+// ConnectivityResult checkInternet(ConnectivityResult result) {
+//   const hasInternet = ConnectivityResult.none;
+//   return hasInternet;
+//   // final massage = hasInternet
+//   //     ? 'تم الاتصال بالانترنت' + result.toString()
+//   //     : 'لايوجد اتصال بالانترنت حاليا';
+//   // final color = hasInternet ? green : red;
+//   // final icon = hasInternet ? Icons.wifi : Icons.wifi_off;
+//   // ScaffoldMessenger.of(context)
+//   //     .showSnackBar(snackBar(context, massage, color, icon));
+// }

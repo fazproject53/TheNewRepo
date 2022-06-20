@@ -3,9 +3,11 @@ import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
+
+
 
 import 'radioListTile.dart';
 
@@ -33,30 +35,15 @@ class BalanceHome extends StatefulWidget {
 }
 
 class _BalanceHomeState extends State<BalanceHome> {
-  bool isSecureMode = false;
+  ///Text Field
+  final TextEditingController cardHolderName = TextEditingController();
+  final TextEditingController ibanNumber = TextEditingController();
 
-  ///Text Filed
-  final TextEditingController selectedCVV = TextEditingController();
-  final TextEditingController creditCardController = TextEditingController();
-  final TextEditingController creditCardDateController =
-      TextEditingController();
-  final TextEditingController creditCardCvvController = TextEditingController();
-  String cardNumber = '';
-  String expiryDate = '';
-  String cvvCode = '';
-  bool isCvvFocused = false;
-  bool useGlassMorphism = false;
-  bool useBackgroundImage = false;
-  OutlineInputBorder? border;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  ///formKey
+  final _formKey = GlobalKey<FormState>();
+  var iban = 'at61 1904 3002 3457 3201';
   @override
   void initState() {
-    border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: purple.withOpacity(0.4),
-        width: 1.0,
-      ),
-    );
     super.initState();
   }
 
@@ -211,14 +198,6 @@ class _BalanceHomeState extends State<BalanceHome> {
     );
   }
 
-  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
-    setState(() {
-      cardNumber = creditCardModel!.cardNumber;
-      expiryDate = creditCardModel.expiryDate;
-      cvvCode = creditCardModel.cvvCode;
-      isCvvFocused = creditCardModel.isCvvFocused;
-    });
-  }
 
   ///Bottom Sheet for Payments
   Widget bottomSheetMenuPayments(String id, String name, String balance) {
@@ -364,100 +343,83 @@ class _BalanceHomeState extends State<BalanceHome> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: <Widget>[
-                          SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                CreditCardForm(
-                                  cardHolderName: '',
-                                  formKey: formKey,
-                                  obscureCvv: true,
-                                  isHolderNameVisible: false,
-                                  obscureNumber: true,
-                                  cardNumber: cardNumber,
-                                  cvvCode: cvvCode,
-                                  isCardNumberVisible: true,
-                                  isExpiryDateVisible: true,
-                                  expiryDate: expiryDate,
-                                  themeColor: purple,
-                                  textColor: Colors.white,
-                                  cardNumberDecoration: InputDecoration(
-                                    labelText: 'رقم البطاقة',
-                                    hintText: 'XXXX XXXX XXXX XXXX',
-                                    hintStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Cairo'),
-                                    labelStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14.sp,
-                                        fontFamily: 'Cairo'),
-                                    focusedBorder: border,
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: grey!.withOpacity(0.8),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                  ),
-                                  cvvValidationMessage: '',
-                                  expiryDateDecoration: InputDecoration(
-                                    hintStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Cairo'),
-                                    labelStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14.sp,
-                                        fontFamily: 'Cairo'),
-                                    focusedBorder: border,
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: grey!.withOpacity(0.8),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    labelText: 'تاريخ الانتهاء',
-                                    hintText: 'XX/XX',
-                                  ),
-                                  dateValidationMessage: '',
-                                  cvvCodeDecoration: InputDecoration(
-                                    hintStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12.sp,
-                                        fontFamily: 'Cairo'),
-                                    labelStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14.sp,
-                                        fontFamily: 'Cairo'),
-                                    focusedBorder: border,
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: grey!.withOpacity(0.8),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    labelText: 'رمز التحقق' + 'CVV',
-                                    hintText: 'XXX',
-                                  ),
-
-
-                                  onCreditCardModelChange:
-                                      onCreditCardModelChange,
-                                ),
-                              ],
-                            ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              textFieldIban(
+                                context,
+                                'اسم صاحب البطاقة',
+                                'اسم صاحب البطاقة الكامل',
+                                12,
+                                false,
+                                cardHolderName,
+                                    (String? value) {
+                                  /// Validation text field
+                                  if (value == null || value.isEmpty) {
+                                    return 'حقل اجباري';
+                                  }
+                                  if (value.startsWith('0')) {
+                                    return 'يجب ان لا يبدا بصفر';
+                                  }
+                                  if (value.startsWith(RegExp(r'[0-9]'))) {
+                                    return 'يجب ان لا يبدا برقم';
+                                  }
+                                  return null;
+                                },
+                                false, inputFormatters: [
+                                ///letters  only
+                                FilteringTextInputFormatter(
+                                    RegExp(
+                                        r'[A-Z]|[\s]'),
+                                    allow: true)
+                              ]
+                              ),
+                             SizedBox(
+                               height: 15.h,
+                             ),
+                             ///Iban number
+                              textFieldIban(
+                                context,
+                                'SA00 0000 0000 0000 0000 0000',
+                                'رقم الايبان',
+                                12,
+                                false,
+                                ibanNumber,
+                                    (String? value) {
+                                  /// Validation text field
+                                  if (value == null || value.isEmpty) {
+                                    return 'حقل اجباري';
+                                  }
+                                  if (value.startsWith(RegExp(r'[0-9]'))) {
+                                    return 'يجب ان لا يبدا بصفر أو رقم';
+                                  }
+                                  if (value.startsWith(RegExp(r'[0-9]'))) {
+                                    return 'يجب ان يبدا ب SA';
+                                  }
+                                  return null;
+                                },
+                                false, inputFormatters: [
+                                ///letters only
+                                FilteringTextInputFormatter(
+                                    RegExp(
+                                        r'[A-Z]|[0-9]'),
+                                    allow: true)
+                              ]
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-
                       SizedBox(
-                        height: 20.h,
+                        height: 30.h,
                       ),
-                      Divider(
+                      const Divider(
                         thickness: 1,
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -478,11 +440,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                         gradientContainerNoborder(
                             150.w,
                             buttoms(context, 'إسحب الرصيد', 15, white, () {
-                              if (formKey.currentState!.validate()) {
-                                print('valid!');
-                              } else {
-                                print('invalid!');
-                              }
+
                             })),
                       ),
                     ],
