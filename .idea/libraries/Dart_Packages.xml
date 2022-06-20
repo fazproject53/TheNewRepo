@@ -121,6 +121,48 @@
             </list>
           </value>
         </entry>
+        <entry key="connectivity_plus">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus-2.3.4/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="connectivity_plus_linux">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_linux-1.3.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="connectivity_plus_macos">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_macos-1.2.3/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="connectivity_plus_platform_interface">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_platform_interface-1.2.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="connectivity_plus_web">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_web-1.2.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="connectivity_plus_windows">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_windows-1.2.2/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="country_code_picker">
           <value>
             <list>
@@ -160,6 +202,13 @@
           <value>
             <list>
               <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/curved_navigation_bar-1.0.3/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="dbus">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/dbus-0.7.3/lib" />
             </list>
           </value>
         </entry>
@@ -489,6 +538,13 @@
           <value>
             <list>
               <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="nm">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.dartlang.org/nm-0.5.0/lib" />
             </list>
           </value>
         </entry>
@@ -1002,12 +1058,19 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/checkbox_grouped-1.7.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus-2.3.4/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_linux-1.3.1/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_macos-1.2.3/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_platform_interface-1.2.1/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_web-1.2.2/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_windows-1.2.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/country_code_picker-2.0.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.3.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/csslib-0.17.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/curved_navigation_bar-1.0.3/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/dbus-0.7.3/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/dependencies-0.1.5/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/device_frame-1.0.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/device_preview-1.0.0/lib" />
@@ -1052,6 +1115,7 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/mime-1.0.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/modal_bottom_sheet-2.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/nm-0.5.0/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/octo_image-1.0.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/open_file-3.2.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0/lib" />

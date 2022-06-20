@@ -14,8 +14,8 @@ class _HomePageState extends State<Pagination> {
   final _baseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
   // At the beginning, we fetch the first 20 posts
-  int _page = 0;
-  int _limit = 20;
+  int _page = 10;
+   int _limit = 10;
 
   // There is next page or not
   bool _hasNextPage = true;
@@ -49,7 +49,7 @@ class _HomePageState extends State<Pagination> {
     });
   }
 
-  // This function will be triggered whenver the user scroll
+  // This function will be triggered whenever the user scroll
   // to near the bottom of the list view
   void _loadMore() async {
     if (_hasNextPage == true &&
@@ -109,7 +109,7 @@ class _HomePageState extends State<Pagination> {
         title: Text('Kindacode.com'),
       ),
       body: _isFirstLoadRunning
-          ? Center(
+          ? const Center(
         child: CircularProgressIndicator(),
       )
           : Column(
@@ -119,7 +119,7 @@ class _HomePageState extends State<Pagination> {
               controller: _controller,
               itemCount: _posts.length,
               itemBuilder: (_, index) => Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 child: ListTile(
                   title: Text(_posts[index]['title']),
                   subtitle: Text(_posts[index]['body']),
@@ -130,8 +130,8 @@ class _HomePageState extends State<Pagination> {
 
           // when the _loadMore function is running
           if (_isLoadMoreRunning == true)
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 40),
+            const Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 40),
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -140,9 +140,9 @@ class _HomePageState extends State<Pagination> {
           // When nothing else to load
           if (_hasNextPage == false)
             Container(
-              padding: const EdgeInsets.only(top: 30, bottom: 40),
+              padding: const EdgeInsets.only(top: 20, bottom: 40),
               color: Colors.amber,
-              child: Center(
+              child: const Center(
                 child: Text('You have fetched all of the content'),
               ),
             ),

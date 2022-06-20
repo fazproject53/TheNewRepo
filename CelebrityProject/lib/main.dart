@@ -1,9 +1,12 @@
+import 'dart:async';
 
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/Celebrity/Activity/news/pagination.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/ModelIntro.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +36,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
   Future<IntroData>? futureIntro;
   String? isLogging;
-
+  StreamSubscription? streamSubscription;
   @override
   void initState() {
     super.initState();
@@ -44,6 +47,12 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
       });
     });
     print('isLogging:$isLogging');
+  }
+
+  @override
+  void dispose() {
+    streamSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -77,9 +86,8 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
           'logging': (context) => Logging(),
           'MainScreen': (context) => const MainScreen(),
         },
-        // home:
-        //     // if user click in remember me
-        //     isLogging == '' ? firstPage() : const MainScreen()
+        //  home:
+        //  Pagination()
       ),
     );
   }

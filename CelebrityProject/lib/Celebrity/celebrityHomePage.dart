@@ -30,6 +30,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
   Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
   int currentIndex = 0;
+  int _page = 1;
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
@@ -37,6 +38,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   Future<Partner>? futurePartners;
   List<int> pag = [];
   bool isLoading = true;
+  ScrollController scrollController=ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -44,7 +47,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-
+    // scrollController.addListener(() {
+    //   if(scrollController.position.pixels>=scrollController.position.maxScrollExtent){
+    //     print('Get Mooooooooooooor');
+    //   }
+    // });
     super.initState();
   }
 
@@ -62,7 +69,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       for (int i = 0; i < sections.data!.length; i++) {
         if (sections.data?[i].sectionName == 'category') {
           category.putIfAbsent(sections.data![i].categoryId!,
-              () => fetchCategories(sections.data![i].categoryId!, 1));
+              () => fetchCategories(sections.data![i].categoryId!, _page));
           // pagNumber1++;
           setState(() {});
         }
@@ -72,7 +79,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       throw Exception('Failed to load section');
     }
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    scrollController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -434,6 +446,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
 //categorySection---------------------------------------------------------------------------
   categorySection(int? categoryId, String? title, int? active) {
+
     return active == 1
         ? FutureBuilder(
             future: category[categoryId],
@@ -446,9 +459,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
                   return Center(
-                      child: Center(
-                          child: Text(
-                              'ffffffffffffffff' + snapshot.error.toString())));
+                      child: Center(child: Text(snapshot.error.toString())));
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.celebrities!.isNotEmpty
@@ -463,8 +474,15 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 7.0.h, vertical: 4.h),
-                                  child: text(context, title!, 14, black,
-                                      fontWeight: FontWeight.bold),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                    text(context, title!, 14, black,
+                                        fontWeight: FontWeight.bold),
+
+                                    text(context, 'عرض الكل', 14, black,
+                                        fontWeight: FontWeight.bold),
+                                  ],)
                                 ),
                                 SizedBox(
                                   height: 5.h,
@@ -473,6 +491,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
+                                      //controller: scrollController,
                                         scrollDirection: Axis.horizontal,
                                         itemCount: snapshot
                                             .data!.data!.celebrities!.length,
@@ -592,9 +611,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                           width: double.infinity,
                           child: Stack(
                             children: [
-                              //slider image----------------------------------------------------
+//slider image----------------------------------------------------
                               imageSlider(image),
-                              //icon+ logo------------------------------------------------------
+//icon+ logo------------------------------------------------------
                               heroLogo()
                             ],
                           )),
@@ -787,7 +806,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         : const SizedBox();
   }
 
-//lodaing methode---------------------------------------------------------------------------
+//loading methode---------------------------------------------------------------------------
   Widget lodeing() {
     return Container(
       width: double.infinity,
@@ -834,6 +853,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
+//-------------------------------------------------------------------------------------
   shape(int j, {double? width}) {
     return Column(
       children: [
@@ -850,6 +870,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       ],
     );
   }
+
+//-------------------------------------------------------------------------------------
 
   shapeRow(int j) {
     return Row(

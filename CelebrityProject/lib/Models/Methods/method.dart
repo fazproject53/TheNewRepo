@@ -2,6 +2,7 @@
 import 'dart:core';
 import 'dart:io';
 import 'dart:ui';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -383,7 +384,6 @@ Widget singWthisButtom(
         text(context, key, 14.sp, textColor)
       ]),
       style: ButtonStyle(
-
         backgroundColor: MaterialStateProperty.all(backColor),
         foregroundColor: MaterialStateProperty.all(textColor),
       ),
@@ -1093,6 +1093,7 @@ loadingDialogue(context) {
       });
 }
 
+//snackBar------------------------------------------------------------------------------------
 SnackBar snackBar(context, String title, Color? color, IconData? icon) {
   return SnackBar(
       backgroundColor: color ?? white,
@@ -1113,4 +1114,17 @@ SnackBar snackBar(context, String title, Color? color, IconData? icon) {
           text(context, title, 13, white)
         ],
       ));
+}
+
+//check internet------------------------------------------------------------------------------------
+ConnectivityResult checkInternet(ConnectivityResult result) {
+  const hasInternet = ConnectivityResult.none;
+  return hasInternet;
+  // final massage = hasInternet
+  //     ? 'تم الاتصال بالانترنت' + result.toString()
+  //     : 'لايوجد اتصال بالانترنت حاليا';
+  // final color = hasInternet ? green : red;
+  // final icon = hasInternet ? Icons.wifi : Icons.wifi_off;
+  // ScaffoldMessenger.of(context)
+  //     .showSnackBar(snackBar(context, massage, color, icon));
 }
