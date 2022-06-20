@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
-import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -16,7 +15,6 @@ import '../MainScreen/main_screen_navigation.dart';
 import '../ModelAPI/ModelsAPI.dart';
 import '../Models/Variables/Variables.dart';
 import 'HomeScreen/celebrity_home_page.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 class celebrityHomePage extends StatefulWidget {
@@ -30,7 +28,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
   Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
   int currentIndex = 0;
-  int _page = 1;
+  int pagNumber = 1;
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
@@ -38,11 +36,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   Future<Partner>? futurePartners;
   List<int> pag = [];
   bool isLoading = true;
-  ScrollController scrollController=ScrollController();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    // TODO: implement initState
     sections = getSectionsData();
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
@@ -69,7 +66,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       for (int i = 0; i < sections.data!.length; i++) {
         if (sections.data?[i].sectionName == 'category') {
           category.putIfAbsent(sections.data![i].categoryId!,
-              () => fetchCategories(sections.data![i].categoryId!, _page));
+              () => fetchCategories(sections.data![i].categoryId!, pagNumber));
           // pagNumber1++;
           setState(() {});
         }
@@ -79,12 +76,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       throw Exception('Failed to load section');
     }
   }
-@override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    scrollController.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -268,6 +260,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
+//--------------------------------------------------------------------------
   Widget showButton(String image, String link) {
     return Expanded(
         child: Container(
@@ -287,6 +280,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     ));
   }
 
+//--------------------------------------------------------------------------
   BoxDecoration decoration(String famusImage) {
     return BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(4.r)),
@@ -298,6 +292,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
+//--------------------------------------------------------------------------
   Widget jouinFaums(String title, String contint, String buttomText) {
     return gradientContainerNoborder(
         184.5,
@@ -446,7 +441,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
 //categorySection---------------------------------------------------------------------------
   categorySection(int? categoryId, String? title, int? active) {
-
     return active == 1
         ? FutureBuilder(
             future: category[categoryId],
@@ -474,15 +468,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 7.0.h, vertical: 4.h),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                    text(context, title!, 14, black,
-                                        fontWeight: FontWeight.bold),
-
-                                    text(context, 'عرض الكل', 14, black,
-                                        fontWeight: FontWeight.bold),
-                                  ],)
+                                  child: text(context, title!, 14, black,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
                                   height: 5.h,
@@ -491,75 +478,132 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
-                                      //controller: scrollController,
+                                        //controller: scrollController,
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: snapshot
-                                            .data!.data!.celebrities!.length,
+                                        itemCount: snapshot.data!.data!
+                                                .celebrities!.length +
+                                            1,
                                         itemBuilder:
                                             (context, int itemPosition) {
                                           if (snapshot.data!.data!.celebrities!
                                               .isEmpty) {
                                             return const SizedBox();
                                           }
-                                          return SizedBox(
-                                            width: 180.w,
-                                            child: InkWell(
-                                              onTap: () {
-                                                goTopagepush(
-                                                    context,
-                                                    CelebrityHome(
-                                                      pageUrl: snapshot
-                                                          .data!
-                                                          .data!
-                                                          .celebrities![
-                                                              itemPosition]
-                                                          .pageUrl!,
-                                                    ));
-                                              },
-                                              child: Card(
-                                                  elevation: 5,
-                                                  child: Container(
-                                                    decoration: decoration(
-                                                        snapshot
+                                          if (itemPosition <
+                                              snapshot.data!.data!.celebrities!
+                                                  .length) {
+                                            return SizedBox(
+                                              width: 180.w,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  goTopagepush(
+                                                      context,
+                                                      CelebrityHome(
+                                                        pageUrl: snapshot
                                                             .data!
                                                             .data!
                                                             .celebrities![
                                                                 itemPosition]
-                                                            .image!),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.bottomRight,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(
-                                                            10.0.w),
-                                                        child: text(
-                                                            context,
-                                                            snapshot
-                                                                        .data!
-                                                                        .data!
-                                                                        .celebrities![
-                                                                            itemPosition]
-                                                                        .name ==
-                                                                    ''
-                                                                ? "name"
-                                                                : snapshot
-                                                                    .data!
-                                                                    .data!
-                                                                    .celebrities![
-                                                                        itemPosition]
-                                                                    .name!,
-                                                            18,
-                                                            white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                            .pageUrl!,
+                                                      ));
+                                                },
+                                                child: Card(
+                                                    elevation: 5,
+                                                    child: Container(
+                                                      decoration: decoration(
+                                                          snapshot
+                                                              .data!
+                                                              .data!
+                                                              .celebrities![
+                                                                  itemPosition]
+                                                              .image!),
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .bottomRight,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10.0.w),
+                                                          child: text(
+                                                              context,
+                                                              snapshot
+                                                                          .data!
+                                                                          .data!
+                                                                          .celebrities![
+                                                                              itemPosition]
+                                                                          .name ==
+                                                                      ''
+                                                                  ? "name"
+                                                                  : snapshot
+                                                                      .data!
+                                                                      .data!
+                                                                      .celebrities![
+                                                                          itemPosition]
+                                                                      .name!,
+                                                              18,
+                                                              white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    )
+                                                    //:Container(color: Colors.green,),
+                                                    ),
+                                              ),
+                                            );
+//if found more celebraty---------------------------------------------------------------------
+                                          } else {
+//must chang number from 2 to 10-----------------------------
+                                            return snapshot.data!.data!
+                                                        .celebrities!.length >
+                                                    2
+                                                ? SizedBox(
+                                                    width: 180.w,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        print('lode more item');
+                                                      },
+                                                      child: Card(
+                                                        color: Colors.grey,
+                                                        elevation: 5,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            //Icon More------------------------
+                                                             const Center(
+                                                              child:
+                                                                  CircleAvatar(
+                                                                    
+                                                                child: Center(
+                                                                  child: Icon(Icons
+                                                                      .arrow_forward_rounded,color: black,),
+                                                                ),
+                                                                    backgroundColor: blue,
+                                                              ),
+                                                            ),
+
+                                                            //lode more text----------------------
+                                                            text(
+                                                                context,
+                                                                'عرض المزيد ...',
+                                                                15,
+                                                                white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   )
-                                                  //:Container(color: Colors.green,),
-                                                  ),
-                                            ),
-                                          );
+                                                : const Text('');
+                                          }
                                         }),
                                   ),
                                 ),
@@ -585,7 +629,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   headerSection(int? active) {
     List<String> image = [];
-    List<String> imageLink = [];
     return active == 1
         ? FutureBuilder(
             future: futureHeader,
@@ -782,10 +825,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             }))
         : const SizedBox();
   }
-
-  // @override
-  // // TODO: implement wantKeepAlive
-  // bool get wantKeepAlive => false;
 
 //new section----------------------------------------------------------------------
   newSection(int? secId, String? title, int? active) {
