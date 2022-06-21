@@ -37,7 +37,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   List<int> pag = [];
   bool isLoading = true;
   ScrollController scrollController = ScrollController();
-  bool hasMore = true;
+  bool showLoading = true;
   @override
   void initState() {
     sections = getSectionsData();
@@ -508,56 +508,60 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                       ));
                                                 },
                                                 child: Card(
-                                                    elevation: 5,
+                                                    //elevation: 5,
                                                     child: Container(
-                                                      decoration: decoration(
+                                                  decoration: decoration(
+                                                      snapshot
+                                                          .data!
+                                                          .data!
+                                                          .celebrities![
+                                                              itemPosition]
+                                                          .image!),
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(
+                                                          10.0.w),
+                                                      child: text(
+                                                          context,
                                                           snapshot
-                                                              .data!
-                                                              .data!
-                                                              .celebrities![
-                                                                  itemPosition]
-                                                              .image!),
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .bottomRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10.0.w),
-                                                          child: text(
-                                                              context,
-                                                              snapshot
-                                                                          .data!
-                                                                          .data!
-                                                                          .celebrities![
-                                                                              itemPosition]
-                                                                          .name ==
-                                                                      ''
-                                                                  ? "name"
-                                                                  : snapshot
                                                                       .data!
                                                                       .data!
                                                                       .celebrities![
                                                                           itemPosition]
-                                                                      .name!,
-                                                              18,
-                                                              white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    )
+                                                                      .name ==
+                                                                  ''
+                                                              ? "name"
+                                                              : snapshot
+                                                                  .data!
+                                                                  .data!
+                                                                  .celebrities![
+                                                                      itemPosition]
+                                                                  .name!,
+                                                          18,
+                                                          white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                )
                                                     //:Container(color: Colors.green,),
                                                     ),
                                               ),
                                             );
 //if found more celebraty---------------------------------------------------------------------
                                           } else {
-                                            return snapshot.data!.data!
-                                                        .celebrities!.length >=
-                                                    10&&snapshot.data!.data!.pageCount!>pagNumber
-                                                ? SizedBox(
+                                            return snapshot
+                                                            .data!
+                                                            .data!
+                                                            .celebrities!
+                                                            .length >=
+                                                        10 &&
+                                                    snapshot.data!.data!
+                                                            .pageCount! >
+                                                        pagNumber
+                                                ? showLoading?SizedBox(
                                                     width: 180.w,
                                                     child: InkWell(
                                                       onTap: () {
@@ -570,7 +574,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                             categoryId!);
                                                       },
                                                       child: Card(
-                                                        color: white,
+                                                        color: textBlack
+                                                            .withOpacity(0.25),
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           borderRadius:
@@ -584,7 +589,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                             width: 1.0,
                                                           ),
                                                         ),
-                                                        elevation: 5,
+                                                       // elevation: 1,
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -593,6 +598,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
+                                                            Spacer(),
                                                             //Icon More------------------------
                                                             Center(
                                                               child:
@@ -604,35 +610,36 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                     color: black
                                                                         .withOpacity(
                                                                             0.50),
-                                                                    size: 32.r,
+                                                                    size: 37.r,
                                                                   ),
                                                                 ),
-                                                                radius: 30.r,
+                                                                radius: 37.r,
                                                                 backgroundColor:
-                                                                    lightGrey
-                                                                        .withOpacity(
-                                                                            0.50),
+                                                                    white,
                                                               ),
                                                             ),
                                                             SizedBox(
-                                                              height: 10.h,
+                                                              height: 15.h,
                                                             ),
 
                                                             //lode more text----------------------
                                                             text(
                                                                 context,
-                                                                'عرض المزيد ...',
-                                                                14,
-                                                                Colors.grey,
+                                                                'عرض المزيد',
+                                                                15,
+                                                                white,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w100),
+                                                                        .bold),
+                                                            SizedBox(
+                                                              height: 15.h,
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
                                                     ),
-                                                  )
-                                                : const Text('');
+                                                  ):Center(child: CircularProgressIndicator())
+                                                : const SizedBox();
                                           }
                                         }),
                                   ),
