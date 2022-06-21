@@ -1,13 +1,14 @@
 ///import section
+
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-
+import 'package:pdf/pdf.dart';
 
 import 'radioListTile.dart';
 
@@ -41,7 +42,7 @@ class _BalanceHomeState extends State<BalanceHome> {
 
   ///formKey
   final _formKey = GlobalKey<FormState>();
-  var iban = 'at61 1904 3002 3457 3201';
+
   @override
   void initState() {
     super.initState();
@@ -198,7 +199,6 @@ class _BalanceHomeState extends State<BalanceHome> {
     );
   }
 
-
   ///Bottom Sheet for Payments
   Widget bottomSheetMenuPayments(String id, String name, String balance) {
     return Directionality(
@@ -280,8 +280,8 @@ class _BalanceHomeState extends State<BalanceHome> {
                       onTap: () {
                         ///Go To New Bottom Sheet To Add New Credit Card
                         ///Bottom sheet
-                        showBottomSheetWhite2(
-                            context, bottomSheetCreditCard('1', 'rayana', '500'));
+                        showBottomSheetWhite2(context,
+                            bottomSheetCreditCard('1', 'rayana', '500'));
                       },
                     ),
                     const Divider(
@@ -305,8 +305,14 @@ class _BalanceHomeState extends State<BalanceHome> {
                     padding(
                       22,
                       22,
-                      gradientContainerNoborder(150.w,
-                          buttoms(context, 'إسحب الرصيد', 15, white, () {})),
+                      gradientContainerNoborder(
+                          150.w,
+                          buttoms(context, 'إسحب الرصيد', 15, white, () {
+                            ///must check the user chose one of the credit card first
+                          })),
+                    ),
+                    SizedBox(
+                      height: 30.h,
                     ),
                   ],
                 ),
@@ -344,43 +350,44 @@ class _BalanceHomeState extends State<BalanceHome> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
+                        padding:
+                            EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
                         child: Form(
                           key: _formKey,
                           child: Column(
                             children: [
                               textFieldIban(
-                                context,
-                                'اسم صاحب البطاقة',
-                                'اسم صاحب البطاقة الكامل',
-                                12,
-                                false,
-                                cardHolderName,
-                                    (String? value) {
-                                  /// Validation text field
-                                  if (value == null || value.isEmpty) {
-                                    return 'حقل اجباري';
-                                  }
-                                  if (value.startsWith('0')) {
-                                    return 'يجب ان لا يبدا بصفر';
-                                  }
-                                  if (value.startsWith(RegExp(r'[0-9]'))) {
-                                    return 'يجب ان لا يبدا برقم';
-                                  }
-                                  return null;
-                                },
-                                false, inputFormatters: [
-                                ///letters  only
+                                  context,
+                                  'اسم صاحب البطاقة',
+                                  'اسم صاحب البطاقة الكامل',
+                                  12,
+                                  false,
+                                  cardHolderName, (String? value) {
+                                /// Validation text field
+                                if (value == null || value.isEmpty) {
+                                  return 'حقل اجباري';
+                                }
+                                if (value.startsWith('0')) {
+                                  return 'يجب ان لا يبدا بصفر';
+                                }
+                                if (value.startsWith(RegExp(r'[0-9]'))) {
+                                  return 'يجب ان لا يبدا برقم';
+                                }
+                                if (value.startsWith(RegExp(r'[a-z]'))) {
+                                  return 'يجب ان يبدا بأحرف كبيرة';
+                                }
+                                return null;
+                              }, false, inputFormatters: [
+                                ///letters only
                                 FilteringTextInputFormatter(
-                                    RegExp(
-                                        r'[A-Z]|[\s]'),
+                                    RegExp(r'[a-zA-Z]|[\s]'),
                                     allow: true)
-                              ]
+                              ]),
+                              SizedBox(
+                                height: 15.h,
                               ),
-                             SizedBox(
-                               height: 15.h,
-                             ),
-                             ///Iban number
+
+                              ///Iban number
                               textFieldIban(
                                 context,
                                 'SA00 0000 0000 0000 0000 0000',
@@ -388,26 +395,26 @@ class _BalanceHomeState extends State<BalanceHome> {
                                 12,
                                 false,
                                 ibanNumber,
-                                    (String? value) {
+                                (String? value) {
                                   /// Validation text field
                                   if (value == null || value.isEmpty) {
                                     return 'حقل اجباري';
                                   }
                                   if (value.startsWith(RegExp(r'[0-9]'))) {
-                                    return 'يجب ان لا يبدا بصفر أو رقم';
-                                  }
-                                  if (value.startsWith(RegExp(r'[0-9]'))) {
                                     return 'يجب ان يبدا ب SA';
+                                  }
+                                  if (value.length > 24) {
+                                    return 'رقم الايبان يجب ان يكون مكون من ٢٤ أحرف';
                                   }
                                   return null;
                                 },
-                                false, inputFormatters: [
-                                ///letters only
-                                FilteringTextInputFormatter(
-                                    RegExp(
-                                        r'[A-Z]|[0-9]'),
-                                    allow: true)
-                              ]
+                                false,
+                                inputFormatters: [
+                                  ///letters only
+                                  FilteringTextInputFormatter(
+                                      RegExp(r'[A-Z]|[0-9]'),
+                                      allow: true)
+                                ],
                               ),
                             ],
                           ),
@@ -440,7 +447,26 @@ class _BalanceHomeState extends State<BalanceHome> {
                         gradientContainerNoborder(
                             150.w,
                             buttoms(context, 'إسحب الرصيد', 15, white, () {
-
+                              _formKey.currentState!.validate()
+                                  ? {
+                                      Flushbar(
+                                        flushbarPosition: FlushbarPosition.TOP,
+                                        backgroundColor: white,
+                                        margin: EdgeInsets.all(5),
+                                        flushbarStyle: FlushbarStyle.FLOATING,
+                                        borderRadius: BorderRadius.circular(10.r),
+                                        duration:  Duration(seconds: 5),
+                                        titleText: text(context,
+                                            'تم إرسال طلبك بنجاح', 12, purple),
+                                        messageText: text(
+                                            context,
+                                            'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                            12,
+                                            black,
+                                            fontWeight: FontWeight.w200),
+                                      )..show(context)
+                                    }
+                                  : null;
                             })),
                       ),
                     ],

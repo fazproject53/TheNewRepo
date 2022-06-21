@@ -1,7 +1,7 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 
 
 class RadioWidgetDemo extends StatefulWidget {
@@ -44,7 +44,7 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
       selectedUser = user;
     });
   }
-  final TextEditingController pricingArea = TextEditingController();
+
   List<Widget> createRadioListUsers() {
     List<Widget> widgets = [];
     for (User user in users!) {
@@ -61,7 +61,6 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
                       textDirection: TextDirection.ltr,
                       child: text(context, user.firstName, 14, black)),
 
-
                 ],
               )),
           onChanged: (User? currentUser) {
@@ -73,6 +72,9 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
         ),
       );
     }
+    ///this will be sent to the function to ake sure celebrity choose one of credit card
+    print(selectedUser?.firstName.toString());
+
     return widgets;
   }
 

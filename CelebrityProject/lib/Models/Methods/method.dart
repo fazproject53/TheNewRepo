@@ -422,7 +422,7 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
 ///text field iban
 Widget textFieldIban(context, String key,String label, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali, isOptional,
-    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType}) {
+    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType, onChanged, }) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -430,7 +430,8 @@ Widget textFieldIban(context, String key,String label, double fontSize, bool hin
     keyboardType: keyboardType,
     autovalidateMode: AutovalidateMode.onUserInteraction,
     controller: mycontroller,
-    style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+    onChanged: onChanged,
+    style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo', letterSpacing: 2),
     decoration: InputDecoration(
         isDense: false,
         filled: true,
@@ -444,6 +445,7 @@ Widget textFieldIban(context, String key,String label, double fontSize, bool hin
         labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
         hintText: key,
         labelText: label,
+
         contentPadding: EdgeInsets.all(10.h)),
   );
 }

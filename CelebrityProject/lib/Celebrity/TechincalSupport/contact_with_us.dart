@@ -351,33 +351,37 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                   buttoms(context, 'إرسال', 15, white, () {
                                     _formKey.currentState!.validate()
                                         ? {
-                                      _selectedTest == null ? ScaffoldMessenger.of(
-                                          context)
-                                          .showSnackBar(
-                                          SnackBar(
-                                            content: text(
-                                                context,
-                                                'قم بإختيار نوع الشكوى',
-                                                12,
-                                                red!),
-                                            backgroundColor: white,
+                                            _selectedTest == null
+                                                ? ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                    behavior: SnackBarBehavior
+                                                        .floating,
+                                                    content: text(
+                                                        context,
+                                                        'قم بإختيار نوع الشكوى',
+                                                        12,
+                                                        red!),
+                                                    backgroundColor: white,
+                                                  ))
+                                                : postContactWithUs(userToken!)
+                                                    .whenComplete(() => {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  SnackBar(
 
-                                          )):
-                                            postContactWithUs(userToken!)
-                                                .whenComplete(() => {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              SnackBar(
-                                                        content: text(
-                                                            context,
-                                                            'تم الارسال بنجاح',
-                                                            12,
-                                                            purple),
-                                                        backgroundColor: white,
-
-                                                      ))
-                                                    })
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            content: text(
+                                                                context,
+                                                                'تم الارسال بنجاح',
+                                                                12,
+                                                                purple),
+                                                            backgroundColor:
+                                                                white,
+                                                          ))
+                                                        })
                                           }
                                         : null;
                                   })),
@@ -417,7 +421,8 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
   ///POST
   Future<http.Response> postContactWithUs(String token) async {
     final response = await http.post(
-      Uri.parse('https://mobile.celebrityads.net/api/technical-support',
+      Uri.parse(
+        'https://mobile.celebrityads.net/api/technical-support',
       ),
       headers: {
         'Content-Type': 'application/json',
@@ -430,7 +435,9 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
         'phonenumber': null,
         'subject': supportTitle.text,
         'details': supportDescription.text,
-        'complaint_type_id': _selectedTest == null ? complaintList.indexOf(0) : complaintList.indexOf(_selectedTest),
+        'complaint_type_id': _selectedTest == null
+            ? complaintList.indexOf(0)
+            : complaintList.indexOf(_selectedTest),
       }),
     );
     if (response.statusCode == 200) {

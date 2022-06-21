@@ -2,7 +2,10 @@
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../Celebrity/Balance/radioListTile.dart';
 
 class UserBalance extends StatelessWidget {
   const UserBalance({Key? key}) : super(key: key);
@@ -27,6 +30,12 @@ class UserBalanceHome extends StatefulWidget {
 }
 
 class _UserBalanceHomeState extends State<UserBalanceHome> {
+  ///Text Field
+  final TextEditingController userCardHolderName = TextEditingController();
+  final TextEditingController userIbanNumber = TextEditingController();
+
+  ///formKey
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -201,7 +210,11 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                 22,
                 22,
                 gradientContainerNoborder(getSize(context).width,
-                    buttoms(context, 'سحب الرصيد', 16, white, () {})),
+                    buttoms(context, 'سحب الرصيد', 16, white, () {
+                      ///Bottom sheet
+                      showBottomSheetWhite(
+                          context, bottomSheetMenuPayments('1', 'rayana', '500'));
+                    })),
               ),
               SizedBox(
                 height: 10.h,
@@ -226,5 +239,249 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
         ],
       ),
     );
+  }
+  ///Bottom Sheet for Payments
+  Widget bottomSheetMenuPayments(String id, String name, String balance) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 30.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 18.w, left: 20.w),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        text(
+                          context,
+                          'أختر طريقة الدفع',
+                          16,
+                          black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+
+                    ///--------------------------
+                    Visibility(
+                        visible: true,
+                        child: Column(
+                          children: const [
+                            SingleChildScrollView(child: RadioWidgetDemo()),
+                          ],
+                        )),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+                    InkWell(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(
+                            add,
+                            size: 23,
+                            color: black,
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          text(
+                            context,
+                            'إضافة بطاقة جديدة',
+                            18,
+                            black,
+                          ),
+                          SizedBox(
+                            width: 170.w,
+                          ),
+                          Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Icon(
+                              backIcon,
+                              size: 20,
+                              color: black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        ///Go To New Bottom Sheet To Add New Credit Card
+                        ///Bottom sheet
+                        showBottomSheetWhite2(context,
+                            bottomSheetCreditCard('1', 'rayana', '500'));
+                      },
+                    ),
+                    const Divider(
+                      thickness: 1,
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        text(context, 'الإجمالي المستحق', 16, black,
+                            fontWeight: FontWeight.bold),
+                        text(context, '140' + ' ريال', 16, black,
+                            fontWeight: FontWeight.bold),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 40.h,
+                    ),
+
+                    ///bottom to withdraw balance
+                    padding(
+                      22,
+                      22,
+                      gradientContainerNoborder(150.w,
+                          buttoms(context, 'إسحب الرصيد', 15, white, () {})),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget bottomSheetCreditCard(String id, String name, String balance) {
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30.h,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(right: 20.w, left: 20.w),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          text(
+                            context,
+                            'إضافة بطاقة جديدة',
+                            18,
+                            black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding:
+                        EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              textFieldIban(
+                                  context,
+                                  'اسم صاحب البطاقة',
+                                  'اسم صاحب البطاقة الكامل',
+                                  12,
+                                  false,
+                                  userCardHolderName, (String? value) {
+                                /// Validation text field
+                                if (value == null || value.isEmpty) {
+                                  return 'حقل اجباري';
+                                }
+                                if (value.startsWith('0')) {
+                                  return 'يجب ان لا يبدا بصفر';
+                                }
+                                if (value.startsWith(RegExp(r'[0-9]'))) {
+                                  return 'يجب ان لا يبدا برقم';
+                                }
+                                return null;
+                              }, false, inputFormatters: [
+                                ///letters  only
+                                FilteringTextInputFormatter(
+                                    RegExp(r'[A-Z]|[\s]'),
+                                    allow: true)
+                              ]),
+                              SizedBox(
+                                height: 15.h,
+                              ),
+
+                              ///Iban number
+                              textFieldIban(
+                                context,
+                                'SA00 0000 0000 0000 0000 0000',
+                                'رقم الايبان',
+                                12,
+                                false,
+                                userIbanNumber,
+                                    (String? value) {
+                                  /// Validation text field
+                                  if (value == null || value.isEmpty) {
+                                    return 'حقل اجباري';
+                                  }
+                                  if (value.startsWith(RegExp(r'[0-9]'))) {
+                                    return 'يجب ان يبدا ب SA';
+                                  }if(value.length > 24){
+                                    return 'رقم الايبان يجب ان يكون مكون من ٢٤ أحرف';
+                                  }
+                                  return null;
+                                },
+                                false,
+                                inputFormatters: [
+                                  ///letters only
+                                  FilteringTextInputFormatter(
+                                      RegExp(r'[A-Z]|[0-9]'),
+                                      allow: true)
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      const Divider(
+                        thickness: 1,
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          text(context, 'الإجمالي المستحق', 16, black,
+                              fontWeight: FontWeight.bold),
+                          text(context, '140' + ' ريال', 16, black,
+                              fontWeight: FontWeight.bold),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40.h,
+                      ),
+
+                      ///bottom to withdraw balance
+                      padding(
+                        22,
+                        22,
+                        gradientContainerNoborder(150.w,
+                            buttoms(context, 'إسحب الرصيد', 15, white, () {})),
+                      ),
+                    ],
+                  ))
+            ],
+          ),
+        ));
   }
 }
