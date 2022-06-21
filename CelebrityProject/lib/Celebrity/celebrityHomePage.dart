@@ -37,7 +37,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   List<int> pag = [];
   bool isLoading = true;
   ScrollController scrollController = ScrollController();
-
+  bool hasMore = true;
   @override
   void initState() {
     sections = getSectionsData();
@@ -554,18 +554,36 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             );
 //if found more celebraty---------------------------------------------------------------------
                                           } else {
-//must chang number from 2 to 10-----------------------------
                                             return snapshot.data!.data!
-                                                        .celebrities!.length >
-                                                    2
+                                                        .celebrities!.length >=
+                                                    10&&snapshot.data!.data!.pageCount!>pagNumber
                                                 ? SizedBox(
                                                     width: 180.w,
                                                     child: InkWell(
                                                       onTap: () {
-                                                        print('lode more item');
+                                                        setState(() {
+                                                          pagNumber++;
+                                                        });
+                                                        fetchAnotherCategories(
+                                                            snapshot.data!.data!
+                                                                .celebrities!,
+                                                            categoryId!);
                                                       },
                                                       child: Card(
-                                                        color: Colors.grey,
+                                                        color: white,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0.r),
+                                                          side: BorderSide(
+                                                            color: lightGrey
+                                                                .withOpacity(
+                                                                    0.50),
+                                                            width: 1.0,
+                                                          ),
+                                                        ),
                                                         elevation: 5,
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -576,27 +594,39 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                   .center,
                                                           children: [
                                                             //Icon More------------------------
-                                                             const Center(
+                                                            Center(
                                                               child:
                                                                   CircleAvatar(
-                                                                    
                                                                 child: Center(
-                                                                  child: Icon(Icons
-                                                                      .arrow_forward_rounded,color: black,),
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .arrow_forward_rounded,
+                                                                    color: black
+                                                                        .withOpacity(
+                                                                            0.50),
+                                                                    size: 32.r,
+                                                                  ),
                                                                 ),
-                                                                    backgroundColor: blue,
+                                                                radius: 30.r,
+                                                                backgroundColor:
+                                                                    lightGrey
+                                                                        .withOpacity(
+                                                                            0.50),
                                                               ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10.h,
                                                             ),
 
                                                             //lode more text----------------------
                                                             text(
                                                                 context,
                                                                 'عرض المزيد ...',
-                                                                15,
-                                                                white,
+                                                                14,
+                                                                Colors.grey,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold),
+                                                                        .w100),
                                                           ],
                                                         ),
                                                       ),
@@ -951,5 +981,23 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         )
       ],
     );
+  }
+
+//pagination---------------------------------------------------------------------------------
+  Future fetchAnotherCategories(List oldCelebrities, int id) async {
+    print('pagNumber is $pagNumber');
+    final response = await http.get(Uri.parse(
+        'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
+    if (response.statusCode == 200) {
+      final body = response.body;
+      Category category = Category.fromJson(jsonDecode(body));
+      List newItem = category.data!.celebrities!;
+      print('leeeeenght ${newItem.length}');
+      setState(() {
+        oldCelebrities.addAll(newItem);
+      });
+    } else {
+      throw Exception('Failed to load Category');
+    }
   }
 }

@@ -391,11 +391,9 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data =
-        json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
-    message = json['message'] != null
-        ? new MessageCategory.fromJson(json['message'])
-        : null;
+    data = json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
+    message =
+    json['message'] != null ? new MessageCategory.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -412,17 +410,13 @@ class Category {
 }
 
 class DataCategory {
-  int? active;
-  TheCategory? category;
+  int? pageCount;
   List<Celebrities>? celebrities;
 
-  DataCategory({this.active, this.category, this.celebrities});
+  DataCategory({this.pageCount, this.celebrities});
 
   DataCategory.fromJson(Map<String, dynamic> json) {
-    active = json['active'];
-    category = json['category'] != null
-        ? new TheCategory.fromJson(json['category'])
-        : null;
+    pageCount = json['page_count'];
     if (json['celebrities'] != null) {
       celebrities = <Celebrities>[];
       json['celebrities'].forEach((v) {
@@ -433,32 +427,10 @@ class DataCategory {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['active'] = this.active;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
-    }
+    data['page_count'] = this.pageCount;
     if (this.celebrities != null) {
       data['celebrities'] = this.celebrities!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class TheCategory {
-  String? name;
-  String? nameEn;
-
-  TheCategory({this.name, this.nameEn});
-
-  TheCategory.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    nameEn = json['name_en'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['name_en'] = this.nameEn;
     return data;
   }
 }
@@ -470,6 +442,9 @@ class Celebrities {
   String? image;
   String? email;
   String? phonenumber;
+  Country? country;
+  City? city;
+  Gender? gender;
   String? description;
   String? pageUrl;
   String? snapchat;
@@ -478,6 +453,7 @@ class Celebrities {
   String? instagram;
   String? twitter;
   String? facebook;
+  City? category;
   String? brand;
   String? advertisingPolicy;
   String? giftingPolicy;
@@ -490,6 +466,9 @@ class Celebrities {
         this.image,
         this.email,
         this.phonenumber,
+        this.country,
+        this.city,
+        this.gender,
         this.description,
         this.pageUrl,
         this.snapchat,
@@ -498,6 +477,7 @@ class Celebrities {
         this.instagram,
         this.twitter,
         this.facebook,
+        this.category,
         this.brand,
         this.advertisingPolicy,
         this.giftingPolicy,
@@ -510,6 +490,11 @@ class Celebrities {
     image = json['image'];
     email = json['email'];
     phonenumber = json['phonenumber'];
+    country =
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    gender =
+    json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -518,6 +503,8 @@ class Celebrities {
     instagram = json['instagram'];
     twitter = json['twitter'];
     facebook = json['facebook'];
+    category =
+    json['category'] != null ? new City.fromJson(json['category']) : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
@@ -532,6 +519,15 @@ class Celebrities {
     data['image'] = this.image;
     data['email'] = this.email;
     data['phonenumber'] = this.phonenumber;
+    if (this.country != null) {
+      data['country'] = this.country!.toJson();
+    }
+    if (this.city != null) {
+      data['city'] = this.city!.toJson();
+    }
+    if (this.gender != null) {
+      data['gender'] = this.gender!.toJson();
+    }
     data['description'] = this.description;
     data['page_url'] = this.pageUrl;
     data['snapchat'] = this.snapchat;
@@ -540,10 +536,76 @@ class Celebrities {
     data['instagram'] = this.instagram;
     data['twitter'] = this.twitter;
     data['facebook'] = this.facebook;
+    if (this.category != null) {
+      data['category'] = this.category!.toJson();
+    }
     data['brand'] = this.brand;
     data['advertising_policy'] = this.advertisingPolicy;
     data['gifting_policy'] = this.giftingPolicy;
     data['ad_space_policy'] = this.adSpacePolicy;
+    return data;
+  }
+}
+
+class Country {
+  String? name;
+  String? nameEn;
+  String? flag;
+
+  Country({this.name, this.nameEn, this.flag});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    nameEn = json['name_en'];
+    flag = json['flag'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    data['flag'] = this.flag;
+    return data;
+  }
+}
+
+class City {
+  String? name;
+  String? nameEn;
+
+  City({this.name, this.nameEn});
+
+  City.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
+    return data;
+  }
+}
+
+class Gender {
+  int? id;
+  String? name;
+  String? nameEn;
+
+  Gender({this.id, this.name, this.nameEn});
+
+  Gender.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    nameEn = json['name_en'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['name_en'] = this.nameEn;
     return data;
   }
 }
@@ -566,6 +628,7 @@ class MessageCategory {
     return data;
   }
 }
+
 
 
 // the fetch functions ===================================================================================
@@ -624,6 +687,7 @@ Future<Category> fetchCategories(int id, int pagNumber) async {
     final body = response.body;
     Category category = Category.fromJson(jsonDecode(body));
     print("Reading category from network------------ ");
+    // print(category.data?.celebrities![0].name);
     return category;
   } else {
     throw Exception('Failed to load Category');
