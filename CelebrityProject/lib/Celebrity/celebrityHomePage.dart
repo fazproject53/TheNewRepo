@@ -566,7 +566,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                         pagNumber
                                                 //show loading when get data from api
                                                 ? SizedBox(
-                                                    width: 90.w,
+                                                    width: 70.w,
                                                     child: InkWell(
                                                       onTap: showLoading == true
                                                           ? null
@@ -609,13 +609,13 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                               Center(
                                                                             child:
                                                                                 Icon(
-                                                                              Icons.arrow_forward_rounded,
+                                                                              Icons.arrow_forward_ios,
                                                                               color: white,
-                                                                              size: 37.r,
+                                                                              size: 30.r,
                                                                             ),
                                                                           ),
                                                                           radius:
-                                                                              37.r,
+                                                                              30.r,
                                                                           backgroundColor:
                                                                               purple.withOpacity(0.3),
                                                                         ),

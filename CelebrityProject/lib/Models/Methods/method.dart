@@ -1130,10 +1130,7 @@ loadingDialogue(context) {
 SnackBar snackBar(context, String title, Color? color, IconData? icon) {
   return SnackBar(
       backgroundColor: color ?? white,
-      //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0.r)),
       elevation: 20,
-      // behavior: SnackBarBehavior.floating,
-
       content: Row(
         children: [
           Icon(
