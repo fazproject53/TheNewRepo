@@ -10,6 +10,7 @@ import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Account/LoggingSingUpAPI.dart';
 import '../MainScreen/main_screen_navigation.dart';
@@ -564,103 +565,109 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                             .pageCount! >
                                                         pagNumber
                                                 //show loading when get data from api
+                                                ? SizedBox(
+                                                    width: 180.w,
+                                                    child: InkWell(
+                                                      onTap: showLoading == true
+                                                          ? null
+                                                          : () {
+                                                              setState(() {
+                                                                pagNumber++;
+                                                                showLoading ==
+                                                                    false;
+                                                              });
 
-                                                ? showLoading == false
-                                                    ? SizedBox(
-                                                        width: 180.w,
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              pagNumber++;
-                                                              showLoading ==
-                                                                  false;
-                                                            });
-
-                                                            fetchAnotherCategories(
-                                                                snapshot
-                                                                    .data!
-                                                                    .data!
-                                                                    .celebrities!,
-                                                                categoryId!);
-                                                          },
-                                                          child: Card(
-                                                            color: textBlack
+                                                              fetchAnotherCategories(
+                                                                  snapshot
+                                                                      .data!
+                                                                      .data!
+                                                                      .celebrities!,
+                                                                  categoryId!);
+                                                            },
+                                                      child: Card(
+                                                        color: textBlack
+                                                            .withOpacity(0.25),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0.r),
+                                                          side: BorderSide(
+                                                            color: lightGrey
                                                                 .withOpacity(
-                                                                    0.25),
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5.0.r),
-                                                              side: BorderSide(
-                                                                color: lightGrey
-                                                                    .withOpacity(
-                                                                        0.50),
-                                                                width: 1.0,
-                                                              ),
-                                                            ),
-                                                            // elevation: 1,
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                const Spacer(),
-                                                                //Icon More------------------------
-                                                                Center(
-                                                                  child:
-                                                                      CircleAvatar(
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .arrow_forward_rounded,
-                                                                        color: black
-                                                                            .withOpacity(0.50),
-                                                                        size: 37
-                                                                            .r,
-                                                                      ),
-                                                                    ),
-                                                                    radius:
-                                                                        37.r,
-                                                                    backgroundColor:
-                                                                        white,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 15.h,
-                                                                ),
-
-                                                                //lode more text----------------------
-                                                                text(
-                                                                    context,
-                                                                    'عرض المزيد',
-                                                                    15,
-                                                                    white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                                SizedBox(
-                                                                  height: 15.h,
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                    0.50),
+                                                            width: 1.0,
                                                           ),
                                                         ),
-                                                      )
-                                                    : const Center(
+                                                        // elevation: 1,
                                                         child:
-                                                            CircularProgressIndicator(
-                                                        strokeWidth: 3,
-                                                        backgroundColor:
-                                                            Colors.grey,
-                                                        color: pink,
-                                                      ))
+                                                            showLoading == true
+                                                                ? Center(
+                                                                    child:
+                                                                        Container(
+                                                                      //  color: red,
+                                                                      height: double.infinity,
+                                                                      width: 180.w,
+                                                                      child: Center(
+                                                                          child: Lottie.asset(
+                                                                              'assets/lottie/lode.json',
+                                                                              fit: BoxFit.cover)),
+                                                                    ),
+                                                                  )
+                                                                : Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      const Spacer(),
+                                                                      //Icon More---------------------------------------------------------------------------
+
+                                                                      Center(
+                                                                        child:
+                                                                            CircleAvatar(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.arrow_forward_rounded,
+                                                                              color: black.withOpacity(0.50),
+                                                                              size: 37.r,
+                                                                            ),
+                                                                          ),
+                                                                          radius:
+                                                                              37.r,
+                                                                          backgroundColor:
+                                                                              white,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            15.h,
+                                                                      ),
+
+                                                                      //lode more text----------------------
+                                                                      text(
+                                                                          context,
+                                                                          showLoading == true
+                                                                              ? ''
+                                                                              : 'عرض المزيد',
+                                                                          15,
+                                                                          white,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            15.h,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                      ),
+                                                    ),
+                                                  )
                                                 : const SizedBox();
                                           }
                                         }),
