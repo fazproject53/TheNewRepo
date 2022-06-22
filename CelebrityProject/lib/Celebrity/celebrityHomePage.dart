@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
@@ -37,7 +38,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   List<int> pag = [];
   bool isLoading = true;
   ScrollController scrollController = ScrollController();
-  bool showLoading = true;
+  bool showLoading = false;
+  double value = 0;
   @override
   void initState() {
     sections = getSectionsData();
@@ -561,84 +563,104 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                     snapshot.data!.data!
                                                             .pageCount! >
                                                         pagNumber
-                                                ? showLoading?SizedBox(
-                                                    width: 180.w,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          pagNumber++;
-                                                        });
-                                                        fetchAnotherCategories(
-                                                            snapshot.data!.data!
-                                                                .celebrities!,
-                                                            categoryId!);
-                                                      },
-                                                      child: Card(
-                                                        color: textBlack
-                                                            .withOpacity(0.25),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0.r),
-                                                          side: BorderSide(
-                                                            color: lightGrey
+                                                //show loading when get data from api
+
+                                                ? showLoading == false
+                                                    ? SizedBox(
+                                                        width: 180.w,
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              pagNumber++;
+                                                              showLoading ==
+                                                                  false;
+                                                            });
+
+                                                            fetchAnotherCategories(
+                                                                snapshot
+                                                                    .data!
+                                                                    .data!
+                                                                    .celebrities!,
+                                                                categoryId!);
+                                                          },
+                                                          child: Card(
+                                                            color: textBlack
                                                                 .withOpacity(
-                                                                    0.50),
-                                                            width: 1.0,
-                                                          ),
-                                                        ),
-                                                       // elevation: 1,
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Spacer(),
-                                                            //Icon More------------------------
-                                                            Center(
-                                                              child:
-                                                                  CircleAvatar(
-                                                                child: Center(
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .arrow_forward_rounded,
-                                                                    color: black
-                                                                        .withOpacity(
-                                                                            0.50),
-                                                                    size: 37.r,
-                                                                  ),
-                                                                ),
-                                                                radius: 37.r,
-                                                                backgroundColor:
-                                                                    white,
+                                                                    0.25),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5.0.r),
+                                                              side: BorderSide(
+                                                                color: lightGrey
+                                                                    .withOpacity(
+                                                                        0.50),
+                                                                width: 1.0,
                                                               ),
                                                             ),
-                                                            SizedBox(
-                                                              height: 15.h,
-                                                            ),
+                                                            // elevation: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                const Spacer(),
+                                                                //Icon More------------------------
+                                                                Center(
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .arrow_forward_rounded,
+                                                                        color: black
+                                                                            .withOpacity(0.50),
+                                                                        size: 37
+                                                                            .r,
+                                                                      ),
+                                                                    ),
+                                                                    radius:
+                                                                        37.r,
+                                                                    backgroundColor:
+                                                                        white,
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 15.h,
+                                                                ),
 
-                                                            //lode more text----------------------
-                                                            text(
-                                                                context,
-                                                                'عرض المزيد',
-                                                                15,
-                                                                white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                            SizedBox(
-                                                              height: 15.h,
+                                                                //lode more text----------------------
+                                                                text(
+                                                                    context,
+                                                                    'عرض المزيد',
+                                                                    15,
+                                                                    white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                SizedBox(
+                                                                  height: 15.h,
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ):Center(child: CircularProgressIndicator())
+                                                      )
+                                                    : const Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                        strokeWidth: 3,
+                                                        backgroundColor:
+                                                            Colors.grey,
+                                                        color: pink,
+                                                      ))
                                                 : const SizedBox();
                                           }
                                         }),
@@ -884,7 +906,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
 //loading methode---------------------------------------------------------------------------
   Widget lodeing() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
       child: Column(
@@ -993,18 +1015,22 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //pagination---------------------------------------------------------------------------------
   Future fetchAnotherCategories(List oldCelebrities, int id) async {
     print('pagNumber is $pagNumber');
+    if (showLoading) return;
+    showLoading = true;
     final response = await http.get(Uri.parse(
         'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
     if (response.statusCode == 200) {
+      print('get data from api-----------');
       final body = response.body;
       Category category = Category.fromJson(jsonDecode(body));
       List newItem = category.data!.celebrities!;
       print('leeeeenght ${newItem.length}');
       setState(() {
+        showLoading = false;
         oldCelebrities.addAll(newItem);
       });
     } else {
-      throw Exception('Failed to load Category');
+      throw Exception('Failed to load more Category');
     }
   }
 }
