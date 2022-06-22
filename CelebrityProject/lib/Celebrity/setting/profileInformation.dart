@@ -185,7 +185,7 @@ class _profileInformaionState extends State<profileInformaion>
                   future: celebrities,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: lodeing(context));
+                      return Center(child: mainLoad(context));
                     } else if (snapshot.connectionState ==
                             ConnectionState.active ||
                         snapshot.connectionState == ConnectionState.done) {
@@ -1335,16 +1335,7 @@ class _profileInformaionState extends State<profileInformaion>
  // TODO: implement wantKeepAlive
 // bool get wantKeepAlive => true;
 
-Widget lodeing(context) {
-  return SizedBox(
-    height: MediaQuery.of(context).size.height,
-    width: 250.w,
-    child: Padding(
-      padding: EdgeInsets.only(bottom: 100.h),
-      child: Lottie.asset('assets/lottie/lode.json', height: 200.h),
-    ),
-  );
-}
+
 
 
 

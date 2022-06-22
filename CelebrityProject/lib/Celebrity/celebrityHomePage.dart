@@ -566,7 +566,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                         pagNumber
                                                 //show loading when get data from api
                                                 ? SizedBox(
-                                                    width: 180.w,
+                                                    width: 90.w,
                                                     child: InkWell(
                                                       onTap: showLoading == true
                                                           ? null
@@ -584,36 +584,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                       .celebrities!,
                                                                   categoryId!);
                                                             },
-                                                      child: Card(
-                                                        color: textBlack
-                                                            .withOpacity(0.25),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0.r),
-                                                          side: BorderSide(
-                                                            color: lightGrey
-                                                                .withOpacity(
-                                                                    0.50),
-                                                            width: 1.0,
-                                                          ),
-                                                        ),
-                                                        // elevation: 1,
-                                                        child:
-                                                            showLoading == true
+                                                      child: SizedBox(
+                                                        child: showLoading == true
                                                                 ? Center(
-                                                                    child:
-                                                                        Container(
-                                                                      //  color: red,
-                                                                      height: double.infinity,
-                                                                      width: 180.w,
-                                                                      child: Center(
-                                                                          child: Lottie.asset(
-                                                                              'assets/lottie/lode.json',
-                                                                              fit: BoxFit.cover)),
-                                                                    ),
+                                                                    child: Lottie.asset(
+                                                                            'assets/lottie/grey.json',
+                                                                            fit: BoxFit.cover),
                                                                   )
                                                                 : Column(
                                                                     crossAxisAlignment:
@@ -634,14 +610,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                             child:
                                                                                 Icon(
                                                                               Icons.arrow_forward_rounded,
-                                                                              color: black.withOpacity(0.50),
+                                                                              color: white,
                                                                               size: 37.r,
                                                                             ),
                                                                           ),
                                                                           radius:
                                                                               37.r,
                                                                           backgroundColor:
-                                                                              white,
+                                                                              purple.withOpacity(0.3),
                                                                         ),
                                                                       ),
                                                                       SizedBox(
@@ -654,9 +630,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                           context,
                                                                           showLoading == true
                                                                               ? ''
-                                                                              : 'عرض المزيد',
+                                                                              : '',
                                                                           15,
-                                                                          white,
+                                                                          black.withOpacity(0.4),
                                                                           fontWeight:
                                                                               FontWeight.bold),
                                                                       SizedBox(

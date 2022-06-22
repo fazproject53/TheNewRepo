@@ -96,7 +96,7 @@ class _userProfileState extends State<userProfile>
                 future: getUsers,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: lodeing(context));
+                    return Center(child: mainLoad(context));
                   } else if (snapshot.connectionState ==
                           ConnectionState.active ||
                       snapshot.connectionState == ConnectionState.done) {

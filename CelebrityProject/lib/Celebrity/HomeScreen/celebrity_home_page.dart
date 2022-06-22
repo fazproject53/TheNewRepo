@@ -14,6 +14,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../ModelAPI/CelebrityScreenAPI.dart';
 import '../../Models/Methods/classes/GradientIcon.dart';
+import '../../celebrity/HomeScreen/celebrity_home_page.dart';
 import '../orders/advArea.dart';
 import '../orders/advForm.dart';
 import '../orders/gifttingForm.dart';
@@ -73,7 +74,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                 future: celebrityHome,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: loading(context));
+                    return Center(child: mainLoad(context));
                   } else if (snapshot.connectionState ==
                           ConnectionState.active ||
                       snapshot.connectionState == ConnectionState.done) {
@@ -1045,14 +1046,4 @@ class _CelebrityHomeState extends State<CelebrityHome>
   }
 }
 
-///loading sign
-Widget loading(context) {
-  return SizedBox(
-    height: MediaQuery.of(context).size.height,
-    width: 250.w,
-    child: Padding(
-      padding: EdgeInsets.only(bottom: 100.h),
-      child: Lottie.asset('assets/lottie/lode.json', height: 200.h),
-    ),
-  );
-}
+

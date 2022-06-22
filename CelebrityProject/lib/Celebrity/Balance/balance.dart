@@ -452,10 +452,10 @@ class _BalanceHomeState extends State<BalanceHome> {
                                       Flushbar(
                                         flushbarPosition: FlushbarPosition.TOP,
                                         backgroundColor: white,
-                                        margin: EdgeInsets.all(5),
+                                        margin: const EdgeInsets.all(5),
                                         flushbarStyle: FlushbarStyle.FLOATING,
                                         borderRadius: BorderRadius.circular(10.r),
-                                        duration:  Duration(seconds: 5),
+                                        duration:  const Duration(seconds: 5),
                                         titleText: text(context,
                                             'تم إرسال طلبك بنجاح', 12, purple),
                                         messageText: text(

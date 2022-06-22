@@ -86,7 +86,7 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return Center(child: lodeing(context));
+                              return Center(child: mainLoad(context));
                             } else if (snapshot.connectionState ==
                                     ConnectionState.active ||
                                 snapshot.connectionState ==

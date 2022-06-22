@@ -7,7 +7,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Account/LoggingSingUpAPI.dart';
-import '../../celebrity/HomeScreen/celebrity_home_page.dart';
+
 import 'ModelDiscountCode.dart';
 
 ///CreateNewDiscountCodeHome
@@ -94,7 +94,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                 builder: (BuildContext context,
                     AsyncSnapshot<DiscountModel> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: loading(context));
+                    return Center(child: mainLoad(context));
                   } else if (snapshot.connectionState ==
                           ConnectionState.active ||
                       snapshot.connectionState == ConnectionState.done) {

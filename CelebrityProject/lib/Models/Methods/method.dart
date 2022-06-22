@@ -528,8 +528,7 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     {Widget? suffixIcon,
     void Function()? onTap,
     List<TextInputFormatter>? inputFormatters,
-    TextInputType? keyboardType})
-
+    TextInputType? keyboardType, focusNode})
 ///The icons will be optional
 
 {
@@ -539,14 +538,18 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     child: TextFormField(
       validator: myvali,
       controller: mycontroller,
+      textAlign: TextAlign.center,
       inputFormatters: inputFormatters,
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      autofocus: false,
+      focusNode: focusNode,
       style:
           TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
+
           suffixIcon: suffixIcon,
           hintStyle: TextStyle(
               color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
@@ -554,10 +557,12 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
           labelStyle: TextStyle(
             color: white,
             fontSize: fontSize.sp,
+
           ),
           alignLabelWithHint: true,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: key,
+
           errorStyle: TextStyle(
             color: red!,
             fontSize: 10.sp,
@@ -1142,6 +1147,17 @@ SnackBar snackBar(context, String title, Color? color, IconData? icon) {
           text(context, title, 13, white)
         ],
       ));
+}
+
+Widget mainLoad(context) {
+  return SizedBox(
+    height: MediaQuery.of(context).size.height,
+    width: 100.w,
+    child: Padding(
+      padding: EdgeInsets.only(bottom: 100.h),
+      child: Lottie.asset('assets/lottie/grey.json', height: 200.h),
+    ),
+  );
 }
 
 //check internet------------------------------------------------------------------------------------

@@ -143,7 +143,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
               future: celebrity,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: lodeing(context));
+                  return Center(child: mainLoad(context));
                 } else if (snapshot.connectionState == ConnectionState.active ||
                     snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {

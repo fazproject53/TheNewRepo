@@ -1,8 +1,10 @@
 ///import section
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/Users/Setting/user_recharge_balance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Celebrity/Balance/radioListTile.dart';
@@ -227,10 +229,12 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                     getSize(context).width,
                     buttoms(
                       context,
-                      'شحن الحساب',
-                      14,
-                      black,
-                      () {},
+                      'شحن الحساب', 14, black, () {
+                        ///determine the amount of money
+                        goTopagepush(context, UserRechargeBalance());
+
+
+                    },
                     ),
                     gradient: true,color: grey!, height: 40,
                   ))
@@ -408,11 +412,14 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                 if (value.startsWith(RegExp(r'[0-9]'))) {
                                   return 'يجب ان لا يبدا برقم';
                                 }
+                                if (value.startsWith(RegExp(r'[a-z]'))) {
+                                  return 'يجب ان يبدا بأحرف كبيرة';
+                                }
                                 return null;
                               }, false, inputFormatters: [
-                                ///letters  only
+                                ///letters only
                                 FilteringTextInputFormatter(
-                                    RegExp(r'[A-Z]|[\s]'),
+                                    RegExp(r'[a-zA-Z]|[\s]'),
                                     allow: true)
                               ]),
                               SizedBox(
@@ -434,7 +441,8 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                   }
                                   if (value.startsWith(RegExp(r'[0-9]'))) {
                                     return 'يجب ان يبدا ب SA';
-                                  }if(value.length > 24){
+                                  }
+                                  if (value.length > 24) {
                                     return 'رقم الايبان يجب ان يكون مكون من ٢٤ أحرف';
                                   }
                                   return null;
@@ -476,7 +484,28 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                         22,
                         22,
                         gradientContainerNoborder(150.w,
-                            buttoms(context, 'إسحب الرصيد', 15, white, () {})),
+                            buttoms(context, 'إسحب الرصيد', 15, white, () {
+                              _formKey.currentState!.validate()
+                                  ? {
+                                Flushbar(
+                                  flushbarPosition: FlushbarPosition.TOP,
+                                  backgroundColor: white,
+                                  margin: const EdgeInsets.all(5),
+                                  flushbarStyle: FlushbarStyle.FLOATING,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  duration:  const Duration(seconds: 5),
+                                  titleText: text(context,
+                                      'تم إرسال طلبك بنجاح', 12, purple),
+                                  messageText: text(
+                                      context,
+                                      'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                      12,
+                                      black,
+                                      fontWeight: FontWeight.w200),
+                                )..show(context)
+                              }
+                                  : null;
+                            })),
                       ),
                     ],
                   ))
