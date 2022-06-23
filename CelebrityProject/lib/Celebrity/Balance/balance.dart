@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pdf/pdf.dart';
+
 
 import 'radioListTile.dart';
 
@@ -203,135 +203,134 @@ class _BalanceHomeState extends State<BalanceHome> {
   Widget bottomSheetMenuPayments(String id, String name, String balance) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 18.w, left: 20.w),
-                child: Column(
-                  children: [
-                    Row(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 30.h,
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 18.w, left: 20.w),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      text(
+                        context,
+                        'أختر طريقة الدفع',
+                        16,
+                        black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+
+                  ///--------------------------
+                  Visibility(
+                      visible: true,
+                      child: Column(
+                        children: const [
+                          SingleChildScrollView(child: RadioWidgetDemo()),
+                        ],
+                      )),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  const Divider(
+                    thickness: 1,
+                  ),
+                  InkWell(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        Icon(
+                          add,
+                          size: 23,
+                          color: black,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
                         text(
                           context,
-                          'أختر طريقة الدفع',
-                          16,
+                          'إضافة بطاقة جديدة',
+                          18,
                           black,
-                          fontWeight: FontWeight.bold,
+                        ),
+                        SizedBox(
+                          width: 170.w,
+                        ),
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Icon(
+                            backIcon,
+                            size: 20,
+                            color: black,
+                          ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
+                    onTap: () {
+                      ///Go To New Bottom Sheet To Add New Credit Card
+                      ///Bottom sheet
+                      showBottomSheetWhite2(context,
+                          bottomSheetCreditCard('1', 'rayana', '500'));
+                    },
+                  ),
+                  const Divider(
+                    thickness: 1,
+                  ),
 
-                    ///--------------------------
-                    Visibility(
-                        visible: true,
-                        child: Column(
-                          children: const [
-                            SingleChildScrollView(child: RadioWidgetDemo()),
-                          ],
-                        )),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    const Divider(
-                      thickness: 1,
-                    ),
-                    InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            add,
-                            size: 23,
-                            color: black,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          text(
-                            context,
-                            'إضافة بطاقة جديدة',
-                            18,
-                            black,
-                          ),
-                          SizedBox(
-                            width: 170.w,
-                          ),
-                          Directionality(
-                            textDirection: TextDirection.ltr,
-                            child: Icon(
-                              backIcon,
-                              size: 20,
-                              color: black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      onTap: () {
-                        ///Go To New Bottom Sheet To Add New Credit Card
-                        ///Bottom sheet
-                        showBottomSheetWhite2(context,
-                            bottomSheetCreditCard('1', 'rayana', '500'));
-                      },
-                    ),
-                    const Divider(
-                      thickness: 1,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      text(context, 'الإجمالي المستحق', 16, black,
+                          fontWeight: FontWeight.bold),
+                      text(context, '140' + ' ريال', 16, black,
+                          fontWeight: FontWeight.bold),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 40.h,
+                  ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        text(context, 'الإجمالي المستحق', 16, black,
-                            fontWeight: FontWeight.bold),
-                        text(context, '140' + ' ريال', 16, black,
-                            fontWeight: FontWeight.bold),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40.h,
-                    ),
-
-                    ///bottom to withdraw balance
-                    padding(
-                      22,
-                      22,
-                      gradientContainerNoborder(
-                          150.w,
-                          buttoms(context, 'إسحب الرصيد', 15, white, () {
-                            ///must check the user chose one of the credit card first
-                          })),
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  ///bottom to withdraw balance
+                  padding(
+                    22,
+                    22,
+                    gradientContainerNoborder(
+                        150.w,
+                        buttoms(context, 'إسحب الرصيد', 15, white, () {
+                          ///must check the user chose one of the credit card first
+                        })),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
+
+  ///add new credit card
   Widget bottomSheetCreditCard(String id, String name, String balance) {
+
     return Directionality(
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(
-                height: 30.h,
+                height: 20.h,
               ),
               Padding(
                   padding: EdgeInsets.only(right: 20.w, left: 20.w),
@@ -351,7 +350,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                       ),
                       Padding(
                         padding:
-                            EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
+                            EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h, bottom: MediaQuery.of(context).viewInsets.bottom),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -449,25 +448,13 @@ class _BalanceHomeState extends State<BalanceHome> {
                             buttoms(context, 'إسحب الرصيد', 15, white, () {
                               _formKey.currentState!.validate()
                                   ? {
-                                      Flushbar(
-                                        flushbarPosition: FlushbarPosition.TOP,
-                                        backgroundColor: white,
-                                        margin: const EdgeInsets.all(5),
-                                        flushbarStyle: FlushbarStyle.FLOATING,
-                                        borderRadius: BorderRadius.circular(10.r),
-                                        duration:  const Duration(seconds: 5),
-                                        titleText: text(context,
-                                            'تم إرسال طلبك بنجاح', 12, purple),
-                                        messageText: text(
-                                            context,
-                                            'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                            12,
-                                            black,
-                                            fontWeight: FontWeight.w200),
-                                      )..show(context)
+                                flushBar(context,'تم إرسال طلبك بنجاح', 'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام')
                                     }
                                   : null;
                             })),
+                      ),
+                      SizedBox(
+                        height: 40.h,
                       ),
                     ],
                   ))

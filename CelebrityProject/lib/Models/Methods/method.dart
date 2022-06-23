@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -35,6 +36,25 @@ Widget text(
       fontWeight: fontWeight,
     ),
   );
+}
+///
+///Flushbar
+Widget flushBar(context, String title, String message,){
+  return Directionality(
+    textDirection: TextDirection.rtl,
+    child: Flushbar(
+      titleText: Text(title, style: TextStyle(
+          color: purple, fontFamily: 'Cairo', fontSize: 12.sp,),),
+      messageText: Text(message),
+      borderRadius: BorderRadius.circular(10.r),
+      flushbarPosition: FlushbarPosition.TOP,
+      margin: const EdgeInsets.all(5),
+      flushbarStyle: FlushbarStyle.FLOATING,
+      duration: const Duration(seconds: 5),
+      backgroundColor: white,
+    )..show(context),
+  );
+
 }
 
 //===============================container===============================
@@ -707,7 +727,7 @@ void showBottomSheetWhite(context, bottomMenu) {
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 330.h,
+          height: 300.h,
           child: bottomMenu,
         );
       });
@@ -716,6 +736,7 @@ void showBottomSheetWhite(context, bottomMenu) {
 void showBottomSheetWhite2(context, bottomMenu) {
   showModalBottomSheet(
       isScrollControlled: true,
+
       backgroundColor: white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
