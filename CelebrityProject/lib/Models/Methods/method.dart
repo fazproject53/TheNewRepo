@@ -727,7 +727,7 @@ void showBottomSheetWhite(context, bottomMenu) {
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 300.h,
+          height: 350.h,
           child: bottomMenu,
         );
       });

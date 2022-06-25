@@ -1,4 +1,5 @@
 import 'package:celepraty/Models/Variables/Variables.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,9 @@ import '../../Models/Methods/method.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+
+import '../../SuccessfulAndFailureScreens/failure_screen.dart';
+import '../../SuccessfulAndFailureScreens/successful_screen.dart';
 
 class UserRechargeBalance extends StatefulWidget {
   const UserRechargeBalance({Key? key}) : super(key: key);
@@ -36,7 +40,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
 
     border = OutlineInputBorder(
       borderSide: BorderSide(
-        color: purple.withOpacity(0.4),
+        color: purple.withOpacity(0.6),
         width: 1.0,
       ),
     );
@@ -101,8 +105,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
               SizedBox(
                   height: 180.h,
                   width: 180.w,
-                  child:
-                      Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
+                  child: Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
               text(context, 'ادخل المبلغ المراد شحنه', 16,
                   black.withOpacity(0.6)),
               SizedBox(
@@ -143,7 +146,33 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
         ),
       ),
     );
+
   }
+
+
+   splash() {
+    return Scaffold(
+      backgroundColor: white.withOpacity(0.7),
+      body: Center(
+        child: Padding(
+          padding:  EdgeInsets.only(top: 100.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+
+            children: [
+              SizedBox(
+                  height: 260.h,
+                  width: 260.w,
+                  child: Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
+              text(context, 'إضافة ٢٠ ريال للرصيد', 20, black,
+                  align: TextAlign.center),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   Widget bottomSheetRechargeMenu(String id, String name, String balance) {
     return Directionality(
@@ -292,7 +321,8 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                         gradientContainerNoborder(
                             150.w,
                             buttoms(context, 'إضافة رصيد', 15, white, () {
-                              ///loading
+                              ///loading Screen
+
                               ///then the verification with the bank
                               ///successful animation
                             })),
@@ -380,9 +410,14 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 30.h,),
-            text(context, 'إضافة بطاقة جديدة', 16, black, fontWeight: FontWeight.bold),
-            SizedBox(height: 15.h,),
+            SizedBox(
+              height: 30.h,
+            ),
+            text(context, 'إضافة بطاقة جديدة', 16, black,
+                fontWeight: FontWeight.bold),
+            SizedBox(
+              height: 15.h,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -395,8 +430,10 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                 SizedBox(
                   width: 5.w,
                 ),
+
                 ///text
-                text(context, 'يتم حفظ معلومات الدفع الخاصة بك بشكل آمن', 12, black.withOpacity(0.6))
+                text(context, 'يتم حفظ معلومات الدفع الخاصة بك بشكل آمن', 12,
+                    black.withOpacity(0.6))
               ],
             ),
             SingleChildScrollView(
@@ -419,12 +456,12 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                       labelText: 'رقم البطاقة',
                       hintText: '0000 0000 0000 0000',
                       hintStyle: TextStyle(
-                          color: Colors.black,
+                          color: Colors.black.withOpacity(0.6),
                           fontSize: 12.sp,
                           fontFamily: 'Cairo'),
                       labelStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontFamily: 'Cairo'),
                       focusedBorder: border,
                       enabledBorder: OutlineInputBorder(
@@ -437,12 +474,12 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                     numberValidationMessage: 'يرجى إضافة رقم البطاقة',
                     expiryDateDecoration: InputDecoration(
                       hintStyle: TextStyle(
-                          color: Colors.black,
+                          color: Colors.black.withOpacity(0.6),
                           fontSize: 12.sp,
                           fontFamily: 'Cairo'),
                       labelStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontFamily: 'Cairo'),
                       focusedBorder: border,
                       enabledBorder: OutlineInputBorder(
@@ -458,12 +495,12 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                         'يرجى إضافة تاريخ انتهاء صلاحية البطاقة',
                     cvvCodeDecoration: InputDecoration(
                       hintStyle: TextStyle(
-                          color: Colors.black,
+                          color: Colors.black.withOpacity(0.6),
                           fontSize: 12.sp,
                           fontFamily: 'Cairo'),
                       labelStyle: TextStyle(
                           color: Colors.black,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontFamily: 'Cairo'),
                       focusedBorder: border,
                       enabledBorder: OutlineInputBorder(
@@ -485,13 +522,21 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                     22,
                     22,
                     gradientContainerNoborder(
-                        150.w,
-                        buttoms(context, 'إسحب الرصيد', 15, white, () {
-                          formKey.currentState!.validate()
-                              ? {
-                            flushBar(context,'تم إرسال طلبك بنجاح', 'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام')
+                        170.w,
+                        buttoms(context, 'التحقق من البطاقة', 15, white, () {
+                          ///Loading screen
+
+                          if (formKey.currentState!.validate()) {
+                            ///loading Screen
+                            goTopagepush(context, splash());
+                            ///then the verification with the bank
+
+                            ///successful animation
+                            goTopagepush(context, const SuccessfulScreen());
+                          } else {
+                            ///successful animation
+                            goTopagepush(context, const FailureScreen());
                           }
-                              : null;
                         })),
                   ),
                   SizedBox(
@@ -524,3 +569,5 @@ class User {
     ];
   }
 }
+
+

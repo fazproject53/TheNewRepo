@@ -211,11 +211,12 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
               padding(
                 22,
                 22,
-                gradientContainerNoborder(getSize(context).width,
+                gradientContainerNoborder(
+                    getSize(context).width,
                     buttoms(context, 'سحب الرصيد', 16, white, () {
                       ///Bottom sheet
-                      showBottomSheetWhite(
-                          context, bottomSheetMenuPayments('1', 'rayana', '500'));
+                      showBottomSheetWhite(context,
+                          bottomSheetMenuPayments('1', 'rayana', '500'));
                     })),
               ),
               SizedBox(
@@ -224,19 +225,23 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
               padding(
                   22,
                   22,
+
                   ///Recharge The Balance Button
                   gradientContainer(
                     getSize(context).width,
                     buttoms(
                       context,
-                      'شحن الحساب', 14, black, () {
+                      'شحن الحساب',
+                      14,
+                      black,
+                      () {
                         ///determine the amount of money
                         goTopagepush(context, UserRechargeBalance());
-
-
-                    },
+                      },
                     ),
-                    gradient: true,color: grey!, height: 40,
+                    gradient: true,
+                    color: grey!,
+                    height: 40,
                   ))
             ],
           ),
@@ -244,6 +249,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
       ),
     );
   }
+
   ///Bottom Sheet for Payments
   Widget bottomSheetMenuPayments(String id, String name, String balance) {
     return Directionality(
@@ -390,7 +396,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                       ),
                       Padding(
                         padding:
-                        EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
+                            EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -434,7 +440,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                 12,
                                 false,
                                 userIbanNumber,
-                                    (String? value) {
+                                (String? value) {
                                   /// Validation text field
                                   if (value == null || value.isEmpty) {
                                     return 'حقل اجباري';
@@ -483,27 +489,29 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                       padding(
                         22,
                         22,
-                        gradientContainerNoborder(150.w,
+                        gradientContainerNoborder(
+                            150.w,
                             buttoms(context, 'إسحب الرصيد', 15, white, () {
                               _formKey.currentState!.validate()
                                   ? {
-                                Flushbar(
-                                  flushbarPosition: FlushbarPosition.TOP,
-                                  backgroundColor: white,
-                                  margin: const EdgeInsets.all(5),
-                                  flushbarStyle: FlushbarStyle.FLOATING,
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  duration:  const Duration(seconds: 5),
-                                  titleText: text(context,
-                                      'تم إرسال طلبك بنجاح', 12, purple),
-                                  messageText: text(
-                                      context,
-                                      'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                      12,
-                                      black,
-                                      fontWeight: FontWeight.w200),
-                                )..show(context)
-                              }
+                                      Flushbar(
+                                        flushbarPosition: FlushbarPosition.TOP,
+                                        backgroundColor: white,
+                                        margin: const EdgeInsets.all(5),
+                                        flushbarStyle: FlushbarStyle.FLOATING,
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        duration: const Duration(seconds: 5),
+                                        titleText: text(context,
+                                            'تم إرسال طلبك بنجاح', 12, purple),
+                                        messageText: text(
+                                            context,
+                                            'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                            12,
+                                            black,
+                                            fontWeight: FontWeight.w200),
+                                      )..show(context)
+                                    }
                                   : null;
                             })),
                       ),
