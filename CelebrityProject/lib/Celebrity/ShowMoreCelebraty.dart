@@ -29,6 +29,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
   bool hasMore = true;
   bool isLoading = false;
   int page = 1;
+  bool x=false;
   @override
   void initState() {
     //print('oldCelebraty.length in inis${oldCelebraty.length}');
@@ -38,6 +39,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
       if (scrollController.position.maxScrollExtent ==
           scrollController.offset) {
         fetchAnotherCategories();
+        //Navigator.pop(context);
       }
     });
   }
@@ -60,7 +62,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
 
   @override
   Widget build(BuildContext context) {
-    //print('oldCelebraty.length in builde${oldCelebraty.length}');
+
     super.build(context);
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -81,7 +83,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                       EdgeInsets.only(bottom: 10.h, left: 10.w, right: 10.w),
                   child: oldCelebraty.isEmpty
                       ? Center(child: mainLoad(context))
-                      : GridView.builder(
+                      :GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2, //عدد العناصر في كل صف
@@ -94,7 +96,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                           itemCount: oldCelebraty.length,
                           itemBuilder: (context, int index) {
 //lode More Data---------------------------------------------------------------------
-                            return SizedBox(
+                            return  SizedBox(
                               width: 180.w,
                               child: InkWell(
                                 onTap: () {
