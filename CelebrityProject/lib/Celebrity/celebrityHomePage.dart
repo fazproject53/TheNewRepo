@@ -971,29 +971,5 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-  /// show bottom sheet---------------------------------------------------------------
-//-------------------------------------------------------------
-//   void showMoreCelebraty(int pagNumber) {
-//     print('page $pagNumber');
-//     showModalBottomSheet<void>(
-//       elevation: 10,
-//       backgroundColor: white,
-//       context: context,
-//       isDismissible: false,
-//       isScrollControlled: true,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.only(
-//             topRight: Radius.circular(0.r), topLeft: Radius.circular(0.r)),
-//         //side: BorderSide(color: Colors.white, width: 1),
-//       ),
-//       builder: (BuildContext context) {
-//         return Padding(
-//           padding: MediaQuery.of(context).viewInsets,
-//           child: Column(
-//             mainAxisSize: MainAxisSize.max,
-//           ),
-//         );
-//       },
-//     );
-//   }
+
 }
