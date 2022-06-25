@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-
+import 'package:flutter/material.dart';
+List<int> getPagNumber = [];
 
 class Section {
   bool? success;
@@ -687,7 +687,14 @@ Future<Category> fetchCategories(int id, int pagNumber) async {
     final body = response.body;
     Category category = Category.fromJson(jsonDecode(body));
     print("Reading category from network------------ ");
-    // print(category.data?.celebrities![0].name);
+    // print();
+  //for(int i = 0; i < category.data!.celebrities!.length; i++){
+    //if(category.data!.celebrities!.isNotEmpty||){
+      getPagNumber.add(1);
+
+   // }
+ // }
+    print(body);
     return category;
   } else {
     throw Exception('Failed to load Category');

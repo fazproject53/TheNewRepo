@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
+import 'package:celepraty/Celebrity/ShowMoreCelebraty.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -29,29 +30,23 @@ class celebrityHomePage extends StatefulWidget {
 class _celebrityHomePageState extends State<celebrityHomePage>
     with AutomaticKeepAliveClientMixin {
   Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
+
   int currentIndex = 0;
-  int pagNumber = 1;
+
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
   Future<header>? futureHeader;
   Future<Partner>? futurePartners;
-  List<int> pag = [];
   bool isLoading = true;
-  ScrollController scrollController = ScrollController();
-  bool showLoading = false;
-  double value = 0;
+  int page = 1;
   @override
   void initState() {
     sections = getSectionsData();
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
-    // scrollController.addListener(() {
-    //   if(scrollController.position.pixels>=scrollController.position.maxScrollExtent){
-    //     print('Get Mooooooooooooor');
-    //   }
-    // });
+
     super.initState();
   }
 
@@ -69,7 +64,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       for (int i = 0; i < sections.data!.length; i++) {
         if (sections.data?[i].sectionName == 'category') {
           category.putIfAbsent(sections.data![i].categoryId!,
-              () => fetchCategories(sections.data![i].categoryId!, pagNumber));
+              () => fetchCategories(sections.data![i].categoryId!, page));
           // pagNumber1++;
           setState(() {});
         }
@@ -82,6 +77,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 
   @override
   Widget build(BuildContext context) {
+    // print('getPageNumber $getPagNumber');
     super.build(context);
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -283,19 +279,6 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     ));
   }
 
-//--------------------------------------------------------------------------
-  BoxDecoration decoration(String famusImage) {
-    return BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(4.r)),
-      image: DecorationImage(
-        image: NetworkImage(famusImage),
-        colorFilter: ColorFilter.mode(black.withOpacity(0.4), BlendMode.darken),
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
-//--------------------------------------------------------------------------
   Widget jouinFaums(String title, String contint, String buttomText) {
     return gradientContainerNoborder(
         184.5,
@@ -481,7 +464,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
-                                        //controller: scrollController,
+                                       // controller: scrollController,
                                         scrollDirection: Axis.horizontal,
                                         itemCount: snapshot.data!.data!
                                                 .celebrities!.length +
@@ -555,92 +538,85 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             );
 //if found more celebraty---------------------------------------------------------------------
                                           } else {
-                                            return snapshot
-                                                            .data!
-                                                            .data!
-                                                            .celebrities!
-                                                            .length >=
-                                                        10 &&
-                                                    snapshot.data!.data!
-                                                            .pageCount! >
-                                                        pagNumber
-                                                //show loading when get data from api
+                                            //  lode mor data if pag mor than 2
+                                            return snapshot.data!.data!
+                                                        .pageCount! >
+                                                    1
                                                 ? SizedBox(
-                                                    width: 70.w,
+                                                    width: 150.w,
                                                     child: InkWell(
-                                                      onTap: showLoading == true
-                                                          ? null
-                                                          : () {
-                                                              setState(() {
-                                                                pagNumber++;
-                                                                showLoading ==
-                                                                    false;
-                                                              });
+                                                      onTap: () {
+                                                       goTopagepush(context, ShowMoreCelebraty(
+                                                           title,
+                                                            categoryId,
+                                                       ));
+                                                      },
+                                                      child: Card(
+                                                        color:
+                                                            Colors.transparent,
+                                                        elevation: 0,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          side:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  width: 1),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.r),
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            const Spacer(),
+                                                            //Icon More---------------------------------------------------------------------------
 
-                                                              fetchAnotherCategories(
-                                                                  snapshot
-                                                                      .data!
-                                                                      .data!
-                                                                      .celebrities!,
-                                                                  categoryId!);
-                                                            },
-                                                      child: SizedBox(
-                                                        child: showLoading == true
-                                                                ? Center(
-                                                                    child: Lottie.asset(
-                                                                            'assets/lottie/grey.json',
-                                                                            fit: BoxFit.cover),
-                                                                  )
-                                                                : Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      const Spacer(),
-                                                                      //Icon More---------------------------------------------------------------------------
-
-                                                                      Center(
-                                                                        child:
-                                                                            CircleAvatar(
-                                                                          child:
-                                                                              Center(
-                                                                            child:
-                                                                                Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              color: white,
-                                                                              size: 30.r,
-                                                                            ),
-                                                                          ),
-                                                                          radius:
-                                                                              30.r,
-                                                                          backgroundColor:
-                                                                              purple.withOpacity(0.3),
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            15.h,
-                                                                      ),
-
-                                                                      //lode more text----------------------
-                                                                      text(
-                                                                          context,
-                                                                          showLoading == true
-                                                                              ? ''
-                                                                              : '',
-                                                                          15,
-                                                                          black.withOpacity(0.4),
-                                                                          fontWeight:
-                                                                              FontWeight.bold),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            15.h,
-                                                                      ),
-                                                                    ],
+                                                            Center(
+                                                              child:
+                                                                  CircleAvatar(
+                                                                child: Center(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .arrow_forward_ios,
+                                                                    color:
+                                                                        white,
+                                                                    size: 30.r,
                                                                   ),
+                                                                ),
+                                                                radius: 30.r,
+                                                                backgroundColor:
+                                                                    purple
+                                                                        .withOpacity(
+                                                                            0.3),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 15.h,
+                                                            ),
+
+                                                            //lode more text----------------------
+                                                            text(
+                                                                context,
+                                                                'عرض الكل',
+                                                                14,
+                                                                black
+                                                                    .withOpacity(
+                                                                        0.8),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                            SizedBox(
+                                                              height: 15.h,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   )
@@ -995,25 +971,29 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-//pagination---------------------------------------------------------------------------------
-  Future fetchAnotherCategories(List oldCelebrities, int id) async {
-    print('pagNumber is $pagNumber');
-    if (showLoading) return;
-    showLoading = true;
-    final response = await http.get(Uri.parse(
-        'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
-    if (response.statusCode == 200) {
-      print('get data from api-----------');
-      final body = response.body;
-      Category category = Category.fromJson(jsonDecode(body));
-      List newItem = category.data!.celebrities!;
-      print('leeeeenght ${newItem.length}');
-      setState(() {
-        showLoading = false;
-        oldCelebrities.addAll(newItem);
-      });
-    } else {
-      throw Exception('Failed to load more Category');
-    }
-  }
+  /// show bottom sheet---------------------------------------------------------------
+//-------------------------------------------------------------
+//   void showMoreCelebraty(int pagNumber) {
+//     print('page $pagNumber');
+//     showModalBottomSheet<void>(
+//       elevation: 10,
+//       backgroundColor: white,
+//       context: context,
+//       isDismissible: false,
+//       isScrollControlled: true,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.only(
+//             topRight: Radius.circular(0.r), topLeft: Radius.circular(0.r)),
+//         //side: BorderSide(color: Colors.white, width: 1),
+//       ),
+//       builder: (BuildContext context) {
+//         return Padding(
+//           padding: MediaQuery.of(context).viewInsets,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.max,
+//           ),
+//         );
+//       },
+//     );
+//   }
 }

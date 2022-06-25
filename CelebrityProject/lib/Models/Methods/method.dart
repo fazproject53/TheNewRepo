@@ -1190,3 +1190,17 @@ Widget mainLoad(context) {
 //   // ScaffoldMessenger.of(context)
 //   //     .showSnackBar(snackBar(context, massage, color, icon));
 // }
+
+//--------------------------------------------------------------------------
+BoxDecoration decoration(String famusImage) {
+  return BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(4.r)),
+    image: DecorationImage(
+      image: NetworkImage(famusImage),
+      colorFilter: ColorFilter.mode(black.withOpacity(0.4), BlendMode.darken),
+      fit: BoxFit.cover,
+    ),
+  );
+}
+
+//--------------------------------------------------------------------------
