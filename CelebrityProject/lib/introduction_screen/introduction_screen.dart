@@ -1,5 +1,6 @@
 ///import section
 
+import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Account/logging.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/introduction_screen/screen_four.dart';
@@ -97,7 +98,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
                 ///Skip
                 InkWell(
                   onTap: () {
-                    goTopagepush(context,  Logging());
+                    goTopagepush(context,  SingUp());
 
                   },
                   child: Visibility(
@@ -130,7 +131,7 @@ class _IntroductionScreenState extends State<IntroductionScreen>
                 ///Start
                 InkWell(
                     onTap: () {
-                      goTopagepush(context,  Logging());
+                      goTopagepush(context,  SingUp());
                     },
                     child: Visibility(
                       visible: currentIndex == 3 ? true : false,

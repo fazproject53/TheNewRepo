@@ -26,10 +26,25 @@ class Logging extends StatefulWidget {
 
 class _LoggingState extends State<Logging> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  bool isChckid = false;
-  final TextEditingController lgoingEmailConttroller = TextEditingController();
+  bool isChckid = true;
+  String isFoundEmail='';
+  TextEditingController lgoingEmailConttroller=TextEditingController();
   final TextEditingController lgoingPassConttroller = TextEditingController();
   GlobalKey<FormState> logKey = GlobalKey();
+  @override
+  void initState() {
+    //WidgetsFlutterBinding.ensureInitialized();
+    super.initState();
+    DatabaseHelper.getRememberUserEmail().then((email) {
+      setState(() {
+        isFoundEmail = email;
+        lgoingEmailConttroller=TextEditingController(text: isFoundEmail==''?'':isFoundEmail);
+
+      });
+
+    });
+    print('email:$isFoundEmail');
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -106,6 +121,7 @@ class _LoggingState extends State<Logging> {
                                   if (isChckid) {
                                     if (result == "user") {
                                       DatabaseHelper.saveRememberToken(result);
+                                      DatabaseHelper.saveRememberUserEmail(lgoingEmailConttroller.text);
                                       Navigator.pop(context);
                                       DatabaseHelper.saveRememberUser("user");
                                       Navigator.pushReplacement(
@@ -115,6 +131,7 @@ class _LoggingState extends State<Logging> {
                                                   const MainScreen()));
                                     } else if (result == "celebrity") {
                                       DatabaseHelper.saveRememberToken(result);
+                                      DatabaseHelper.saveRememberUserEmail(lgoingEmailConttroller.text);
                                       Navigator.pop(context);
                                       DatabaseHelper.saveRememberUser(
                                           "celebrity");
@@ -260,7 +277,9 @@ class _LoggingState extends State<Logging> {
         // ),
         InkWell(
             onTap: () {
+
               goTopagepush(context, const SendEmail());
+
             },
             child: text(context, 'هل نسيت كلمة المرور؟', 14.sp, purple)),
       ],

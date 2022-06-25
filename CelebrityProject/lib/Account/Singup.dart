@@ -41,9 +41,11 @@ class _SingUpState extends State<SingUp> {
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
       for (int i = 0; i < body['data'].length; i++) {
-        setState(() {
-          countries.add(body['data'][i]['name']);
-        });
+        if (mounted) {
+          setState(() {
+            countries.add(body['data'][i]['name']);
+          });
+        }
       }
 
       print('countries is:$countries');
@@ -62,7 +64,11 @@ class _SingUpState extends State<SingUp> {
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
       for (int i = 0; i < body['data'].length; i++) {
-        celebrityCategories.add(body['data'][i]['name']);
+        if (mounted) {
+          setState(() {
+            celebrityCategories.add(body['data'][i]['name']);
+          });
+        }
       }
       print(celebrityCategories);
 
@@ -337,5 +343,4 @@ class _SingUpState extends State<SingUp> {
           snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
   }
-
 }

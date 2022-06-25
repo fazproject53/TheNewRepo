@@ -29,10 +29,10 @@ class _gifttingFormState extends State<gifttingForm>{
   Future<GiftType>? types;
   Future<OccasionType>? otypes;
   Future<Pricing>? pricing;
-  final TextEditingController desc = new TextEditingController();
-  final TextEditingController from = new TextEditingController();
-  final TextEditingController to = new TextEditingController();
-  final TextEditingController copun = new TextEditingController();
+  final TextEditingController desc =  TextEditingController();
+  final TextEditingController from =  TextEditingController();
+  final TextEditingController to =  TextEditingController();
+  final TextEditingController copun =  TextEditingController();
 
   DateTime current = DateTime.now();
   String ocassion = 'اختر المناسبة الخاصة';
@@ -144,13 +144,13 @@ class _gifttingFormState extends State<gifttingForm>{
     } else if (snapshot.hasData) {
       snapshot.data!.data != null && _selectedTest2 != null ?  activateIt = true :null;
       return snapshot.data!.data == null || _selectedTest2 == null?
-     SizedBox(): paddingg(15, 15, 12, Container(height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
+     const SizedBox(): paddingg(15, 15, 12, Container(height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
                                   child:   Padding(
                                     padding: EdgeInsets.all(10),
                                     child:Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children:  [
-                                        Padding(
+                                        const Padding(
                                           padding: EdgeInsets.only(right: 8.0),
                                           child: Text('سعر الاهداء', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17, color: white , fontFamily: 'Cairo'), ),
                                         ),

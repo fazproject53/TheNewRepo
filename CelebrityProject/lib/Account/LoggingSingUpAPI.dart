@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'TheUser.dart';
 import 'logging.dart' as login;
 String rememberIsLogin = '';
-
 class DatabaseHelper {
   String serverUrl = "https://mobile.celebrityads.net/api";
   String token = '';
@@ -22,14 +21,13 @@ class DatabaseHelper {
       var email = jsonDecode(respons.body)["data"]?["user"]['email'];
       token = jsonDecode(respons.body)['data']['token'];
       _saveToken(token);
-      login.Logging.theUser = new TheUser();
+      login.Logging.theUser =  TheUser();
       login.Logging.theUser!.name = jsonDecode(respons.body)["data"]?["user"]['name'];
       login.Logging.theUser!.email = jsonDecode(respons.body)["data"]?["user"]['email'];
       login.Logging.theUser!.id = jsonDecode(respons.body)["data"]?["user"]['id'].toString();
       login.Logging.theUser!.phone = jsonDecode(respons.body)["data"]?["user"]['phone'].toString();
       login.Logging.theUser!.image = jsonDecode(respons.body)["data"]?["user"]['image'];
       login.Logging.theUser!.country = jsonDecode(respons.body)["data"]?["user"]['country']['name'];
-
       rememberIsLogin = token;
       print('-----------------------------------------------------');
       print('username is: $username');
@@ -73,6 +71,7 @@ class DatabaseHelper {
         token = jsonDecode(respons.body)['data']['token'];
         userType = jsonDecode(respons.body)['data']?['user']?['type'];
         _saveToken(token);
+        saveRememberUserEmail(email);
         //print(userType);
         return '$userType';
       } else if (message['email']?[0] == "The email has already been taken." &&
@@ -121,7 +120,7 @@ class DatabaseHelper {
         token = jsonDecode(respons.body)['data']['token'];
         userType = jsonDecode(respons.body)['data']?['celebrity']?['type'];
         _saveToken(token);
-
+         saveRememberUserEmail(email);
         // print('respons body: ${jsonDecode(respons.body)}');
         // print(userType);
         return '$userType';
@@ -192,7 +191,20 @@ class DatabaseHelper {
     print('get Remember user: $value');
     return value;
   }
-
+//save Remember User Email------------------------------------------------------------
+  static saveRememberUserEmail(String user) async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'email';
+    prefs.setString(key, user);
+  }
+  //get Remember User Email------------------------------------------------------------
+  static Future<String> getRememberUserEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'email';
+    String value = prefs.getString(key) ?? '';
+    print('get Remember email: $value');
+    return value;
+  }
   //remove token-----------------------------------------------------------------
   static void removeRememberToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -206,6 +218,13 @@ class DatabaseHelper {
     const key = 'user';
     bool de = await prefs.remove(key);
     print('dddddddddddelete user $de');
+  }
+  //remove Remember User Email-----------------------------------------------------------------
+  static void removeRememberUserEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    const key = 'email';
+    bool de = await prefs.remove(key);
+    print('dddddddddddelete email $de');
   }
 }
       //

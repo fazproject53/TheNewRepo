@@ -21,6 +21,7 @@ class _SendEmailState extends State<SendEmail> {
   final TextEditingController userNameEmailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
