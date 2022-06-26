@@ -14,11 +14,9 @@ import 'Singup.dart';
 import 'TheUser.dart';
 import 'UserForm.dart';
 
-
-
 class Logging extends StatefulWidget {
   static TheUser? theUser;
-   Logging({Key? key}) : super(key: key);
+  Logging({Key? key}) : super(key: key);
 
   @override
   State<Logging> createState() => _LoggingState();
@@ -27,8 +25,8 @@ class Logging extends StatefulWidget {
 class _LoggingState extends State<Logging> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   bool isChckid = true;
-  String isFoundEmail='';
-  TextEditingController lgoingEmailConttroller=TextEditingController();
+  String isFoundEmail = '';
+  TextEditingController lgoingEmailConttroller = TextEditingController();
   final TextEditingController lgoingPassConttroller = TextEditingController();
   GlobalKey<FormState> logKey = GlobalKey();
   @override
@@ -38,13 +36,13 @@ class _LoggingState extends State<Logging> {
     DatabaseHelper.getRememberUserEmail().then((email) {
       setState(() {
         isFoundEmail = email;
-        lgoingEmailConttroller=TextEditingController(text: isFoundEmail==''?'':isFoundEmail);
-
+        lgoingEmailConttroller =
+            TextEditingController(text: isFoundEmail == '' ? '' : isFoundEmail);
       });
-
     });
     print('email:$isFoundEmail');
   }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -121,7 +119,8 @@ class _LoggingState extends State<Logging> {
                                   if (isChckid) {
                                     if (result == "user") {
                                       DatabaseHelper.saveRememberToken(result);
-                                      DatabaseHelper.saveRememberUserEmail(lgoingEmailConttroller.text);
+                                      DatabaseHelper.saveRememberUserEmail(
+                                          lgoingEmailConttroller.text);
                                       Navigator.pop(context);
                                       DatabaseHelper.saveRememberUser("user");
                                       Navigator.pushReplacement(
@@ -131,7 +130,8 @@ class _LoggingState extends State<Logging> {
                                                   const MainScreen()));
                                     } else if (result == "celebrity") {
                                       DatabaseHelper.saveRememberToken(result);
-                                      DatabaseHelper.saveRememberUserEmail(lgoingEmailConttroller.text);
+                                      DatabaseHelper.saveRememberUserEmail(
+                                          lgoingEmailConttroller.text);
                                       Navigator.pop(context);
                                       DatabaseHelper.saveRememberUser(
                                           "celebrity");
@@ -166,7 +166,8 @@ class _LoggingState extends State<Logging> {
                                       setState(() {
                                         currentuser = "user";
                                       });
-
+                                      DatabaseHelper.removeRememberUserEmail();
+                                      print('remove user email');
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
@@ -180,7 +181,8 @@ class _LoggingState extends State<Logging> {
                                       setState(() {
                                         currentuser = "famous";
                                       });
-
+                                      DatabaseHelper.removeRememberUserEmail();
+                                      print('remove celebrity email');
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
@@ -277,14 +279,10 @@ class _LoggingState extends State<Logging> {
         // ),
         InkWell(
             onTap: () {
-
               goTopagepush(context, const SendEmail());
-
             },
             child: text(context, 'هل نسيت كلمة المرور؟', 14.sp, purple)),
       ],
     );
   }
-
-
 }

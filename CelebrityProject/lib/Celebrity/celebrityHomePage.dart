@@ -85,88 +85,91 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: purple),
         home: Scaffold(
-            body: SingleChildScrollView(
+            body: RefreshIndicator(
+              onRefresh: onRefresh,
+              child: SingleChildScrollView(
           child: FutureBuilder<Section>(
-            future: sections,
-            builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: lodeing());
-              } else if (snapshot.connectionState == ConnectionState.active ||
-                  snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  //throw snapshot.error.toString();
-                  return Center(child: Text(snapshot.error.toString()));
-                  //---------------------------------------------------------------------------
-                } else if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      for (int sectionIndex = 0;
-                          sectionIndex < snapshot.data!.data!.length;
-                          sectionIndex++)
-                        Column(
-                          children: [
+              future: sections,
+              builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: lodeing());
+                } else if (snapshot.connectionState == ConnectionState.active ||
+                    snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    //throw snapshot.error.toString();
+                    return Center(child: Text(snapshot.error.toString()));
+                    //---------------------------------------------------------------------------
+                  } else if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        for (int sectionIndex = 0;
+                            sectionIndex < snapshot.data!.data!.length;
+                            sectionIndex++)
+                          Column(
+                            children: [
 //category--------------------------------------------------------------------------
 
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'category')
-                              categorySection(
-                                  snapshot.data?.data![sectionIndex].categoryId,
-                                  snapshot.data?.data![sectionIndex].title,
-                                  snapshot.data?.data![sectionIndex].active),
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'category')
+                                categorySection(
+                                    snapshot.data?.data![sectionIndex].categoryId,
+                                    snapshot.data?.data![sectionIndex].title,
+                                    snapshot.data?.data![sectionIndex].active),
 
 //header--------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'header')
-                              headerSection(
-                                  snapshot.data?.data![sectionIndex].active),
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'header')
+                                headerSection(
+                                    snapshot.data?.data![sectionIndex].active),
 //links--------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'links')
-                              linksSection(
-                                  snapshot.data?.data![sectionIndex].active),
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'links')
+                                linksSection(
+                                    snapshot.data?.data![sectionIndex].active),
 //Advertising-banner--------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'Advertising-banner')
-                              advertisingBannerSection(
-                                  snapshot.data?.data![sectionIndex].active),
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'Advertising-banner')
+                                advertisingBannerSection(
+                                    snapshot.data?.data![sectionIndex].active),
 //join-us--------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'join-us')
-                              joinUsSection(
-                                  snapshot.data?.data![sectionIndex].active),
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'join-us')
+                                joinUsSection(
+                                    snapshot.data?.data![sectionIndex].active),
 //new section---------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'new_section')
-                              newSection(
-                                  snapshot.data?.data![sectionIndex].categoryId,
-                                  snapshot.data?.data![sectionIndex].title,
-                                  snapshot.data?.data![sectionIndex].active),
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'new_section')
+                                newSection(
+                                    snapshot.data?.data![sectionIndex].categoryId,
+                                    snapshot.data?.data![sectionIndex].title,
+                                    snapshot.data?.data![sectionIndex].active),
 //partners--------------------------------------------------------------------------
-                            if (snapshot
-                                    .data!.data![sectionIndex].sectionName ==
-                                'partners')
-                              partnersSection(
-                                  snapshot.data?.data![sectionIndex].active),
-                          ],
-                        )
-                    ],
-                  );
+                              if (snapshot
+                                      .data!.data![sectionIndex].sectionName ==
+                                  'partners')
+                                partnersSection(
+                                    snapshot.data?.data![sectionIndex].active),
+                            ],
+                          )
+                      ],
+                    );
+                  } else {
+                    return const Center(child: Text('Empty data'));
+                  }
                 } else {
-                  return const Center(child: Text('Empty data'));
+                  return Center(
+                      child: Text('State: ${snapshot.connectionState}'));
                 }
-              } else {
-                return Center(
-                    child: Text('State: ${snapshot.connectionState}'));
-              }
-            },
+              },
           ),
-        )),
+        ),
+            )),
       ),
     );
   }
@@ -454,7 +457,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                 Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 7.0.h, vertical: 4.h),
-                                  child: text(context, title!, 14, black,
+                                  child: text(context, title!, 18, black,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
@@ -972,4 +975,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
 
+
+ Future onRefresh()async {
+    sections = getSectionsData();
+    futureLinks = fetchLinks();
+    futureHeader = fetchHeader();
+    futurePartners = fetchPartners();
+  }
 }

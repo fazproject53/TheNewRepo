@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 
 import '../Models/Methods/method.dart';
 import '../Models/Variables/Variables.dart';
@@ -29,7 +30,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
   bool hasMore = true;
   bool isLoading = false;
   int page = 1;
-  bool x=false;
+  int pageCount = 2;
   @override
   void initState() {
     //print('oldCelebraty.length in inis${oldCelebraty.length}');
@@ -37,9 +38,11 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
     fetchAnotherCategories();
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
-          scrollController.offset) {
+              scrollController.offset &&
+          hasMore == false) {
+       // print('getNew Data');
         fetchAnotherCategories();
-        //Navigator.pop(context);
+
       }
     });
   }
@@ -62,7 +65,6 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
 
   @override
   Widget build(BuildContext context) {
-
     super.build(context);
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -83,49 +85,69 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                       EdgeInsets.only(bottom: 10.h, left: 10.w, right: 10.w),
                   child: oldCelebraty.isEmpty
                       ? Center(child: mainLoad(context))
-                      :GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, //عدد العناصر في كل صف
-                                  crossAxisSpacing: 8.r, // المسافات الراسية
-                                  childAspectRatio: 0.90.sp, //حجم العناصر
-                                  mainAxisSpacing: 11.r //المسافات الافقية
+                      : Stack(
+                          children: [
+                            GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount:
+                                            2, //عدد العناصر في كل صف
+                                        crossAxisSpacing:
+                                            8.r, // المسافات الراسية
+                                        childAspectRatio: 0.90.sp, //حجم العناصر
+                                        mainAxisSpacing: 11.r //المسافات الافقية
 
-                                  ),
-                          controller: scrollController,
-                          itemCount: oldCelebraty.length,
-                          itemBuilder: (context, int index) {
+                                        ),
+                                controller: scrollController,
+                                itemCount: oldCelebraty.length,
+                                itemBuilder: (context, int index) {
 //lode More Data---------------------------------------------------------------------
-                            return  SizedBox(
-                              width: 180.w,
-                              child: InkWell(
-                                onTap: () {
-                                  goTopagepush(
-                                      context,
-                                      CelebrityHome(
-                                          pageUrl:
-                                              oldCelebraty[index].pageUrl!));
-                                },
-                                child: Card(
-                                    //elevation: 5,
-                                    child: Container(
-                                  decoration:
-                                      decoration(oldCelebraty[index].image!),
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10.0.w),
-                                      child: text(context,
-                                          oldCelebraty[index].name!, 18, white,
-                                          fontWeight: FontWeight.bold),
+                                  return SizedBox(
+                                    width: 180.w,
+                                    child: InkWell(
+                                      onTap: () {
+                                        goTopagepush(
+                                            context,
+                                            CelebrityHome(
+                                                pageUrl: oldCelebraty[index]
+                                                    .pageUrl!));
+                                      },
+                                      child: Card(
+                                          //elevation: 5,
+                                          child: Container(
+                                        decoration: decoration(
+                                            oldCelebraty[index].image!),
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10.0.w),
+                                            child: text(
+                                                context,
+                                                oldCelebraty[index].name!,
+                                                18,
+                                                white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      )
+                                          //:Container(color: Colors.green,),
+                                          ),
                                     ),
-                                  ),
-                                )
-                                    //:Container(color: Colors.green,),
-                                    ),
-                              ),
-                            );
-                          }),
+                                  );
+                                }),
+//loading-----------------------------------------------------------------------------
+                            isLoading && pageCount >= page
+                                ? Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: SizedBox(
+                                     // color: red,
+                                        width: 140.h,
+                                        height: 90.h,
+                                        child: Center(child: Lottie.asset('assets/lottie/newWhite.json',fit: BoxFit.cover))),
+                                  )
+                                : const SizedBox()
+                          ],
+                        ),
                 ),
               ))),
             ],
@@ -137,26 +159,29 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
 
 //pagination---------------------------------------------------------------------------------
   fetchAnotherCategories() async {
-    print('pagNumber before lode is $page');
-    if (isLoading) return;
-    isLoading = true;
-
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
+    print('pageApi $pageCount pagNumber $page');
     final response = await http.get(Uri.parse(
         'http://mobile.celebrityads.net/api/category/celebrities/${widget.categoryId}?page=$page'));
     if (response.statusCode == 200) {
-      //print('get data from api-----------');
       final body = response.body;
       Category category = Category.fromJson(jsonDecode(body));
       var newItem = category.data!.celebrities!;
-       print('length ${newItem.length}');
-
+      pageCount = category.data!.pageCount!;
+      print('length ${newItem.length}');
+      if (!mounted) return;
       setState(() {
-        page++;
-        isLoading = false;
-        if (newItem.length < 10) {
-          hasMore = false;
+        if (newItem.isNotEmpty) {
+          hasMore = newItem.isEmpty;
+          oldCelebraty.addAll(newItem);
+          isLoading = false;
+          page++;
         }
-        oldCelebraty.addAll(newItem);
       });
 
       return category;
