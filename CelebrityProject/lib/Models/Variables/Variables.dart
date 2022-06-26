@@ -106,7 +106,7 @@ IconData hide = Icons.visibility_off_sharp;
 IconData flag = Icons.flag_rounded;
 IconData verified = Icons.verified_sharp;
 IconData protect = Icons.security;
-
+IconData right = Icons.done_outline_outlined;
 //controller name----------------------------------------------------------------
 TextEditingController userNameUserController = TextEditingController();
 TextEditingController passUserController =TextEditingController();

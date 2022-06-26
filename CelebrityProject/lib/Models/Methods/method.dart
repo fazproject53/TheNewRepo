@@ -40,9 +40,7 @@ Widget text(
 ///
 ///Flushbar
 Widget flushBar(context, String title, String message,){
-  return Directionality(
-    textDirection: TextDirection.rtl,
-    child: Flushbar(
+  return Flushbar(
       titleText: Text(title, style: TextStyle(
           color: purple, fontFamily: 'Cairo', fontSize: 12.sp,),),
       messageText: Text(message),
@@ -52,8 +50,8 @@ Widget flushBar(context, String title, String message,){
       flushbarStyle: FlushbarStyle.FLOATING,
       duration: const Duration(seconds: 5),
       backgroundColor: white,
-    )..show(context),
-  );
+    )..show(context);
+
 
 }
 
@@ -564,8 +562,7 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       autofocus: false,
       focusNode: focusNode,
-      style:
-          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
@@ -581,6 +578,49 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
           ),
           alignLabelWithHint: true,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
+          hintText: key,
+
+          errorStyle: TextStyle(
+            color: red!,
+            fontSize: 10.sp,
+            fontFamily: 'Cairo',
+          ),
+          contentPadding: EdgeInsets.all(10.h)),
+    ),
+  );
+}
+
+///Text Field small
+Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
+    TextEditingController mycontroller, myvali,
+    {Widget? suffixIcon,
+      void Function()? onTap,
+      List<TextInputFormatter>? inputFormatters,
+      TextInputType? keyboardType, focusNode}) { ///The icons will be optional
+  return SizedBox(
+    height: 80.h,
+    width: 100.w,
+    child: TextFormField(
+      validator: myvali,
+      controller: mycontroller,
+      textAlign: TextAlign.center,
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autofocus: false,
+
+      focusNode: focusNode,
+      style:TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      decoration: InputDecoration(
+          isDense: false,
+          filled: true,
+          suffixIcon: suffixIcon,
+          hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          fillColor: textColor,
+          labelStyle: TextStyle(color: white, fontSize: fontSize.sp,),
+          alignLabelWithHint: true,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(100),borderSide: BorderSide.none),
+
           hintText: key,
 
           errorStyle: TextStyle(

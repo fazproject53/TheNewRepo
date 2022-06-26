@@ -38,6 +38,9 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
 
   ///formKey
   final _formKey = GlobalKey<FormState>();
+
+  ///
+  bool isVesible = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -285,7 +288,9 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
 
                     ///--------------------------
                     Visibility(
-                        visible: true,
+                        visible: isVesible,
+
+                        ///true
                         child: Column(
                           children: const [
                             SingleChildScrollView(child: RadioWidgetDemo()),
@@ -356,9 +361,56 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                     padding(
                       22,
                       22,
-                      gradientContainerNoborder(150.w,
-                          buttoms(context, 'إسحب الرصيد', 15, white, () {})),
+                      gradientContainerNoborder(
+                          150.w,
+                          buttoms(context, 'إسحب الرصيد', 15, white, () {
+                            isVesible == false
+                                ? Flushbar(
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    backgroundColor: white,
+                                    margin: const EdgeInsets.all(5),
+                                    flushbarStyle: FlushbarStyle.FLOATING,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    duration: const Duration(seconds: 5),
+                                    icon: Icon(
+                                      error,
+                                      color: red!,
+                                      size: 25.sp,
+                                    ),
+                                    titleText: text(context, 'خطأ', 12, purple),
+                                    messageText: text(
+                                        context,
+                                        'قم بإختيار بطاقة او ادخال بطاقة جديدة',
+                                        12,
+                                        black,
+                                        fontWeight: FontWeight.w200),
+                                  ).show(context)
+                                : Flushbar(
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    backgroundColor: white,
+                                    margin: const EdgeInsets.all(5),
+                                    flushbarStyle: FlushbarStyle.FLOATING,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    duration: const Duration(seconds: 5),
+                                    icon: Icon(
+                                      right,
+                                      color: green,
+                                      size: 30,
+                                    ),
+                                    titleText: text(context,
+                                        'تم إرسال طلبك بنجاح', 12, purple),
+                                    messageText: text(
+                                        context,
+                                        'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                        12,
+                                        black,
+                                        fontWeight: FontWeight.w200),
+                                  ).show(context);
+                          })),
                     ),
+                    SizedBox(
+                      height: 20.h,
+                    )
                   ],
                 ),
               )
@@ -502,6 +554,11 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                         borderRadius:
                                             BorderRadius.circular(10.r),
                                         duration: const Duration(seconds: 5),
+                                        icon: Icon(
+                                          right,
+                                          color: green,
+                                          size: 30,
+                                        ),
                                         titleText: text(context,
                                             'تم إرسال طلبك بنجاح', 12, purple),
                                         messageText: text(

@@ -1,7 +1,9 @@
 import 'package:celepraty/Models/Variables/Variables.dart';
+import 'package:celepraty/SuccessfulAndFailureScreens/splash_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import '../../Models/Methods/method.dart';
@@ -9,9 +11,6 @@ import '../../Models/Methods/method.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-
-import '../../SuccessfulAndFailureScreens/failure_screen.dart';
-import '../../SuccessfulAndFailureScreens/successful_screen.dart';
 
 class UserRechargeBalance extends StatefulWidget {
   const UserRechargeBalance({Key? key}) : super(key: key);
@@ -90,6 +89,8 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
     });
   }
 
+  bool isVesible = true;
+  bool isVesible2 = true;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -101,27 +102,29 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 30.h),
               SizedBox(
                   height: 180.h,
                   width: 180.w,
-                  child: Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
-              text(context, 'ادخل المبلغ المراد شحنه', 16,
+                  child:
+                      Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
+              text(context, 'ادخل المبلغ المراد إضافة للرصيد', 18,
                   black.withOpacity(0.6)),
               SizedBox(
-                height: 20.h,
+                height: 18.h,
               ),
-              textFieldSmall(
-                context,
-                '',
-                14,
-                false,
-                amount,
-                (String? value) {},
-                keyboardType: TextInputType.phone,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              ),
+              textFieldSmallRE(
+                  context,
+                  '200 ر.س',
+                  14,
+                  false,
+                  amount,
+                  (String? value) {},
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                ),
+
               const Spacer(),
+
               padding(
                 22,
                 22,
@@ -133,8 +136,25 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                         showBottomSheetWhite(context,
                             bottomSheetRechargeMenu('1', 'rayana', '500'));
                       } else {
-                        flushBar(
-                            context, 'Erorr', 'Enter amount of money first');
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Flushbar(
+                              flushbarPosition: FlushbarPosition.TOP,
+                              backgroundColor: white,
+                              margin: const EdgeInsets.all(5),
+                              flushbarStyle: FlushbarStyle.FLOATING,
+                              borderRadius: BorderRadius.circular(10.r),
+                              duration: const Duration(seconds: 5),
+                              icon: Icon(
+                                error,
+                                color: red!,
+                                size: 25.sp,
+                              ),
+                              titleText: text(context, 'خطأ', 12, purple),
+                              messageText: text(context,
+                                  'أدخل المبلغ المراد إضافة للرصيد', 12, black,
+                                  fontWeight: FontWeight.w200),
+                            )..show(context));
                       }
                     })),
               ),
@@ -146,33 +166,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
         ),
       ),
     );
-
   }
-
-
-   splash() {
-    return Scaffold(
-      backgroundColor: white.withOpacity(0.7),
-      body: Center(
-        child: Padding(
-          padding:  EdgeInsets.only(top: 100.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-
-            children: [
-              SizedBox(
-                  height: 260.h,
-                  width: 260.w,
-                  child: Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
-              text(context, 'إضافة ٢٠ ريال للرصيد', 20, black,
-                  align: TextAlign.center),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
 
   Widget bottomSheetRechargeMenu(String id, String name, String balance) {
     return Directionality(
@@ -250,7 +244,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
 
                     ///credit card
                     Visibility(
-                        visible: true,
+                        visible: isVesible,
                         child: Column(
                           children: [
                             SingleChildScrollView(
@@ -314,18 +308,53 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                     ///bottom to withdraw balance
                     Visibility(
                       ///will show when the user choose one of the available credit card
-                      visible: true,
+                      visible: isVesible,
                       child: padding(
                         22,
                         22,
                         gradientContainerNoborder(
-                            150.w,
-                            buttoms(context, 'إضافة رصيد', 15, white, () {
-                              ///loading Screen
+                          150.w,
+                          buttoms(
+                            context,
+                            'إضافة رصيد',
+                            15,
+                            white,
+                            () {
+                              isVesible == true
+                                  ?
 
-                              ///then the verification with the bank
-                              ///successful animation
-                            })),
+                                  ///loading Screen the successful animation
+                                  goTopagepush(
+                                      context,
+                                      const SplashScreen(
+                                        trueOrFalse: 1,
+                                      ))
+                                  :
+
+                                  ///loading Screen the failure animation
+                              Flushbar(
+                                flushbarPosition: FlushbarPosition.TOP,
+                                backgroundColor: white,
+                                margin: const EdgeInsets.all(5),
+                                flushbarStyle: FlushbarStyle.FLOATING,
+                                borderRadius: BorderRadius.circular(10.r),
+                                duration: const Duration(seconds: 5),
+                                icon: Icon(
+                                  error,
+                                  color: red!,
+                                  size: 25.sp,
+                                ),
+                                titleText: text(context, 'خطأ', 12, purple),
+                                messageText: text(
+                                    context,
+                                    'قم بإختيار بطاقة او ادخال بطاقة جديدة',
+                                    12,
+                                    black,
+                                    fontWeight: FontWeight.w200),
+                              ).show(context);
+                            },
+                          ),
+                        ),
                       ),
                     ),
 
@@ -438,82 +467,86 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
             ),
             SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  CreditCardForm(
-                    cardHolderName: '',
-                    formKey: formKey,
-                    obscureCvv: true,
-                    isHolderNameVisible: false,
-                    obscureNumber: true,
-                    cardNumber: cardNumber,
-                    cvvCode: cvvCode,
-                    isCardNumberVisible: true,
-                    isExpiryDateVisible: true,
-                    expiryDate: expiryDate,
-                    themeColor: purple,
-                    textColor: Colors.black,
-                    cardNumberDecoration: InputDecoration(
-                      labelText: 'رقم البطاقة',
-                      hintText: '0000 0000 0000 0000',
-                      hintStyle: TextStyle(
-                          color: Colors.black.withOpacity(0.6),
-                          fontSize: 12.sp,
-                          fontFamily: 'Cairo'),
-                      labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontFamily: 'Cairo'),
-                      focusedBorder: border,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: grey!.withOpacity(0.8),
-                          width: 1.0,
+                  Padding(
+                    padding:  MediaQuery.of(context).viewInsets,
+                    child: CreditCardForm(
+                      cardHolderName: '',
+                      formKey: formKey,
+                      obscureCvv: true,
+                      isHolderNameVisible: false,
+                      obscureNumber: true,
+                      cardNumber: cardNumber,
+                      cvvCode: cvvCode,
+                      isCardNumberVisible: true,
+                      isExpiryDateVisible: true,
+                      expiryDate: expiryDate,
+                      themeColor: purple,
+                      textColor: Colors.black,
+                      cardNumberDecoration: InputDecoration(
+                        labelText: 'رقم البطاقة',
+                        hintText: '0000 0000 0000 0000',
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontFamily: 'Cairo'),
+                        labelStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                            fontFamily: 'Cairo'),
+                        focusedBorder: border,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: grey!.withOpacity(0.8),
+                            width: 1.0,
+                          ),
                         ),
                       ),
-                    ),
-                    numberValidationMessage: 'يرجى إضافة رقم البطاقة',
-                    expiryDateDecoration: InputDecoration(
-                      hintStyle: TextStyle(
-                          color: Colors.black.withOpacity(0.6),
-                          fontSize: 12.sp,
-                          fontFamily: 'Cairo'),
-                      labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontFamily: 'Cairo'),
-                      focusedBorder: border,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: grey!.withOpacity(0.8),
-                          width: 1.0,
+                      numberValidationMessage: 'يرجى إضافة رقم البطاقة',
+                      expiryDateDecoration: InputDecoration(
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontFamily: 'Cairo'),
+                        labelStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                            fontFamily: 'Cairo'),
+                        focusedBorder: border,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: grey!.withOpacity(0.8),
+                            width: 1.0,
+                          ),
                         ),
+                        labelText: 'تاريخ الانتهاء',
+                        hintText: 'شهر/سنة',
                       ),
-                      labelText: 'تاريخ الانتهاء',
-                      hintText: 'XX/XX',
-                    ),
-                    dateValidationMessage:
-                        'يرجى إضافة تاريخ انتهاء صلاحية البطاقة',
-                    cvvCodeDecoration: InputDecoration(
-                      hintStyle: TextStyle(
-                          color: Colors.black.withOpacity(0.6),
-                          fontSize: 12.sp,
-                          fontFamily: 'Cairo'),
-                      labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12.sp,
-                          fontFamily: 'Cairo'),
-                      focusedBorder: border,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: grey!.withOpacity(0.8),
-                          width: 1.0,
+                      dateValidationMessage:
+                          'يرجى إضافة تاريخ انتهاء صلاحية البطاقة',
+                      cvvCodeDecoration: InputDecoration(
+                        hintStyle: TextStyle(
+                            color: Colors.black.withOpacity(0.6),
+                            fontSize: 12.sp,
+                            fontFamily: 'Cairo'),
+                        labelStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12.sp,
+                            fontFamily: 'Cairo'),
+                        focusedBorder: border,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: grey!.withOpacity(0.8),
+                            width: 1.0,
+                          ),
                         ),
+                        labelText: 'رمز التحقق' + 'CVV',
+                        hintText: '000',
                       ),
-                      labelText: 'رمز التحقق' + 'CVV',
-                      hintText: '000',
+                      cvvValidationMessage: 'ادخل رمز التحقق',
+                      onCreditCardModelChange: onCreditCardModelChange,
                     ),
-                    cvvValidationMessage: 'ادخل رمز التحقق',
-                    onCreditCardModelChange: onCreditCardModelChange,
                   ),
                   SizedBox(
                     height: 30.h,
@@ -522,22 +555,31 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                     22,
                     22,
                     gradientContainerNoborder(
-                        170.w,
-                        buttoms(context, 'التحقق من البطاقة', 15, white, () {
-                          ///Loading screen
-
+                      170.w,
+                      buttoms(
+                        context,
+                        'التحقق من البطاقة',
+                        15,
+                        white,
+                        () {
                           if (formKey.currentState!.validate()) {
                             ///loading Screen
-                            goTopagepush(context, splash());
-                            ///then the verification with the bank
-
-                            ///successful animation
-                            goTopagepush(context, const SuccessfulScreen());
+                            goTopagepush(
+                                context,
+                                const SplashScreen(
+                                  trueOrFalse: 1,
+                                ));
                           } else {
                             ///successful animation
-                            goTopagepush(context, const FailureScreen());
+                            goTopagepush(
+                                context,
+                                const SplashScreen(
+                                  trueOrFalse: 2,
+                                ));
                           }
-                        })),
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 40.h,
@@ -569,5 +611,3 @@ class User {
     ];
   }
 }
-
-
