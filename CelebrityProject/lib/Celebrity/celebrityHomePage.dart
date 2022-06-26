@@ -876,7 +876,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         children: <Widget>[
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: grey!,
+              baseColor: mainGrey,
               highlightColor: deepwhite,
               enabled: isLoading,
               child: ListView.builder(

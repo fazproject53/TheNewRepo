@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../Models/Methods/method.dart';
 import '../Models/Variables/Variables.dart';
@@ -31,18 +32,19 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
   bool isLoading = false;
   int page = 1;
   int pageCount = 2;
+  double? high;
+  //
   @override
   void initState() {
-    //print('oldCelebraty.length in inis${oldCelebraty.length}');
+    high = 0.0;
     super.initState();
     fetchAnotherCategories();
     scrollController.addListener(() {
       if (scrollController.position.maxScrollExtent ==
               scrollController.offset &&
           hasMore == false) {
-       // print('getNew Data');
+        // print('getNew Data');
         fetchAnotherCategories();
-
       }
     });
   }
@@ -78,6 +80,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                 height: 15.h,
               ),
               Expanded(
+                flex:4,
                   child: SizedBox(
                       child: InkWell(
                 child: Padding(
@@ -85,71 +88,53 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                       EdgeInsets.only(bottom: 10.h, left: 10.w, right: 10.w),
                   child: oldCelebraty.isEmpty
                       ? Center(child: mainLoad(context))
-                      : Stack(
-                          children: [
-                            GridView.builder(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount:
-                                            2, //عدد العناصر في كل صف
-                                        crossAxisSpacing:
-                                            8.r, // المسافات الراسية
-                                        childAspectRatio: 0.90.sp, //حجم العناصر
-                                        mainAxisSpacing: 11.r //المسافات الافقية
+                      : GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, //عدد العناصر في كل صف
+                                  crossAxisSpacing: 8.r, // المسافات الراسية
+                                  childAspectRatio: 0.90.sp, //حجم العناصر
+                                  mainAxisSpacing: 11.r //المسافات الافقية
 
-                                        ),
-                                controller: scrollController,
-                                itemCount: oldCelebraty.length,
-                                itemBuilder: (context, int index) {
-//lode More Data---------------------------------------------------------------------
-                                  return SizedBox(
-                                    width: 180.w,
-                                    child: InkWell(
-                                      onTap: () {
-                                        goTopagepush(
-                                            context,
-                                            CelebrityHome(
-                                                pageUrl: oldCelebraty[index]
-                                                    .pageUrl!));
-                                      },
-                                      child: Card(
-                                          //elevation: 5,
-                                          child: Container(
-                                        decoration: decoration(
-                                            oldCelebraty[index].image!),
-                                        child: Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Padding(
-                                            padding: EdgeInsets.all(10.0.w),
-                                            child: text(
-                                                context,
-                                                oldCelebraty[index].name!,
-                                                18,
-                                                white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      )
-                                          //:Container(color: Colors.green,),
-                                          ),
+                                  ),
+                          controller: scrollController,
+                          itemCount: oldCelebraty.length,
+                          itemBuilder: (context, int index) {
+                            return SizedBox(
+                              width: 180.w,
+                              child: InkWell(
+                                onTap: () {
+                                  goTopagepush(
+                                      context,
+                                      CelebrityHome(
+                                          pageUrl:
+                                              oldCelebraty[index].pageUrl!));
+                                },
+                                child: Card(
+                                    //elevation: 5,
+                                    child: Container(
+                                  decoration:
+                                      decoration(oldCelebraty[index].image!),
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10.0.w),
+                                      child: text(context,
+                                          oldCelebraty[index].name!, 18, white,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  );
-                                }),
-//loading-----------------------------------------------------------------------------
-                            isLoading && pageCount >= page
-                                ? Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: SizedBox(
-                                     // color: red,
-                                        width: 140.h,
-                                        height: 90.h,
-                                        child: Center(child: Lottie.asset('assets/lottie/newWhite.json',fit: BoxFit.cover))),
-                                  )
-                                : const SizedBox()
-                          ],
-                        ),
+                                  ),
+                                )
+                                    //:Container(color: Colors.green,),
+                                    ),
+                              ),
+                            );
+                          }),
                 ),
               ))),
+             ! isLoading && pageCount >= page && oldCelebraty.isNotEmpty
+                  ? showLode()
+                  : const SizedBox()
             ],
           ),
         ),
@@ -192,4 +177,54 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
 
   @override
   bool get wantKeepAlive => true;
+//show lode-----------------------------------------------------------
+  Widget showLode() {
+    return Padding(
+      padding: EdgeInsets.only(left: 10.w, right: 10.w),
+      child: SizedBox(
+        //color: red,
+        width: double.infinity,
+        height: 70.h,
+        child: Shimmer(
+            enabled: true,
+            gradient:  LinearGradient(
+              tileMode: TileMode.mirror,
+             // begin: Alignment(0.7, 2.0),
+              //end: Alignment(-0.69, -1.0),
+              colors: [mainGrey, Colors.white],
+              stops: const [0.1, 0.88],
+            ),
+            child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, //عدد العناصر في كل صف
+                    crossAxisSpacing: 8.r, // المسافات الراسية
+                    childAspectRatio: 0.90.sp, //حجم العناصر
+                    mainAxisSpacing: 11.r //المسافات الافقية
+
+                    ),
+                itemCount: 2,
+                itemBuilder: (context, int index) {
+                  return SizedBox(
+                    width: 180.w,
+                    child: const Card(
+                        elevation: 5,
+                        ),
+                  );
+                })),
+      ),
+    );
+  }
 }
+/*
+isLoading && pageCount >= page
+                                ? Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: SizedBox(
+                                     // color: red,
+                                        width: 140.h,
+                                        height: 90.h,
+                                        child: Center(child: Lottie.asset('assets/lottie/newWhite.json',fit: BoxFit.cover))),
+                                  )
+                                : const SizedBox()
+
+* */

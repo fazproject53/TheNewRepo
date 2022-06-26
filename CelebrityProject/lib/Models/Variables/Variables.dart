@@ -21,6 +21,7 @@ const Color textColor = Color(0xFFF7F2FF);
 const Color black_ = Color(0xFF494646);
 const Color yallow = Color(0xFFFFE500);
 Color backBlack= const Color.fromRGBO(54, 54 ,62 , 0.40);
+Color mainGrey=Colors.grey.withOpacity(0.20);
 
 ///#53535A
 const Color newGrey = Color(0xFF53535A);
