@@ -38,8 +38,8 @@ class _AdvertismentState extends State<Advertisment>
             future: celebrityAdvertisingRequests,
             builder: ((context, AsyncSnapshot<Advertising> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return  Center(
+                  child: mainLoad(context),
                 );
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {

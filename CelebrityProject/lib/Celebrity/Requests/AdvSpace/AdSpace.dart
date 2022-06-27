@@ -36,8 +36,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
             future: celebrityAdSpaceRequests,
             builder: ((context, AsyncSnapshot<AdSpaceOrder> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return  Center(
+                  child: mainLoad(context),
                 );
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {

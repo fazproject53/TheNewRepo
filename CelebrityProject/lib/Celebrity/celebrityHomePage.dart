@@ -86,9 +86,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         theme: ThemeData(primaryColor: purple),
         home: Scaffold(
             body: RefreshIndicator(
-              onRefresh: onRefresh,
-              child: SingleChildScrollView(
-          child: FutureBuilder<Section>(
+          onRefresh: onRefresh,
+          child: SingleChildScrollView(
+            child: FutureBuilder<Section>(
               future: sections,
               builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -113,7 +113,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                       .data!.data![sectionIndex].sectionName ==
                                   'category')
                                 categorySection(
-                                    snapshot.data?.data![sectionIndex].categoryId,
+                                    snapshot
+                                        .data?.data![sectionIndex].categoryId,
                                     snapshot.data?.data![sectionIndex].title,
                                     snapshot.data?.data![sectionIndex].active),
 
@@ -146,7 +147,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                       .data!.data![sectionIndex].sectionName ==
                                   'new_section')
                                 newSection(
-                                    snapshot.data?.data![sectionIndex].categoryId,
+                                    snapshot
+                                        .data?.data![sectionIndex].categoryId,
                                     snapshot.data?.data![sectionIndex].title,
                                     snapshot.data?.data![sectionIndex].active),
 //partners--------------------------------------------------------------------------
@@ -167,9 +169,9 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                       child: Text('State: ${snapshot.connectionState}'));
                 }
               },
+            ),
           ),
-        ),
-            )),
+        )),
       ),
     );
   }
@@ -467,7 +469,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: 10.h),
                                     child: ListView.builder(
-                                       // controller: scrollController,
+                                        // controller: scrollController,
                                         scrollDirection: Axis.horizontal,
                                         itemCount: snapshot.data!.data!
                                                 .celebrities!.length +
@@ -497,47 +499,49 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                       ));
                                                 },
                                                 child: Card(
-                                                    //elevation: 5,
-                                                    child: Container(
-                                                  decoration: decoration(
-                                                      snapshot
-                                                          .data!
-                                                          .data!
-                                                          .celebrities![
-                                                              itemPosition]
-                                                          .image!),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(
-                                                          10.0.w),
-                                                      child: text(
-                                                          context,
-                                                          snapshot
-                                                                      .data!
-                                                                      .data!
-                                                                      .celebrities![
-                                                                          itemPosition]
-                                                                      .name ==
-                                                                  ''
-                                                              ? "name"
-                                                              : snapshot
-                                                                  .data!
-                                                                  .data!
-                                                                  .celebrities![
-                                                                      itemPosition]
-                                                                  .name!,
-                                                          18,
-                                                          white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                    elevation: 2,
+                                                    child:  Container(
+                                                    decoration: decoration(
+                                                        snapshot
+                                                            .data!
+                                                            .data!
+                                                            .celebrities![
+                                                                itemPosition]
+                                                            .image!),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                            10.0.w),
+                                                        child: text(
+                                                            context,
+                                                            snapshot
+                                                                        .data!
+                                                                        .data!
+                                                                        .celebrities![
+                                                                            itemPosition]
+                                                                        .name ==
+                                                                    ''
+                                                                ? "name"
+                                                                : snapshot
+                                                                    .data!
+                                                                    .data!
+                                                                    .celebrities![
+                                                                        itemPosition]
+                                                                    .name!,
+                                                            18,
+                                                            white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
                                                     ),
                                                   ),
                                                 )
                                                     //:Container(color: Colors.green,),
                                                     ),
-                                              ),
+
                                             );
 //if found more celebraty---------------------------------------------------------------------
                                           } else {
@@ -549,10 +553,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                     width: 150.w,
                                                     child: InkWell(
                                                       onTap: () {
-                                                       goTopagepush(context, ShowMoreCelebraty(
-                                                           title,
-                                                            categoryId,
-                                                       ));
+                                                        goTopagepush(
+                                                            context,
+                                                            ShowMoreCelebraty(
+                                                              title,
+                                                              categoryId,
+                                                            ));
                                                       },
                                                       child: Card(
                                                         color:
@@ -875,9 +881,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Expanded(
-            child: Shimmer.fromColors(
-              baseColor: mainGrey,
-              highlightColor: deepwhite,
+            child: Shimmer(
+              gradient: LinearGradient(
+                tileMode: TileMode.mirror,
+                // begin: Alignment(0.7, 2.0),
+                //end: Alignment(-0.69, -1.0),
+                colors: [mainGrey, Colors.white],
+                stops: const [0.1, 0.88],
+              ),
               enabled: isLoading,
               child: ListView.builder(
                 itemBuilder: (_, __) => Column(
@@ -974,12 +985,20 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     );
   }
 
-
-
- Future onRefresh()async {
+  Future onRefresh() async {
     sections = getSectionsData();
     futureLinks = fetchLinks();
     futureHeader = fetchHeader();
     futurePartners = fetchPartners();
   }
+//loader
+//   loaderImage({Container? child}) {
+//     return Container(
+//         decoration: BoxDecoration(
+//             color: red, borderRadius: BorderRadius.all(Radius.circular(4.r))),
+//     child: Image.network(
+//       ''
+//     ),
+//     );
+//   }
 }

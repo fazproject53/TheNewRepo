@@ -172,7 +172,8 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(70.r),
                                           child: imagefile != null? Image.file(imagefile!,fit: BoxFit.fill,
-                                            height: double.infinity, width: double.infinity,): Image.network(
+                                            height: double.infinity, width: double.infinity,):
+                                          Image.network(
                                             snapshot.data!.data!.celebrity!.image!, fit: BoxFit.fill,
                                             height: double.infinity, width: double.infinity,
                                             loadingBuilder : (context, child, loadingProgress) {

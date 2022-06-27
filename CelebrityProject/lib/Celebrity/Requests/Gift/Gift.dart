@@ -37,8 +37,8 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
             future: celebrityGiftRequests,
             builder: ((context, AsyncSnapshot<Gifting> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return  Center(
+                  child: mainLoad(context),
                 );
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {

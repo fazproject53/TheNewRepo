@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:celepraty/ModelAPI/ModelsAPI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
       }
     });
   }
+
 //refresh list------------------------------------------------------------------
   Future refresh() async {
     setState(() {
@@ -87,10 +89,10 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                         padding: EdgeInsets.only(
                             bottom: 10.h, left: 10.w, right: 10.w),
                         child: oldCelebraty.isEmpty
-                            ? Center(child: mainLoad(context))
- //show loading dialog in model of gridview----------------------------------------------------
+                            ? lodeManyCards()
+                            //show loading dialog in model of gridview----------------------------------------------------
                             : CustomScrollView(
-                              controller: scrollController,
+                                controller: scrollController,
                                 slivers: [
                                   SliverGrid(
                                       gridDelegate:
@@ -110,39 +112,74 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                                           return SizedBox(
                                             width: 180.w,
                                             child: InkWell(
-                                              onTap: () {
-                                                goTopagepush(
-                                                    context,
-                                                    CelebrityHome(
-                                                        pageUrl:
-                                                            oldCelebraty[index]
-                                                                .pageUrl!));
-                                              },
-                                              child: Card(
-                                                  //elevation: 5,
+                                                onTap: () {
+                                                  goTopagepush(
+                                                      context,
+                                                      CelebrityHome(
+                                                          pageUrl: oldCelebraty[
+                                                                  index]
+                                                              .pageUrl!));
+                                                },
+//show loader when get dada from api--------------------------------------------------------------------------------------------
+                                                child: Card(
+                                                  elevation: 2,
                                                   child: Container(
-                                                decoration: decoration(
-                                                    oldCelebraty[index].image!),
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(10.0.w),
-                                                    child: text(
-                                                        context,
-                                                        oldCelebraty[index]
-                                                            .name!,
-                                                        18,
-                                                        white,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                    decoration: decoration2(),
+                                                    child: Stack(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      4.r),
+                                                          child: Image.network(
+
+                                                            oldCelebraty[index]
+                                                                .image!,
+                                                            color:black.withOpacity(0.4),
+                                                            colorBlendMode: BlendMode.darken,
+                                                            fit: BoxFit.cover,
+                                                            height:
+                                                                double.infinity,
+                                                            width:
+                                                                double.infinity,
+                                                            loadingBuilder:
+                                                                (context, child,
+                                                                    loadingProgress) {
+                                                              if (loadingProgress ==
+                                                                  null) {
+                                                                return child;
+                                                              }
+                                                              return Center(
+                                                                child: Lottie.asset('assets/lottie/grey.json',height: 70.h,width: 70.w ));
+                                                            },
+                                                          ),
+                                                        ),
+//celebrity name------------------------------------------------------------------------------
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomRight,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    10.0.w),
+                                                            child: text(
+                                                                context,
+                                                                oldCelebraty[
+                                                                        index]
+                                                                    .name!,
+                                                                18,
+                                                                white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              )
                                                   //:Container(color: Colors.green,),
-                                                  ),
-                                            ),
+                                                )),
                                           );
                                         },
                                         childCount: oldCelebraty.length,
@@ -152,20 +189,17 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                                   SliverList(
                                       delegate: SliverChildBuilderDelegate(
                                     (BuildContext context, int index) {
-                                      return
-                                        isLoading && pageCount >= page && oldCelebraty.isNotEmpty?
-                                      showLode()
-                                      :const SizedBox();
+                                      return isLoading &&
+                                              pageCount >= page &&
+                                              oldCelebraty.isNotEmpty
+                                          ? showLode()
+                                          : const SizedBox();
                                     },
                                     childCount: 1,
                                   )),
                                 ],
-                              )
-
-
-                        ),
+                              )),
                   ))),
-
             ],
           ),
         ),
@@ -247,5 +281,32 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
       ),
     );
   }
-}
 
+  Widget lodeManyCards() {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, //عدد العناصر في كل صف
+            crossAxisSpacing: 8.r, // المسافات الراسية
+            childAspectRatio: 0.90.sp, //حجم العناصر
+            mainAxisSpacing: 11.r //المسافات الافقية
+
+            ),
+        itemCount: 10,
+        itemBuilder: (context, i) {
+          return SizedBox(
+            width: 190.w,
+            height: 200.h,
+            child: Shimmer(
+                enabled: true,
+                gradient: LinearGradient(
+                  tileMode: TileMode.mirror,
+                  // begin: Alignment(0.7, 2.0),
+                  //end: Alignment(-0.69, -1.0),
+                  colors: [mainGrey, Colors.white],
+                  stops: const [0.1, 0.88],
+                ),
+                child: Card()),
+          );
+        });
+  }
+}
