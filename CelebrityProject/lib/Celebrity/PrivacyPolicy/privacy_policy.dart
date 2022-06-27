@@ -6,6 +6,7 @@ import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import '../../Account/LoggingSingUpAPI.dart';
@@ -428,15 +429,45 @@ class _PrivacyPolicyHomeState extends State<PrivacyPolicyHome>
                                                           _formKey.currentState!.validate()
                                                               ? postFunction(userToken!)
                                                               .whenComplete(() => {
-                                                            ScaffoldMessenger.of(
-                                                                context)
-                                                                .showSnackBar(
-                                                                SnackBar(
-                                                                  content: text(context, 'تم الحفظ بنجاح', 12, black),
-                                                                  backgroundColor: white,
+                                                            Flushbar(
+                                                              flushbarPosition:
+                                                              FlushbarPosition
+                                                                  .TOP,
+                                                              backgroundColor:
+                                                              white,
+                                                              margin:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                              flushbarStyle:
+                                                              FlushbarStyle
+                                                                  .FLOATING,
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  10.r),
+                                                              duration:
+                                                              const Duration(
+                                                                  seconds: 5),
+                                                              icon: Icon(
+                                                                right,
+                                                                color: green,
+                                                                size: 30,
+                                                              ),
+                                                              titleText: text(
+                                                                  context,
+                                                                  'تم الحفظ',
+                                                                  16,
+                                                                  purple),
+                                                              messageText: text(
+                                                                  context,
+                                                                  'تم حفظ المدخلات بنجاح',
+                                                                  14,
+                                                                  black,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w200),
+                                                            ).show(context)
 
-
-                                                                ))
                                                           })
                                                               : null;
 

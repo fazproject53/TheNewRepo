@@ -281,8 +281,8 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
                                             ///Type of discount
                                             paddingg(
-                                              15,
-                                              15,
+                                              0,
+                                              0,
                                               9,
 
                                               ///The Radio Buttons

@@ -40,7 +40,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
   final _formKey = GlobalKey<FormState>();
 
   ///
-  bool isVesible = false;
+  bool isVesible = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -271,7 +271,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         text(
                           context,
@@ -288,11 +288,16 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
 
                     ///--------------------------
                     Visibility(
-                        visible: isVesible,
-
+                        visible: true,
                         ///true
                         child: Column(
-                          children: const [
+                          children:  [
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            const Divider(
+                              thickness: 1,
+                            ),
                             SingleChildScrollView(child: RadioWidgetDemo()),
                           ],
                         )),
@@ -302,6 +307,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                     const Divider(
                       thickness: 1,
                     ),
+
                     InkWell(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

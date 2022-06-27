@@ -39,18 +39,23 @@ Widget text(
 }
 ///
 ///Flushbar
-Widget flushBar(context, String title, String message,){
-  return Flushbar(
-      titleText: Text(title, style: TextStyle(
-          color: purple, fontFamily: 'Cairo', fontSize: 12.sp,),),
-      messageText: Text(message),
-      borderRadius: BorderRadius.circular(10.r),
-      flushbarPosition: FlushbarPosition.TOP,
-      margin: const EdgeInsets.all(5),
-      flushbarStyle: FlushbarStyle.FLOATING,
-      duration: const Duration(seconds: 5),
-      backgroundColor: white,
-    )..show(context);
+Widget flushBar(context, String title, String message, icon){
+  return  Directionality(
+    textDirection: TextDirection.rtl,
+    child: Flushbar(
+          titleText: Text(title, style: TextStyle(
+              color: purple, fontFamily: 'Cairo', fontSize: 12.sp,),),
+          messageText: Text(message),
+          borderRadius: BorderRadius.circular(10.r),
+          flushbarPosition: FlushbarPosition.TOP,
+          margin: const EdgeInsets.all(5),
+          flushbarStyle: FlushbarStyle.FLOATING,
+          duration: const Duration(seconds: 5),
+          backgroundColor: white,
+          icon: icon,
+        )..show(context),
+  );
+
 
 
 }
@@ -598,8 +603,8 @@ Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
       List<TextInputFormatter>? inputFormatters,
       TextInputType? keyboardType, focusNode}) { ///The icons will be optional
   return SizedBox(
-    height: 80.h,
-    width: 100.w,
+    height: 100.h,
+    width: 130.w,
     child: TextFormField(
       validator: myvali,
       controller: mycontroller,
@@ -1036,6 +1041,7 @@ class MyTooltip extends StatelessWidget {
     return Tooltip(
       key: key,
       message: message,
+      textStyle: TextStyle(color: white, fontSize: 12.sp,),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => _onTap(key),

@@ -214,7 +214,7 @@ class _BalanceHomeState extends State<BalanceHome> {
               child: Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       text(
                         context,
@@ -233,7 +233,13 @@ class _BalanceHomeState extends State<BalanceHome> {
                   Visibility(
                       visible: true,
                       child: Column(
-                        children: const [
+                        children:  [
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          const Divider(
+                            thickness: 1,
+                          ),
                           SingleChildScrollView(child: RadioWidgetDemo()),
                         ],
                       )),
@@ -306,6 +312,27 @@ class _BalanceHomeState extends State<BalanceHome> {
                         150.w,
                         buttoms(context, 'إسحب الرصيد', 15, white, () {
                           ///must check the user chose one of the credit card first
+                          Flushbar(
+                            flushbarPosition: FlushbarPosition.TOP,
+                            backgroundColor: white,
+                            margin: const EdgeInsets.all(5),
+                            flushbarStyle: FlushbarStyle.FLOATING,
+                            borderRadius: BorderRadius.circular(10.r),
+                            duration: const Duration(seconds: 5),
+                            icon: Icon(
+                              right,
+                              color: green,
+                              size: 30,
+                            ),
+                            titleText: text(context,
+                                'تم إرسال طلبك بنجاح', 16, purple),
+                            messageText: text(
+                                context,
+                                'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                                14,
+                                black,
+                                fontWeight: FontWeight.w200),
+                          ).show(context);
                         })),
                   ),
                   SizedBox(
@@ -448,7 +475,27 @@ class _BalanceHomeState extends State<BalanceHome> {
                             buttoms(context, 'إسحب الرصيد', 15, white, () {
                               _formKey.currentState!.validate()
                                   ? {
-                                flushBar(context,'تم إرسال طلبك بنجاح', 'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام')
+                              Flushbar(
+                              flushbarPosition: FlushbarPosition.TOP,
+                              backgroundColor: white,
+                              margin: const EdgeInsets.all(5),
+                              flushbarStyle: FlushbarStyle.FLOATING,
+                              borderRadius: BorderRadius.circular(10.r),
+                              duration: const Duration(seconds: 5),
+                              icon: Icon(
+                              right,
+                              color: green,
+                              size: 30,
+                              ),
+                              titleText: text(context,
+                              'تم إرسال طلبك بنجاح', 12, purple),
+                              messageText: text(
+                              context,
+                              'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                              12,
+                              black,
+                              fontWeight: FontWeight.w200),
+                              ).show(context)
                                     }
                                   : null;
                             })),

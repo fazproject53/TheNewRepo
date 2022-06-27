@@ -1,11 +1,13 @@
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/SuccessfulAndFailureScreens/splash_screen.dart';
+import 'package:celepraty/Users/Setting/radio_list_tile_user.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import '../../Celebrity/Balance/radioListTile.dart';
 import '../../Models/Methods/method.dart';
 
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -21,11 +23,8 @@ class UserRechargeBalance extends StatefulWidget {
 
 class _UserRechargeBalanceState extends State<UserRechargeBalance> {
   final TextEditingController amount = TextEditingController();
-  final TextEditingController cvvCode1 = TextEditingController();
-  List<User>? users;
-  User? selectedUser;
-  int? selectedRadio;
-  int? selectedRadioTile;
+
+
   OutlineInputBorder? border;
 
   @override
@@ -33,9 +32,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
     // TODO: implement initState
     super.initState();
 
-    selectedRadio = 0;
-    selectedRadioTile = 0;
-    users = User.getUsers();
+
 
     border = OutlineInputBorder(
       borderSide: BorderSide(
@@ -45,23 +42,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
     );
   }
 
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
-  }
 
-  setSelectedRadioTile(int val) {
-    setState(() {
-      selectedRadioTile = val;
-    });
-  }
-
-  setSelectedUser(User user) {
-    setState(() {
-      selectedUser = user;
-    });
-  }
 
   ///Credit card section
   final TextEditingController selectedCVV = TextEditingController();
@@ -104,17 +85,17 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
             children: [
               SizedBox(
                   height: 180.h,
-                  width: 180.w,
+                  width: 200.w,
                   child:
-                      Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
-              text(context, 'ادخل المبلغ المراد إضافة للرصيد', 18,
+                      Lottie.asset('assets/lottie/addMoreMoney.json')),
+              text(context, 'ادخل المبلغ المراد إضافة للرصيد', 20,
                   black.withOpacity(0.6)),
               SizedBox(
                 height: 18.h,
               ),
               textFieldSmallRE(
                   context,
-                  '200 ر.س',
+                  '0 ر.س',
                   14,
                   false,
                   amount,
@@ -136,30 +117,28 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                         showBottomSheetWhite(context,
                             bottomSheetRechargeMenu('1', 'rayana', '500'));
                       } else {
-                        Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Flushbar(
+                            Flushbar(
                               flushbarPosition: FlushbarPosition.TOP,
                               backgroundColor: white,
                               margin: const EdgeInsets.all(5),
                               flushbarStyle: FlushbarStyle.FLOATING,
-                              borderRadius: BorderRadius.circular(10.r),
+                              borderRadius: BorderRadius.circular(15.r),
                               duration: const Duration(seconds: 5),
                               icon: Icon(
                                 error,
                                 color: red!,
-                                size: 25.sp,
+                                size: 30.sp,
                               ),
-                              titleText: text(context, 'خطأ', 12, purple),
+                              titleText: text(context, 'خطأ', 16, purple),
                               messageText: text(context,
-                                  'أدخل المبلغ المراد إضافة للرصيد', 12, black,
+                                  'أدخل المبلغ المراد إضافة للرصيد', 14, black,
                                   fontWeight: FontWeight.w200),
-                            )..show(context));
+                            ).show(context);
                       }
                     })),
               ),
               SizedBox(
-                height: 60.h,
+                height: 37.h,
               )
             ],
           ),
@@ -244,13 +223,12 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
 
                     ///credit card
                     Visibility(
-                        visible: isVesible,
+                        visible: true,
                         child: Column(
-                          children: [
+                          children: const [
                             SingleChildScrollView(
-                              child: Column(
-                                children: createRadioListUsers(),
-                              ),
+                              child: RadioWidgetUser(),
+
                             ),
                           ],
                         )),
@@ -331,7 +309,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                                       ))
                                   :
 
-                                  ///loading Screen the failure animation
+                              ///loading Screen the failure animation
                               Flushbar(
                                 flushbarPosition: FlushbarPosition.TOP,
                                 backgroundColor: white,
@@ -369,68 +347,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
         ));
   }
 
-  List<Widget> createRadioListUsers() {
-    List<Widget> widgets = [];
-    for (User user in users!) {
-      widgets.add(
-        RadioListTile(
-          value: user,
-          groupValue: selectedUser,
-          title: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: text(context, user.firstName, 14, black)),
 
-                  ///Text Filed
-                  Visibility(
-                    visible: selectedUser == user,
-                    child: Column(
-                      children: [
-                        textFieldSmall(
-                          context,
-                          'رمز التحقق ' 'CVV',
-                          12,
-                          false,
-                          cvvCode1,
-                          (String? value) {
-                            /// Validation text field
-                            if (value == null || value.isEmpty) {
-                              return 'حقل اجباري';
-                            }
-                            if (value.startsWith('0')) {
-                              return 'يجب ان لا يبدا بصفر';
-                            }
-                            if (value.length > 3) {
-                              return 'no';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-          onChanged: (User? currentUser) {
-            print("Current User ${currentUser?.firstName}");
-
-            setSelectedUser(currentUser!);
-          },
-          selected: selectedUser == user,
-          activeColor: purple,
-        ),
-      );
-    }
-    return widgets;
-  }
 
   ///BottomSheet to Add New Credit Card
   Widget bottomSheetNewCreditCard(String id, String name, String balance) {
@@ -492,7 +409,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                             fontSize: 12.sp,
                             fontFamily: 'Cairo'),
                         labelStyle: TextStyle(
-                            color: Colors.black,
+                            color: black.withOpacity(0.8),
                             fontSize: 12.sp,
                             fontFamily: 'Cairo'),
                         focusedBorder: border,
@@ -510,7 +427,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                             fontSize: 12.sp,
                             fontFamily: 'Cairo'),
                         labelStyle: TextStyle(
-                            color: Colors.black,
+                            color: black.withOpacity(0.8),
                             fontSize: 12.sp,
                             fontFamily: 'Cairo'),
                         focusedBorder: border,
@@ -523,15 +440,15 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                         labelText: 'تاريخ الانتهاء',
                         hintText: 'شهر/سنة',
                       ),
-                      dateValidationMessage:
-                          'يرجى إضافة تاريخ انتهاء صلاحية البطاقة',
+                      dateValidationMessage: 'يرجى إضافة تاريخ انتهاء صلاحية البطاقة',
                       cvvCodeDecoration: InputDecoration(
+
                         hintStyle: TextStyle(
                             color: Colors.black.withOpacity(0.6),
                             fontSize: 12.sp,
                             fontFamily: 'Cairo'),
                         labelStyle: TextStyle(
-                            color: Colors.black,
+                            color: black.withOpacity(0.8),
                             fontSize: 12.sp,
                             fontFamily: 'Cairo'),
                         focusedBorder: border,
@@ -541,8 +458,14 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                             width: 1.0,
                           ),
                         ),
-                        labelText: 'رمز التحقق' + 'CVV',
+                        labelText: 'رمز التحقق''CVV',
                         hintText: '000',
+                        suffixIcon: MyTooltip(
+                            message: 'الرمز الموجود خلف البطاقة',
+                            child: Icon(
+                              infoIcon,
+                              size: 15,
+                            ))
                       ),
                       cvvValidationMessage: 'ادخل رمز التحقق',
                       onCreditCardModelChange: onCreditCardModelChange,
@@ -594,20 +517,4 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
   }
 }
 
-///user class
-class User {
-  int userId;
-  String firstName;
 
-  User({
-    required this.userId,
-    required this.firstName,
-  });
-
-  static List<User> getUsers() {
-    return <User>[
-      User(userId: 1, firstName: "**** **** **** 4958"),
-      User(userId: 2, firstName: "**** **** **** 4323"),
-    ];
-  }
-}

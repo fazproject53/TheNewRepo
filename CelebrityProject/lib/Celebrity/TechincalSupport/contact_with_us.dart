@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Account/logging.dart' as login;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -365,22 +366,23 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                                   ))
                                                 : postContactWithUs(userToken!)
                                                     .whenComplete(() => {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                            content: text(
-                                                                context,
-                                                                'تم الارسال بنجاح',
-                                                                12,
-                                                                purple),
-                                                            backgroundColor:
-                                                                white,
-                                                          ))
+                                            Flushbar(
+                                            flushbarPosition: FlushbarPosition.TOP,
+                                            backgroundColor: white,
+                                            margin: const EdgeInsets.all(5),
+                                            flushbarStyle: FlushbarStyle.FLOATING,
+                                            borderRadius: BorderRadius.circular(15.r),
+                                            duration: const Duration(seconds: 5),
+                                            icon: Icon(
+                                              right,
+                                              color: green,
+                                              size: 30,
+                                            ),
+                                            titleText: text(context, 'تم الارسال بنجاح', 14, purple),
+                                            messageText: text(context,
+                                            'سوف يتم التواصل معك عبر البريد الالكتروني', 14, black,
+                                            fontWeight: FontWeight.w200),
+                                            ).show(context)
                                                         })
                                           }
                                         : null;

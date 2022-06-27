@@ -7,6 +7,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -47,7 +48,6 @@ class _PricingHomeState extends State<PricingHome> {
   final TextEditingController pricingGiftVoice = TextEditingController();
   final TextEditingController pricingArea = TextEditingController();
 
-
   int? helper = 0;
   final _formKey = GlobalKey<FormState>();
 
@@ -73,7 +73,7 @@ class _PricingHomeState extends State<PricingHome> {
               future: pricing,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child:  mainLoad(context));
+                  return Center(child: mainLoad(context));
                 } else if (snapshot.connectionState == ConnectionState.active ||
                     snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
@@ -191,7 +191,7 @@ class _PricingHomeState extends State<PricingHome> {
                                           12,
                                           false,
                                           pricingAd,
-                                              (String? value) {
+                                          (String? value) {
                                             /// Validation text field
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -202,8 +202,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             }
                                             return null;
                                           },
-                                          keyboardType:
-                                          TextInputType.phone,
+                                          keyboardType: TextInputType.phone,
                                           inputFormatters: [
                                             FilteringTextInputFormatter
                                                 .digitsOnly
@@ -218,7 +217,7 @@ class _PricingHomeState extends State<PricingHome> {
                                           12,
                                           false,
                                           pricingAd1,
-                                              (String? value) {
+                                          (String? value) {
                                             /// Validation text field
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -229,8 +228,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             }
                                             return null;
                                           },
-                                          keyboardType:
-                                          TextInputType.phone,
+                                          keyboardType: TextInputType.phone,
                                           inputFormatters: [
                                             FilteringTextInputFormatter
                                                 .digitsOnly
@@ -317,7 +315,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             12,
                                             false,
                                             pricingGiftPhoto,
-                                                (String? value) {
+                                            (String? value) {
                                               /// Validation text field
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -328,8 +326,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               }
                                               return null;
                                             },
-                                            keyboardType:
-                                            TextInputType.phone,
+                                            keyboardType: TextInputType.phone,
                                             inputFormatters: [
                                               FilteringTextInputFormatter
                                                   .digitsOnly
@@ -372,7 +369,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             12,
                                             false,
                                             pricingGiftVideo,
-                                                (String? value) {
+                                            (String? value) {
                                               /// Validation text field
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -383,8 +380,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               }
                                               return null;
                                             },
-                                            keyboardType:
-                                            TextInputType.phone,
+                                            keyboardType: TextInputType.phone,
                                             inputFormatters: [
                                               FilteringTextInputFormatter
                                                   .digitsOnly
@@ -427,7 +423,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             12,
                                             false,
                                             pricingGiftVoice,
-                                                (String? value) {
+                                            (String? value) {
                                               /// Validation text field
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -438,8 +434,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               }
                                               return null;
                                             },
-                                            keyboardType:
-                                            TextInputType.phone,
+                                            keyboardType: TextInputType.phone,
                                             inputFormatters: [
                                               FilteringTextInputFormatter
                                                   .digitsOnly
@@ -536,7 +531,7 @@ class _PricingHomeState extends State<PricingHome> {
                                             12,
                                             false,
                                             pricingArea,
-                                                (String? value) {
+                                            (String? value) {
                                               /// Validation text field
                                               if (value == null ||
                                                   value.isEmpty) {
@@ -547,8 +542,7 @@ class _PricingHomeState extends State<PricingHome> {
                                               }
                                               return null;
                                             },
-                                            keyboardType:
-                                            TextInputType.phone,
+                                            keyboardType: TextInputType.phone,
                                             inputFormatters: [
                                               FilteringTextInputFormatter
                                                   .digitsOnly
@@ -579,48 +573,99 @@ class _PricingHomeState extends State<PricingHome> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 ElevatedButton(
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15.r)
-                                        )
-                                      ),
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                        white
-                                      ),
-                                      shadowColor: MaterialStateProperty.all<Color>(
-                                        Colors.black38,
-                                      ),
+                                            borderRadius:
+                                                BorderRadius.circular(15.r))),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(white),
+                                    shadowColor:
+                                        MaterialStateProperty.all<Color>(
+                                      Colors.black38,
                                     ),
-                                    child: text(context, 'حفظ', 12, purple),
-
-                                    onPressed: (){
-                                      //to
-                                      var ad1 = int.parse(pricingAd1.text);
-                                      //from
-                                      var ad = int.parse(pricingAd.text);
-
-                                      _formKey.currentState!.validate()? {
-                                        ///var c = int. parse(b);
-                                        //to < from
-                                        ad1 < ad ? ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                            SnackBar(
-                                              content: text(context, 'يجب ان يكون الحد الاعلى للإعلان أكبر', 12, black),
-                                              backgroundColor: white,
-                                            )) :
-                                      postFunction(userToken!).whenComplete(() => {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                             SnackBar(
-                                               content: text(context, 'تم الحفظ بنجاح', 12, black),
-                                               backgroundColor: white,
-                                            ))
-                                      })
-                                      } : null;
-
-                                    },
                                   ),
+                                  child: text(context, 'حفظ', 12, purple),
+                                  onPressed: () {
+                                    //to
+                                    var ad1 = int.parse(pricingAd1.text);
+                                    //from
+                                    var ad = int.parse(pricingAd.text);
+
+                                    _formKey.currentState!.validate()
+                                        ? {
+                                            ///var c = int. parse(b);
+                                            //to < from
+                                            ad1 < ad
+                                                ? Flushbar(
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                              backgroundColor: white,
+                                              margin: const EdgeInsets.all(5),
+                                              flushbarStyle: FlushbarStyle.FLOATING,
+                                              borderRadius: BorderRadius.circular(10.r),
+                                              duration: const Duration(seconds: 5),
+                                              icon: Icon(
+                                                error,
+                                                color: red!,
+                                                size: 25.sp,
+                                              ),
+                                              titleText: text(context, 'خطأ', 16, purple),
+                                              messageText: text(
+                                                  context,
+                                                  'يجب ان يكون الحد الاعلى للإعلان أكبر',
+                                                  14,
+                                                  black,
+                                                  fontWeight: FontWeight.w200),
+                                            ).show(context)
+
+
+
+                                                : postFunction(userToken!)
+                                                    .whenComplete(() => {
+                                                          Flushbar(
+                                                            flushbarPosition:
+                                                                FlushbarPosition
+                                                                    .TOP,
+                                                            backgroundColor:
+                                                                white,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            flushbarStyle:
+                                                                FlushbarStyle
+                                                                    .FLOATING,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.r),
+                                                            duration:
+                                                                const Duration(
+                                                                    seconds: 5),
+                                                            icon: Icon(
+                                                              right,
+                                                              color: green,
+                                                              size: 30,
+                                                            ),
+                                                            titleText: text(
+                                                                context,
+                                                                'تم الحفظ',
+                                                                16,
+                                                                purple),
+                                                            messageText: text(
+                                                                context,
+                                                                'تم حفظ المدخلات بنجاح',
+                                                                14,
+                                                                black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200),
+                                                          ).show(context)
+                                                        })
+                                          }
+                                        : null;
+                                  },
+                                ),
                               ],
                             ),
                           ),

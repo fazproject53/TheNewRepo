@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
               SizedBox(
                   height: 260.h,
                   width: 260.w,
-                  child: Lottie.asset('assets/lottie/lf30_editor_4r6m79m8.json')),
+                  child: Lottie.asset('assets/lottie/addMoreMoney.json')),
               text(context, 'إضافة ٢٠ ريال للرصيد', 20, black,
                   align: TextAlign.center),
             ],
