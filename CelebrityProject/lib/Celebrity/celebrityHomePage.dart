@@ -757,7 +757,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               children: [
                 SizedBox(
                     width: double.infinity,
-                    height: 222.5.h,
+                    height: 226.5.h,
                     child: Padding(
                       padding: EdgeInsets.only(left: 13.0.w, right: 13.0.w),
                       child: Row(

@@ -48,7 +48,7 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
       }
     });
   }
-
+//refresh list------------------------------------------------------------------
   Future refresh() async {
     setState(() {
       hasMore = true;
@@ -80,61 +80,92 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
                 height: 15.h,
               ),
               Expanded(
-                flex:4,
+                  flex: 4,
                   child: SizedBox(
                       child: InkWell(
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(bottom: 10.h, left: 10.w, right: 10.w),
-                  child: oldCelebraty.isEmpty
-                      ? Center(child: mainLoad(context))
-                      : GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, //عدد العناصر في كل صف
-                                  crossAxisSpacing: 8.r, // المسافات الراسية
-                                  childAspectRatio: 0.90.sp, //حجم العناصر
-                                  mainAxisSpacing: 11.r //المسافات الافقية
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                            bottom: 10.h, left: 10.w, right: 10.w),
+                        child: oldCelebraty.isEmpty
+                            ? Center(child: mainLoad(context))
+ //show loading dialog in model of gridview----------------------------------------------------
+                            : CustomScrollView(
+                              controller: scrollController,
+                                slivers: [
+                                  SliverGrid(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount:
+                                                  2, //عدد العناصر في كل صف
+                                              crossAxisSpacing:
+                                                  8.r, // المسافات الراسية
+                                              childAspectRatio:
+                                                  0.90.sp, //حجم العناصر
+                                              mainAxisSpacing:
+                                                  11.r //المسافات الافقية
 
-                                  ),
-                          controller: scrollController,
-                          itemCount: oldCelebraty.length,
-                          itemBuilder: (context, int index) {
-                            return SizedBox(
-                              width: 180.w,
-                              child: InkWell(
-                                onTap: () {
-                                  goTopagepush(
-                                      context,
-                                      CelebrityHome(
-                                          pageUrl:
-                                              oldCelebraty[index].pageUrl!));
-                                },
-                                child: Card(
-                                    //elevation: 5,
-                                    child: Container(
-                                  decoration:
-                                      decoration(oldCelebraty[index].image!),
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10.0.w),
-                                      child: text(context,
-                                          oldCelebraty[index].name!, 18, white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                )
-                                    //:Container(color: Colors.green,),
-                                    ),
-                              ),
-                            );
-                          }),
-                ),
-              ))),
-             ! isLoading && pageCount >= page && oldCelebraty.isNotEmpty
-                  ? showLode()
-                  : const SizedBox()
+                                              ),
+                                      delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                          return SizedBox(
+                                            width: 180.w,
+                                            child: InkWell(
+                                              onTap: () {
+                                                goTopagepush(
+                                                    context,
+                                                    CelebrityHome(
+                                                        pageUrl:
+                                                            oldCelebraty[index]
+                                                                .pageUrl!));
+                                              },
+                                              child: Card(
+                                                  //elevation: 5,
+                                                  child: Container(
+                                                decoration: decoration(
+                                                    oldCelebraty[index].image!),
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10.0.w),
+                                                    child: text(
+                                                        context,
+                                                        oldCelebraty[index]
+                                                            .name!,
+                                                        18,
+                                                        white,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              )
+                                                  //:Container(color: Colors.green,),
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        childCount: oldCelebraty.length,
+                                      )),
+
+//show loading when get data from api--------------------------------------------------------------------------------------------
+                                  SliverList(
+                                      delegate: SliverChildBuilderDelegate(
+                                    (BuildContext context, int index) {
+                                      return
+                                        isLoading && pageCount >= page && oldCelebraty.isNotEmpty?
+                                      showLode()
+                                      :const SizedBox();
+                                    },
+                                    childCount: 1,
+                                  )),
+                                ],
+                              )
+
+
+                        ),
+                  ))),
+
             ],
           ),
         ),
@@ -180,51 +211,41 @@ class _ShowMoreCelebratyState extends State<ShowMoreCelebraty>
 //show lode-----------------------------------------------------------
   Widget showLode() {
     return Padding(
-      padding: EdgeInsets.only(left: 10.w, right: 10.w),
-      child: SizedBox(
-        //color: red,
-        width: double.infinity,
-        height: 70.h,
-        child: Shimmer(
-            enabled: true,
-            gradient:  LinearGradient(
-              tileMode: TileMode.mirror,
-             // begin: Alignment(0.7, 2.0),
-              //end: Alignment(-0.69, -1.0),
-              colors: [mainGrey, Colors.white],
-              stops: const [0.1, 0.88],
-            ),
-            child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, //عدد العناصر في كل صف
-                    crossAxisSpacing: 8.r, // المسافات الراسية
-                    childAspectRatio: 0.90.sp, //حجم العناصر
-                    mainAxisSpacing: 11.r //المسافات الافقية
-
-                    ),
-                itemCount: 2,
-                itemBuilder: (context, int index) {
-                  return SizedBox(
-                    width: 180.w,
-                    child: const Card(
-                        elevation: 5,
-                        ),
-                  );
-                })),
+      padding: EdgeInsets.only(top: 13.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: 190.w,
+            height: 200.h,
+            child: Shimmer(
+                enabled: true,
+                gradient: LinearGradient(
+                  tileMode: TileMode.mirror,
+                  // begin: Alignment(0.7, 2.0),
+                  //end: Alignment(-0.69, -1.0),
+                  colors: [mainGrey, Colors.white],
+                  stops: const [0.1, 0.88],
+                ),
+                child: Card()),
+          ),
+          SizedBox(
+            width: 190.w,
+            height: 200.h,
+            child: Shimmer(
+                enabled: true,
+                gradient: LinearGradient(
+                  tileMode: TileMode.mirror,
+                  // begin: Alignment(0.7, 2.0),
+                  //end: Alignment(-0.69, -1.0),
+                  colors: [mainGrey, Colors.white],
+                  stops: const [0.1, 0.88],
+                ),
+                child: Card()),
+          ),
+        ],
       ),
     );
   }
 }
-/*
-isLoading && pageCount >= page
-                                ? Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: SizedBox(
-                                     // color: red,
-                                        width: 140.h,
-                                        height: 90.h,
-                                        child: Center(child: Lottie.asset('assets/lottie/newWhite.json',fit: BoxFit.cover))),
-                                  )
-                                : const SizedBox()
 
-* */
