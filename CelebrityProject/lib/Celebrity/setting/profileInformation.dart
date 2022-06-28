@@ -19,7 +19,7 @@ class profileInformaion extends StatefulWidget {
 }
 
 class _profileInformaionState extends State<profileInformaion>
-   // with AutomaticKeepAliveClientMixin
+// with AutomaticKeepAliveClientMixin
 {
   Future<CelebrityInformation>? celebrities;
   Future<CityL>? cities;
@@ -49,7 +49,7 @@ class _profileInformaionState extends State<profileInformaion>
   String? erroremail;
   String? errorphone;
   bool valid = false;
-  bool noMatch =false;
+  bool noMatch = false;
   bool editPassword = false;
   bool genderChosen = true;
   String country = 'الدولة';
@@ -58,12 +58,17 @@ class _profileInformaionState extends State<profileInformaion>
   String gender = 'الجنس';
   String? ContryKey;
   int helper = 0;
-
+  int? catId;
   Map<int, String> getid = HashMap();
+  Map<int, String> categoriesId = HashMap();
   var citilist = [];
   var countrylist = [];
   var categorylist = [];
-  var genderlist = [{'no':0,'keyword':'الجنس'},{'no':1,'keyword':'ذكر'},{'no':2,'keyword':'انثى'}];
+  var genderlist = [
+    {'no': 0, 'keyword': 'الجنس'},
+    {'no': 1, 'keyword': 'ذكر'},
+    {'no': 2, 'keyword': 'انثى'}
+  ];
 
   List<DropdownMenuItem<Object?>> _dropdownTestItems = [];
   List<DropdownMenuItem<Object?>> _dropdownTestItems2 = [];
@@ -98,14 +103,15 @@ class _profileInformaionState extends State<profileInformaion>
     setState(() {
       _dropdownTestItems.clear();
       citilist.clear();
-      countryChanged  = true;
+      countryChanged = true;
       Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
       city = 'المدينة';
       getid.forEach((key, value) {
-        if(value == Logging.theUser!.country){
-          print(key.toString()+ '---------------------------------------------');
-          cities = fetCities(key+1);
+        if (value == Logging.theUser!.country) {
+          print(
+              key.toString() + '---------------------------------------------');
+          cities = fetCities(key + 1);
         }
       });
     });
@@ -163,9 +169,9 @@ class _profileInformaionState extends State<profileInformaion>
   Widget build(BuildContext context) {
     print(genderChosen.toString());
     getid.forEach((key, value) {
-      if(value == Logging.theUser!.country){
-        print(key.toString()+ '---------------------------------------------');
-        cities = fetCities(key+1);
+      if (value == Logging.theUser!.country) {
+        print(key.toString() + '---------------------------------------------');
+        cities = fetCities(key + 1);
       }
     });
 
@@ -215,8 +221,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                         .phonenumber!
                                                         .length -
                                                     9,
-                                                phone.text =
-                                                    snapshot
+                                                phone.text = snapshot
                                                     .data!
                                                     .data!
                                                     .celebrity!
@@ -225,9 +230,15 @@ class _profileInformaionState extends State<profileInformaion>
                                               }
                                             : phone.text = snapshot.data!.data!
                                                 .celebrity!.phonenumber!,
-                                  snapshot.data!.data!.celebrity!.gender != null?{
-                                  gender = snapshot.data!.data!.celebrity!.gender!.name!,
-                                  genderChosen = true}: gender,
+                                        snapshot.data!.data!.celebrity!
+                                                    .gender !=
+                                                null
+                                            ? {
+                                                gender = snapshot.data!.data!
+                                                    .celebrity!.gender!.name!,
+                                                genderChosen = true
+                                              }
+                                            : gender,
                                         pageLink.text = snapshot
                                             .data!.data!.celebrity!.pageUrl!,
                                         snapchat.text = snapshot
@@ -306,7 +317,9 @@ class _profileInformaionState extends State<profileInformaion>
                                 textFieldNoIcon(
                                     context, 'الاسم', 14, false, name,
                                     (String? value) {
-                                  if (value == null || value.isEmpty) {return 'حقل اجباري';}
+                                  if (value == null || value.isEmpty) {
+                                    return 'حقل اجباري';
+                                  }
                                   return null;
                                 }, false),
                               ),
@@ -352,7 +365,7 @@ class _profileInformaionState extends State<profileInformaion>
                               Row(
                                 children: [
                                   Expanded(
-                                    flex:7,
+                                    flex: 7,
                                     child: paddingg(
                                       0,
                                       15,
@@ -381,8 +394,8 @@ class _profileInformaionState extends State<profileInformaion>
 
                               editPassword
                                   ? Form(
-                                key: _formKey2,
-                                child: Column(
+                                      key: _formKey2,
+                                      child: Column(
                                         children: [
                                           paddingg(
                                             15,
@@ -393,7 +406,8 @@ class _profileInformaionState extends State<profileInformaion>
                                                 'كلمة المرور الحالية',
                                                 14,
                                                 true,
-                                                currentPassword, (String? value) {
+                                                currentPassword,
+                                                (String? value) {
                                               if (value == null ||
                                                   value.isEmpty) {}
                                               return null;
@@ -425,17 +439,20 @@ class _profileInformaionState extends State<profileInformaion>
                                                 'تاكيد كلمة المرور ',
                                                 14,
                                                 true,
-                                                confirmPassword, (String? value) {
+                                                confirmPassword,
+                                                (String? value) {
                                               if (value == null ||
                                                   value.isEmpty) {
                                                 return 'حقل اجباري';
                                               }
-                                              return noMatch ? 'كلمة المرور وتاكيد كلمة المرور غير متطابقين': null;
+                                              return noMatch
+                                                  ? 'كلمة المرور وتاكيد كلمة المرور غير متطابقين'
+                                                  : null;
                                             }, false),
                                           ),
                                         ],
                                       ),
-                                  )
+                                    )
                                   : const SizedBox(
                                       height: 0,
                                     ),
@@ -493,12 +510,12 @@ class _profileInformaionState extends State<profileInformaion>
                                           'AE',
                                           'KW',
                                           'QA',
-
                                         ],
                                         showFlag: true,
                                         // optional. Shows only country name and flag
                                         showCountryOnly: false,
-                                        textStyle:  TextStyle(color: black, fontSize: 0.sp),
+                                        textStyle: TextStyle(
+                                            color: black, fontSize: 0.sp),
                                         // optional. Shows only country name and flag when popup is closed.
                                         showOnlyCountryWhenClosed: false,
                                         // optional. aligns the flag and the Text left
@@ -510,59 +527,64 @@ class _profileInformaionState extends State<profileInformaion>
                               ),
 
                               // ===========dropdown lists ==================
-                                 paddingg(
-                                  15,
-                    15,
-                    12,
-                    DropdownBelow(
-                    itemWidth: 370.w,
-                    dropdownColor: newGrey,
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                DropdownBelow(
+                                  itemWidth: 370.w,
+                                  dropdownColor: newGrey,
 
-                    ///text style inside the menu
-                    itemTextstyle: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    color: white,
-                    fontFamily: 'Cairo',
-                    ),
+                                  ///text style inside the menu
+                                  itemTextstyle: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: white,
+                                    fontFamily: 'Cairo',
+                                  ),
 
-                    ///hint style
-                    boxTextstyle: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    color: white,
-                    fontFamily: 'Cairo'),
+                                  ///hint style
+                                  boxTextstyle: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: white,
+                                      fontFamily: 'Cairo'),
 
-                    ///box style
-                    boxPadding: EdgeInsets.fromLTRB(
-                    13.w, 12.h, 13.w, 12.h),
-                    boxWidth: 500.w,
-                    boxHeight: 45.h,
-                    boxDecoration: BoxDecoration(
-                    color: textFieldBlack2
-                        .withOpacity(0.70),
-                    borderRadius:
-                    BorderRadius.circular(8.r)),
+                                  ///box style
+                                  boxPadding: EdgeInsets.fromLTRB(
+                                      13.w, 12.h, 13.w, 12.h),
+                                  boxWidth: 500.w,
+                                  boxHeight: 45.h,
+                                  boxDecoration: BoxDecoration(
+                                      color: textFieldBlack2.withOpacity(0.70),
+                                      borderRadius: BorderRadius.circular(8.r)),
 
-                    ///Icons
-                    icon: const Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.white54,
-                    ),
-                    hint: Text(
-                    gender,
-                    textDirection: TextDirection.rtl,
-                    ),
-                    value: _selectedTest4,
-                    items: _dropdownTestItems4,
-                    onChanged: onChangeDropdownTests4,
-                    ),
-                    ),
+                                  ///Icons
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.white54,
+                                  ),
+                                  hint: Text(
+                                    gender,
+                                    textDirection: TextDirection.rtl,
+                                  ),
+                                  value: _selectedTest4,
+                                  items: _dropdownTestItems4,
+                                  onChanged: onChangeDropdownTests4,
+                                ),
+                              ),
 
-                              genderChosen == true? SizedBox():paddingg(
-                                  10,
-                                  20,
-                                  3, text(context, 'تحديد نوع الجنس اجباري لتحديث المعلومات', 14, red!)),
+                              genderChosen == true
+                                  ? SizedBox()
+                                  : paddingg(
+                                      10,
+                                      20,
+                                      3,
+                                      text(
+                                          context,
+                                          'تحديد نوع الجنس اجباري لتحديث المعلومات',
+                                          14,
+                                          red!)),
                               FutureBuilder(
                                   future: countries,
                                   builder: ((context,
@@ -1095,55 +1117,87 @@ class _profileInformaionState extends State<profileInformaion>
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
-                                      ( currentPassword.text != null && newPassword.text != null ) ||  ( currentPassword.text.isNotEmpty && newPassword.text.isNotEmpty)?{
-                                        _formKey2.currentState == null?null:
-                                        _formKey2.currentState!.validate()? {
-                                          newPassword.text == confirmPassword.text?{ changePassword().then((value) => ScaffoldMessenger.of(
-                                      context)
-                                          .showSnackBar(
-                                       SnackBar(
-                                      content: Text('${value.message!.ar}'),
-                                      ))),
-                                      updateInformation().whenComplete(() => fetchCelebrities(userToken!))}: setState((){noMatch = true;})}:null,}:null;
-                                      _selectedTest4 == null && gender == 'الجنس'?  setState((){genderChosen = false; }): setState((){genderChosen = true;});
-                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null && genderChosen? updateInformation().then((value) =>
-                                      {
-                                        countryChanged
-                                            ? setState(() {
-                                          helper = 0;
-                                          countryChanged =
-                                          false;
-                                          celebrities =
-                                              fetchCelebrities(userToken!);
-                                        })
-                                            : Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder:
-                                                  (context) =>
-                                                  const MainScreen()),
-                                        ),
-                                        ScaffoldMessenger.of(
-                                            context)
-                                            .showSnackBar(
-                                             SnackBar(
-                                              content: Text(
-                                                  value.message!.ar!),
-                                            ))
-                                        //   setState(() {
-                                        //     helper = 0;
-                                        //     celebrities =
-                                        //         fetchCelebrities();
-                                        //   }),
-                                        //   ScaffoldMessenger.of(
-                                        //           context)
-                                        //       .showSnackBar(
-                                        //           const SnackBar(
-                                        //     content: Text(
-                                        //         "تم تعديل المعلومات بنجاح"),
-                                        //   ))
-                                      })
-
+                                      (currentPassword.text != null &&
+                                                  newPassword.text != null) ||
+                                              (currentPassword
+                                                      .text.isNotEmpty &&
+                                                  newPassword.text.isNotEmpty)
+                                          ? {
+                                              _formKey2.currentState == null
+                                                  ? null
+                                                  : _formKey2.currentState!
+                                                          .validate()
+                                                      ? {
+                                                          newPassword.text ==
+                                                                  confirmPassword
+                                                                      .text
+                                                              ? {
+                                                                  changePassword().then((value) =>
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                              SnackBar(
+                                                                        content:
+                                                                            Text('${value.message!.ar}'),
+                                                                      ))),
+                                                                  updateInformation()
+                                                                      .whenComplete(() =>
+                                                                          fetchCelebrities(
+                                                                              userToken!))
+                                                                }
+                                                              : setState(() {
+                                                                  noMatch =
+                                                                      true;
+                                                                })
+                                                        }
+                                                      : null,
+                                            }
+                                          : null;
+                                      _selectedTest4 == null &&
+                                              gender == 'الجنس'
+                                          ? setState(() {
+                                              genderChosen = false;
+                                            })
+                                          : setState(() {
+                                              genderChosen = true;
+                                            });
+                                      _formKey.currentState!.validate() &&
+                                              _formKey2.currentState == null &&
+                                              genderChosen == true
+                                          ? updateInformation().then((value) =>
+                                              {
+                                                countryChanged
+                                                    ? setState(() {
+                                                        helper = 0;
+                                                        countryChanged = false;
+                                                        celebrities =
+                                                            fetchCelebrities(
+                                                                userToken!);
+                                                      })
+                                                    : Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const MainScreen()),
+                                                      ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                      Text(value.message!.ar!),
+                                                ))
+                                                //   setState(() {
+                                                //     helper = 0;
+                                                //     celebrities =
+                                                //         fetchCelebrities();
+                                                //   }),
+                                                //   ScaffoldMessenger.of(
+                                                //           context)
+                                                //       .showSnackBar(
+                                                //           const SnackBar(
+                                                //     content: Text(
+                                                //         "تم تعديل المعلومات بنجاح"),
+                                                //   ))
+                                              })
                                           : null;
                                     })),
                               ),
@@ -1168,8 +1222,16 @@ class _profileInformaionState extends State<profileInformaion>
     );
   }
 
- // eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDAzNzUwY2MyNjFjNDY1NjY2YjcwODJlYjgzYmFmYzA0ZjQzMGRlYzEyMzAwYTY5NTE1ZDNlZTYwYWYzYjc0Y2IxMmJiYzA3ZTYzODAwMWYiLCJpYXQiOjE2NTMxMTY4MjcuMTk0MDc3OTY4NTk3NDEyMTA5Mzc1LCJuYmYiOjE2NTMxMTY4MjcuMTk0MDg0ODgyNzM2MjA2MDU0Njg3NSwiZXhwIjoxNjg0NjUyODI3LjE5MDA0ODkzMzAyOTE3NDgwNDY4NzUsInN1YiI6IjExIiwic2NvcGVzIjpbXX0.GUQgvMFS-0VA9wOAhHf7UaX41lo7m8hRm0y4mI70eeAZ0Y9p2CB5613svXrrYJX74SfdUM4y2q48DD-IeT67uydUP3QS9inIyRVTDcEqNPd3i54YplpfP8uSyOCGehmtl5aKKEVAvZLOZS8C-aLIEgEWC2ixwRKwr89K0G70eQ7wHYYHQ3NOruxrpc_izZ5awskVSKwbDVnn9L9-HbE86uP4Y8B5Cjy9tZBGJ-6gJtj3KYP89-YiDlWj6GWs52ShPwXlbMNFVDzPa3oz44eKZ5wNnJJBiky7paAb1hUNq9Q012vJrtazHq5ENGrkQ23LL0n61ITCZ8da1RhUx_g6BYJBvc_10nMuwWxRKCr9l5wygmIItHAGXxB8f8ypQ0vLfTeDUAZa_Wrc_BJwiZU8jSdvPZuoUH937_KcwFQScKoL7VuwbbmskFHrkGZMxMnbDrEedl0TefFQpqUAs9jK4ngiaJgerJJ9qpoCCn4xMSGl_ZJmeQTQzMwcLYdjI0txbSFIieSl6M2muHedWhWscXpzzBhdMOM87cCZYuAP4Gml80jywHCUeyN9ORVkG_hji588pvW5Ur8ZzRitlqJoYtztU3Gq2n6sOn0sRShjTHQGPWWyj5fluqsok3gxpeux5esjG_uLCpJaekrfK3ji2DYp-wB-OBjTGPUqlG9W_fs
+  // eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDAzNzUwY2MyNjFjNDY1NjY2YjcwODJlYjgzYmFmYzA0ZjQzMGRlYzEyMzAwYTY5NTE1ZDNlZTYwYWYzYjc0Y2IxMmJiYzA3ZTYzODAwMWYiLCJpYXQiOjE2NTMxMTY4MjcuMTk0MDc3OTY4NTk3NDEyMTA5Mzc1LCJuYmYiOjE2NTMxMTY4MjcuMTk0MDg0ODgyNzM2MjA2MDU0Njg3NSwiZXhwIjoxNjg0NjUyODI3LjE5MDA0ODkzMzAyOTE3NDgwNDY4NzUsInN1YiI6IjExIiwic2NvcGVzIjpbXX0.GUQgvMFS-0VA9wOAhHf7UaX41lo7m8hRm0y4mI70eeAZ0Y9p2CB5613svXrrYJX74SfdUM4y2q48DD-IeT67uydUP3QS9inIyRVTDcEqNPd3i54YplpfP8uSyOCGehmtl5aKKEVAvZLOZS8C-aLIEgEWC2ixwRKwr89K0G70eQ7wHYYHQ3NOruxrpc_izZ5awskVSKwbDVnn9L9-HbE86uP4Y8B5Cjy9tZBGJ-6gJtj3KYP89-YiDlWj6GWs52ShPwXlbMNFVDzPa3oz44eKZ5wNnJJBiky7paAb1hUNq9Q012vJrtazHq5ENGrkQ23LL0n61ITCZ8da1RhUx_g6BYJBvc_10nMuwWxRKCr9l5wygmIItHAGXxB8f8ypQ0vLfTeDUAZa_Wrc_BJwiZU8jSdvPZuoUH937_KcwFQScKoL7VuwbbmskFHrkGZMxMnbDrEedl0TefFQpqUAs9jK4ngiaJgerJJ9qpoCCn4xMSGl_ZJmeQTQzMwcLYdjI0txbSFIieSl6M2muHedWhWscXpzzBhdMOM87cCZYuAP4Gml80jywHCUeyN9ORVkG_hji588pvW5Ur8ZzRitlqJoYtztU3Gq2n6sOn0sRShjTHQGPWWyj5fluqsok3gxpeux5esjG_uLCpJaekrfK3ji2DYp-wB-OBjTGPUqlG9W_fs
   Future<CelebrityInformation> updateInformation() async {
+    categoriesId.forEach((key, value) {
+      if (value == category) {
+        print(key);
+        print(key.toString() +
+            '---------------------------------------------');
+        catId = key+1;
+      }
+    });
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
     final response = await http.post(
@@ -1190,7 +1252,7 @@ class _profileInformaionState extends State<profileInformaion>
             _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
         'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
         'category_id':
-            _selectedTest2 == null ? 1 : categorylist.indexOf(_selectedTest2),
+            _selectedTest2 == null ? catId : categorylist.indexOf(_selectedTest2),
         'snapchat': snapchat.text,
         'tiktok': tiktok.text,
         'youtube': youtube.text,
@@ -1198,15 +1260,14 @@ class _profileInformaionState extends State<profileInformaion>
         'twitter': twitter.text,
         'facebook': facebook.text,
         'description': desc.text,
-        'gender_id' : _selectedTest4  == null ? 1 : _selectedTest4['no'],
-
+        'gender_id': _selectedTest4 == null ? 1 : _selectedTest4['no'],
       }),
     );
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
-      return  CelebrityInformation.fromJson(jsonDecode(response.body));
+      return CelebrityInformation.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -1218,7 +1279,7 @@ class _profileInformaionState extends State<profileInformaion>
     String token2 =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWVjZjA0OGYxODVkOGZjYjQ5YTI3ZTgyYjQxYjBmNTg3OTMwYTA3NDY3YTc3ZjQwOGZlYWFmNjliNGYxMDQ4ZjEzMjgxMWU4MWNhMDJlNjYiLCJpYXQiOjE2NTAxOTc4MTIuNjUzNTQ5OTA5NTkxNjc0ODA0Njg3NSwibmJmIjoxNjUwMTk3ODEyLjY1MzU1MzAwOTAzMzIwMzEyNSwiZXhwIjoxNjgxNzMzODEyLjY0Mzg2NjA2MjE2NDMwNjY0MDYyNSwic3ViIjoiMTEiLCJzY29wZXMiOltdfQ.toMOLVGTbNRcIqD801Xs3gJujhMvisCzAHHQC_P8UYp3lmzlG3rwadB4M0rooMIVt82AB2CyZfT37tVVWrjAgNq4diKayoQC5wPT7QQrAp5MERuTTM7zH2n3anZh7uargXP1Mxz3X9PzzTRSvojDlfCMsX1PrTLAs0fGQOVVa-u3lkaKpWkVVa1lls0S755KhZXCAt1lKBNcm7GHF657QCh4_daSEOt4WSF4yq-F6i2sJH-oMaYndass7HMj05wT9Z2KkeIFcZ21ZEAKNstraKUfLzwLr2_buHFNmnziJPG1qFDgHLOUo6Omdw3f0ciPLiLD7FnCrqo_zRZQw9V_tPb1-o8MEZJmAH2dfQWQBey4zZgUiScAwZAiPNcTPBWXmSGQHxYVjubKzN18tq-w1EPxgFJ43sRRuIUHNU15rhMio_prjwqM9M061IzYWgzl3LW1NfckIP65l5tmFOMSgGaPDk18ikJNmxWxpFeBamL6tTsct7-BkEuYEU6GEP5D1L-uwu8GGI_T6f0VSW9sal_5Zo0lEsUuR2nO1yrSF8ppooEkFHlPJF25rlezmaUm0MIicaekbjwKdja5J5ZgNacpoAnoXe4arklcR6djnj_bRcxhWiYa-0GSITGvoWLcbc90G32BBe2Pz3RyoaiHkAYA_BNA_0qmjAYJMwB_e8U';
 
-      final response = await http.post(
+    final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/password/change',
       ),
@@ -1237,13 +1298,14 @@ class _profileInformaionState extends State<profileInformaion>
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
-      return  CelebrityInformation.fromJson(jsonDecode(response.body));
+      return CelebrityInformation.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load activity');
     }
   }
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -1259,7 +1321,7 @@ class _profileInformaionState extends State<profileInformaion>
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      for(int i =0; i< jsonDecode(response.body)['data'].length;i++) {
+      for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
         setState(() {
           getid.putIfAbsent(
               i, () => jsonDecode(response.body)['data'][i]['name']);
@@ -1299,7 +1361,13 @@ class _profileInformaionState extends State<profileInformaion>
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-
+      for (int i = 0; i < jsonDecode(response.body)['data'].length; i++) {
+        setState(() {
+          print(jsonDecode(response.body)['data'][i]['name']);
+          categoriesId.putIfAbsent(
+              i, () => jsonDecode(response.body)['data'][i]['name']);
+        });
+      }
       return CategoryL.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
@@ -1332,12 +1400,8 @@ class _profileInformaionState extends State<profileInformaion>
 }
 
 // @override
- // TODO: implement wantKeepAlive
+// TODO: implement wantKeepAlive
 // bool get wantKeepAlive => true;
-
-
-
-
 
 class CelebrityInformation {
   bool? success;
@@ -1419,7 +1483,7 @@ class Celebrity {
       this.country,
       this.city,
       this.description,
-        this.gender,
+      this.gender,
       this.pageUrl,
       this.snapchat,
       this.tiktok,
@@ -1439,7 +1503,8 @@ class Celebrity {
     country =
         json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
-    gender = json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
+    gender =
+        json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -1683,7 +1748,6 @@ class Gender {
     return data;
   }
 }
-
 
 class Datacity {
   String? name;
