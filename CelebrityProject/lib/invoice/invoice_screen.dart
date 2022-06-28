@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../Account/LoggingSingUpAPI.dart';
 import 'InvoicePdf.dart';
 //import 'package:pdf/widgets.dart' as pw;
 
@@ -29,10 +30,17 @@ class _invoiceScreenState extends State<invoiceScreen> {
   final file = File('example.pdf');
   //  final pdf = pw.Document();
   DateTime date = DateTime.now();
+  String? userToken;
 
   @override
   void initState() {
-    invoices = getInvoices();
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        invoices = getInvoices();
+      });
+    });
+
     super.initState();
   }
 
@@ -51,15 +59,13 @@ class _invoiceScreenState extends State<invoiceScreen> {
                     height: 30.h,
                   ),
                   text(context, '    الطلبات المالية ', 17, black),
-                  SizedBox(
-                    height: 30.h,
-                  ),
+
                   FutureBuilder<InvoiceModel>(
                       future: invoices,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center();
+                          return Center(child: mainLoad(context));
                         } else if (snapshot.connectionState ==
                                 ConnectionState.active ||
                             snapshot.connectionState == ConnectionState.done) {
@@ -67,144 +73,155 @@ class _invoiceScreenState extends State<invoiceScreen> {
                             return Text(snapshot.error.toString());
                             //---------------------------------------------------------------------------
                           } else if (snapshot.hasData) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.data!.billings!.length,
-                              itemBuilder: (context, index) {
-                                desc =snapshot.data!.data!.billings![index].order!.adType!.name! == "اعلان" ? ' طلب'+ snapshot.data!.data!.billings![index].order!.adType!.name! + ' ل' +
-                                    snapshot.data!.data!.billings![index].order!.advertisingAdType!.name! :
-                                snapshot.data!.data!.billings![index].order!.adType!.name! == "اهداء"? ' طلب ' +snapshot.data!.data!.billings![index].order!.adType!.name! +' / '+ snapshot.data!.data!.billings![index].order!.giftType!.name! + " بمناسبة  " + 'عيد ميلاد':
-                                snapshot.data!.data!.billings![index].order!.adType!.name! == "مساحة اعلانية"?  ' طلب '+'مساحة اعلانية':'';
-                                return Card(
-                                    elevation: 3,
-                                    child: ExpansionTile(
-                                        title: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
+                             return snapshot.data!.data!.billings!.isEmpty?  Padding(
+                               padding:  EdgeInsets.only(top: getSize(context).height/4),
+                               child: Center(child: text(context, 'لا يوجد فواتير لعرضهم حاليا', 18, black),),
+                             ):
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 30.h,
+                                  ),
+                                  ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data!.data!.billings!.length,
+                                  itemBuilder: (context, index) {
+                                    desc =snapshot.data!.data!.billings![index].order!.adType!.name! == "اعلان" ? ' طلب'+ snapshot.data!.data!.billings![index].order!.adType!.name! + ' ل' +
+                                        snapshot.data!.data!.billings![index].order!.advertisingAdType!.name! :
+                                    snapshot.data!.data!.billings![index].order!.adType!.name! == "اهداء"? ' طلب ' +snapshot.data!.data!.billings![index].order!.adType!.name! +' / '+ snapshot.data!.data!.billings![index].order!.giftType!.name! + " بمناسبة  " + 'عيد ميلاد':
+                                    snapshot.data!.data!.billings![index].order!.adType!.name! == "مساحة اعلانية"?  ' طلب '+'مساحة اعلانية':'';
+                                    return Card(
+                                        elevation: 3,
+                                        child: ExpansionTile(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Icon(
-                                                  Icons.receipt_long,
-                                                  color:
-                                                      black.withOpacity(0.80),
-                                                  size: 27,
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.receipt_long,
+                                                      color:
+                                                          black.withOpacity(0.80),
+                                                      size: 27,
+                                                    ),
+                                                    SizedBox(width: 20.w),
+                                                    Container(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          text(
+                                                              context,
+                                                              snapshot.data!.data!.billings![index].user!.name!,
+                                                              16,
+                                                              black),
+                                                          text(
+                                                              context,
+                                                              snapshot.data!.data!.billings![index].price!.toString() +
+                                                                  " ر.س",
+                                                              15,
+                                                              green),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                SizedBox(width: 20.w),
-                                                Container(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      text(
-                                                          context,
-                                                          snapshot.data!.data!.billings![index].user!.name!,
-                                                          16,
-                                                          black),
-                                                      text(
-                                                          context,
-                                                          snapshot.data!.data!.billings![index].price!.toString() +
-                                                              " ر.س",
-                                                          15,
-                                                          green),
-                                                    ],
-                                                  ),
-                                                ),
+                                                text(
+                                                    context,
+                                                    snapshot.data!.data!.billings![index].date.toString(),
+                                                    12,
+                                                    grey!),
                                               ],
                                             ),
-                                            text(
-                                                context,
-                                                snapshot.data!.data!.billings![index].date.toString(),
-                                                12,
-                                                grey!),
-                                          ],
-                                        ),
-                                        children: [
-                                          Container(
-                                              margin:
-                                                  EdgeInsets.only(top: 10.h),
-                                              height: 70.h,
-                                              decoration: BoxDecoration(
-                                                color: fillWhite,
-                                                border: Border(
-                                                    top: BorderSide(
-                                                        color: lightGrey
-                                                            .withOpacity(
-                                                                0.10))),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 15.0.w),
-                                                    child: text(context,
-                                                        'التفاصيل', 12, grey!),
+                                            children: [
+                                              Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 10.h),
+                                                  height: 70.h,
+                                                  decoration: BoxDecoration(
+                                                    color: fillWhite,
+                                                    border: Border(
+                                                        top: BorderSide(
+                                                            color: lightGrey
+                                                                .withOpacity(
+                                                                    0.10))),
                                                   ),
-                                                  SingleChildScrollView(
-                                                    child: Container(
-                                                      child: text(
-                                                          context,
-                                                    snapshot.data!.data!.billings![index].order!.description != null? snapshot.data!.data!.billings![index].order!.description! : '',
-                                                          14,
-                                                          black),
-                                                      width: 200.w,
-                                                      margin: EdgeInsets.only(
-                                                          right: 10.w),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 10.w),
-                                                    child: Row(children: [
-                                                      InkWell(
-                                                        child: Icon(
-                                                          Icons.info_outlined,
-                                                          size: 20,
-                                                        ),
-                                                        onTap: () {
-                                                          showBottomSheettInvoice(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            right: 15.0.w),
+                                                        child: text(context,
+                                                            'التفاصيل', 12, grey!),
+                                                      ),
+                                                      SingleChildScrollView(
+                                                        child: Container(
+                                                          child: text(
                                                               context,
-                                                              invoice(index));
-                                                        },
-                                                      ),
-                                                      SizedBox(
-                                                        width: 15.w,
-                                                      ),
-                                                      InkWell(
-                                                        child: GradientIcon(
-                                                          Icons.share,
-                                                          20,
-                                                          const LinearGradient(
-                                                            begin: Alignment(
-                                                                0.7, 2.0),
-                                                            end: Alignment(
-                                                                -0.69, -1.0),
-                                                            colors: [
-                                                              Color(0xff0ab3d0),
-                                                              Color(0xffe468ca)
-                                                            ],
-                                                            stops: [0.0, 1.0],
-                                                          ),
+                                                        snapshot.data!.data!.billings![index].order!.description != null? snapshot.data!.data!.billings![index].order!.description! : '',
+                                                              14,
+                                                              black),
+                                                          width: 200.w,
+                                                          margin: EdgeInsets.only(
+                                                              right: 10.w),
                                                         ),
-                                                        onTap: () async {
-                                                          final pdf = await InvoicePdf.createInvoicePDF(snapshot.data!.data!.billings![index].order!.id!.toString(), snapshot.data!.data!.billings![index].billingId.toString(), snapshot.data!.data!.billings![index].date.toString(), snapshot.data!.data!.taxnumber.toString(),
-                                                              snapshot.data!.data!.phone.toString(), snapshot.data!.data!.billings![index].celebrity!.phonenumber.toString(),
-                                                              snapshot.data!.data!.billings![index].celebrity!.country!.name!, snapshot.data!.data!.billings![index].celebrity!.name!, snapshot.data!.data!.billings![index].price.toString(), snapshot.data!.data!.billings![index].priceAfterTax.toString(),
-                                                              snapshot.data!.data!.billings![index].paymentMehtod!.name!, desc!);
-                                                          InvoicePdf.openFile(pdf);
-                                                        },
                                                       ),
-                                                    ]),
-                                                  ),
-                                                ],
-                                              ))
-                                        ]));
-                              },
-                            );
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            left: 10.w),
+                                                        child: Row(children: [
+                                                          InkWell(
+                                                            child: Icon(
+                                                              Icons.info_outlined,
+                                                              size: 20,
+                                                            ),
+                                                            onTap: () {
+                                                              showBottomSheettInvoice(
+                                                                  context,
+                                                                  invoice(index));
+                                                            },
+                                                          ),
+                                                          SizedBox(
+                                                            width: 15.w,
+                                                          ),
+                                                          InkWell(
+                                                            child: GradientIcon(
+                                                              Icons.share,
+                                                              20,
+                                                              const LinearGradient(
+                                                                begin: Alignment(
+                                                                    0.7, 2.0),
+                                                                end: Alignment(
+                                                                    -0.69, -1.0),
+                                                                colors: [
+                                                                  Color(0xff0ab3d0),
+                                                                  Color(0xffe468ca)
+                                                                ],
+                                                                stops: [0.0, 1.0],
+                                                              ),
+                                                            ),
+                                                            onTap: () async {
+                                                              final pdf = await InvoicePdf.createInvoicePDF(snapshot.data!.data!.billings![index].order!.id!.toString(), snapshot.data!.data!.billings![index].billingId.toString(), snapshot.data!.data!.billings![index].date.toString(), snapshot.data!.data!.taxnumber.toString(),
+                                                                  snapshot.data!.data!.phone.toString(), snapshot.data!.data!.billings![index].celebrity!.phonenumber.toString(),
+                                                                  snapshot.data!.data!.billings![index].celebrity!.country!.name!, snapshot.data!.data!.billings![index].celebrity!.name!, snapshot.data!.data!.billings![index].price.toString(), snapshot.data!.data!.billings![index].priceAfterTax.toString(),
+                                                                  snapshot.data!.data!.billings![index].paymentMehtod!.name!, desc!);
+                                                              InvoicePdf.openFile(pdf);
+                                                            },
+                                                          ),
+                                                        ]),
+                                                      ),
+                                                    ],
+                                                  ))
+                                            ]));
+                                  },
+                            ),
+                                ],
+                              );
                           } else {
                             return const Center(
                                 child: Text('لايوجد فواتير لعرضهم حاليا'));
@@ -618,7 +635,7 @@ class _invoiceScreenState extends State<invoiceScreen> {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $userToken'
         });
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
