@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:celepraty/Account/LoggingSingUpAPI.dart';
 import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
+import 'package:celepraty/Users/Setting/userProfile.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
@@ -919,16 +920,52 @@ class _profileInformaionState extends State<profileInformaion>
                                   Center(
                                       child: InkWell(
                                           onTap: () {
-                                            updateInformation()
-                                                .whenComplete(() => {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              const SnackBar(
-                                                        content: Text(
-                                                            "تم تعديل المعلومات بنجاح"),
-                                                      ))
-                                                    });
+                                            _selectedTest4 == null &&
+                                                gender == 'الجنس'
+                                                ? setState(() {
+                                              genderChosen = false;
+                                            })
+                                                : setState(() {
+                                              genderChosen = true;
+                                            });
+                                            _formKey.currentState!.validate() &&
+                                                _formKey2.currentState == null &&
+                                                genderChosen == true
+                                                ? updateInformation().then((value) =>
+                                            {
+                                              countryChanged
+                                                  ? setState(() {
+                                                helper = 0;
+                                                countryChanged = false;
+                                                celebrities =
+                                                    fetchCelebrities(
+                                                        userToken!);
+                                              })
+                                                  : Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                    const MainScreen()),
+                                              ),
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                content:
+                                                Text(value.message!.ar!),
+                                              ))
+                                              //   setState(() {
+                                              //     helper = 0;
+                                              //     celebrities =
+                                              //         fetchCelebrities();
+                                              //   }),
+                                              //   ScaffoldMessenger.of(
+                                              //           context)
+                                              //       .showSnackBar(
+                                              //           const SnackBar(
+                                              //     content: Text(
+                                              //         "تم تعديل المعلومات بنجاح"),
+                                              //   ))
+                                            })
+                                                : null;
                                           },
                                           child: text(
                                               context, 'اضافة', 14, black,
@@ -952,16 +989,52 @@ class _profileInformaionState extends State<profileInformaion>
                                     child: Center(
                                         child: InkWell(
                                             onTap: () {
-                                              updateInformation()
-                                                  .whenComplete(() => {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Text(
-                                                              "تم تعديل المعلومات بنجاح"),
-                                                        ))
-                                                      });
+                                              _selectedTest4 == null &&
+                                                  gender == 'الجنس'
+                                                  ? setState(() {
+                                                genderChosen = false;
+                                              })
+                                                  : setState(() {
+                                                genderChosen = true;
+                                              });
+                                              _formKey.currentState!.validate() &&
+                                                  _formKey2.currentState == null &&
+                                                  genderChosen == true
+                                                  ? updateInformation().then((value) =>
+                                              {
+                                                countryChanged
+                                                    ? setState(() {
+                                                  helper = 0;
+                                                  countryChanged = false;
+                                                  celebrities =
+                                                      fetchCelebrities(
+                                                          userToken!);
+                                                })
+                                                    : Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const MainScreen()),
+                                                ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                  Text(value.message!.ar!),
+                                                ))
+                                                //   setState(() {
+                                                //     helper = 0;
+                                                //     celebrities =
+                                                //         fetchCelebrities();
+                                                //   }),
+                                                //   ScaffoldMessenger.of(
+                                                //           context)
+                                                //       .showSnackBar(
+                                                //           const SnackBar(
+                                                //     content: Text(
+                                                //         "تم تعديل المعلومات بنجاح"),
+                                                //   ))
+                                              })
+                                                  : null;
                                             },
                                             child: text(
                                                 context, 'اضافة', 14, black,
@@ -986,16 +1059,52 @@ class _profileInformaionState extends State<profileInformaion>
                                     child: Center(
                                         child: InkWell(
                                             onTap: () {
-                                              updateInformation()
-                                                  .whenComplete(() => {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Text(
-                                                              "تم تعديل المعلومات بنجاح"),
-                                                        ))
-                                                      });
+                                              _selectedTest4 == null &&
+                                                  gender == 'الجنس'
+                                                  ? setState(() {
+                                                genderChosen = false;
+                                              })
+                                                  : setState(() {
+                                                genderChosen = true;
+                                              });
+                                              _formKey.currentState!.validate() &&
+                                                  _formKey2.currentState == null &&
+                                                  genderChosen == true
+                                                  ? updateInformation().then((value) =>
+                                              {
+                                                countryChanged
+                                                    ? setState(() {
+                                                  helper = 0;
+                                                  countryChanged = false;
+                                                  celebrities =
+                                                      fetchCelebrities(
+                                                          userToken!);
+                                                })
+                                                    : Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const MainScreen()),
+                                                ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                  Text(value.message!.ar!),
+                                                ))
+                                                //   setState(() {
+                                                //     helper = 0;
+                                                //     celebrities =
+                                                //         fetchCelebrities();
+                                                //   }),
+                                                //   ScaffoldMessenger.of(
+                                                //           context)
+                                                //       .showSnackBar(
+                                                //           const SnackBar(
+                                                //     content: Text(
+                                                //         "تم تعديل المعلومات بنجاح"),
+                                                //   ))
+                                              })
+                                                  : null;
                                             },
                                             child: text(
                                                 context, 'اضافة', 14, black,
@@ -1020,16 +1129,52 @@ class _profileInformaionState extends State<profileInformaion>
                                     child: Center(
                                         child: InkWell(
                                             onTap: () {
-                                              updateInformation()
-                                                  .whenComplete(() => {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Text(
-                                                              "تم تعديل المعلومات بنجاح"),
-                                                        ))
-                                                      });
+                                              _selectedTest4 == null &&
+                                                  gender == 'الجنس'
+                                                  ? setState(() {
+                                                genderChosen = false;
+                                              })
+                                                  : setState(() {
+                                                genderChosen = true;
+                                              });
+                                              _formKey.currentState!.validate() &&
+                                                  _formKey2.currentState == null &&
+                                                  genderChosen == true
+                                                  ? updateInformation().then((value) =>
+                                              {
+                                                countryChanged
+                                                    ? setState(() {
+                                                  helper = 0;
+                                                  countryChanged = false;
+                                                  celebrities =
+                                                      fetchCelebrities(
+                                                          userToken!);
+                                                })
+                                                    : Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const MainScreen()),
+                                                ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                  Text(value.message!.ar!),
+                                                ))
+                                                //   setState(() {
+                                                //     helper = 0;
+                                                //     celebrities =
+                                                //         fetchCelebrities();
+                                                //   }),
+                                                //   ScaffoldMessenger.of(
+                                                //           context)
+                                                //       .showSnackBar(
+                                                //           const SnackBar(
+                                                //     content: Text(
+                                                //         "تم تعديل المعلومات بنجاح"),
+                                                //   ))
+                                              })
+                                                  : null;
                                             },
                                             child: text(
                                                 context, 'اضافة', 14, black,
@@ -1054,16 +1199,52 @@ class _profileInformaionState extends State<profileInformaion>
                                     child: Center(
                                         child: InkWell(
                                             onTap: () {
-                                              updateInformation()
-                                                  .whenComplete(() => {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Text(
-                                                              "تم تعديل المعلومات بنجاح"),
-                                                        ))
-                                                      });
+                                              _selectedTest4 == null &&
+                                                  gender == 'الجنس'
+                                                  ? setState(() {
+                                                genderChosen = false;
+                                              })
+                                                  : setState(() {
+                                                genderChosen = true;
+                                              });
+                                              _formKey.currentState!.validate() &&
+                                                  _formKey2.currentState == null &&
+                                                  genderChosen == true
+                                                  ? updateInformation().then((value) =>
+                                              {
+                                                countryChanged
+                                                    ? setState(() {
+                                                  helper = 0;
+                                                  countryChanged = false;
+                                                  celebrities =
+                                                      fetchCelebrities(
+                                                          userToken!);
+                                                })
+                                                    : Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const MainScreen()),
+                                                ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                  Text(value.message!.ar!),
+                                                ))
+                                                //   setState(() {
+                                                //     helper = 0;
+                                                //     celebrities =
+                                                //         fetchCelebrities();
+                                                //   }),
+                                                //   ScaffoldMessenger.of(
+                                                //           context)
+                                                //       .showSnackBar(
+                                                //           const SnackBar(
+                                                //     content: Text(
+                                                //         "تم تعديل المعلومات بنجاح"),
+                                                //   ))
+                                              })
+                                                  : null;
                                             },
                                             child: text(
                                                 context, 'اضافة', 14, black,
@@ -1088,16 +1269,52 @@ class _profileInformaionState extends State<profileInformaion>
                                     child: Center(
                                         child: InkWell(
                                             onTap: () {
-                                              updateInformation()
-                                                  .whenComplete(() => {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Text(
-                                                              "تم تعديل المعلومات بنجاح"),
-                                                        ))
-                                                      });
+                                              _selectedTest4 == null &&
+                                                  gender == 'الجنس'
+                                                  ? setState(() {
+                                                genderChosen = false;
+                                              })
+                                                  : setState(() {
+                                                genderChosen = true;
+                                              });
+                                              _formKey.currentState!.validate() &&
+                                                  _formKey2.currentState == null &&
+                                                  genderChosen == true
+                                                  ? updateInformation().then((value) =>
+                                              {
+                                                countryChanged
+                                                    ? setState(() {
+                                                  helper = 0;
+                                                  countryChanged = false;
+                                                  celebrities =
+                                                      fetchCelebrities(
+                                                          userToken!);
+                                                })
+                                                    : Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const MainScreen()),
+                                                ),
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content:
+                                                  Text(value.message!.ar!),
+                                                ))
+                                                //   setState(() {
+                                                //     helper = 0;
+                                                //     celebrities =
+                                                //         fetchCelebrities();
+                                                //   }),
+                                                //   ScaffoldMessenger.of(
+                                                //           context)
+                                                //       .showSnackBar(
+                                                //           const SnackBar(
+                                                //     content: Text(
+                                                //         "تم تعديل المعلومات بنجاح"),
+                                                //   ))
+                                              })
+                                                  : null;
                                             },
                                             child: text(
                                                 context, 'اضافة', 14, black,
@@ -1117,6 +1334,7 @@ class _profileInformaionState extends State<profileInformaion>
                                 gradientContainerNoborder(
                                     getSize(context).width,
                                     buttoms(context, 'حفظ', 20, white, () {
+
                                       (currentPassword.text != null &&
                                                   newPassword.text != null) ||
                                               (currentPassword
@@ -1143,7 +1361,8 @@ class _profileInformaionState extends State<profileInformaion>
                                                                   updateInformation()
                                                                       .whenComplete(() =>
                                                                           fetchCelebrities(
-                                                                              userToken!))
+                                                                              userToken!)),
+
                                                                 }
                                                               : setState(() {
                                                                   noMatch =
@@ -1164,8 +1383,11 @@ class _profileInformaionState extends State<profileInformaion>
                                       _formKey.currentState!.validate() &&
                                               _formKey2.currentState == null &&
                                               genderChosen == true
-                                          ? updateInformation().then((value) =>
+                                          ?
+                                     { loadingDialogue(context),
+                                      updateInformation().then((value) =>
                                               {
+
                                                 countryChanged
                                                     ? setState(() {
                                                         helper = 0;
@@ -1174,17 +1396,19 @@ class _profileInformaionState extends State<profileInformaion>
                                                             fetchCelebrities(
                                                                 userToken!);
                                                       })
-                                                    : Navigator.pushReplacement(
+                                                    : Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const MainScreen()),
+                                                                celebratyProfile()),
                                                       ),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
                                                   content:
                                                       Text(value.message!.ar!),
-                                                ))
+                                                )),
+                                           //   goToPagePushRefresh(context, celebratyProfile, {})
+
                                                 //   setState(() {
                                                 //     helper = 0;
                                                 //     celebrities =
@@ -1197,7 +1421,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                 //     content: Text(
                                                 //         "تم تعديل المعلومات بنجاح"),
                                                 //   ))
-                                              })
+                                              })}
                                           : null;
                                     })),
                               ),

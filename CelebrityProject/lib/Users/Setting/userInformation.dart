@@ -44,7 +44,7 @@ class _userInformationState extends State<userInformation> {
   String city = 'المدينة';
   String? countrycode;
   bool countryChanged = false;
-
+  bool cityChanged = false;
   int? countryi;
   int? countryId;
   Future<UserProfile>? getUser;
@@ -63,6 +63,7 @@ class _userInformationState extends State<userInformation> {
     setState(() {
       city = selectedTest['keyword'];
       _selectedTest = selectedTest;
+      cityChanged = true;
     });
   }
 
@@ -632,15 +633,21 @@ class _userInformationState extends State<userInformation> {
                                       content: Text(value.message!.ar!),
                                       )))  , updateUserInformation(userToken).whenComplete(() => fetchUsers(userToken))}: setState((){noMatch = true;})}:null,}:null;
 
-                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null? updateUserInformation(userToken)
+                                      _formKey.currentState!.validate() &&  _formKey2.currentState == null?
+
+                                     {
+                                      loadingDialogue(context),
+                                       updateUserInformation(userToken)
                                           .then((value) {
-                                        countryChanged
+                                        countryChanged || cityChanged
                                             ? setState(() {
                                           helper = 0;
                                           countryChanged =
                                           false;
+                                          cityChanged =
+                                          false;
                                           getUser = fetchUsers(userToken);})
-                                            : Navigator.push(
+                                            : Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder:
@@ -654,6 +661,7 @@ class _userInformationState extends State<userInformation> {
                                               content: Text(
                                                  value.message!.ar!),
                                             ));
+
                                         //   setState(() {
                                         //     helper = 0;
                                         //     celebrities =
@@ -666,7 +674,8 @@ class _userInformationState extends State<userInformation> {
                                         //     content: Text(
                                         //         "تم تعديل المعلومات بنجاح"),
                                         //   ))
-                                      })
+
+                                      })}
                                       : null;
                                     })),
                               ),
@@ -803,8 +812,8 @@ class _userInformationState extends State<userInformation> {
         'phonenumber':
             countrycode != null ? countrycode! + phone.text : phone.text,
         'country_id':
-            _selectedTest3 == null ? 1 : _selectedTest3['no'],
-        'city_id': _selectedTest == null ? 1 : _selectedTest['no'],
+            _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
+        'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
       }),
     );
     if (response.statusCode == 200) {

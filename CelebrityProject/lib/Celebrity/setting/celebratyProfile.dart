@@ -1,3 +1,4 @@
+import 'package:celepraty/Users/Setting/userProfile.dart';
 import 'package:celepraty/celebrity/setting/profileInformation.dart' as info;
 import 'package:path/path.dart';
 import 'package:async/async.dart';
@@ -184,6 +185,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                                   },),
                                         ),
                                 radius: 55.r,
+                                backgroundColor: lightGrey,
                                       ),
                             ),
                             onTap: () {
@@ -256,12 +258,15 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                             singOut(context, userToken);
                                           }
                                         : () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      page[index]),
-                                            );
+                                      goToPagePushRefresh(context,page[index], then: (value){setState(() {
+                                        fetchUsers(userToken);
+                                      });});
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           page[index]),
+                                            // ).then((value) => null);
                                           },
                                     child: addListViewButton(
                                       labels[index],

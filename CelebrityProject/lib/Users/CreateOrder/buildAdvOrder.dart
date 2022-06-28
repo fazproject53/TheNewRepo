@@ -212,7 +212,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           context: context,
                           barrierDismissible: false,
     builder: (BuildContext context) {
-    _timer = Timer(Duration(seconds: 2), () {
+    _timer = Timer(Duration(seconds: 3), () {
     Navigator.of(context).pop();    // == First dialog closed
     });
     return
@@ -950,6 +950,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                         colorBlendMode: BlendMode.modulate,
                         fit: BoxFit.fill,
                         height: double.infinity,
+                        width: double.infinity ,
                       ),
                     ),
                     Container(

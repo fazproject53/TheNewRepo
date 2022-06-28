@@ -141,6 +141,7 @@ class _userProfileState extends State<userProfile>
                                     },
                                   ),
                                 ),
+                                backgroundColor: lightGrey,
                                 radius: 55.r,
                               ),
                             ),
