@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:celepraty/Celebrity/orders/gifttingForm.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
 import '../../Users/Exploer/viewData.dart';
+import '../Pricing/ModelPricing.dart';
 import 'AdvFormResponse.dart';
 
 class advForm extends StatefulWidget{
@@ -36,14 +38,14 @@ class _advFormState extends State<advForm>{
   int? _value2 = 1;
   int? _value3 = 1;
   int? _value4 = 1;
-
+  Future<Pricing>? pricing;
   var platformlist = [];
 
   bool platformChosen = true;
   String platform = 'اختر منصة العرض';
 
   List<DropdownMenuItem<Object?>> _dropdownTestItem = [];
-
+  bool activateIt = false;
   var _selectedTest;
 
   Timer? _timer;
@@ -51,6 +53,7 @@ class _advFormState extends State<advForm>{
     print(selectedTest);
     setState(() {
       _selectedTest = selectedTest;
+      platformChosen = true;
       if(selectedTest['no'] == 0){
         _selectedTest =null;
       }
@@ -91,6 +94,7 @@ class _advFormState extends State<advForm>{
       setState(() {
         userToken = value;
         platforms = fetchPlatform();
+        pricing = fetchCelebrityPricingg(widget.id!);
       });
     });
     _dropdownTestItem = buildDropdownTestItems(platformlist);
@@ -147,7 +151,28 @@ class _advFormState extends State<advForm>{
                             family: 'Cairo', )),),
 
                           //========================== form ===============================================
-
+                          FutureBuilder(
+                              future: pricing,
+                              builder: ((context, AsyncSnapshot<Pricing> snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return Center();
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.active ||
+                                    snapshot.connectionState == ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Center(child: Text(snapshot.error.toString()));
+                                    //---------------------------------------------------------------------------
+                                  } else if (snapshot.hasData) {
+                                    snapshot.data!.data != null && snapshot.data!.data!.price!.advertisingPriceFrom != null && snapshot.data!.data!.price!.advertisingPriceTo != null  ?  activateIt = true :null;
+                                    return SizedBox();
+                                  } else {
+                                    return const Center(child: Text('لايوجد لينك لعرضهم حاليا'));
+                                  }
+                                } else {
+                                  return Center(
+                                      child: Text('State: ${snapshot.connectionState}'));
+                                }
+                              })),
                           SizedBox(height: 30,),
                           FutureBuilder(
                               future: platforms,
@@ -617,7 +642,7 @@ class _advFormState extends State<advForm>{
                           FocusManager.instance.primaryFocus
                               ?.unfocus();},
                           )),),
-                          paddingg(15.w, 20.w, 2.h,text(context, datewarn2 ? 'الرجاء اختيار تاريخ النشر': '', 13,red!,)),
+                          paddingg(15.w, 20.w, 2.h,text(context, datewarn2 ? 'الرجاء اختيار تاريخ النشر': '', 13, current.day != DateTime.now().day?white: red!,)),
 
                           paddingg(0,0,12, CheckboxListTile(
                             controlAffinity: ListTileControlAffinity.leading,
@@ -633,18 +658,28 @@ class _advFormState extends State<advForm>{
                               });
                             },),),
                           const SizedBox(height: 30,),
-                          checkit?
+                          checkit && activateIt?
                           padding(15, 15, gradientContainerNoborder(getSize(context).width,  buttoms(context,'رفع الطلب', 15, white, (){
 
                             _formKey.currentState!.validate()? {
-                              checkit && current.day != DateTime.now().day && file != null && !platformChosen?{
+                              checkit && current.day != DateTime.now().day && file != null && platformChosen == true?{
                             showDialog(
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext context) {
-                              _timer = Timer(Duration(seconds: 2), () {
-                                Navigator.of(context).pop();    // == First dialog closed
-                              });
+                              FocusManager.instance.primaryFocus
+                                  ?.unfocus();
+                              addAdOrder().then((value) => {
+                              Navigator.of(context).pop(),
+                              print(value),
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                              SnackBar(
+                              duration:  Duration(seconds: 1),
+                              content: Text(value != null? value : 'تم ارسال الطلب',),
+                              ))});
+                                   // == First dialog closed
+
                             return
                               Align(
                                 alignment: Alignment.center,
@@ -654,16 +689,7 @@ class _advFormState extends State<advForm>{
                                 ),
                               );},
                             ),
-                            FocusManager.instance.primaryFocus
-                                ?.unfocus(),
-                            addAdOrder().then((value) => {
-                              print(value),
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(
-                                  SnackBar(
-                                    duration:  Duration(seconds: 1),
-                                    content: Text(value != null? value : 'تم ارسال الطلب',),
-                                  ))})
+
                               }
                            : setState((){
                              _selectedTest == null? platformChosen= false: platformChosen = true;
@@ -731,6 +757,22 @@ buildCkechboxList(list) {
     // ));}
   }
 
+  Future<Pricing> fetchCelebrityPricingg(String id ) async {
+    String token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDAzNzUwY2MyNjFjNDY1NjY2YjcwODJlYjgzYmFmYzA0ZjQzMGRlYzEyMzAwYTY5NTE1ZDNlZTYwYWYzYjc0Y2IxMmJiYzA3ZTYzODAwMWYiLCJpYXQiOjE2NTMxMTY4MjcuMTk0MDc3OTY4NTk3NDEyMTA5Mzc1LCJuYmYiOjE2NTMxMTY4MjcuMTk0MDg0ODgyNzM2MjA2MDU0Njg3NSwiZXhwIjoxNjg0NjUyODI3LjE5MDA0ODkzMzAyOTE3NDgwNDY4NzUsInN1YiI6IjExIiwic2NvcGVzIjpbXX0.GUQgvMFS-0VA9wOAhHf7UaX41lo7m8hRm0y4mI70eeAZ0Y9p2CB5613svXrrYJX74SfdUM4y2q48DD-IeT67uydUP3QS9inIyRVTDcEqNPd3i54YplpfP8uSyOCGehmtl5aKKEVAvZLOZS8C-aLIEgEWC2ixwRKwr89K0G70eQ7wHYYHQ3NOruxrpc_izZ5awskVSKwbDVnn9L9-HbE86uP4Y8B5Cjy9tZBGJ-6gJtj3KYP89-YiDlWj6GWs52ShPwXlbMNFVDzPa3oz44eKZ5wNnJJBiky7paAb1hUNq9Q012vJrtazHq5ENGrkQ23LL0n61ITCZ8da1RhUx_g6BYJBvc_10nMuwWxRKCr9l5wygmIItHAGXxB8f8ypQ0vLfTeDUAZa_Wrc_BJwiZU8jSdvPZuoUH937_KcwFQScKoL7VuwbbmskFHrkGZMxMnbDrEedl0TefFQpqUAs9jK4ngiaJgerJJ9qpoCCn4xMSGl_ZJmeQTQzMwcLYdjI0txbSFIieSl6M2muHedWhWscXpzzBhdMOM87cCZYuAP4Gml80jywHCUeyN9ORVkG_hji588pvW5Ur8ZzRitlqJoYtztU3Gq2n6sOn0sRShjTHQGPWWyj5fluqsok3gxpeux5esjG_uLCpJaekrfK3ji2DYp-wB-OBjTGPUqlG9W_fs';
+    final response = await http.get(
+        Uri.parse('https://mobile.celebrityads.net/api/celebrity/price/$id'));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      //print(response.body);
+      return Pricing.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load activity');
+    }
+  }
  Future<String?> addAdOrder() async {
     var stream;
     var length;

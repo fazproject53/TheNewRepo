@@ -142,7 +142,8 @@ class _gifttingFormState extends State<gifttingForm>{
     return Center(child: Text(snapshot.error.toString()));
     //---------------------------------------------------------------------------
     } else if (snapshot.hasData) {
-      snapshot.data!.data != null && _selectedTest2 != null ?  activateIt = true :null;
+      snapshot.data!.data != null && _selectedTest2 != null && snapshot.data!.data!.price!.giftImagePrice != null && snapshot.data!.data!.price!.giftVoicePrice != null
+          && snapshot.data!.data!.price!.giftVedioPrice != null  ?  activateIt = true :null;
       return snapshot.data!.data == null || _selectedTest2 == null?
      const SizedBox(): paddingg(15, 15, 12, Container(height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
                                   child:   Padding(
@@ -461,7 +462,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                 ,),
 
                               SizedBox(height: 30.h,),
-                              check? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
+                              check && activateIt? padding(15.w, 15.w, gradientContainerNoborder(getSize(context).width,
                                 buttoms(context, 'رفع الطلب', 15, white, (){
                                   if(!ocasionChosen || !typeChosen){ _selectedTest == null? ocasionChosen= false: ocasionChosen = true;
                                   _selectedTest2 == null? typeChosen= false: typeChosen = true;}
@@ -471,9 +472,22 @@ class _gifttingFormState extends State<gifttingForm>{
                                     context: context,
                                     barrierDismissible: false,
                                     builder: (BuildContext context) {
-                                      _timer = Timer(Duration(seconds: 1), () {
-                                        Navigator.of(context).pop();    // == First dialog closed
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      addGift().then((value) =>  {
+                                      Navigator.of(context).pop(),
+                                          ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                      SnackBar(
+                                      duration:  Duration(seconds: 1),
+                                      content: Text(
+                                      value),
+
+                                      )),
+
                                       });
+                                          // == First dialog closed
+
                                       return
                                         Align(
                                           alignment: Alignment.center,
@@ -483,19 +497,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                           ),
                                         );},
                                   ),
-                                  FocusManager.instance.primaryFocus
-                                      ?.unfocus(),
-                                addGift().then((value) =>  {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(
-                                 SnackBar(
-                                duration:  Duration(seconds: 1),
-                                content: Text(
-                                value),
 
-                                )),
-
-                                })
                                 } : setState((){
                                   _selectedTest == null? ocasionChosen= false: ocasionChosen = true;
                                   _selectedTest2 == null? typeChosen= false: typeChosen = true;

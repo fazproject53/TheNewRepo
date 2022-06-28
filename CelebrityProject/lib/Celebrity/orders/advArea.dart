@@ -85,7 +85,7 @@ class _advAreaState extends State<advArea>{
                       return Center(child: Text(snapshot.error.toString()));
                       //---------------------------------------------------------------------------
                     } else if (snapshot.hasData) {
-                      snapshot.data!.data != null  ?  activateIt = true :null;
+                      snapshot.data!.data != null && snapshot.data!.data!.price!.adSpacePrice != null  ?  activateIt = true :null;
                       return snapshot.data!.data == null?
                       SizedBox(): paddingg(15, 15, 12, Container(height: 55.h,decoration: BoxDecoration(color: deepPink, borderRadius: BorderRadius.circular(8)),
                         child:   Padding(
@@ -120,7 +120,8 @@ class _advAreaState extends State<advArea>{
              SizedBox(height: 20.h),
             paddingg(15, 15, 12, uploadImg(200, 54,text(context, image != null? 'تغيير الصورة':'قم برفع الصورة التي تريد وضعها بالاعلان', 12, black),(){getImage(context);}),),
             InkWell(
-                onTap: (){image != null? showDialog(
+                onTap: (){image != null?
+                showDialog(
                   useSafeArea: true,
                   context: context,
                   barrierDismissible: false,
@@ -132,7 +133,8 @@ class _advAreaState extends State<advArea>{
                       Container(
                           height: double.infinity,
                           child: Image.file(image!));},
-                ):null;},
+                )
+                    :null;},
                 child: paddingg(15.w, 30.w, image != null?10.h: 0.h,Row(
                   children: [
                     image != null? Icon(Icons.image, color: newGrey,): SizedBox(),
@@ -203,9 +205,16 @@ class _advAreaState extends State<advArea>{
                     context: context,
                     barrierDismissible: false,
                     builder: (BuildContext context) {
-                      _timer = Timer(Duration(seconds: 2), () {
-                        Navigator.of(context).pop();    // == First dialog closed
-                      });
+
+                        addAdAreaOrder().then((value) => {
+                        Navigator.of(context).pop(),
+                          ScaffoldMessenger.of(
+                              context)
+                              .showSnackBar(
+                              SnackBar(
+                                duration:  Duration(seconds: 1),
+                                content: Text(value),
+                              ))});
                       return
                         Align(
                           alignment: Alignment.center,
@@ -216,13 +225,7 @@ class _advAreaState extends State<advArea>{
                         );},
                   ),
 
-                  addAdAreaOrder().then((value) => {    ScaffoldMessenger.of(
-                      context)
-                      .showSnackBar(
-                       SnackBar(
-                        duration:  Duration(seconds: 1),
-                        content: Text(value),
-                      ))})
+
                 } : setState((){ !check2? warn2 = true: false;
                 dateTime.day == DateTime.now().day? datewarn2 = true: false;
                 image == null? warnimage =true:false;}),
