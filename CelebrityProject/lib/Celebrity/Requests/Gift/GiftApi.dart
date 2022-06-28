@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../../../Account/LoggingSingUpAPI.dart';
 
@@ -7,7 +9,7 @@ Future<Gifting> getGiftingOrder(String token) async {
   print('gift token: $token');
 
   String url = "$serverUrl/celebrity/GiftOrders";
-  //try{
+  try{
   final respons = await http.get(Uri.parse(url), headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -24,12 +26,19 @@ Future<Gifting> getGiftingOrder(String token) async {
 
     return gifting;
   } else {
-    throw Exception('Failed to load gift request');
+    return Future.error('حدثت مشكله في السيرفر');
   }
-  //} catch (e) {
-  // print(e.toString());
-  //}
-  //return null;
+  }catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if(e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+
+    }
+  }
+
 }
 
 //-------------------------------------------------------------------------------------------

@@ -266,7 +266,11 @@ goTopageReplacement(BuildContext context, pageName) {
   return Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => pageName));
 }
-
+//===============================Go To page(push)===============================
+goToPagePushRefresh(context, pageName,{then}) {
+  return Navigator.push(
+      context, MaterialPageRoute(builder: (context) => pageName)).then(then);
+}
 //get heghit and width===============================================================
 Size getSize(context) {
   return MediaQuery.of(context).size;
@@ -1250,3 +1254,25 @@ BoxDecoration decoration(String famusImage) {
 }
 
 //--------------------------------------------------------------------------
+BoxDecoration decoration2() {
+  return BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(4.r)),
+
+  );
+}
+
+//check internet Connection--------------------------------------------------------------------------
+Widget internetConnection(context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Spacer(),
+
+      SizedBox(height:MediaQuery.of(context).size.height/3,width:MediaQuery.of(context).size.height/3,child: Lottie.asset('assets/lottie/noConnection.json')),
+      SizedBox(height: 10.h,),
+      text(context, ' اتصال بالانترنت', 15, black),
+
+    ],
+  );
+}

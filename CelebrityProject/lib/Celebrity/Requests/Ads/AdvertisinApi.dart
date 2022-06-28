@@ -1,33 +1,41 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../../../Account/LoggingSingUpAPI.dart';
 
 String serverUrl = "https://mobile.celebrityads.net/api";
 Future<Advertising> getAdvertisingOrder(String token) async {
   String url = "$serverUrl/celebrity/AdvertisingOrders";
-  //try{
-  final respons = await http.get(Uri.parse(url), headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': 'Bearer $token'
-  });
+  try {
+    final respons = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
 
-  if (respons.statusCode == 200) {
-    final body = respons.body;
-    Advertising advertising = Advertising.fromJson(jsonDecode(body));
-    print('*************************************************');
-    print(respons.body.runtimeType);
-    print(respons.body);
-    print('*************************************************');
+    if (respons.statusCode == 200) {
+      final body = respons.body;
+      Advertising advertising = Advertising.fromJson(jsonDecode(body));
+      print('*************************************************');
+      print(respons.body.runtimeType);
+      print(respons.body);
+      print('*************************************************');
 
-    return advertising;
-  } else {
-    throw Exception('Failed to load Advertising request');
+      return advertising;
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if(e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+
+    }
   }
-  //} catch (e) {
-  // print(e.toString());
-  //}
-  //return null;
 }
 
 //accept Advertising Order--------------------------------------------------------------------------------------

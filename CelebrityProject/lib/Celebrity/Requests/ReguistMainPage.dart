@@ -11,7 +11,7 @@ import 'Ads/AdvertisinApi.dart';
 import 'AdvSpace/AdSpace.dart';
 import 'Ads/Advertisments.dart';
 
-
+bool isDisConnectToInternet=true;
 class RequestMainPage extends StatefulWidget {
   RequestMainPage({Key? key}) : super(key: key);
 
@@ -30,7 +30,7 @@ class _RequestMainPageState extends State<RequestMainPage>  with AutomaticKeepAl
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: drowAppBar(requestBar, context),
-          body:
+          body:isDisConnectToInternet?Center(child: internetConnection(context)):
           Column( children: [
 
              SizedBox(

@@ -6,6 +6,7 @@ import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 import 'AdvDetials.dart';
 
@@ -38,14 +39,17 @@ class _AdvertismentState extends State<Advertisment>
             future: celebrityAdvertisingRequests,
             builder: ((context, AsyncSnapshot<Advertising> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return  Center(
+                return Center(
                   child: mainLoad(context),
                 );
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-
+                  if(snapshot.error.toString()=='تحقق من اتصالك بالانترنت'){
+                    return internetConnection(context);
+                  }else{
+                    return Center(child: Text(snapshot.error.toString()));
+                  }
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.advertisingOrders!.isNotEmpty
@@ -55,56 +59,57 @@ class _AdvertismentState extends State<Advertisment>
                           itemBuilder: (context, i) {
                             return InkWell(
                                 onTap: () {
-                                  goTopagepush(
-                                      context,
-                                      AdvDetials(
-                                        i: i,
-                                        image: snapshot.data!.data!
-                                            .advertisingOrders![i].file,
-                                        advTitle: snapshot
-                                            .data!
-                                            .data!
-                                            .advertisingOrders![i]
-                                            .advertisingAdType
-                                            ?.name,
-                                        description: snapshot
-                                            .data!
-                                            .data!
-                                            .advertisingOrders![i]
-                                            .description,
-                                        orderId: snapshot.data!.data!
-                                            .advertisingOrders![i].id,
-                                        token: token,
-                                        platform: snapshot
-                                            .data!
-                                            .data!
-                                            .advertisingOrders![i]
-                                            .platform
-                                            ?.name,
-                                        state: snapshot.data!.data!
-                                            .advertisingOrders![i].status?.id,
-                                        price: snapshot.data!.data!
-                                            .advertisingOrders![i].price,
-                                        rejectResonName: snapshot
-                                            .data!
-                                            .data!
-                                            .advertisingOrders![i]
-                                            .rejectReson
-                                            ?.name!,
-                                        rejectResonId: snapshot
-                                            .data!
-                                            .data!
-                                            .advertisingOrders![i]
-                                            .rejectReson
-                                            ?.id,
-                                      ));
+                                  goToPagePushRefresh(context, AdvDetials(
+                                    i: i,
+                                    image: snapshot.data!.data!
+                                        .advertisingOrders![i].file,
+                                    advTitle: snapshot
+                                        .data!
+                                        .data!
+                                        .advertisingOrders![i]
+                                        .advertisingAdType
+                                        ?.name,
+                                    description: snapshot.data!.data!
+                                        .advertisingOrders![i].description,
+                                    orderId: snapshot
+                                        .data!.data!.advertisingOrders![i].id,
+                                    token: token,
+                                    platform: snapshot.data!.data!
+                                        .advertisingOrders![i].platform?.name,
+                                    state: snapshot.data!.data!
+                                        .advertisingOrders![i].status?.id,
+                                    price: snapshot.data!.data!
+                                        .advertisingOrders![i].price,
+                                    rejectResonName: snapshot
+                                        .data!
+                                        .data!
+                                        .advertisingOrders![i]
+                                        .rejectReson
+                                        ?.name!,
+                                    rejectResonId: snapshot
+                                        .data!
+                                        .data!
+                                        .advertisingOrders![i]
+                                        .rejectReson
+                                        ?.id,
+                                  ),
+                                    then: (value){
+                                    if(clickAdv){
+                                      setState(() {
+                                        celebrityAdvertisingRequests =
+                                            getAdvertisingOrder(token);
+                                        clickAdv=false;
+                                      });
+                                    }
+
+                                    }
+                                  );
+
                                 },
                                 child: Column(
                                   children: [
-                                    body(
-                                        i,
-                                        snapshot
-                                            .data!.data!.advertisingOrders),
+                                    body(i,
+                                        snapshot.data!.data!.advertisingOrders),
                                   ],
                                 ));
                           })
@@ -331,4 +336,6 @@ class _AdvertismentState extends State<Advertisment>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+
 }

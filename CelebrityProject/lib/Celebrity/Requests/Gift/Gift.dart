@@ -43,8 +43,11 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Center(child: Text(snapshot.error.toString())));
+                  if(snapshot.error.toString()=='تحقق من اتصالك بالانترنت'){
+                    return internetConnection(context);
+                  }else{
+                    return Center(child: Text(snapshot.error.toString()));
+                  }
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.giftOrders!.isNotEmpty

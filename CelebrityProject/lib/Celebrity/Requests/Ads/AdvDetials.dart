@@ -12,7 +12,7 @@ import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../DownloadImages.dart';
 import 'Advertisments.dart';
-
+bool clickAdv=false;
 class AdvDetials extends StatefulWidget {
   final int? i;
   final String? description;
@@ -331,6 +331,9 @@ class _AdvDetialsState extends State<AdvDetials>
                                                   'تم قبول الطلب',
                                                   green,
                                                   done));
+                                          setState(() {
+                                            clickAdv=true;
+                                          });
                                         } else {
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
@@ -536,6 +539,10 @@ class _AdvDetialsState extends State<AdvDetials>
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         snackBar(context, 'تم رفض الطلب', green,
                                             done));
+                                    setState(() {
+                                      clickAdv=true;
+                                    });
+                                    print('clickAdv $clickAdv');
                                   } else {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -543,6 +550,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                             red, error));
                                   }
                                 });
+
                               }
 
                             },
