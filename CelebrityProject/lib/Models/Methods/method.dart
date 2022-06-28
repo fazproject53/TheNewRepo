@@ -37,27 +37,31 @@ Widget text(
     ),
   );
 }
+
 ///
 ///Flushbar
-Widget flushBar(context, String title, String message, icon){
-  return  Directionality(
+Widget flushBar(context, String title, String message, icon) {
+  return Directionality(
     textDirection: TextDirection.rtl,
     child: Flushbar(
-          titleText: Text(title, style: TextStyle(
-              color: purple, fontFamily: 'Cairo', fontSize: 12.sp,),),
-          messageText: Text(message),
-          borderRadius: BorderRadius.circular(10.r),
-          flushbarPosition: FlushbarPosition.TOP,
-          margin: const EdgeInsets.all(5),
-          flushbarStyle: FlushbarStyle.FLOATING,
-          duration: const Duration(seconds: 5),
-          backgroundColor: white,
-          icon: icon,
-        )..show(context),
+      titleText: Text(
+        title,
+        style: TextStyle(
+          color: purple,
+          fontFamily: 'Cairo',
+          fontSize: 12.sp,
+        ),
+      ),
+      messageText: Text(message),
+      borderRadius: BorderRadius.circular(10.r),
+      flushbarPosition: FlushbarPosition.TOP,
+      margin: const EdgeInsets.all(5),
+      flushbarStyle: FlushbarStyle.FLOATING,
+      duration: const Duration(seconds: 5),
+      backgroundColor: white,
+      icon: icon,
+    )..show(context),
   );
-
-
-
 }
 
 //===============================container===============================
@@ -266,11 +270,13 @@ goTopageReplacement(BuildContext context, pageName) {
   return Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => pageName));
 }
+
 //===============================Go To page(push)===============================
-goToPagePushRefresh(context, pageName,{then}) {
+goToPagePushRefresh(context, pageName, {then}) {
   return Navigator.push(
       context, MaterialPageRoute(builder: (context) => pageName)).then(then);
 }
+
 //get heghit and width===============================================================
 Size getSize(context) {
   return MediaQuery.of(context).size;
@@ -446,10 +452,21 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
+
 ///text field iban
-Widget textFieldIban(context, String key,String label, double fontSize, bool hintPass,
-    TextEditingController mycontroller, myvali, isOptional,
-    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType, onChanged, }) {
+Widget textFieldIban(
+  context,
+  String key,
+  String label,
+  double fontSize,
+  bool hintPass,
+  TextEditingController mycontroller,
+  myvali,
+  isOptional, {
+  List<TextInputFormatter>? inputFormatters,
+  TextInputType? keyboardType,
+  onChanged,
+}) {
   return TextFormField(
     obscureText: hintPass,
     validator: myvali,
@@ -458,24 +475,28 @@ Widget textFieldIban(context, String key,String label, double fontSize, bool hin
     autovalidateMode: AutovalidateMode.onUserInteraction,
     controller: mycontroller,
     onChanged: onChanged,
-    style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo', letterSpacing: 2),
+    style: TextStyle(
+        color: black,
+        fontSize: fontSize.sp,
+        fontFamily: 'Cairo',
+        letterSpacing: 2),
     decoration: InputDecoration(
         isDense: false,
         filled: true,
         errorStyle: TextStyle(fontSize: 12.sp),
         helperText: isOptional ? 'اختياري' : null,
         helperStyle:
-        TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         hintStyle:
-        TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
         fillColor: white,
         labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
         hintText: key,
         labelText: label,
-
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
+
 ///the long one
 Widget textFieldNoIconWhite(context, String key, double fontSize, bool hintPass,
     TextEditingController myController, myValidation,
@@ -555,7 +576,9 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
     {Widget? suffixIcon,
     void Function()? onTap,
     List<TextInputFormatter>? inputFormatters,
-    TextInputType? keyboardType, focusNode})
+    TextInputType? keyboardType,
+    focusNode})
+
 ///The icons will be optional
 
 {
@@ -571,11 +594,11 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       autofocus: false,
       focusNode: focusNode,
-      style:TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
-
           suffixIcon: suffixIcon,
           hintStyle: TextStyle(
               color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
@@ -583,12 +606,10 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
           labelStyle: TextStyle(
             color: white,
             fontSize: fontSize.sp,
-
           ),
           alignLabelWithHint: true,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: key,
-
           errorStyle: TextStyle(
             color: red!,
             fontSize: 10.sp,
@@ -603,9 +624,11 @@ Widget textFieldSmall(context, String key, double fontSize, bool hintPass,
 Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali,
     {Widget? suffixIcon,
-      void Function()? onTap,
-      List<TextInputFormatter>? inputFormatters,
-      TextInputType? keyboardType, focusNode}) { ///The icons will be optional
+    void Function()? onTap,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
+    focusNode}) {
+  ///The icons will be optional
   return SizedBox(
     height: 100.h,
     width: 130.w,
@@ -617,21 +640,25 @@ Widget textFieldSmallRE(context, String key, double fontSize, bool hintPass,
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       autofocus: false,
-
       focusNode: focusNode,
-      style:TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           isDense: false,
           filled: true,
           suffixIcon: suffixIcon,
-          hintStyle: TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          hintStyle: TextStyle(
+              color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           fillColor: textColor,
-          labelStyle: TextStyle(color: white, fontSize: fontSize.sp,),
+          labelStyle: TextStyle(
+            color: white,
+            fontSize: fontSize.sp,
+          ),
           alignLabelWithHint: true,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(100),borderSide: BorderSide.none),
-
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+              borderSide: BorderSide.none),
           hintText: key,
-
           errorStyle: TextStyle(
             color: red!,
             fontSize: 10.sp,
@@ -788,7 +815,6 @@ void showBottomSheetWhite(context, bottomMenu) {
 void showBottomSheetWhite2(context, bottomMenu) {
   showModalBottomSheet(
       isScrollControlled: true,
-
       backgroundColor: white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
@@ -1050,7 +1076,10 @@ class MyTooltip extends StatelessWidget {
     return Tooltip(
       key: key,
       message: message,
-      textStyle: TextStyle(color: white, fontSize: 12.sp,),
+      textStyle: TextStyle(
+        color: white,
+        fontSize: 12.sp,
+      ),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => _onTap(key),
@@ -1262,7 +1291,6 @@ BoxDecoration decoration(String famusImage) {
 BoxDecoration decoration2() {
   return BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(4.r)),
-
   );
 }
 
@@ -1273,11 +1301,15 @@ Widget internetConnection(context) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Spacer(),
-
-      SizedBox(height:MediaQuery.of(context).size.height/3,width:MediaQuery.of(context).size.height/3,child: Lottie.asset('assets/lottie/noConnection.json')),
-      SizedBox(height: 10.h,),
-      text(context, ' اتصال بالانترنت', 15, black),
-
+      SizedBox(
+          height: MediaQuery.of(context).size.height /5,
+          width: MediaQuery.of(context).size.height / 5,
+          child: Lottie.asset('assets/lottie/connection.json')),
+      SizedBox(
+        height: 10.h,
+      ),
+      text(context, 'لايوجد اتصال بالانترنت', 20, black),
+      Spacer(),
     ],
   );
 }

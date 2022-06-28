@@ -30,7 +30,7 @@ class _RequestMainPageState extends State<RequestMainPage>  with AutomaticKeepAl
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: drowAppBar(requestBar, context),
-          body:isDisConnectToInternet?Center(child: internetConnection(context)):
+          body:isDisConnectToInternet==false?Center(child: internetConnection(context)):
           Column( children: [
 
              SizedBox(
