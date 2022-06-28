@@ -383,11 +383,11 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                       color: red!,
                                       size: 25.sp,
                                     ),
-                                    titleText: text(context, 'خطأ', 12, purple),
+                                    titleText: text(context, 'خطأ', 16, purple),
                                     messageText: text(
                                         context,
                                         'قم بإختيار بطاقة او ادخال بطاقة جديدة',
-                                        12,
+                                        14,
                                         black,
                                         fontWeight: FontWeight.w200),
                                   ).show(context)
@@ -404,11 +404,11 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                       size: 30,
                                     ),
                                     titleText: text(context,
-                                        'تم إرسال طلبك بنجاح', 12, purple),
+                                        'تم إرسال طلبك بنجاح', 16, purple),
                                     messageText: text(
                                         context,
                                         'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                        12,
+                                        14,
                                         black,
                                         fontWeight: FontWeight.w200),
                                   ).show(context);
@@ -566,11 +566,11 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                                           size: 30,
                                         ),
                                         titleText: text(context,
-                                            'تم إرسال طلبك بنجاح', 12, purple),
+                                            'تم إرسال طلبك بنجاح', 16, purple),
                                         messageText: text(
                                             context,
                                             'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                            12,
+                                            14,
                                             black,
                                             fontWeight: FontWeight.w200),
                                       )..show(context)

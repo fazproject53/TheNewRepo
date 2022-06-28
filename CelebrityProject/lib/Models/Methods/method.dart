@@ -775,9 +775,12 @@ void showBottomSheetWhite(context, bottomMenu) {
       ),
       context: context,
       builder: (context) {
-        return SizedBox(
-          height: 350.h,
-          child: bottomMenu,
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SizedBox(
+            height: 350.h,
+            child: bottomMenu,
+          ),
         );
       });
 }
@@ -788,14 +791,16 @@ void showBottomSheetWhite2(context, bottomMenu) {
 
       backgroundColor: white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
       ),
       context: context,
       builder: (context) {
-        return SizedBox(
-          height: 400.h,
-          child: bottomMenu,
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SizedBox(
+            height: 400.h,
+            child: bottomMenu,
+          ),
         );
       });
 }

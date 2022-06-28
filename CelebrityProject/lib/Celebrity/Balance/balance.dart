@@ -376,8 +376,7 @@ class _BalanceHomeState extends State<BalanceHome> {
                         ],
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h, bottom: MediaQuery.of(context).viewInsets.bottom),
+                        padding: EdgeInsets.only(right: 10.w, left: 10.w, top: 25.h,),
                         child: Form(
                           key: _formKey,
                           child: Column(
@@ -488,11 +487,11 @@ class _BalanceHomeState extends State<BalanceHome> {
                               size: 30,
                               ),
                               titleText: text(context,
-                              'تم إرسال طلبك بنجاح', 12, purple),
+                              'تم إرسال طلبك بنجاح', 16, purple),
                               messageText: text(
                               context,
                               'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                              12,
+                              14,
                               black,
                               fontWeight: FontWeight.w200),
                               ).show(context)

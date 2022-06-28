@@ -353,17 +353,23 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                     _formKey.currentState!.validate()
                                         ? {
                                             _selectedTest == null
-                                                ? ScaffoldMessenger.of(context)
-                                                    .showSnackBar(SnackBar(
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                    content: text(
-                                                        context,
-                                                        'قم بإختيار نوع الشكوى',
-                                                        12,
-                                                        red!),
-                                                    backgroundColor: white,
-                                                  ))
+                                                ? Flushbar(
+                                              flushbarPosition: FlushbarPosition.TOP,
+                                              backgroundColor: white,
+                                              margin: const EdgeInsets.all(5),
+                                              flushbarStyle: FlushbarStyle.FLOATING,
+                                              borderRadius: BorderRadius.circular(15.r),
+                                              duration: const Duration(seconds: 5),
+                                              icon: Icon(
+                                                error,
+                                                color: red!,
+                                                size: 25.sp,
+                                              ),
+                                              titleText: text(context, 'خطأ', 16, purple),
+                                              messageText: text(context,
+                                                  'قم بإختيار نوع الشكوى', 14, black,
+                                                  fontWeight: FontWeight.w200),
+                                            ).show(context)
                                                 : postContactWithUs(userToken!)
                                                     .whenComplete(() => {
                                             Flushbar(
@@ -378,7 +384,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                               color: green,
                                               size: 30,
                                             ),
-                                            titleText: text(context, 'تم الارسال بنجاح', 14, purple),
+                                            titleText: text(context, 'تم الارسال بنجاح', 16, purple),
                                             messageText: text(context,
                                             'سوف يتم التواصل معك عبر البريد الالكتروني', 14, black,
                                             fontWeight: FontWeight.w200),
