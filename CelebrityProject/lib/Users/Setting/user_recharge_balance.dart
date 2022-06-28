@@ -93,16 +93,25 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
               SizedBox(
                 height: 18.h,
               ),
-              textFieldSmallRE(
-                  context,
-                  '0 ر.س',
-                  14,
-                  false,
-                  amount,
-                  (String? value) {},
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  textFieldSmallRE(
+                      context,
+                      '0',
+                      18,
+                      false,
+                      amount,
+                      (String? value) {},
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 35, right: 10.w),
+                    child: text(context, 'ر.س', 14, black.withOpacity(0.8)),
+                  )
+                ],
+              ),
 
               const Spacer(),
 
@@ -139,7 +148,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
               ),
               SizedBox(
                 height: 37.h,
-              )
+              ),
             ],
           ),
         ),

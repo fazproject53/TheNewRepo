@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 
 
 class RadioWidgetDemo extends StatefulWidget {
+  String? saveUser;
+  String? i ;
   // ignore: use_key_in_widget_constructors
-  const RadioWidgetDemo() : super();
+   RadioWidgetDemo() : super();
 
   @override
   RadioWidgetDemoState createState() => RadioWidgetDemoState();
@@ -45,7 +47,7 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
     });
   }
 
-  List<Widget> createRadioListUsers() {
+  List<Widget> createRadioListUsers(String saveUser) {
     List<Widget> widgets = [];
     for (User user in users!) {
       widgets.add(
@@ -64,17 +66,22 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
                 ],
               )),
           onChanged: (User? currentUser) {
-            //print("Current User ${currentUser?.firstName}");
             setSelectedUser(currentUser!);
+            widget.i = currentUser.firstName;
           },
           selected: selectedUser == user,
           activeColor: purple,
         ),
       );
+
     }
     ///this will be sent to the function to ake sure celebrity choose one of credit card
-    print(selectedUser?.firstName.toString());
-
+    //print(selectedUser?.firstName.toString());
+    widget.saveUser = widget.i.toString();
+    print("Current User ${widget.saveUser}");
+    //widget.saveUser = selectedUser?.firstName.toString();
+        // print('whdget is:');
+        // print(widget.saveUser);
     return widgets;
   }
 
@@ -83,7 +90,7 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
     return Column(
       children: <Widget>[
         Column(
-          children: createRadioListUsers(),
+          children: createRadioListUsers(widget.saveUser.toString()),
         ),
       ],
     );
