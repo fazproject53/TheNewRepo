@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:api_cache_manager/utils/cache_manager.dart';
@@ -9,7 +11,7 @@ class IntroData {
   List<Data>? data;
   Message? message;
 
-  IntroData({ this.success,this.data, this.message});
+  IntroData({this.success, this.data, this.message});
 
   IntroData.fromJson(Map<String, dynamic> json) {
     success = json['success'];
@@ -19,7 +21,8 @@ class IntroData {
         data!.add(Data.fromJson(v));
       });
     }
-    message = json['message'] != null ? Message.fromJson(json['message']) : null;
+    message =
+        json['message'] != null ? Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +65,7 @@ class Data {
     return data;
   }
 }
+
 class Message {
   String? en;
   String? ar;
@@ -80,29 +84,27 @@ class Message {
     return data;
   }
 }
-
-
+//-------------------------------------------------------------
 Future<IntroData> getIntroData() async {
+  try{
   final response =
-  await http.get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
-  var isCacheExist = await APICacheManager().isAPICacheKeyExist("API_Intro");
-  if (!isCacheExist) {
-    if (response.statusCode == 200) {
-      final body = response.body;
-      APICacheDBModel cacheDBModel =
-      APICacheDBModel(key: "API_Intro", syncData: body);
-      await APICacheManager().addCacheData(cacheDBModel);
+      await http.get(Uri.parse("http://mobile.celebrityads.net/api/sliders"));
 
-      IntroData header_ = IntroData.fromJson(jsonDecode(body));
-      print("------------Reading Intro from network");
-      return header_;
-    } else {
-      throw Exception('Failed to load Intro');
-    }
-  } else {
-    var cacheDate = await APICacheManager().getCacheData("API_Intro");
-    print("------------Reading Intro from phone cache");
-    IntroData header_ = IntroData.fromJson(jsonDecode(cacheDate.syncData));
+  if (response.statusCode == 200) {
+    final body = response.body;
+    IntroData header_ = IntroData.fromJson(jsonDecode(body));
+    print("------------Reading Intro from network");
     return header_;
+  } else {
+    return Future.error('حدثت مشكله في السيرفر');
+  }
+  }catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
   }
 }

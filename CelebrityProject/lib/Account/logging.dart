@@ -149,12 +149,30 @@ class _LoggingState extends State<Logging> {
                                               'خطأ في كلمة المرور او اسم المستخدم',
                                               red,
                                               error));
+                                    }else if (result ==
+                                        "SocketException") {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
+                                          context,
+                                          'لايوجد اتصال بالانترنت ',
+                                          red,
+                                          error));
+                                    }else if (result ==
+                                        "TimeoutException") {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(
+                                          context,
+                                          'TimeoutException',
+                                          red,
+                                          error));
                                     } else {
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar(
                                               context,
-                                              'تاكد من ملء جميع الحقول',
+                                              'serverExeption',
                                               red,
                                               error));
                                     }

@@ -15,6 +15,7 @@ int? initScreen;
 void main() async {
   //show splash screen one time
   WidgetsFlutterBinding.ensureInitialized();
+
   SharedPreferences preferences = await SharedPreferences.getInstance();
   initScreen = preferences.getInt('initScreen');
   await preferences.setInt('initScreen', 1);

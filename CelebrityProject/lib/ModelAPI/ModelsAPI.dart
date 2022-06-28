@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+
 List<int> getPagNumber = [];
 
 class Section {
@@ -18,8 +21,9 @@ class Section {
         data!.add(new DataSection.fromJson(v));
       });
     }
-    message =
-    json['message'] != null ? new MessageSection.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new MessageSection.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -46,12 +50,12 @@ class DataSection {
 
   DataSection(
       {this.sectionName,
-        this.title,
-        this.titleEn,
-        this.value,
-        this.valueEn,
-        this.categoryId,
-        this.active});
+      this.title,
+      this.titleEn,
+      this.value,
+      this.valueEn,
+      this.categoryId,
+      this.active});
 
   DataSection.fromJson(Map<String, dynamic> json) {
     sectionName = json['section_name'];
@@ -107,8 +111,9 @@ class Partner {
   Partner.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new DataPartner.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new MessagePartner.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new MessagePartner.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -203,8 +208,9 @@ class header {
   header.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new HeaderData.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new HeaderMessage.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new HeaderMessage.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -296,8 +302,9 @@ class link {
   link.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new LinkData.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new LinkMessage.fromJson(json['message']) : null;
+    message = json['message'] != null
+        ? new LinkMessage.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -391,9 +398,11 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
-    message =
-    json['message'] != null ? new MessageCategory.fromJson(json['message']) : null;
+    data =
+        json['data'] != null ? new DataCategory.fromJson(json['data']) : null;
+    message = json['message'] != null
+        ? new MessageCategory.fromJson(json['message'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -461,27 +470,27 @@ class Celebrities {
 
   Celebrities(
       {this.id,
-        this.username,
-        this.name,
-        this.image,
-        this.email,
-        this.phonenumber,
-        this.country,
-        this.city,
-        this.gender,
-        this.description,
-        this.pageUrl,
-        this.snapchat,
-        this.tiktok,
-        this.youtube,
-        this.instagram,
-        this.twitter,
-        this.facebook,
-        this.category,
-        this.brand,
-        this.advertisingPolicy,
-        this.giftingPolicy,
-        this.adSpacePolicy});
+      this.username,
+      this.name,
+      this.image,
+      this.email,
+      this.phonenumber,
+      this.country,
+      this.city,
+      this.gender,
+      this.description,
+      this.pageUrl,
+      this.snapchat,
+      this.tiktok,
+      this.youtube,
+      this.instagram,
+      this.twitter,
+      this.facebook,
+      this.category,
+      this.brand,
+      this.advertisingPolicy,
+      this.giftingPolicy,
+      this.adSpacePolicy});
 
   Celebrities.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -491,10 +500,10 @@ class Celebrities {
     email = json['email'];
     phonenumber = json['phonenumber'];
     country =
-    json['country'] != null ? new Country.fromJson(json['country']) : null;
+        json['country'] != null ? new Country.fromJson(json['country']) : null;
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender =
-    json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
+        json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
     snapchat = json['snapchat'];
@@ -504,7 +513,7 @@ class Celebrities {
     twitter = json['twitter'];
     facebook = json['facebook'];
     category =
-    json['category'] != null ? new City.fromJson(json['category']) : null;
+        json['category'] != null ? new City.fromJson(json['category']) : null;
     brand = json['brand'];
     advertisingPolicy = json['advertising_policy'];
     giftingPolicy = json['gifting_policy'];
@@ -629,76 +638,106 @@ class MessageCategory {
   }
 }
 
-
-
 // the fetch functions ===================================================================================
 
 Future<link> fetchLinks() async {
-  final response =
-      await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
+  try {
+    final response =
+        await http.get(Uri.parse('http://mobile.celebrityads.net/api/links'));
 
-  if (response.statusCode == 200) {
-    final body = response.body;
+    if (response.statusCode == 200) {
+      final body = response.body;
 
-    link link_ = link.fromJson(jsonDecode(body));
-    print("------------Reading link from network");
-    return link_;
-  } else {
-    throw Exception('Failed to lode link ');
+      link link_ = link.fromJson(jsonDecode(body));
+      print("------------Reading link from network");
+      return link_;
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
   }
 }
 
 //---------------------------------------------------------------------------
 Future<header> fetchHeader() async {
-  final response =
-      await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
+  try {
+    final response =
+        await http.get(Uri.parse('http://mobile.celebrityads.net/api/header'));
 
-  if (response.statusCode == 200) {
-    final body = response.body;
+    if (response.statusCode == 200) {
+      final body = response.body;
 
-    header header_ = header.fromJson(jsonDecode(body));
-    print("Reading header from network------------");
-    return header_;
-  } else {
-    throw Exception('Failed to load header');
+      header header_ = header.fromJson(jsonDecode(body));
+      print("Reading header from network------------");
+      return header_;
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
   }
 }
 
 //--------------------------------------------------------------------
 Future<Partner> fetchPartners() async {
-  final response =
-      await http.get(Uri.parse('http://mobile.celebrityads.net/api/partners'));
+  try {
+    final response = await http
+        .get(Uri.parse('http://mobile.celebrityads.net/api/partners'));
 
-  if (response.statusCode == 200) {
-    final body = response.body;
-    Partner partner = Partner.fromJson(jsonDecode(body));
-    print("Reading Partners from network------------ ");
-    return partner;
-  } else {
-    throw Exception('Failed to load Partners');
+    if (response.statusCode == 200) {
+      final body = response.body;
+      Partner partner = Partner.fromJson(jsonDecode(body));
+      print("Reading Partners from network------------ ");
+      return partner;
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
   }
 }
 
 //------------------------------------------------------------------------
 Future<Category> fetchCategories(int id, int pagNumber) async {
-  final response = await http.get(Uri.parse(
-      'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
-  if (response.statusCode == 200) {
-    final body = response.body;
-    Category category = Category.fromJson(jsonDecode(body));
-    print("Reading category from network------------ ");
-    // print();
-  //for(int i = 0; i < category.data!.celebrities!.length; i++){
-    //if(category.data!.celebrities!.isNotEmpty||){
+  try {
+    final response = await http.get(Uri.parse(
+        'http://mobile.celebrityads.net/api/category/celebrities/$id?page=$pagNumber'));
+    if (response.statusCode == 200) {
+      final body = response.body;
+      Category category = Category.fromJson(jsonDecode(body));
+      print("Reading category from network------------ ");
       getPagNumber.add(1);
-
-   // }
- // }
-    print(body);
-    return category;
-  } else {
-    throw Exception('Failed to load Category');
+      print(body);
+      return category;
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
+  } catch (e) {
+    if (e is SocketException) {
+      return Future.error('تحقق من اتصالك بالانترنت');
+    } else if (e is TimeoutException) {
+      return Future.error('TimeoutException');
+    } else {
+      return Future.error('حدثت مشكله في السيرفر');
+    }
   }
 }
-
-

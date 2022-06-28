@@ -803,7 +803,8 @@ void showBottomSheetWhite(context, bottomMenu) {
       context: context,
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: 350.h,
             child: bottomMenu,
@@ -817,12 +818,14 @@ void showBottomSheetWhite2(context, bottomMenu) {
       isScrollControlled: true,
       backgroundColor: white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
       ),
       context: context,
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SizedBox(
             height: 400.h,
             child: bottomMenu,
@@ -1262,19 +1265,6 @@ Widget mainLoad(context) {
   );
 }
 
-//check internet------------------------------------------------------------------------------------
-// ConnectivityResult checkInternet(ConnectivityResult result) {
-//   const hasInternet = ConnectivityResult.none;
-//   return hasInternet;
-//   // final massage = hasInternet
-//   //     ? 'تم الاتصال بالانترنت' + result.toString()
-//   //     : 'لايوجد اتصال بالانترنت حاليا';
-//   // final color = hasInternet ? green : red;
-//   // final icon = hasInternet ? Icons.wifi : Icons.wifi_off;
-//   // ScaffoldMessenger.of(context)
-//   //     .showSnackBar(snackBar(context, massage, color, icon));
-// }
-
 //--------------------------------------------------------------------------
 BoxDecoration decoration(String famusImage) {
   return BoxDecoration(
@@ -1295,20 +1285,25 @@ BoxDecoration decoration2() {
 }
 
 //check internet Connection--------------------------------------------------------------------------
-Widget internetConnection(context) {
+Widget internetConnection(context,{reload}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Spacer(),
       SizedBox(
-          height: MediaQuery.of(context).size.height /5,
+          height: MediaQuery.of(context).size.height / 5,
           width: MediaQuery.of(context).size.height / 5,
           child: Lottie.asset('assets/lottie/connection.json')),
       SizedBox(
         height: 10.h,
       ),
       text(context, 'لايوجد اتصال بالانترنت', 20, black),
+      SizedBox(
+        height: 5.h,
+      ),
+      buttoms(context, 'إعادة تحميل', 14, black, reload,
+          backgrounColor: grey!, horizontal: 20),
       Spacer(),
     ],
   );

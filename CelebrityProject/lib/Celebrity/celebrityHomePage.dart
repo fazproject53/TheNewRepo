@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:celepraty/Account/Singup.dart';
 import 'package:celepraty/Celebrity/ShowMoreCelebraty.dart';
@@ -11,7 +12,6 @@ import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Account/LoggingSingUpAPI.dart';
 import '../MainScreen/main_screen_navigation.dart';
@@ -28,11 +28,12 @@ class celebrityHomePage extends StatefulWidget {
 }
 
 class _celebrityHomePageState extends State<celebrityHomePage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin
+{
   Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 
   int currentIndex = 0;
-
+  bool isConnectSection = true;
   DatabaseHelper h = DatabaseHelper();
   Future<Section>? sections;
   Future<link>? futureLinks;
@@ -54,126 +55,160 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   bool get wantKeepAlive => true;
 
   Future<Section> getSectionsData() async {
-    var getSections = await http
-        .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
-    if (getSections.statusCode == 200) {
-      final body = getSections.body;
+    try {
+      var getSections = await http
+          .get(Uri.parse("http://mobile.celebrityads.net/api/sections"));
+      if (getSections.statusCode == 200) {
+        final body = getSections.body;
 
-      Section sections = Section.fromJson(jsonDecode(body));
+        Section sections = Section.fromJson(jsonDecode(body));
 
-      for (int i = 0; i < sections.data!.length; i++) {
-        if (sections.data?[i].sectionName == 'category') {
-          category.putIfAbsent(sections.data![i].categoryId!,
-              () => fetchCategories(sections.data![i].categoryId!, page));
-          // pagNumber1++;
-          setState(() {});
+        for (int i = 0; i < sections.data!.length; i++) {
+          if (sections.data?[i].sectionName == 'category') {
+            category.putIfAbsent(sections.data![i].categoryId!,
+                () => fetchCategories(sections.data![i].categoryId!, page));
+            setState(() {});
+          }
         }
+        return sections;
+      } else {
+        return Future.error('حدثت مشكله في السيرفر');
       }
-      return sections;
-    } else {
-      throw Exception('Failed to load section');
+    } catch (e) {
+      if (e is SocketException) {
+        setState(() {
+          isConnectSection = false;
+        });
+        return Future.error('تحقق من اتصالك بالانترنت');
+      } else if (e is TimeoutException) {
+        return Future.error('TimeoutException');
+      } else {
+        return Future.error('حدثت مشكله في السيرفر');
+      }
     }
   }
 
+//---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    // print('getPageNumber $getPagNumber');
     super.build(context);
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(primaryColor: purple),
-        home: Scaffold(
-            body: RefreshIndicator(
-          onRefresh: onRefresh,
-          child: SingleChildScrollView(
-            child: FutureBuilder<Section>(
-              future: sections,
-              builder: (BuildContext context, AsyncSnapshot<Section> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: lodeing());
-                } else if (snapshot.connectionState == ConnectionState.active ||
-                    snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    //throw snapshot.error.toString();
-                    return Center(child: Text(snapshot.error.toString()));
-                    //---------------------------------------------------------------------------
-                  } else if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        for (int sectionIndex = 0;
-                            sectionIndex < snapshot.data!.data!.length;
-                            sectionIndex++)
-                          Column(
+    return isConnectSection == false
+        ? internetConnection(context, reload: () {
+         setState(() {
+              onRefresh();
+              isConnectSection = true;
+           });
+          })
+        : Directionality(
+            textDirection: TextDirection.rtl,
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(primaryColor: purple),
+              home: Scaffold(
+                  body: RefreshIndicator(
+                onRefresh: onRefresh,
+                child: SingleChildScrollView(
+                  child: FutureBuilder<Section>(
+                    future: sections,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Section> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: lodeing());
+                      } else if (snapshot.connectionState ==
+                              ConnectionState.active ||
+                          snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasError) {
+                          //throw snapshot.error.toString();
+                          if (snapshot.error.toString() ==
+                              'تحقق من اتصالك بالانترنت') {
+                            return Center(
+                                child: SizedBox(
+                                    height: 200.h,
+                                    width: 200.w,
+                                    child: internetConnection(context)));
+                          } else {
+                            return const Center(child: Text(''));
+                          }
+                          //---------------------------------------------------------------------------
+                        } else if (snapshot.hasData) {
+                          return Column(
                             children: [
+                              for (int sectionIndex = 0;
+                                  sectionIndex < snapshot.data!.data!.length;
+                                  sectionIndex++)
+                                Column(
+                                  children: [
 //category--------------------------------------------------------------------------
 
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'category')
-                                categorySection(
-                                    snapshot
-                                        .data?.data![sectionIndex].categoryId,
-                                    snapshot.data?.data![sectionIndex].title,
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'category')
+                                      categorySection(
+                                          snapshot.data?.data![sectionIndex]
+                                              .categoryId,
+                                          snapshot
+                                              .data?.data![sectionIndex].title,
+                                          snapshot.data?.data![sectionIndex]
+                                              .active),
 
 //header--------------------------------------------------------------------------
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'header')
-                                headerSection(
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'header')
+                                      headerSection(snapshot
+                                          .data?.data![sectionIndex].active),
 //links--------------------------------------------------------------------------
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'links')
-                                linksSection(
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'links')
+                                      linksSection(snapshot
+                                          .data?.data![sectionIndex].active),
 //Advertising-banner--------------------------------------------------------------------------
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'Advertising-banner')
-                                advertisingBannerSection(
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'Advertising-banner')
+                                      advertisingBannerSection(snapshot
+                                          .data?.data![sectionIndex].active),
 //join-us--------------------------------------------------------------------------
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'join-us')
-                                joinUsSection(
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'join-us')
+                                      joinUsSection(snapshot
+                                          .data?.data![sectionIndex].active),
 //new section---------------------------------------------------------------------------
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'new_section')
-                                newSection(
-                                    snapshot
-                                        .data?.data![sectionIndex].categoryId,
-                                    snapshot.data?.data![sectionIndex].title,
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'new_section')
+                                      newSection(
+                                          snapshot.data?.data![sectionIndex]
+                                              .categoryId,
+                                          snapshot
+                                              .data?.data![sectionIndex].title,
+                                          snapshot.data?.data![sectionIndex]
+                                              .active),
 //partners--------------------------------------------------------------------------
-                              if (snapshot
-                                      .data!.data![sectionIndex].sectionName ==
-                                  'partners')
-                                partnersSection(
-                                    snapshot.data?.data![sectionIndex].active),
+                                    if (snapshot.data!.data![sectionIndex]
+                                            .sectionName ==
+                                        'partners')
+                                      partnersSection(snapshot
+                                          .data?.data![sectionIndex].active),
+                                  ],
+                                )
                             ],
-                          )
-                      ],
-                    );
-                  } else {
-                    return const Center(child: Text('Empty data'));
-                  }
-                } else {
-                  return Center(
-                      child: Text('State: ${snapshot.connectionState}'));
-                }
-              },
+                          );
+                        } else {
+                          return const Center(child: Text('Empty data'));
+                        }
+                      } else {
+                        return Center(
+                            child: Text('State: ${snapshot.connectionState}'));
+                      }
+                    },
+                  ),
+                ),
+              )),
             ),
-          ),
-        )),
-      ),
-    );
+          );
   }
 
 //"${snapshot.data.data.header[1].title}",------------------------------Slider image-------------------------------------------
@@ -277,10 +312,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           var url = link;
           await launch(url.toString(), forceWebView: true);
         },
-        // child: Align(
-        //     alignment: Alignment.center,
-        //     child: Image.network(image,height: 61.h,width: 105.w,fit: BoxFit.fill),),
-      ),
+        ),
     ));
   }
 
@@ -443,8 +475,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Center(child: Text(snapshot.error.toString())));
+                  if (snapshot.error.toString() == 'تحقق من اتصالك بالانترنت') {
+                    return const Center(child: Text(''));
+                  } else {
+                    return const Center(child: Text(''));
+                  }
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.celebrities!.isNotEmpty
@@ -486,62 +521,62 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                             return SizedBox(
                                               width: 180.w,
                                               child: InkWell(
-                                                onTap: () {
-                                                  goTopagepush(
-                                                      context,
-                                                      CelebrityHome(
-                                                        pageUrl: snapshot
-                                                            .data!
-                                                            .data!
-                                                            .celebrities![
-                                                                itemPosition]
-                                                            .pageUrl!,
-                                                      ));
-                                                },
-                                                child: Card(
+                                                  onTap: () {
+                                                    goTopagepush(
+                                                        context,
+                                                        CelebrityHome(
+                                                          pageUrl: snapshot
+                                                              .data!
+                                                              .data!
+                                                              .celebrities![
+                                                                  itemPosition]
+                                                              .pageUrl!,
+                                                        ));
+                                                  },
+                                                  child: Card(
                                                     elevation: 2,
-                                                    child:  Container(
-                                                    decoration: decoration(
-                                                        snapshot
-                                                            .data!
-                                                            .data!
-                                                            .celebrities![
-                                                                itemPosition]
-                                                            .image!),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.bottomRight,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(
-                                                            10.0.w),
-                                                        child: text(
-                                                            context,
-                                                            snapshot
-                                                                        .data!
-                                                                        .data!
-                                                                        .celebrities![
-                                                                            itemPosition]
-                                                                        .name ==
-                                                                    ''
-                                                                ? "name"
-                                                                : snapshot
-                                                                    .data!
-                                                                    .data!
-                                                                    .celebrities![
-                                                                        itemPosition]
-                                                                    .name!,
-                                                            18,
-                                                            white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                    child: Container(
+                                                      decoration: decoration(
+                                                          snapshot
+                                                              .data!
+                                                              .data!
+                                                              .celebrities![
+                                                                  itemPosition]
+                                                              .image!),
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .bottomRight,
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10.0.w),
+                                                          child: text(
+                                                              context,
+                                                              snapshot
+                                                                          .data!
+                                                                          .data!
+                                                                          .celebrities![
+                                                                              itemPosition]
+                                                                          .name ==
+                                                                      ''
+                                                                  ? "name"
+                                                                  : snapshot
+                                                                      .data!
+                                                                      .data!
+                                                                      .celebrities![
+                                                                          itemPosition]
+                                                                      .name!,
+                                                              18,
+                                                              white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                       ),
                                                     ),
+                                                  )
+                                                  //:Container(color: Colors.green,),
                                                   ),
-                                                )
-                                                    //:Container(color: Colors.green,),
-                                                    ),
-
                                             );
 //if found more celebraty---------------------------------------------------------------------
                                           } else {
@@ -665,7 +700,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
+                  if (snapshot.error.toString() == 'تحقق من اتصالك بالانترنت') {
+                    return const Center(child: Text(''));
+                  } else {
+                    return const Center(child: Text(''));
+                  }
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   for (int headerIndex = 0;
@@ -715,7 +754,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
+                  if (snapshot.error.toString() == 'تحقق من اتصالك بالانترنت') {
+                    return const Center(child: Text(''));
+                  } else {
+                    return const Center(child: Text(''));
+                  }
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return Column(
@@ -756,7 +799,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //joinUsSection---------------------------------------------------------------------------
 
   joinUsSection(int? active) {
-    return active == 1
+    return active != 1
         ? Directionality(
             textDirection: TextDirection.rtl,
             child: Column(
@@ -801,7 +844,11 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
+                  if (snapshot.error.toString() == 'تحقق من اتصالك بالانترنت') {
+                    return const Center(child: Text(''));
+                  } else {
+                    return const Center(child: Text(''));
+                  }
                   //---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return Column(
@@ -986,19 +1033,12 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
   Future onRefresh() async {
-    sections = getSectionsData();
-    futureLinks = fetchLinks();
-    futureHeader = fetchHeader();
-    futurePartners = fetchPartners();
+    setState(() {
+      sections = getSectionsData();
+      futureLinks = fetchLinks();
+      futureHeader = fetchHeader();
+      futurePartners = fetchPartners();
+    });
   }
-//loader
-//   loaderImage({Container? child}) {
-//     return Container(
-//         decoration: BoxDecoration(
-//             color: red, borderRadius: BorderRadius.all(Radius.circular(4.r))),
-//     child: Image.network(
-//       ''
-//     ),
-//     );
-//   }
+
 }
