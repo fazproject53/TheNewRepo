@@ -51,7 +51,7 @@ class _profileInformaionState extends State<profileInformaion>
   bool valid = false;
   bool noMatch =false;
   bool editPassword = false;
-  bool genderChosen = false;
+  bool genderChosen = true;
   String country = 'الدولة';
   String city = 'المدينة';
   String category = 'التصنيف';
@@ -559,7 +559,7 @@ class _profileInformaionState extends State<profileInformaion>
                     ),
                     ),
 
-                              genderChosen? SizedBox():paddingg(
+                              genderChosen == true? SizedBox():paddingg(
                                   10,
                                   20,
                                   3, text(context, 'تحديد نوع الجنس اجباري لتحديث المعلومات', 14, red!)),

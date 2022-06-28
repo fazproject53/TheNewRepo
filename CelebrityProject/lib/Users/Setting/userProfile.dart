@@ -113,13 +113,9 @@ class _userProfileState extends State<userProfile>
                             child: padding(
                               8,
                               8,
-                              Container(
-                                height: 102.h,
-                                width: 120.w,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle, color: lightGrey),
+                              CircleAvatar(
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(70.r),
+                                  borderRadius: BorderRadius.circular(100.r),
                                   child: userImage != null? Image.file(userImage!,fit: BoxFit.fill,
                                     height: double.infinity, width: double.infinity,):Image.network(
                                     snapshot.data!.data!.user!.image!,
@@ -145,6 +141,7 @@ class _userProfileState extends State<userProfile>
                                     },
                                   ),
                                 ),
+                                radius: 55.r,
                               ),
                             ),
                             onTap: () {

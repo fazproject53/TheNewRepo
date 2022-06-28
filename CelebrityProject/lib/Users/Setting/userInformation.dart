@@ -162,7 +162,7 @@ class _userInformationState extends State<userInformation> {
                       : '',
                   city = snapshot.data!.data!.user!.city != null
                       ? snapshot.data!.data!.user!.city!.name.toString()
-                      : '',
+                      : 'المدينة',
                   print('the length is = '+ getid.length.toString() + Logging.theUser!.country!),
                   getid.forEach((key, value) {
                     print(value);

@@ -162,13 +162,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                             child: padding(
                               8,
                               8,
-                              Container(
-                                height: 102.h,
-                                width: 120.w,
-                                decoration: const BoxDecoration(
-
-                                    shape: BoxShape.circle, color: lightGrey
-                                ),
+                              CircleAvatar(
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(70.r),
                                           child: imagefile != null? Image.file(imagefile!,fit: BoxFit.fill,
@@ -189,6 +183,7 @@ class _celebratyProfileState extends State<celebratyProfile> {
                                             );
                                                   },),
                                         ),
+                                radius: 55.r,
                                       ),
                             ),
                             onTap: () {
@@ -206,7 +201,9 @@ class _celebratyProfileState extends State<celebratyProfile> {
 
                             },
                           ),
-
+                          SizedBox(
+                            height: 10.h,
+                          ),
                           padding(
                             8,
                             8,
