@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:celepraty/Account/LoggingSingUpAPI.dart';
+import 'package:celepraty/Celebrity/celebrityHomePage.dart';
 import 'package:celepraty/Celebrity/setting/celebratyProfile.dart';
 import 'package:celepraty/Users/Setting/userProfile.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -83,8 +84,8 @@ class _profileInformaionState extends State<profileInformaion>
   onChangeDropdownTests(selectedTest) {
     print(selectedTest);
     setState(() {
-      city = selectedTest['keyword'];
       _selectedTest = selectedTest;
+      city = selectedTest['keyword'];
     });
   }
 
@@ -102,12 +103,12 @@ class _profileInformaionState extends State<profileInformaion>
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
+      _selectedTest = null;
       _dropdownTestItems.clear();
       citilist.clear();
       countryChanged = true;
       Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
-      city = 'المدينة';
       getid.forEach((key, value) {
         if (value == Logging.theUser!.country) {
           print(
@@ -115,6 +116,7 @@ class _profileInformaionState extends State<profileInformaion>
           cities = fetCities(key + 1);
         }
       });
+      city = 'المدينة';
     });
   }
 
@@ -687,7 +689,7 @@ class _profileInformaionState extends State<profileInformaion>
                                     }
                                   })),
 
-                              FutureBuilder(
+                             FutureBuilder(
                                   future: cities,
                                   builder: ((context,
                                       AsyncSnapshot<CityL> snapshot) {
@@ -706,6 +708,11 @@ class _profileInformaionState extends State<profileInformaion>
                                       } else if (snapshot.hasData) {
                                         _dropdownTestItems.isEmpty
                                             ? {
+                                          citilist.add({
+                                            'no': 0,
+                                            'keyword':
+                                            'المدينة'
+                                          }),
                                           for (int i = 0;
                                           i <
                                               snapshot
@@ -1080,7 +1087,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                      const MainScreen()),
+                                                      const celebrityHomePage()),
                                                 ),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
@@ -1220,7 +1227,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                      const MainScreen()),
+                                                      const celebrityHomePage()),
                                                 ),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(

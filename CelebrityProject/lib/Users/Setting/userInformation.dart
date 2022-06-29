@@ -78,6 +78,7 @@ class _userInformationState extends State<userInformation> {
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
+      _selectedTest = null;
       countryChanged  = true;
       Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
@@ -734,15 +735,7 @@ class _userInformationState extends State<userInformation> {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      // print(countryId);
-      // for(int i =0; i< jsonDecode(response.body)['data'].length;i++){
-      //   print(jsonDecode(response.body)['data'][i]['id'].toString() + 'city');
-      //   setState(() {
-      //     cid.putIfAbsent(jsonDecode(response.body)['data'][i]['id'], () => jsonDecode(response.body)['data'][i]['name']);
-      //   });
-      // }
+
       return CityL.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
