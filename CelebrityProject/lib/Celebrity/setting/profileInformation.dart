@@ -1383,7 +1383,7 @@ class _profileInformaionState extends State<profileInformaion>
                                      { loadingDialogue(context),
                                       updateInformation().then((value) =>
                                               {
-
+                                                Navigator.pop(context),
                                                 countryChanged
                                                     ? setState(() {
                                                         helper = 0;

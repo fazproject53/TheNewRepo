@@ -643,6 +643,7 @@ class _userInformationState extends State<userInformation> {
                                       loadingDialogue(context),
                                        updateUserInformation(userToken)
                                           .then((value) {
+                                            Navigator.pop(context);
                                         countryChanged || cityChanged
                                             ? setState(() {
                                           helper = 0;
