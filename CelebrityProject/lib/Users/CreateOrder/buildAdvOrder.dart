@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:celepraty/Celebrity/PrivacyPolicy/ModelPrivicyPolicy.dart';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/celebrity/setting/profileInformation.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/material.dart';
@@ -196,9 +197,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: isCompleted ? null : drowAppBar('انشاء طلب اعلان', context),
-        body: isCompleted
-            ? buildCompleted(context)
-            : Stepper(
+        body:Stepper(
                 margin: EdgeInsets.symmetric(horizontal: 24),
                 steps: getSteps(),
                 type: StepperType.horizontal,
@@ -212,9 +211,21 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           context: context,
                           barrierDismissible: false,
     builder: (BuildContext context) {
-    _timer = Timer(Duration(seconds: 3), () {
-    Navigator.of(context).pop();    // == First dialog closed
-    });
+      FocusManager.instance.primaryFocus
+          ?.unfocus();
+      addAdOrder().then((value) => {
+        Navigator.of(context).pop(),
+      print(value),
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
+      SnackBar(
+      duration:  Duration(seconds: 1),
+      content: Text(value != null? value : 'تم ارسال الطلب',),
+      )),
+      
+      }).whenComplete(() =>  Navigator.pop(context));
+
+        // == First dialog closed
     return
     Align(
     alignment: Alignment.center,
@@ -224,17 +235,6 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     ),
     );},
     ),
-    FocusManager.instance.primaryFocus
-        ?.unfocus(),
-    addAdOrder().then((value) => {
-      isCompleted = true,
-    print(value),
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-    SnackBar(
-    duration:  Duration(seconds: 1),
-    content: Text(value != null? value : 'تم ارسال الطلب',),
-    ))}),
 
     }
         : setState((){
@@ -1594,7 +1594,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
   }
 
   buildCompleted(context) {
-    Navigator.pop(context);
+   goTopagepush(context, MainScreen());
   }
 
   Future<File?> getFile(context) async {
