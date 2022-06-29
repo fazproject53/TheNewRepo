@@ -1,5 +1,7 @@
-import 'dart:ui';
-
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:celepraty/Account/LoggingSingUpAPI.dart';
 import 'package:celepraty/Celebrity/Requests/Ads/AdvertisinApi.dart';
 import 'package:celepraty/Models/Methods/method.dart';
@@ -7,7 +9,7 @@ import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:shimmer/shimmer.dart';
 import 'AdvDetials.dart';
 
 class Advertisment extends StatefulWidget {
@@ -18,122 +20,96 @@ class Advertisment extends StatefulWidget {
 class _AdvertismentState extends State<Advertisment>
     with AutomaticKeepAliveClientMixin {
   String token = '';
-  Future<Advertising>? celebrityAdvertisingRequests;
-
+  bool isConnectAdvertisingOrder = true;
+  bool hasMore = true;
+  bool isLoading = false;
+  int page = 1;
+  int pageCount = 2;
+  int? newItemLength;
+  List<AdvertisingOrders> oldAdvertisingOrder = [];
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
     DatabaseHelper.getToken().then((value) {
       setState(() {
         token = value;
-        celebrityAdvertisingRequests = getAdvertisingOrder(token);
+        getAdvertisingOrder(token);
       });
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+              scrollController.offset &&
+          hasMore == false) {
+        print('getNew Data');
+        getAdvertisingOrder(token);
+      }
     });
   }
 
+//--------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-            future: celebrityAdvertisingRequests,
-            builder: ((context, AsyncSnapshot<Advertising> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: mainLoad(context),
-                );
-              } else if (snapshot.connectionState == ConnectionState.active ||
-                  snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  if(snapshot.error.toString()=='تحقق من اتصالك بالانترنت'){
-                    return internetConnection(context);
-                  }else{
-                    return Center(child: Text(snapshot.error.toString()));
-                  }
-                  //---------------------------------------------------------------------------
-                } else if (snapshot.hasData) {
-                  return snapshot.data!.data!.advertisingOrders!.isNotEmpty
-                      ? ListView.builder(
-                          itemCount:
-                              snapshot.data!.data!.advertisingOrders!.length,
-                          itemBuilder: (context, i) {
-                            return InkWell(
-                                onTap: () {
-                                  goToPagePushRefresh(context, AdvDetials(
-                                    i: i,
-                                    image: snapshot.data!.data!
-                                        .advertisingOrders![i].file,
-                                    advTitle: snapshot
-                                        .data!
-                                        .data!
-                                        .advertisingOrders![i]
-                                        .advertisingAdType
-                                        ?.name,
-                                    description: snapshot.data!.data!
-                                        .advertisingOrders![i].description,
-                                    orderId: snapshot
-                                        .data!.data!.advertisingOrders![i].id,
-                                    token: token,
-                                    platform: snapshot.data!.data!
-                                        .advertisingOrders![i].platform?.name,
-                                    state: snapshot.data!.data!
-                                        .advertisingOrders![i].status?.id,
-                                    price: snapshot.data!.data!
-                                        .advertisingOrders![i].price,
-                                    rejectResonName: snapshot
-                                        .data!
-                                        .data!
-                                        .advertisingOrders![i]
-                                        .rejectReson
-                                        ?.name!,
-                                    rejectResonId: snapshot
-                                        .data!
-                                        .data!
-                                        .advertisingOrders![i]
-                                        .rejectReson
-                                        ?.id,
-                                  ),
-                                    then: (value){
-                                    if(clickAdv){
-                                      setState(() {
-                                        celebrityAdvertisingRequests =
-                                            getAdvertisingOrder(token);
-                                        clickAdv=false;
-                                      });
-                                    }
-
-                                    }
-                                  );
-
-                                },
-                                child: Column(
-                                  children: [
-                                    body(i,
-                                        snapshot.data!.data!.advertisingOrders),
-                                  ],
-                                ));
-                          })
-                      : Center(
-                          child: Center(
-                              child: text(
-                          context,
-                          "لاتوجد طلبات لعرضها حاليا",
-                          15,
-                          black,
-                        )));
-                } else {
-                  return text(
-                    context,
-                    "لاتوجد طلبات لعرضها حاليا",
-                    15,
-                    black,
-                  );
-                }
-              } else {
-                return Center(
-                    child: Text('State: ${snapshot.connectionState}'));
-              }
-            })));
+    return RefreshIndicator(
+      onRefresh: refreshRequest,
+      child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: oldAdvertisingOrder.isEmpty
+              ? lodeNextData()
+              : newItemLength == 0
+                  ? noData()
+                  : ListView.builder(
+                      controller: scrollController,
+                      itemCount: oldAdvertisingOrder.length + 1,
+                      itemBuilder: (context, i) {
+                        if (oldAdvertisingOrder.length > i) {
+                          return InkWell(
+                              onTap: () {
+                                goToPagePushRefresh(
+                                    context,
+                                    AdvDetials(
+                                      i: i,
+                                      image: oldAdvertisingOrder[i].file,
+                                      advTitle: oldAdvertisingOrder[i]
+                                          .advertisingAdType!
+                                          .name,
+                                      description:
+                                          oldAdvertisingOrder[i].description,
+                                      orderId: oldAdvertisingOrder[i].id,
+                                      token: token,
+                                      platform:
+                                          oldAdvertisingOrder[i].platform?.name,
+                                      state: oldAdvertisingOrder[i].status?.id,
+                                      price: oldAdvertisingOrder[i].price,
+                                      rejectResonName: oldAdvertisingOrder[i]
+                                          .rejectReson
+                                          ?.name!,
+                                      rejectResonId: oldAdvertisingOrder[i]
+                                          .rejectReson
+                                          ?.id,
+                                    ), then: (value) {
+                                  if (clickAdv) {
+                                    setState(() {
+                                      refreshRequest();
+                                      clickAdv = false;
+                                    });
+                                  }
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  body(i, oldAdvertisingOrder),
+                                ],
+                              ));
+                        } else {
+                          return isLoading &&
+                                  pageCount >= page &&
+                                  oldAdvertisingOrder.isNotEmpty
+                              ? lodeOneData()
+                              : const SizedBox();
+                        }
+                      })),
+    );
   }
 
   Widget body(int i, List<AdvertisingOrders>? advertisingOrders) {
@@ -158,19 +134,58 @@ class _AdvertismentState extends State<Advertisment>
                           topLeft: Radius.circular(10.h),
                           topRight: Radius.circular(10.h),
                         ),
-                        image: DecorationImage(
-                            image: NetworkImage(
-                              advertisingOrders[i].file!,
-                            ),
-                            fit: BoxFit.cover,
-                            colorFilter: const ColorFilter.mode(
-                                Colors.black45, BlendMode.darken)),
                       ),
 //status-----------------------------------------------------------------------------------
 
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Stack(
                         children: [
+// image------------------------------------------------------------------------------
+                          ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.r),
+                                topRight: Radius.circular(10.r)),
+                            child: Image.network(
+                              advertisingOrders[i].file!,
+                              color: black.withOpacity(0.4),
+                              colorBlendMode: BlendMode.darken,
+                              fit: BoxFit.cover,
+                              height: double.infinity,
+                              width: double.infinity,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return Center(
+                                    child: Lottie.asset(
+                                        'assets/lottie/grey.json',
+                                        height: 70.h,
+                                        width: 70.w));
+                              },
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.sync_problem,
+                                        size: 25.r,
+                                        color: pink,
+                                      ),
+                                      text(
+                                        context,
+                                        '  اضغط لاعادة تحميل الصورة',
+                                        12,
+                                        Colors.grey,
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                           Padding(
                             padding: EdgeInsets.all(8.0.r),
                             child: Align(
@@ -316,7 +331,7 @@ class _AdvertismentState extends State<Advertisment>
             topLeft: 10,
             topRight: 10,
             marginB: 15,
-            blur: 5,
+            blur: 3,
             marginT: 5)
         : Center(
             child: Container(
@@ -337,5 +352,138 @@ class _AdvertismentState extends State<Advertisment>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
+//get Advertising Orders------------------------------------------------------------------------
+  getAdvertisingOrder(String token) async {
+    print('pageApi $pageCount pagNumber $page');
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
 
+    String url =
+        "https://mobile.celebrityads.net/api/celebrity/AdvertisingOrders?page=$page";
+    try {
+      final respons = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (respons.statusCode == 200) {
+        final body = respons.body;
+        Advertising advertising = Advertising.fromJson(jsonDecode(body));
+        var newItem = advertising.data!.advertisingOrders!;
+        pageCount = advertising.data!.pageCount!;
+        print('length ${newItem.length}');
+        if (!mounted) return;
+        setState(() {
+          if (newItem.isNotEmpty) {
+            hasMore = newItem.isEmpty;
+            oldAdvertisingOrder.addAll(newItem);
+            isLoading = false;
+            newItemLength = newItem.length;
+            //page++;
+            page++;
+          }
+        });
+        return advertising;
+      } else {
+        //throw  Exception('حدثت مشكله في السيرفر');
+        return Future.error('حدثت مشكله في السيرفر');
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        setState(() {
+          isConnectAdvertisingOrder = false;
+        });
+        return Future.error('تحقق من اتصالك بالانترنت');
+      } else if (e is TimeoutException) {
+        return Future.error('TimeoutException');
+      } else {
+        return Future.error('حدثت مشكله في السيرفر');
+      }
+    }
+  } //refreshRequest-----------------------------------------------------------------
+
+  Future refreshRequest() async {
+    setState(() {
+      hasMore = true;
+      isLoading = false;
+      page = 1;
+      oldAdvertisingOrder.clear();
+    });
+    getAdvertisingOrder(token);
+  }
+
+//---------------------------------------------------------------------------------
+  Widget lodeNextData() {
+    return ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context, i) {
+          return Container(
+            margin: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h),
+            height: 200.h,
+            width: 200.w,
+            child: Shimmer(
+                enabled: true,
+                gradient: LinearGradient(
+                  tileMode: TileMode.mirror,
+                  // begin: Alignment(0.7, 2.0),
+                  //end: Alignment(-0.69, -1.0),
+                  colors: [mainGrey, Colors.white],
+                  stops: const [0.1, 0.88],
+                ),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.h),
+                    ),
+                  ),
+                )),
+          );
+        });
+  }
+
+//show no data----------------------------------------------------------------------
+  Widget noData() {
+    return Center(
+      child: text(
+        context,
+        "لاتوجد طلبات لعرضها حاليا",
+        15,
+        black,
+      ),
+    );
+  }
+
+  //lode one card----------------------------------------------------------------------------
+  Widget lodeOneData() {
+    return Container(
+      margin: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h),
+      height: 200.h,
+      width: 200.w,
+      child: Shimmer(
+          enabled: true,
+          gradient: LinearGradient(
+            tileMode: TileMode.mirror,
+            // begin: Alignment(0.7, 2.0),
+            //end: Alignment(-0.69, -1.0),
+            colors: [mainGrey, Colors.white],
+            stops: const [0.1, 0.88],
+          ),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(10.h),
+              ),
+            ),
+          )),
+    );
+  }
 }

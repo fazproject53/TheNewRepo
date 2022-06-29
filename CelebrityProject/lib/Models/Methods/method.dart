@@ -133,13 +133,13 @@ Widget gradientContainer(double width, Widget child,
 }
 
 Widget gradientContainerNoborder(double width, Widget child,
-    {height = 40.0, double reids = 8.0}) {
+    {height = 40.0, double reids = 4.0,double blurRadius=5}) {
   return Container(
     width: width.w,
     child: child,
     decoration: BoxDecoration(
-      boxShadow: const [
-        BoxShadow(color: darkWhite, blurRadius: 5, offset: Offset(2, 3))
+      boxShadow:  [
+        BoxShadow(color: darkWhite, blurRadius: blurRadius, offset: Offset(2, 3))
       ],
       borderRadius: BorderRadius.circular(reids.r),
       gradient: const LinearGradient(

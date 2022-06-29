@@ -515,6 +515,9 @@ class _AdvDetialsState extends State<AdvDetials>
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar(context,
                                               'تم رفض الطلب', green, done));
+                                      setState(() {
+                                        clickAdv=true;
+                                      });
                                     } else {
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context)
@@ -525,6 +528,7 @@ class _AdvDetialsState extends State<AdvDetials>
                                               error));
                                     }
                                   });
+
                                 }
                               } else {
                                 loadingDialogue(context);

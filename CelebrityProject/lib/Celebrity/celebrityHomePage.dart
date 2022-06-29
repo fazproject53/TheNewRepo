@@ -12,6 +12,7 @@ import 'package:celepraty/Users/CreateOrder/buildAdvOrder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Account/LoggingSingUpAPI.dart';
 import '../MainScreen/main_screen_navigation.dart';
@@ -28,8 +29,7 @@ class celebrityHomePage extends StatefulWidget {
 }
 
 class _celebrityHomePageState extends State<celebrityHomePage>
-    with AutomaticKeepAliveClientMixin
-{
+    with AutomaticKeepAliveClientMixin {
   Map<int, Future<Category>> category = HashMap<int, Future<Category>>();
 
   int currentIndex = 0;
@@ -94,10 +94,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
     super.build(context);
     return isConnectSection == false
         ? internetConnection(context, reload: () {
-         setState(() {
+            setState(() {
               onRefresh();
               isConnectSection = true;
-           });
+            });
           })
         : Directionality(
             textDirection: TextDirection.rtl,
@@ -108,102 +108,116 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   body: RefreshIndicator(
                 onRefresh: onRefresh,
                 child: SingleChildScrollView(
-                  child: FutureBuilder<Section>(
-                    future: sections,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Section> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: lodeing());
-                      } else if (snapshot.connectionState ==
-                              ConnectionState.active ||
-                          snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          //throw snapshot.error.toString();
-                          if (snapshot.error.toString() ==
-                              'تحقق من اتصالك بالانترنت') {
-                            return Center(
-                                child: SizedBox(
-                                    height: 200.h,
-                                    width: 200.w,
-                                    child: internetConnection(context)));
-                          } else {
-                            return const Center(child: Text(''));
-                          }
-                          //---------------------------------------------------------------------------
-                        } else if (snapshot.hasData) {
-                          return Column(
-                            children: [
-                              for (int sectionIndex = 0;
-                                  sectionIndex < snapshot.data!.data!.length;
-                                  sectionIndex++)
-                                Column(
-                                  children: [
+                  child: Padding(
+                    padding:  EdgeInsets.only(bottom: 15.0.h),
+                    child: FutureBuilder<Section>(
+                      future: sections,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Section> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: lodeing());
+                        } else if (snapshot.connectionState ==
+                                ConnectionState.active ||
+                            snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasError) {
+                            //throw snapshot.error.toString();
+                            if (snapshot.error.toString() ==
+                                'تحقق من اتصالك بالانترنت') {
+                              return Center(
+                                  child: SizedBox(
+                                      height: 200.h,
+                                      width: 200.w,
+                                      child: internetConnection(context)));
+                            } else {
+                              return const Center(child: Text(''));
+                            }
+                            //---------------------------------------------------------------------------
+                          } else if (snapshot.hasData) {
+                            return Column(
+                              children: [
+                                for (int sectionIndex = 0;
+                                    sectionIndex < snapshot.data!.data!.length;
+                                    sectionIndex++)
+                                  Column(
+                                    children: [
 //category--------------------------------------------------------------------------
 
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'category')
-                                      categorySection(
-                                          snapshot.data?.data![sectionIndex]
-                                              .categoryId,
-                                          snapshot
-                                              .data?.data![sectionIndex].title,
-                                          snapshot.data?.data![sectionIndex]
-                                              .active),
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'category')
+                                        categorySection(
+                                            snapshot.data?.data![sectionIndex]
+                                                .categoryId,
+                                            snapshot
+                                                .data?.data![sectionIndex].title,
+                                            snapshot.data?.data![sectionIndex]
+                                                .active),
 
 //header--------------------------------------------------------------------------
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'header')
-                                      headerSection(snapshot
-                                          .data?.data![sectionIndex].active),
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'header')
+                                        headerSection(snapshot
+                                            .data?.data![sectionIndex].active),
 //links--------------------------------------------------------------------------
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'links')
-                                      linksSection(snapshot
-                                          .data?.data![sectionIndex].active),
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'links')
+                                        linksSection(snapshot
+                                            .data?.data![sectionIndex].active),
 //Advertising-banner--------------------------------------------------------------------------
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'Advertising-banner')
-                                      advertisingBannerSection(snapshot
-                                          .data?.data![sectionIndex].active),
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'Advertising-banner')
+                                        advertisingBannerSection(snapshot
+                                            .data?.data![sectionIndex].active),
 //join-us--------------------------------------------------------------------------
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'join-us')
-                                      joinUsSection(snapshot
-                                          .data?.data![sectionIndex].active),
-//new section---------------------------------------------------------------------------
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'new_section')
-                                      newSection(
-                                          snapshot.data?.data![sectionIndex]
-                                              .categoryId,
-                                          snapshot
-                                              .data?.data![sectionIndex].title,
-                                          snapshot.data?.data![sectionIndex]
-                                              .active),
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'join-us')
+                                        joinUsSection(snapshot
+                                            .data?.data![sectionIndex].active),
+//new_section---------------------------------------------------------------------------
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'new_section')
+                                        newSection(
+                                            snapshot.data?.data![sectionIndex]
+                                                .categoryId,
+                                            snapshot
+                                                .data?.data![sectionIndex].title,
+                                            snapshot.data?.data![sectionIndex]
+                                                .active),
+//news ---------------------------------------------------------------------------
+                                      if (snapshot.data!.data![sectionIndex]
+                                          .sectionName ==
+                                          'news')
+                                        newsSection(
+                                            snapshot.data?.data![sectionIndex]
+                                                .categoryId,
+                                            snapshot
+                                                .data?.data![sectionIndex].title,
+                                            snapshot.data?.data![sectionIndex]
+                                                .active),
 //partners--------------------------------------------------------------------------
-                                    if (snapshot.data!.data![sectionIndex]
-                                            .sectionName ==
-                                        'partners')
-                                      partnersSection(snapshot
-                                          .data?.data![sectionIndex].active),
-                                  ],
-                                )
-                            ],
-                          );
+                                      if (snapshot.data!.data![sectionIndex]
+                                              .sectionName ==
+                                          'partners')
+                                        partnersSection(snapshot
+                                            .data?.data![sectionIndex].active),
+                                    ],
+                                  )
+                              ],
+                            );
+                          } else {
+                            return const Center(child: Text('Empty data'));
+                          }
                         } else {
-                          return const Center(child: Text('Empty data'));
+                          return Center(
+                              child: Text('State: ${snapshot.connectionState}'));
                         }
-                      } else {
-                        return Center(
-                            child: Text('State: ${snapshot.connectionState}'));
-                      }
-                    },
+                      },
+                    ),
                   ),
                 ),
               )),
@@ -312,7 +326,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
           var url = link;
           await launch(url.toString(), forceWebView: true);
         },
-        ),
+      ),
     ));
   }
 
@@ -459,7 +473,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 )),
           ],
         ),
-        height: 120.h);
+        height: 120.h,blurRadius:1);
   }
 
 //categorySection---------------------------------------------------------------------------
@@ -470,7 +484,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             builder: ((context, AsyncSnapshot<Category> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SizedBox(
-                  height: 250.h,
+                  height: 300.h,
                 );
               } else if (snapshot.connectionState == ConnectionState.active ||
                   snapshot.connectionState == ConnectionState.done) {
@@ -484,17 +498,18 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 } else if (snapshot.hasData) {
                   return snapshot.data!.data!.celebrities!.isNotEmpty
                       ? SizedBox(
-                          height: 250.h,
+                          height: 300.h,
                           child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: InkWell(
                                 child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+//category name-----------------------------------------------------------
                                 Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 7.0.h, vertical: 4.h),
-                                  child: text(context, title!, 18, black,
+                                  padding: EdgeInsets.only(
+                                      left: 7.0.w,right: 7.0.w ,top: 20.h,bottom:4.h),
+                                  child: text(context, title!, 20, black,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
@@ -518,6 +533,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                           if (itemPosition <
                                               snapshot.data!.data!.celebrities!
                                                   .length) {
+//show more -----------------------------------------------------------------------
                                             return SizedBox(
                                               width: 180.w,
                                               child: InkWell(
@@ -536,44 +552,123 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                   child: Card(
                                                     elevation: 2,
                                                     child: Container(
-                                                      decoration: decoration(
-                                                          snapshot
-                                                              .data!
-                                                              .data!
-                                                              .celebrities![
-                                                                  itemPosition]
-                                                              .image!),
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .bottomRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10.0.w),
-                                                          child: text(
-                                                              context,
-                                                              snapshot
-                                                                          .data!
-                                                                          .data!
-                                                                          .celebrities![
-                                                                              itemPosition]
-                                                                          .name ==
-                                                                      ''
-                                                                  ? "name"
-                                                                  : snapshot
-                                                                      .data!
-                                                                      .data!
-                                                                      .celebrities![
-                                                                          itemPosition]
-                                                                      .name!,
-                                                              18,
-                                                              white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    ),
+                                                        decoration: decoration(
+                                                            snapshot
+                                                                .data!
+                                                                .data!
+                                                                .celebrities![
+                                                                    itemPosition]
+                                                                .image!),
+                                                        child: Stack(
+                                                          children: [
+
+// image------------------------------------------------------------------------------
+                                                            ClipRRect(
+                                                              borderRadius: BorderRadius.all(
+                                                                   Radius
+                                                                      .circular(
+                                                                          10.r),
+                                                                  ),
+                                                              child:
+                                                                  Image.network(
+                                                                snapshot
+                                                                    .data!
+                                                                    .data!
+                                                                    .celebrities![
+                                                                        itemPosition]
+                                                                    .image!,
+                                                                color: black
+                                                                    .withOpacity(
+                                                                        0.4),
+                                                                colorBlendMode:
+                                                                    BlendMode
+                                                                        .darken,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                height: double
+                                                                    .infinity,
+                                                                width: double
+                                                                    .infinity,
+                                                                loadingBuilder:
+                                                                    (context,
+                                                                        child,
+                                                                        loadingProgress) {
+                                                                  if (loadingProgress ==
+                                                                      null) {
+                                                                    return child;
+                                                                  }
+                                                                  return Center(
+                                                                      child: Lottie.asset(
+                                                                          'assets/lottie/grey.json',
+                                                                          height: 70
+                                                                              .h,
+                                                                          width:
+                                                                              70.w));
+                                                                },
+                                                                errorBuilder: (BuildContext
+                                                                        context,
+                                                                    Object
+                                                                        exception,
+                                                                    StackTrace?
+                                                                        stackTrace) {
+                                                                  return Center(
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .sync_problem,
+                                                                          size:
+                                                                              25.r,
+                                                                          color:
+                                                                              pink,
+                                                                        ),
+                                                                        text(
+                                                                          context,
+                                                                          '  اضغط لاعادة تحميل الصورة',
+                                                                          12,
+                                                                          Colors
+                                                                              .grey,
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
+                                                            ),
+                                                            Align(
+                                                              alignment: Alignment
+                                                                  .bottomRight,
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(10.0
+                                                                            .w),
+                                                                child: text(
+                                                                    context,
+                                                                    snapshot.data!.data!.celebrities![itemPosition].name ==
+                                                                            ''
+                                                                        ? "name"
+                                                                        : snapshot
+                                                                            .data!
+                                                                            .data!
+                                                                            .celebrities![
+                                                                                itemPosition]
+                                                                            .name!,
+                                                                    18,
+                                                                    white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )),
                                                   )
                                                   //:Container(color: Colors.green,),
                                                   ),
@@ -790,9 +885,24 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   advertisingBannerSection(int? active) {
     return active == 1
         ? Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.w),
-            child: SizedBox(
-                width: double.infinity, height: 196.h, child: advPanel()),
+            padding: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 3.5.w),
+            child: InkWell(
+
+              onTap: () async {
+                var url = 'https://www.faz.education/';
+                await launch(url, forceWebView: true);
+              },
+              child: SizedBox(
+                  width: double.infinity, height: 196.h, child:
+              ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius
+                        .circular(
+                        4.r),
+                  ),
+                  child: Image.asset('assets/image/Famous.jpg',fit: BoxFit.cover,))
+              ),
+            ),
           )
         : const SizedBox();
   }
@@ -849,19 +959,19 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                   } else {
                     return const Center(child: Text(''));
                   }
-                  //---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
                 } else if (snapshot.hasData) {
                   return Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 18.w, left: 18.w),
+                        padding: EdgeInsets.only(right: 8.w, left: 8.w),
                         child: Align(
                             alignment: Alignment.centerRight,
                             child: text(context, "الرعاة الرسميين", 18, black,
                                 fontWeight: FontWeight.bold)),
                       ),
                       SizedBox(
-                        height: 24.h,
+                        height: 10.h,
                       ),
                       Directionality(
                         textDirection: TextDirection.rtl,
@@ -869,7 +979,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                             width: double.infinity,
                             height: 90.h,
                             child: Padding(
-                              padding: EdgeInsets.only(left: 13.h, right: 13.h),
+                              padding: EdgeInsets.only(left: 0.h, right: 0.h),
                               child: ListView.builder(
                                   itemCount:
                                       snapshot.data!.data!.partners!.length,
@@ -901,24 +1011,61 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
 //new section----------------------------------------------------------------------
-  newSection(int? secId, String? title, int? active) {
+  newsSection(int? secId, String? title, int? active) {
     return active == 1
         ? Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 10.h),
             child: SizedBox(
               width: double.infinity,
               height: 150.h,
-              child: gradientContainerNoborder(
-                  double.infinity,
-                  Center(
-                    child: text(context, "اعلان", 18, white,
-                        fontWeight: FontWeight.bold),
-                  )),
+              child: InkWell(
+                onTap: () async {
+                  var url = 'https://www.faz.education/';
+                  await launch(url, forceWebView: true);
+                },
+                child: gradientContainerNoborder(
+                    double.infinity,
+
+                    ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius
+                              .circular(
+                              4.r),
+                        ),
+                        child: Image.asset('assets/image/news.jpg',fit: BoxFit.cover,)),
+                    blurRadius:1),
+              ),
             ),
           )
         : const SizedBox();
   }
-
+//new section----------------------------------------------------------------------
+  newSection(int? secId, String? title, int? active) {
+    return active == 1
+        ? Padding(
+      padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 10.h),
+      child: SizedBox(
+        width: double.infinity,
+        height: 150.h,
+        child: InkWell(
+          onTap: () async {
+            var url = 'https://www.faz.education/';
+            await launch(url, forceWebView: true);
+          },
+          child: gradientContainerNoborder(
+              double.infinity,
+              ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius
+                        .circular(
+                        4.r),
+                  ),
+                  child: Image.asset('assets/image/banner.jpg',fit: BoxFit.cover,)),blurRadius:1),
+        ),
+      ),
+    )
+        : const SizedBox();
+  }
 //loading methode---------------------------------------------------------------------------
   Widget lodeing() {
     return SizedBox(
@@ -1040,5 +1187,4 @@ class _celebrityHomePageState extends State<celebrityHomePage>
       futurePartners = fetchPartners();
     });
   }
-
 }
