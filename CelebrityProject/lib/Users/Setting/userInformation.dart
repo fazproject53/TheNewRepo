@@ -37,6 +37,8 @@ class _userInformationState extends State<userInformation> {
   bool editPassword = false;
 
   Map<int, String> getid = HashMap();
+  Map<int, String> cid = HashMap();
+
   int helper =0;
   bool hidden = true;
   bool hidden2 = true;
@@ -45,7 +47,7 @@ class _userInformationState extends State<userInformation> {
   String? countrycode;
   bool countryChanged = false;
   bool cityChanged = false;
-  int? countryi;
+  int? cityi;
   int? countryId;
   Future<UserProfile>? getUser;
   var currentFocus;
@@ -59,10 +61,15 @@ class _userInformationState extends State<userInformation> {
   ///_value
   var _selectedTest;
   onChangeDropdownTests(selectedTest) {
-    print(selectedTest);
+    print(selectedTest['no']);
     setState(() {
       city = selectedTest['keyword'];
       _selectedTest = selectedTest;
+      // cid.forEach((key, value) {
+      //   if(value == selectedTest['keyword']){
+      //     cityi = key;
+      //   }
+      // });
       cityChanged = true;
     });
   }
@@ -71,15 +78,15 @@ class _userInformationState extends State<userInformation> {
   onChangeDropdownTests3(selectedTest) {
     print(selectedTest);
     setState(() {
-      _dropdownTestItems.clear();
-      citilist.clear();
       countryChanged  = true;
       Logging.theUser!.country = selectedTest['keyword'];
       _selectedTest3 = selectedTest;
       city = 'المدينة';
+      _dropdownTestItems.clear();
+      citilist.clear();
       getid.forEach((key, value) {
         if(value == Logging.theUser!.country){
-          print(key.toString()+ '---------------------------------------------');
+          print(key.toString()+ 'first country id');
           cities = fetCities(key+1);
         }
       });
@@ -126,7 +133,7 @@ class _userInformationState extends State<userInformation> {
 
     getid.forEach((key, value) {
       if(value == Logging.theUser!.country){
-        print(key.toString()+ '---------------------------------------------');
+        print(key.toString()+ 'country id');
         cities = fetCities(key+1);
       }
     });
@@ -168,7 +175,7 @@ class _userInformationState extends State<userInformation> {
                   getid.forEach((key, value) {
                     print(value);
                     if(value == Logging.theUser!.country){
-                      print(key.toString()+ '---------------------------------------------');
+                      print(key.toString()+ 'country id inside future');
                       cities = fetCities(key+1);
                     }
                   }),
@@ -529,10 +536,7 @@ class _userInformationState extends State<userInformation> {
                                       } else if (snapshot.hasData) {
                                         _dropdownTestItems.isEmpty
                                             ? {
-                                                citilist.add({
-                                                  'no': 0,
-                                                  'keyword': 'المدينة'
-                                                }),
+
                                                 for (int i = 0;
                                                     i <
                                                         snapshot
@@ -540,7 +544,7 @@ class _userInformationState extends State<userInformation> {
                                                     i++)
                                                   {
                                                     citilist.add({
-                                                      'no': i,
+                                                      'no': snapshot.data!.data![i].id!,
                                                       'keyword':
                                                           '${snapshot.data!.data![i].name!}'
                                                     }),
@@ -679,7 +683,7 @@ class _userInformationState extends State<userInformation> {
                                       : null;
                                     })),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
                             ]),
@@ -731,12 +735,18 @@ class _userInformationState extends State<userInformation> {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(countryId);
+      // print(countryId);
+      // for(int i =0; i< jsonDecode(response.body)['data'].length;i++){
+      //   print(jsonDecode(response.body)['data'][i]['id'].toString() + 'city');
+      //   setState(() {
+      //     cid.putIfAbsent(jsonDecode(response.body)['data'][i]['id'], () => jsonDecode(response.body)['data'][i]['name']);
+      //   });
+      // }
       return CityL.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      print(countryId);
+      print(countryId.toString() + 'in the city get');
       throw Exception('Failed to load activity');
     }
   }
@@ -813,7 +823,7 @@ class _userInformationState extends State<userInformation> {
             countrycode != null ? countrycode! + phone.text : phone.text,
         'country_id':
             _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
-        'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
+        'city_id': _selectedTest == null ? 1 : _selectedTest['no'],
       }),
     );
     if (response.statusCode == 200) {

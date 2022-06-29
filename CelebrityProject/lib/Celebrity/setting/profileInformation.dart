@@ -706,25 +706,21 @@ class _profileInformaionState extends State<profileInformaion>
                                       } else if (snapshot.hasData) {
                                         _dropdownTestItems.isEmpty
                                             ? {
-                                                citilist.add({
-                                                  'no': 0,
-                                                  'keyword': 'المدينة'
-                                                }),
-                                                for (int i = 0;
-                                                    i <
-                                                        snapshot
-                                                            .data!.data!.length;
-                                                    i++)
-                                                  {
-                                                    citilist.add({
-                                                      'no': i,
-                                                      'keyword':
-                                                          '${snapshot.data!.data![i].name!}'
-                                                    }),
-                                                  },
-                                                _dropdownTestItems =
-                                                    buildDropdownTestItems(
-                                                        citilist)
+                                          for (int i = 0;
+                                          i <
+                                              snapshot
+                                                  .data!.data!.length;
+                                          i++)
+                                            {
+                                              citilist.add({
+                                                'no': snapshot.data!.data![i].id!,
+                                                'keyword':
+                                                '${snapshot.data!.data![i].name!}'
+                                              }),
+                                            },
+                                          _dropdownTestItems =
+                                              buildDropdownTestItems(
+                                                  citilist)
                                               }
                                             : null;
 
@@ -1474,7 +1470,7 @@ class _profileInformaionState extends State<profileInformaion>
         'phonenumber': phone.text,
         'country_id':
             _selectedTest3 == null ? 1 : countrylist.indexOf(_selectedTest3),
-        'city_id': _selectedTest == null ? 1 : citilist.indexOf(_selectedTest),
+        'city_id': _selectedTest == null ? 1 : _selectedTest['no'],
         'category_id':
             _selectedTest2 == null ? catId : categorylist.indexOf(_selectedTest2),
         'snapchat': snapchat.text,
@@ -1976,18 +1972,20 @@ class Gender {
 class Datacity {
   String? name;
   String? nameEn;
-
-  Datacity({this.name, this.nameEn});
+  int? id;
+  Datacity({this.name, this.nameEn, this.id});
 
   Datacity.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     nameEn = json['name_en'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['name_en'] = this.nameEn;
+    data['id'] = this.id;
     return data;
   }
 }
