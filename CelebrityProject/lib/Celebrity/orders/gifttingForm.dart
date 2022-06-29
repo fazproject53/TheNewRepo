@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:celepraty/Celebrity/celebrityHomePage.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_below/dropdown_below.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
+import '../../MainScreen/main_screen_navigation.dart';
 import '../Pricing/ModelPricing.dart';
 
 
@@ -496,7 +498,7 @@ class _gifttingFormState extends State<gifttingForm>{
                                             fit: BoxFit.cover,
                                           ),
                                         );},
-                                  ),
+                                  ).whenComplete(() => goTopageReplacement(context, celebrityHomePage())),
 
                                 } : setState((){
                                   _selectedTest == null? ocasionChosen= false: ocasionChosen = true;
@@ -512,8 +514,6 @@ class _gifttingFormState extends State<gifttingForm>{
                               ),),
                               const SizedBox(height: 30,),
                               SizedBox(height: 30.h,),
-
-
 
 
                             ]),

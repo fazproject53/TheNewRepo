@@ -19,8 +19,10 @@ import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
+import '../../MainScreen/main_screen_navigation.dart';
 import '../../Users/Exploer/viewData.dart';
 import '../Pricing/ModelPricing.dart';
+import '../celebrityHomePage.dart';
 import 'AdvFormResponse.dart';
 
 class advForm extends StatefulWidget{
@@ -688,7 +690,7 @@ class _advFormState extends State<advForm>{
                                   fit: BoxFit.cover,
                                 ),
                               );},
-                            ),
+                            ).whenComplete(() => goTopageReplacement(context, celebrityHomePage())),
 
                               }
                            : setState((){

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:lottie/lottie.dart';
 import 'package:path/path.dart' as Path;
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
@@ -17,6 +18,7 @@ import 'package:async/async.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
 import '../Pricing/ModelPricing.dart';
+import '../celebrityHomePage.dart';
 
 class advArea extends StatefulWidget{
  final String? id;
@@ -223,7 +225,7 @@ class _advAreaState extends State<advArea>{
                             fit: BoxFit.cover,
                           ),
                         );},
-                  ),
+                  ).whenComplete(() => goTopageReplacement(context, celebrityHomePage())),
 
 
                 } : setState((){ !check2? warn2 = true: false;
