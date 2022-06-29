@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
@@ -193,8 +194,7 @@ Widget solidContainer(double width, Color color, Widget child) {
     child: child,
     decoration: BoxDecoration(
       color: color,
-      //border: Border.all(color: deepBlack, width: 1.5.w),
-      borderRadius: BorderRadius.circular(10.0.r),
+      shape: BoxShape.circle
     ),
   );
 }
@@ -398,28 +398,16 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
 }
 
 //SingWith bouttom------------------------------------------------------------------
-Widget singWthisButtom(
+Widget singWithsButtom(
     context, String key, Color textColor, Color backColor, onPressed, image) {
-  return SizedBox(
-    height: 44.h,
-    child: TextButton(
-      onPressed: onPressed,
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Image(
-          image: AssetImage(image),
-          height: 30.h,
-          width: 30.w,
-        ),
-        SizedBox(
-          width: 16.92.w,
-        ),
-        text(context, key, 14.sp, textColor)
-      ]),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(backColor),
-        foregroundColor: MaterialStateProperty.all(textColor),
-      ),
-    ),
+  return Container(
+    height: 45.h,
+    width: 45.w,
+    decoration: BoxDecoration(
+        color: backColor,
+        image: DecorationImage(image: AssetImage(image,),fit:BoxFit.contain),
+        borderRadius: BorderRadius.all(Radius.circular(5.r))),
+
   );
 }
 
@@ -933,7 +921,8 @@ divider({
 }) {
   return Align(
     alignment: Alignment.topCenter,
-    child: VerticalDivider(
+    child:
+    VerticalDivider(
       color: Colors.grey[400],
       thickness: thickness,
       indent: indent,
@@ -942,8 +931,6 @@ divider({
     ),
   );
 }
-//Drow app bar----------------------------------------------------
-
 //===============================Container===============================
 
 //gradient color---------------------------------------------------------------------

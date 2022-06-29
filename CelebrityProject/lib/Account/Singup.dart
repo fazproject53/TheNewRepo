@@ -85,15 +85,14 @@ class _SingUpState extends State<SingUp> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
 //main container--------------------------------------------------
-          body: container(
-        double.infinity,
-        double.infinity,
-        0,
-        0,
-        black,
+          body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        color: black,
+        child:
 //==============================container===============================================================
 
-        SingleChildScrollView(
+            SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: 170.h),
@@ -188,42 +187,33 @@ class _SingUpState extends State<SingUp> {
                                     passUserController.text,
                                     '$userContry');
                           })),
-//signup with-----------------------------------------------------------
+//signup with text-----------------------------------------------------------
                       SizedBox(
                         height: 14.h,
                       ),
-                      text(
-                        context,
-                        "او التسجيل من خلال",
-                        12,
-                        darkWhite,
-                        align: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 14.h,
-                      ),
-//google buttom-----------------------------------------------------------
-                      solidContainer(
-                          347,
-                          white,
-                          singWthisButtom(
-                              context, "تسجيل دخول بجوجل", black, white, () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar(
-                                context, 'تمت العملية بنجاح', green, done));
-                          }, googelImage)),
-                      SizedBox(
-                        height: 14.h,
-                      ),
+                      registerVi(),
+ //signup with bottom----------------------------------------------------------------------------------------
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+ //google buttom-----------------------------------------------------------
+                        singWithsButtom(
+                            context, "تسجيل دخول بجوجل", black, white, () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                              context, 'تمت العملية بنجاح', green, done));
+                        }, googelImage),
+                        SizedBox(
+                          width: 30.h,
+                        ),
 //facebook buttom-----------------------------------------------------------
-                      solidContainer(
-                          347,
-                          darkBlue,
-                          singWthisButtom(
-                              context, "تسجيل دخول فيسبوك", white, darkBlue,
-                              () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          }, facebookImage)),
+                        singWithsButtom(
+                            context, "تسجيل دخول فيسبوك", white, darkBlue,
+                                () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            }, facebookImage),
+                      ],
+                    ),
                       SizedBox(
                         height: 27.h,
                       ),
@@ -342,5 +332,32 @@ class _SingUpState extends State<SingUp> {
       ScaffoldMessenger.of(context).showSnackBar(
           snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
+  }
+//--------------------------------------------------------------------------------------
+  Widget registerVi() {
+    return SizedBox(
+        width: double.infinity,
+        height: 70.h,
+        child: Row(children: <Widget>[
+          const Expanded(
+              child: Divider(
+            color: Colors.white,
+          )),
+          SizedBox(width: 8.w,),
+          Center(
+            child: text(
+              context,
+              "او التسجيل من خلال",
+              15,
+              red!,
+              align: TextAlign.center,
+            ),
+          ),SizedBox(width: 8.w,),
+          const Expanded(
+              child: Divider(
+            color: Colors.white,
+          )),
+        ]));
+
   }
 }
