@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Account/LoggingSingUpAPI.dart';
-import '../../celebrity/setting/profileInformation.dart';
+
 
 class PricingMain extends StatelessWidget {
   const PricingMain({Key? key}) : super(key: key);
@@ -52,6 +52,13 @@ class _PricingHomeState extends State<PricingHome> {
   final _formKey = GlobalKey<FormState>();
 
   String? userToken;
+
+  String? toolTipPhoto;
+  String? toolTipVideo;
+  String? toolTipVoice;
+
+  String? toolTipAreaSpace;
+
   @override
   void initState() {
     DatabaseHelper.getToken().then((value) {
@@ -82,28 +89,33 @@ class _PricingHomeState extends State<PricingHome> {
                   } else if (snapshot.hasData) {
                     if (helper == 0) {
                       ///get data and fill controller
-                      pricingAd.text = snapshot
-                          .data!.data!.price!.advertisingPriceFrom!
-                          .toString();
-                      pricingAd1.text = snapshot
-                          .data!.data!.price!.advertisingPriceTo!
-                          .toString();
+                      snapshot.data!.data != null ? {
+                      pricingAd.text = snapshot.data!.data!.price!.advertisingPriceFrom!.toString(),
+                      pricingAd1.text =
+                          snapshot.data!.data!.price!.advertisingPriceTo!
+                              .toString(),
 
-                      pricingGiftPhoto.text = snapshot
-                          .data!.data!.price!.giftImagePrice!
-                          .toString();
-                      pricingGiftVideo.text = snapshot
-                          .data!.data!.price!.giftVedioPrice!
-                          .toString();
-                      pricingGiftVoice.text = snapshot
-                          .data!.data!.price!.giftVoicePrice!
-                          .toString();
+                      pricingGiftPhoto.text =
+                          snapshot.data!.data!.price!.giftImagePrice!
+                              .toString(),
+                      pricingGiftVideo.text =
+                          snapshot.data!.data!.price!.giftVedioPrice!
+                              .toString(),
+                      pricingGiftVoice.text = snapshot.data!.data!.price!.giftVoicePrice!
+                              .toString(),
 
-                      pricingArea.text =
-                          snapshot.data!.data!.price!.adSpacePrice!.toString();
+                      pricingArea.text = snapshot.data!.data!.price!.adSpacePrice!.toString(),
 
-                      helper = 1;
-                    }
+                        toolTipPhoto = snapshot.data!.data!.comments![0].value!,
+                        toolTipVideo = snapshot.data!.data!.comments![1].value!,
+                        toolTipVoice = snapshot.data!.data!.comments![2].value!,
+
+                        toolTipAreaSpace = snapshot.data!.data!.comments![3].value!,
+
+                        helper = 1,
+                    } :  SizedBox();
+
+          }
 
                     return Form(
                       key: _formKey,
@@ -332,8 +344,7 @@ class _PricingHomeState extends State<PricingHome> {
                                                   .digitsOnly
                                             ],
                                             suffixIcon: MyTooltip(
-                                                message: snapshot.data!.data!
-                                                    .comments![0].value!,
+                                                message: toolTipPhoto.toString(),
                                                 child: Icon(
                                                   infoIcon,
                                                   size: 15,
@@ -386,8 +397,7 @@ class _PricingHomeState extends State<PricingHome> {
                                                   .digitsOnly
                                             ],
                                             suffixIcon: MyTooltip(
-                                                message: snapshot.data!.data!
-                                                    .comments![1].value!,
+                                                message: toolTipVideo.toString(),
                                                 child: Icon(
                                                   infoIcon,
                                                   size: 15,
@@ -440,8 +450,7 @@ class _PricingHomeState extends State<PricingHome> {
                                                   .digitsOnly
                                             ],
                                             suffixIcon: MyTooltip(
-                                                message: snapshot.data!.data!
-                                                    .comments![2].value!,
+                                                message: toolTipVoice.toString(),
                                                 child: Icon(
                                                   infoIcon,
                                                   size: 15,
@@ -548,8 +557,7 @@ class _PricingHomeState extends State<PricingHome> {
                                                   .digitsOnly
                                             ],
                                             suffixIcon: MyTooltip(
-                                                message: snapshot.data!.data!
-                                                    .comments![3].value!,
+                                                message: toolTipAreaSpace.toString(),
                                                 child: Icon(
                                                   infoIcon,
                                                   size: 15,

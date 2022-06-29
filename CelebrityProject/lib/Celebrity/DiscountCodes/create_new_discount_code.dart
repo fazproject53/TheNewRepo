@@ -2,12 +2,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../Account/LoggingSingUpAPI.dart';
 
+import '../../celebrity/DiscountCodes/discount_codes_main.dart';
 import 'ModelDiscountCode.dart';
 
 ///CreateNewDiscountCodeHome
@@ -718,21 +720,56 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                                         .id!)
                                                                     .whenComplete(
                                                                         () => {
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                                content: text(context, 'تم حفظ التغيرات بنجاح', 12, black),
-                                                                                backgroundColor: white,
-                                                                              ))
+
+                                                                          Flushbar(
+                                                                              flushbarPosition: FlushbarPosition.TOP,
+                                                                              backgroundColor: white,
+                                                                              margin: const EdgeInsets.all(5),
+                                                                              flushbarStyle: FlushbarStyle.FLOATING,
+                                                                              borderRadius: BorderRadius.circular(10.r),
+                                                                              duration: const Duration(seconds: 5),
+                                                                              icon: Icon(
+                                                                                right,
+                                                                                color: green,
+                                                                                size: 30,
+                                                                              ),
+                                                                              titleText: text(context,
+                                                                                  'تم', 16, purple),
+                                                                              messageText: text(
+                                                                                  context,
+                                                                                  'تم حفظ التغيرات بنجاح',
+                                                                                  14,
+                                                                                  black,
+                                                                                  fontWeight: FontWeight.w200),
+                                                                            ).show(context)
+
                                                                             })
                                                                 : createNewDiscountCode(userToken!)
                                                                     .whenComplete(
                                                                         () => {
-                                                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                                content: text(context, 'تم الحفظ بنجاح', 12, black),
-                                                                                backgroundColor: white,
-                                                                              ))
+                                                                          Flushbar(
+                                                                              flushbarPosition: FlushbarPosition.TOP,
+                                                                              backgroundColor: white,
+                                                                              margin: const EdgeInsets.all(5),
+                                                                              flushbarStyle: FlushbarStyle.FLOATING,
+                                                                              borderRadius: BorderRadius.circular(10.r),
+                                                                              duration: const Duration(seconds: 5),
+                                                                              icon: Icon(
+                                                                                right,
+                                                                                color: green,
+                                                                                size: 30,
+                                                                              ),
+                                                                              titleText: text(context,
+                                                                                  'تم', 16, purple),
+                                                                              messageText: text(
+                                                                                  context,
+                                                                                  'تم الحفظ بنجاح',
+                                                                                  14,
+                                                                                  black,
+                                                                                  fontWeight: FontWeight.w200),
+                                                                            ).show(context)
                                                                             }),
-                                                            Navigator.pop(
-                                                                context)
+                                                            Navigator.pop(context)
                                                           }
                                                         else
                                                           {

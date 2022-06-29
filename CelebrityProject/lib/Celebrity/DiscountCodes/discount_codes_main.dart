@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
-
 import '../../Account/LoggingSingUpAPI.dart';
 
 class DiscountCodes extends StatelessWidget {
@@ -38,8 +37,9 @@ class HomeBodyDiscount extends StatefulWidget {
 class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
   ///future discount model variable
   Future<DiscountModel>? discount;
-
   String? userToken;
+
+
   @override
   void initState() {
     DatabaseHelper.getToken().then((value) {
@@ -116,7 +116,7 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                     future: discount,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center();
+                        return Center(child: mainLoad(context));
                       } else if (snapshot.connectionState ==
                               ConnectionState.active ||
                           snapshot.connectionState == ConnectionState.done) {

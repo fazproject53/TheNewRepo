@@ -1,14 +1,17 @@
+
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:flutter/material.dart';
+import 'balance_object.dart';
+
 
 
 
 class RadioWidgetDemo extends StatefulWidget {
-  String? saveUser;
-  String? i ;
+  static BalanceObject? balanceObject;
+
   // ignore: use_key_in_widget_constructors
-   RadioWidgetDemo() : super();
+   const RadioWidgetDemo() : super();
 
   @override
   RadioWidgetDemoState createState() => RadioWidgetDemoState();
@@ -20,6 +23,7 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
   User? selectedUser;
   int? selectedRadio;
   int? selectedRadioTile;
+
 
   @override
   void initState() {
@@ -47,7 +51,7 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
     });
   }
 
-  List<Widget> createRadioListUsers(String saveUser) {
+  List<Widget> createRadioListUsers() {
     List<Widget> widgets = [];
     for (User user in users!) {
       widgets.add(
@@ -65,23 +69,24 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
 
                 ],
               )),
-          onChanged: (User? currentUser) {
-            setSelectedUser(currentUser!);
-            widget.i = currentUser.firstName;
-          },
           selected: selectedUser == user,
           activeColor: purple,
+
+          onChanged: (User? currentUser) {
+            setSelectedUser(currentUser!);
+            print("Current User ${currentUser.firstName}");
+            print('Selected user ${selectedUser!.firstName}');
+            print('user is ${user.firstName}');
+            ///-----------------------------------------------------------------
+            print('selectedRadio $selectedRadio');
+            print('selectedRadioTile $selectedRadioTile');
+          },
         ),
       );
-
     }
-    ///this will be sent to the function to ake sure celebrity choose one of credit card
-    //print(selectedUser?.firstName.toString());
-    widget.saveUser = widget.i.toString();
-    print("Current User ${widget.saveUser}");
-    //widget.saveUser = selectedUser?.firstName.toString();
-        // print('whdget is:');
-        // print(widget.saveUser);
+    ///this will be sent to the function to make sure celebrity choose one of credit card
+
+
     return widgets;
   }
 
@@ -90,7 +95,7 @@ class RadioWidgetDemoState extends State<RadioWidgetDemo> {
     return Column(
       children: <Widget>[
         Column(
-          children: createRadioListUsers(widget.saveUser.toString()),
+          children: createRadioListUsers(),
         ),
       ],
     );

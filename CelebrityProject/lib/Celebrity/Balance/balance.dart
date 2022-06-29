@@ -10,9 +10,13 @@ import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
+import 'balance_object.dart';
 import 'radioListTile.dart';
 
 class BalanceMain extends StatelessWidget {
+
+  static BalanceObject? balanceObject;
+
   const BalanceMain({Key? key}) : super(key: key);
 
   @override
@@ -311,51 +315,51 @@ class _BalanceHomeState extends State<BalanceHome> {
                     gradientContainerNoborder(
                         150.w,
                         buttoms(context, 'إسحب الرصيد', 15, white, () {
-                          print('in balance ${RadioWidgetDemo().saveUser}');
-
-                          RadioWidgetDemo().saveUser.toString().isNotEmpty ? Flushbar(
-                            flushbarPosition: FlushbarPosition.TOP,
-                            backgroundColor: white,
-                            margin: const EdgeInsets.all(5),
-                            flushbarStyle: FlushbarStyle.FLOATING,
-                            borderRadius: BorderRadius.circular(10.r),
-                            duration: const Duration(seconds: 5),
-                            icon: Icon(
-                              right,
-                              color: green,
-                              size: 30,
-                            ),
-                            titleText: text(context,
-                                'error', 16, purple),
-                            messageText: text(
-                                context,
-                                'error erroe ',
-                                14,
-                                black,
-                                fontWeight: FontWeight.w200),
-                          ).show(context) :
-                          ///must check the user chose one of the credit card first
-                          Flushbar(
-                            flushbarPosition: FlushbarPosition.TOP,
-                            backgroundColor: white,
-                            margin: const EdgeInsets.all(5),
-                            flushbarStyle: FlushbarStyle.FLOATING,
-                            borderRadius: BorderRadius.circular(10.r),
-                            duration: const Duration(seconds: 5),
-                            icon: Icon(
-                              right,
-                              color: green,
-                              size: 30,
-                            ),
-                            titleText: text(context,
-                                'تم إرسال طلبك بنجاح', 16, purple),
-                            messageText: text(
-                                context,
-                                'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
-                                14,
-                                black,
-                                fontWeight: FontWeight.w200),
-                          ).show(context);
+                          print('in balance ${RadioWidgetDemo}');
+                          //
+                          // RadioWidgetDemo.saveUser.toString() == null? Flushbar(
+                          //   flushbarPosition: FlushbarPosition.TOP,
+                          //   backgroundColor: white,
+                          //   margin: const EdgeInsets.all(5),
+                          //   flushbarStyle: FlushbarStyle.FLOATING,
+                          //   borderRadius: BorderRadius.circular(10.r),
+                          //   duration: const Duration(seconds: 5),
+                          //   icon: Icon(
+                          //     right,
+                          //     color: green,
+                          //     size: 30,
+                          //   ),
+                          //   titleText: text(context,
+                          //       'error', 16, purple),
+                          //   messageText: text(
+                          //       context,
+                          //       'error erroe ',
+                          //       14,
+                          //       black,
+                          //       fontWeight: FontWeight.w200),
+                          // ).show(context) :
+                          // ///must check the user chose one of the credit card first
+                          // Flushbar(
+                          //   flushbarPosition: FlushbarPosition.TOP,
+                          //   backgroundColor: white,
+                          //   margin: const EdgeInsets.all(5),
+                          //   flushbarStyle: FlushbarStyle.FLOATING,
+                          //   borderRadius: BorderRadius.circular(10.r),
+                          //   duration: const Duration(seconds: 5),
+                          //   icon: Icon(
+                          //     right,
+                          //     color: green,
+                          //     size: 30,
+                          //   ),
+                          //   titleText: text(context,
+                          //       'تم إرسال طلبك بنجاح', 16, purple),
+                          //   messageText: text(
+                          //       context,
+                          //       'سوف نقوم بالتواصل معك في مدة لاتزيد عن ٣ ايام',
+                          //       14,
+                          //       black,
+                          //       fontWeight: FontWeight.w200),
+                          // ).show(context);
                         })),
                   ),
                   SizedBox(
