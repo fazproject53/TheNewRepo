@@ -21,9 +21,8 @@ class Section {
         data!.add(new DataSection.fromJson(v));
       });
     }
-    message = json['message'] != null
-        ? new MessageSection.fromJson(json['message'])
-        : null;
+    message =
+    json['message'] != null ? new MessageSection.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -43,26 +42,26 @@ class DataSection {
   String? sectionName;
   String? title;
   String? titleEn;
-  String? value;
-  String? valueEn;
+  String? image;
+  String? link;
   int? categoryId;
   int? active;
 
   DataSection(
       {this.sectionName,
-      this.title,
-      this.titleEn,
-      this.value,
-      this.valueEn,
-      this.categoryId,
-      this.active});
+        this.title,
+        this.titleEn,
+        this.image,
+        this.link,
+        this.categoryId,
+        this.active});
 
   DataSection.fromJson(Map<String, dynamic> json) {
     sectionName = json['section_name'];
     title = json['title'];
     titleEn = json['title_en'];
-    value = json['value'];
-    valueEn = json['value_en'];
+    image = json['image'];
+    link = json['link'];
     categoryId = json['category_id'];
     active = json['active'];
   }
@@ -72,8 +71,8 @@ class DataSection {
     data['section_name'] = this.sectionName;
     data['title'] = this.title;
     data['title_en'] = this.titleEn;
-    data['value'] = this.value;
-    data['value_en'] = this.valueEn;
+    data['image'] = this.image;
+    data['link'] = this.link;
     data['category_id'] = this.categoryId;
     data['active'] = this.active;
     return data;

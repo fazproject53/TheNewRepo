@@ -182,10 +182,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                               .sectionName ==
                                           'new_section')
                                         newSection(
-                                            snapshot.data?.data![sectionIndex]
-                                                .categoryId,
                                             snapshot
-                                                .data?.data![sectionIndex].title,
+                                                .data?.data![sectionIndex].link,
+                                            snapshot
+                                                .data?.data![sectionIndex].image,
                                             snapshot.data?.data![sectionIndex]
                                                 .active),
 //news ---------------------------------------------------------------------------
@@ -193,10 +193,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                           .sectionName ==
                                           'news')
                                         newsSection(
-                                            snapshot.data?.data![sectionIndex]
-                                                .categoryId,
                                             snapshot
-                                                .data?.data![sectionIndex].title,
+                                                .data?.data![sectionIndex].link,
+                                            snapshot
+                                                .data?.data![sectionIndex].image,
                                             snapshot.data?.data![sectionIndex]
                                                 .active),
 //partners--------------------------------------------------------------------------
@@ -1011,7 +1011,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
   }
 
 //new section----------------------------------------------------------------------
-  newsSection(int? secId, String? title, int? active) {
+  newsSection(String? link, String? image, int? active) {
     return active == 1
         ? Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 10.h),
@@ -1040,7 +1040,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         : const SizedBox();
   }
 //new section----------------------------------------------------------------------
-  newSection(int? secId, String? title, int? active) {
+  newSection(String? link, String? image, int? active) {
+
     return active == 1
         ? Padding(
       padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 10.h),
@@ -1049,8 +1050,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         height: 150.h,
         child: InkWell(
           onTap: () async {
-            var url = 'https://www.faz.education/';
-            await launch(url, forceWebView: true);
+            var url = link.toString();
+            await launch(url.toString(), forceWebView: true);
           },
           child: gradientContainerNoborder(
               double.infinity,
@@ -1060,7 +1061,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                         .circular(
                         4.r),
                   ),
-                  child: Image.asset('assets/image/banner.jpg',fit: BoxFit.cover,)),blurRadius:1),
+                  child: Image.asset(image!,fit: BoxFit.cover,)),blurRadius:1),
         ),
       ),
     )

@@ -25,14 +25,16 @@ class Logging extends StatefulWidget {
 class _LoggingState extends State<Logging> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   bool isChckid = true;
+  late Image image1;
   String isFoundEmail = '';
   TextEditingController lgoingEmailConttroller = TextEditingController();
   final TextEditingController lgoingPassConttroller = TextEditingController();
   GlobalKey<FormState> logKey = GlobalKey();
   @override
   void initState() {
-    //WidgetsFlutterBinding.ensureInitialized();
     super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    image1 = Image.asset("assets/image/singUp.jpg");
     DatabaseHelper.getRememberUserEmail().then((email) {
       setState(() {
         isFoundEmail = email;
@@ -44,6 +46,12 @@ class _LoggingState extends State<Logging> {
   }
 
   @override
+  void didChangeDependencies() {
+    precacheImage(image1.image, context);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -52,6 +60,13 @@ class _LoggingState extends State<Logging> {
           body: Container(
         height: double.infinity,
         width: double.infinity,
+        decoration: BoxDecoration(
+            color: Colors.black,
+            image: DecorationImage(
+                image: image1.image,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.7), BlendMode.darken),
+                fit: BoxFit.cover)),
         child:
 
 //==============================container===============================================================
@@ -69,9 +84,9 @@ class _LoggingState extends State<Logging> {
               ),
 
 //مرحبا بك مره اخري--------------------------------------------------
-              text(context, "مرحبا بك مرة اخري", 20, black.withOpacity(0.7)),
+              text(context, "مرحبا بك مرة اخري", 20, white),
 //تسجيل الدخول--------------------------------------------------
-              text(context, "تسجيل الدخول", 15, black.withOpacity(0.7)),
+              text(context, "تسجيل الدخول", 17, white),
               SizedBox(
                 height: 40.h,
               ),
@@ -230,7 +245,8 @@ class _LoggingState extends State<Logging> {
                                     snackBar(context, 'تاكد من تعبئة كل الحقول',
                                         red, error));
                               }
-                            }),color: white),
+                            }),
+                            color: Colors.transparent),
                         SizedBox(
                           height: 34.h,
                         ),
@@ -242,13 +258,13 @@ class _LoggingState extends State<Logging> {
                             Wrap(
                               children: [
                                 text(context, "ليس لديك حساب بالفعل؟", 14,
-                                    Colors.grey),
+                                    white),
                                 SizedBox(
                                   width: 7.w,
                                 ),
                                 InkWell(
-                                    child:
-                                        text(context, "انشاء حساب", 14, purple.withOpacity(0.5) ),
+                                    child: text(
+                                        context, "انشاء حساب", 14, Colors.grey),
                                     onTap: () {
                                       goTopageReplacement(context, SingUp());
                                     }),
@@ -277,9 +293,13 @@ class _LoggingState extends State<Logging> {
       children: [
         Row(
           children: [
+            // SizedBox(
+            //   width: 5.w,
+            // ),
             InkWell(
                 child: Icon(Icons.check_box_rounded,
-                    color: isChckid ? purple.withOpacity(0.5) : Colors.grey, size: 23.sp),
+                    color: isChckid ? purple.withOpacity(0.5) : Colors.grey,
+                    size: 23.sp),
                 onTap: () {
                   setState(() {
                     isChckid = !isChckid;
@@ -288,7 +308,7 @@ class _LoggingState extends State<Logging> {
             SizedBox(
               width: 4.w,
             ),
-            text(context, 'تذكرني', 15.sp, Colors.grey),
+            text(context, 'تذكرني', 15.sp, white),
           ],
         ),
         // SizedBox(
@@ -298,7 +318,7 @@ class _LoggingState extends State<Logging> {
             onTap: () {
               goTopagepush(context, const SendEmail());
             },
-            child: text(context, 'نسيت كلمة المرور؟', 15.sp, purple.withOpacity(0.5) )),
+            child: text(context, 'نسيت كلمة المرور؟', 15.sp, white)),
       ],
     );
   }
