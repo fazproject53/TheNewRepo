@@ -1035,6 +1035,19 @@ drowAppBar(String title, BuildContext context,
   );
 }
 
+appBarNoIcon(String title, BuildContext context,
+    {color = deepwhite, }) {
+  return AppBar(
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 22.sp, fontFamily: 'Cairo', color: black),
+    ),
+    centerTitle: true,
+    backgroundColor: color,
+    elevation: 0,
+  );
+}
+
 drawAppBar(Widget title, BuildContext context, {Color color = deepwhite}) {
   return AppBar(
     title: title,
