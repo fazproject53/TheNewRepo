@@ -104,9 +104,9 @@ class _SingUpState extends State<SingUp> {
                 width: 150.w,
               ),
 //استمتع يالتواصل--------------------------------------------------
-              text(context, "مرحبا بك في منصة المشاهير", 20, Colors.grey),
+              text(context, "مرحبا بك في منصة المشاهير", 20,  black.withOpacity(0.7)),
 //انشاء حساب--------------------------------------------------
-              text(context, "إنشئ حسابك الآن", 17, Colors.grey),
+              text(context, "إنشئ حسابك الآن", 17,  black.withOpacity(0.7)),
               SizedBox(
                 height: 22.h,
               ),

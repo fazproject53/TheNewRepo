@@ -49,24 +49,31 @@ class _LoggingState extends State<Logging> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
 //main container--------------------------------------------------
-          body: container(
-        double.infinity,
-        double.infinity,
-        0,
-        0,
-        black,
+          body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        child:
+
 //==============================container===============================================================
 
-        SingleChildScrollView(
+            SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 170.h),
+              SizedBox(height: 60.h),
+              //logo---------------------------------------------------------------------------
+              Image.asset(
+                'assets/image/log.png',
+                fit: BoxFit.contain,
+                height: 150.h,
+                width: 150.w,
+              ),
+
 //مرحبا بك مره اخري--------------------------------------------------
-              text(context, "مرحبا بك مرة اخري", 20, white),
+              text(context, "مرحبا بك مرة اخري", 20, black.withOpacity(0.7)),
 //تسجيل الدخول--------------------------------------------------
-              text(context, "تسجيل الدخول", 15, darkWhite),
+              text(context, "تسجيل الدخول", 15, black.withOpacity(0.7)),
               SizedBox(
-                height: 22.h,
+                height: 40.h,
               ),
 
 //=============================================================================================
@@ -85,7 +92,7 @@ class _LoggingState extends State<Logging> {
                             context,
                             emailIcon,
                             "البريد الالكتروني او اسم المستخدم",
-                            12,
+                            14,
                             false,
                             lgoingEmailConttroller,
                             empty),
@@ -93,7 +100,7 @@ class _LoggingState extends State<Logging> {
                           height: 15.h,
                         ),
 //pass------------------------------------------
-                        textField(context, passIcon, "كلمة المرور", 12, true,
+                        textField(context, passIcon, "كلمة المرور", 14, true,
                             lgoingPassConttroller, valedpass),
                         SizedBox(
                           height: 15.h,
@@ -149,32 +156,24 @@ class _LoggingState extends State<Logging> {
                                               'خطأ في كلمة المرور او اسم المستخدم',
                                               red,
                                               error));
-                                    }else if (result ==
-                                        "SocketException") {
-                                      Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(
-                                          context,
-                                          'لايوجد اتصال بالانترنت ',
-                                          red,
-                                          error));
-                                    }else if (result ==
-                                        "TimeoutException") {
-                                      Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(
-                                          context,
-                                          'TimeoutException',
-                                          red,
-                                          error));
-                                    } else {
+                                    } else if (result == "SocketException") {
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar(
                                               context,
-                                              'serverExeption',
+                                              'لايوجد اتصال بالانترنت ',
                                               red,
                                               error));
+                                    } else if (result == "TimeoutException") {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(context,
+                                              'TimeoutException', red, error));
+                                    } else {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar(context,
+                                              'serverExeption', red, error));
                                     }
 //if user not select remember me----------------------------------------------------------------------------
                                   } else {
@@ -231,7 +230,7 @@ class _LoggingState extends State<Logging> {
                                     snackBar(context, 'تاكد من تعبئة كل الحقول',
                                         red, error));
                               }
-                            })),
+                            }),color: white),
                         SizedBox(
                           height: 34.h,
                         ),
@@ -242,14 +241,14 @@ class _LoggingState extends State<Logging> {
                           children: [
                             Wrap(
                               children: [
-                                text(context, "ليس لديك حساب بالفعل؟", 13,
-                                    darkWhite),
+                                text(context, "ليس لديك حساب بالفعل؟", 14,
+                                    Colors.grey),
                                 SizedBox(
                                   width: 7.w,
                                 ),
                                 InkWell(
                                     child:
-                                        text(context, "انشاء حساب", 13, purple),
+                                        text(context, "انشاء حساب", 14, purple.withOpacity(0.5) ),
                                     onTap: () {
                                       goTopageReplacement(context, SingUp());
                                     }),
@@ -279,8 +278,8 @@ class _LoggingState extends State<Logging> {
         Row(
           children: [
             InkWell(
-                child: Icon(Icons.check_circle_rounded,
-                    color: isChckid ? purple : ligthtBlack, size: 23.sp),
+                child: Icon(Icons.check_box_rounded,
+                    color: isChckid ? purple.withOpacity(0.5) : Colors.grey, size: 23.sp),
                 onTap: () {
                   setState(() {
                     isChckid = !isChckid;
@@ -289,7 +288,7 @@ class _LoggingState extends State<Logging> {
             SizedBox(
               width: 4.w,
             ),
-            text(context, 'تذكرني', 17.sp, textBlack),
+            text(context, 'تذكرني', 15.sp, Colors.grey),
           ],
         ),
         // SizedBox(
@@ -299,7 +298,7 @@ class _LoggingState extends State<Logging> {
             onTap: () {
               goTopagepush(context, const SendEmail());
             },
-            child: text(context, 'هل نسيت كلمة المرور؟', 14.sp, purple)),
+            child: text(context, 'نسيت كلمة المرور؟', 15.sp, purple.withOpacity(0.5) )),
       ],
     );
   }
