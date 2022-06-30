@@ -239,103 +239,77 @@ class _userInformationState extends State<userInformation> {
                                   return null;
                                 }, false),
                               ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 7,
-                                    child: paddingg(
-                                      0,
-                                      15,
-                                      12,
-                                      textFieldNoIcon(context, 'رقم الجوال', 14,
-                                          false, phone, (String? value) {
-                                        RegExp regExp = new RegExp(
-                                            r'(^(?:[+0]9)?[0-9]{10,12}$)');
-                                        if (value != null) {
-                                          if (value.isNotEmpty) {
-                                            if (value.length != 9) {
-                                              return "رقم الجوال يجب ان يتكون من 9 ارقام  ";
-                                            }
-                                            if (value.startsWith('0')) {
-                                              return 'رقم الجوال يجب ان لا يبدا ب 0 ';
-                                            }
-                                            // if(!regExp.hasMatch(value)){
-                                            //   return "رقم الجوال غير صالح";
-                                            // }
-                                          }
-                                        }
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldNoIcon(context, 'رقم الجوال', 14,
+                                    false, phone, (String? value) {
+                                  RegExp regExp = new RegExp(
+                                      r'(^(?:[+0]9)?[0-9]{10,12}$)');
+                                  if (value != null) {
+                                    if (value.isNotEmpty) {
+                                      if (value.length != 9) {
+                                        return "رقم الجوال يجب ان يتكون من 9 ارقام  ";
+                                      }
+                                      if (value.startsWith('0')) {
+                                        return 'رقم الجوال يجب ان لا يبدا ب 0 ';
+                                      }
+                                      // if(!regExp.hasMatch(value)){
+                                      //   return "رقم الجوال غير صالح";
+                                      // }
+                                    }
+                                  }
 
-                                        return null;
-                                      }, false),
+                                  return null;
+                                }, false, child: Container(
+                                    width: 60.w,
+                                    height: 32.h,
+                                    child: CountryCodePicker(
+                                      padding: EdgeInsets.all(0),
+                                      onChanged: print,
+                                      // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                      initialSelection: country == 'السعودية'
+                                          ? 'SA'
+                                          : country == 'فلسطين'
+                                          ? 'PS'
+                                          : country == 'الاردن'
+                                          ? 'JO'
+                                          : country == 'الامارات'
+                                          ? 'AE'
+                                          : 'SA',
+                                      countryFilter: const [
+                                        'SA',
+                                        'BH',
+                                        'KW',
+                                        'OM',
+                                        'AE',
+                                        'KW',
+                                        'QA',
+                                      ],
+                                      showFlag: false,
+                                      // optional. Shows only country name and flag
+                                      showCountryOnly: false,
+                                      textStyle:  TextStyle(color: black, fontSize: 15.sp),
+                                      // optional. Shows only country name and flag when popup is closed.
+                                      showOnlyCountryWhenClosed: false,
+                                      // optional. aligns the flag and the Text left
+                                      alignLeft: true,
                                     ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      child: CountryCodePicker(
-                                        padding: EdgeInsets.all(0),
-                                        onChanged: print,
-                                        // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                        initialSelection: country == 'السعودية'
-                                            ? 'SA'
-                                            : country == 'فلسطين'
-                                            ? 'PS'
-                                            : country == 'الاردن'
-                                            ? 'JO'
-                                            : country == 'الامارات'
-                                            ? 'AE'
-                                            : 'SA',
-                                        countryFilter: const [
-                                          'SA',
-                                          'BH',
-                                          'KW',
-                                          'OM',
-                                          'AE',
-                                          'KW',
-                                          'QA',
-                                        ],
-                                        showFlag: true,
-                                        // optional. Shows only country name and flag
-                                        showCountryOnly: false,
-                                        textStyle:  TextStyle(color: black, fontSize: 0.sp),
-                                        // optional. Shows only country name and flag when popup is closed.
-                                        showOnlyCountryWhenClosed: false,
-                                        // optional. aligns the flag and the Text left
-                                        alignLeft: true,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  ),),
                               ),
 
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 7,
-                                    child: paddingg(
-                                      0,
-                                      15,
-                                      12,
-                                      textFieldPassword(context, 'كلمة المرور', 14,
-                                          hidden, password, (String? value) {
-                                        if (value == null || value.isEmpty) {}
-                                        return null;
-                                      }, false),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                editPassword = !editPassword;
-                                              });
-                                            },
-                                            child: Icon(Icons.edit)),
-                                      )),
-                                ],
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldPassword(context, 'كلمة المرور', 14,
+                                    hidden, password, (String? value) {
+                                  if (value == null || value.isEmpty) {}
+                                  return null;
+                                }, false, child: IconButton(icon: Icon(Icons.edit, color:  black,),onPressed: (){ setState(() {
+                                      editPassword = !editPassword;
+                                    });},)),
                               ),
                               // paddingg(
                               //   15,
@@ -370,7 +344,7 @@ class _userInformationState extends State<userInformation> {
                                         if (value == null ||
                                             value.isEmpty) {}
                                         return null;
-                                      }, false),
+                                      }, false, ),
                                     ),
                                     paddingg(
                                       15,
@@ -463,14 +437,14 @@ class _userInformationState extends State<userInformation> {
                                           15,
                                           12,
                                           DropdownBelow(
-                                            dropdownColor: newGrey,
+                                            dropdownColor: white,
                                             itemWidth: 370.w,
 
                                             ///text style inside the menu
                                             itemTextstyle: TextStyle(
                                               fontSize: 12.sp,
                                               fontWeight: FontWeight.w400,
-                                              color: white,
+                                              color: black,
                                               fontFamily: 'Cairo',
                                             ),
 
@@ -478,7 +452,7 @@ class _userInformationState extends State<userInformation> {
                                             boxTextstyle: TextStyle(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w400,
-                                                color: grey,
+                                                color: black,
                                                 fontFamily: 'Cairo'),
 
                                             ///box style
@@ -487,7 +461,8 @@ class _userInformationState extends State<userInformation> {
                                             boxWidth: 500.w,
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
-                                                color: textFieldBlack2
+                                                border:  Border.all(color: newGrey, width: 0.5),
+                                                color: white
                                                     .withOpacity(0.70),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
@@ -495,7 +470,7 @@ class _userInformationState extends State<userInformation> {
                                             ///Icons
                                             icon: const Icon(
                                               Icons.arrow_drop_down,
-                                              color: Colors.white54,
+                                              color: Colors.grey,
                                             ),
                                             hint: Text(
                                               country,
@@ -561,14 +536,14 @@ class _userInformationState extends State<userInformation> {
                                           15,
                                           12,
                                           DropdownBelow(
-                                            dropdownColor: newGrey,
+                                            dropdownColor: white,
                                             itemWidth: 370.w,
 
                                             ///text style inside the menu
                                             itemTextstyle: TextStyle(
                                               fontSize: 12.sp,
                                               fontWeight: FontWeight.w400,
-                                              color: white,
+                                              color: black,
                                               fontFamily: 'Cairo',
                                             ),
 
@@ -576,7 +551,7 @@ class _userInformationState extends State<userInformation> {
                                             boxTextstyle: TextStyle(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w400,
-                                                color: grey,
+                                                color: black,
                                                 fontFamily: 'Cairo'),
 
                                             ///box style
@@ -585,7 +560,8 @@ class _userInformationState extends State<userInformation> {
                                             boxWidth: 500.w,
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
-                                                color: textFieldBlack2
+                                                border:  Border.all(color: newGrey, width: 0.5),
+                                                color: white
                                                     .withOpacity(0.70),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
@@ -593,7 +569,7 @@ class _userInformationState extends State<userInformation> {
                                             ///Icons
                                             icon: const Icon(
                                               Icons.arrow_drop_down,
-                                              color: Colors.white54,
+                                              color: Colors.grey,
                                             ),
                                             hint: Text(
                                               city,
@@ -754,26 +730,35 @@ class _userInformationState extends State<userInformation> {
     TextEditingController mycontroller,
     myvali,
     isOptional,
-  ) {
+  {
+    IconButton? child
+  }) {
     return TextFormField(
       obscureText: hintPass ? true : false,
       validator: myvali,
       controller: mycontroller,
       style:
-          TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius:BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: newGrey,
+              width: 0.5,
+            ),),
           isDense: false,
           filled: true,
+          suffixIcon: child,
           helperText: isOptional ? 'اختياري' : null,
           helperStyle: TextStyle(
               color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           hintStyle: TextStyle(
               color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          fillColor: textFieldBlack2.withOpacity(0.70),
+          fillColor: white,
           labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
+              OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
           // suffixIcon: hidden
           //     ? IconButton(
           //         onPressed: () {
