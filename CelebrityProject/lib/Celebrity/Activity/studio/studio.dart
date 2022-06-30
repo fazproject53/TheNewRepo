@@ -110,19 +110,19 @@ class _StudioState extends State<Studio> {
 
 
                                           return paddingg(
-                                            8,
-                                            8,
+                                            5,
+                                            5,
                                             5,
                                             SizedBox(
                                               height: 140.h,
-                                              width: 260.w,
+                                              width: 270.w,
                                               child: Card(
                                                 elevation: 5,
                                                 color: white,
                                                 child: paddingg(
                                                   0,
                                                   0,
-                                                  8,
+                                                  0,
                                                   Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -132,10 +132,10 @@ class _StudioState extends State<Studio> {
                                                         children: [
                                                           paddingg(
                                                             5,
-                                                            10,
+                                                            2,
                                                             0,
                                                             Container(
-                                                              margin: EdgeInsets.only(bottom: 10.h),
+                                                              margin: EdgeInsets.only(bottom: 2.h, top: 2.h),
                                                               alignment: Alignment
                                                                   .centerRight,
                                                               child: ClipRRect(
@@ -147,9 +147,9 @@ class _StudioState extends State<Studio> {
                                                                   snapshot.data!.data!.studio![index].image!,
                                                                   fit: BoxFit
                                                                       .fill,
-                                                                  height: 120.h,
-                                                                  width: 100.w,
-                                                                ): Container(height: 120.h,
+                                                                  height: double.infinity.h,
+                                                                  width: 125.w,
+                                                                ): Container(height: double.infinity.h,
                                                                     width: 100.w,child: VideoPlayer( VideoPlayerController.network(snapshot.data!.data!.studio![index].image!)..initialize())),
 
                                                               ),
@@ -162,15 +162,18 @@ class _StudioState extends State<Studio> {
                                                                     .start,
                                                             children: [
                                                               SizedBox(
-                                                                height: 40.h,
+                                                                height: 10.h,
                                                               ),
-                                                              Container(
-                                                                width: 190.w,
-                                                                child: text(
-                                                                    context,
-                                                                    snapshot.data!.data!.studio![index].description!,
-                                                                    14,
-                                                                    black),
+                                                              SingleChildScrollView(
+                                                                child: Container(
+                                                                  width: 180.w,
+                                                                  height: 100.h,
+                                                                  child: text(
+                                                                      context,
+                                                                      snapshot.data!.data!.studio![index].description!,
+                                                                      14,
+                                                                      black),
+                                                                ),
                                                               ),
                                                               SizedBox(
                                                                 height: 10.h,
