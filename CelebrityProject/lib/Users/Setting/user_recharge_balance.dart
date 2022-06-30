@@ -84,14 +84,14 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                  height: 180.h,
+                  height: 140.h,
                   width: 200.w,
                   child:
                       Lottie.asset('assets/lottie/addMoreMoney.json')),
               text(context, 'ادخل المبلغ المراد إضافة للرصيد', 20,
                   black.withOpacity(0.6)),
               SizedBox(
-                height: 18.h,
+                height: 10.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

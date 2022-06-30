@@ -463,8 +463,7 @@ class _userInformationState extends State<userInformation> {
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 border:  Border.all(color: newGrey, width: 0.5),
-                                                color: white
-                                                    .withOpacity(0.70),
+                                                color: lightGrey.withOpacity(0.10),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
 
@@ -562,8 +561,7 @@ class _userInformationState extends State<userInformation> {
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 border:  Border.all(color: newGrey, width: 0.5),
-                                                color: white
-                                                    .withOpacity(0.70),
+                                                color: lightGrey.withOpacity(0.10),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
 
@@ -755,7 +753,7 @@ class _userInformationState extends State<userInformation> {
               color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           hintStyle: TextStyle(
               color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          fillColor: white,
+          fillColor: lightGrey.withOpacity(0.10),
           labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           focusedBorder:

@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+import '../../Account/LoggingSingUpAPI.dart';
 import '../../invoice/Invoice.dart';
 import '../../invoice/InvoicePdf.dart';
 //import 'package:pdf/widgets.dart' as pw;
@@ -32,11 +33,17 @@ class _InvoiceState extends State<Invoice> {
   final file = File('example.pdf');
   //  final pdf = pw.Document();
   DateTime date = DateTime.now();
-
+  String userToken ="";
   @override
   void initState() {
-    invoices = getInvoices();
-    print(getInvoices());
+    DatabaseHelper.getToken().then((value) {
+      setState(() {
+        userToken = value;
+        invoices = getInvoicess();
+      });
+    });
+   ;
+    print(getInvoicess());
     super.initState();
   }
 
@@ -52,7 +59,10 @@ class _InvoiceState extends State<Invoice> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 30.h,),
-                  text(context, 'الطلبات المالية السابقة', 17, black),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8.0.w),
+                    child: text(context, 'الطلبات المالية السابقة', 17, black),
+                  ),
                   SizedBox(height: 30.h,),
     FutureBuilder<InvoiceModel>(
     future: invoices,
@@ -68,7 +78,10 @@ class _InvoiceState extends State<Invoice> {
     //---------------------------------------------------------------------------
     } else if (snapshot.hasData) {
       print(snapshot.data!.data!.billings!.length);
-    return
+    return snapshot.data!.data!.billings!.isEmpty?  Padding(
+      padding:  EdgeInsets.only(top: getSize(context).height/4),
+      child: Center(child: text(context, 'لا يوجد فواتير لعرضهم حاليا', 18, black),),
+    ):
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data!.data!.billings!.length,
@@ -416,14 +429,14 @@ class _InvoiceState extends State<Invoice> {
     );
   }
 
-  Future<InvoiceModel> getInvoices() async {
+  Future<InvoiceModel> getInvoicess() async {
     String token ='eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZWEwNzYxYWY4NTY4NjUxOTc0NzY5Zjk2OGYyYzlhNGZlMmViODYyOGYyZjU5NzU5NDllOGI3MWJkNjcyZWZlOTA2YWRkMDczZTg5YmFkZjEiLCJpYXQiOjE2NTA0NDk4NzYuMTA3MDk5MDU2MjQzODk2NDg0Mzc1LCJuYmYiOjE2NTA0NDk4NzYuMTA3MTA0MDYzMDM0MDU3NjE3MTg3NSwiZXhwIjoxNjgxOTg1ODc2LjEwMzA4OTA5NDE2MTk4NzMwNDY4NzUsInN1YiI6IjE0Iiwic2NvcGVzIjpbXX0.5nxz23qSWZfll1gGsnC_HZ0-IcD8eTa0e0p9ciKZh_akHwZugs1gU-zjMYOFMUVK34AHPjnpu_lu5QYOPHZuAZpjgPZOWX5iYefAwicq52ZeWSiWbLNlbajR28QKGaUzSn9Y84rwVtxXzAllaJLiwPfhsXK_jQpdUoeWyozMmc5S4_9_Gw72ZeW_VibZ_8CcW05FtKF08yFwRm1mPuuPLUmCSfoVee16FIyvXJBDWEtpjtjzxQUv6ceVw0QQCeLkNeJPPNh3cuAQH1PgEbQm-Tb3kvXg0yu_5flddpNtG5uihcQBQvuOtaSiLZDlJpcG0kUJ2iqGXuog6CosNxq97Wo28ytoM36-zeAQ8JpbpCTi1qn_3RNFr8wZ5C-RvMMq4he2B839qIWDjm0BM7BJSskuUkt9uAFifks8LF3o_USXMQ1mk20_YJxdeaETXwNQgfJ3pZCHUP5UsGmsUsmhiH69Gwm2HTI21k9mV5QGjjWUUihimZO2snbh-pDz7mO_5651j2eVEfi3h3V7HtC0CNGkofH4HPHSTORlEdYlqLvzTqfDos-X05yDSnajPWOldps-ITtzvuYCsstA1X1opTm8siyuDS-SmvnEHFYD53ln_8AfL9I6aCQ9YGNWpNo442zej0qqPxLr_AQhAzfEcqgasRrr32031veKVCd21rA';
     final response = await http.get(
         Uri.parse('https://mobile.celebrityads.net/api/user/billings'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $userToken'
         });
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
