@@ -427,31 +427,41 @@ Widget singWithsButtom(
 
 Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali, isOptional,
-    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType}) {
-  return TextFormField(
-    obscureText: hintPass,
-    validator: myvali,
-    inputFormatters: inputFormatters,
-    keyboardType: keyboardType,
-    autovalidateMode: AutovalidateMode.onUserInteraction,
-    controller: mycontroller,
-    style: TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-    decoration: InputDecoration(
-        isDense: false,
-        filled: true,
-        errorStyle: TextStyle(fontSize: 12.sp),
-        helperText: isOptional ? 'اختياري' : null,
-        helperStyle:
-            TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-        hintStyle:
-            TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-        fillColor: textFieldBlack2.withOpacity(0.7),
-        labelStyle: TextStyle(color: white, fontSize: fontSize.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-        focusedBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1.w)),
-        hintText: key,
-        contentPadding: EdgeInsets.all(10.h)),
+    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType, Widget? child}) {
+  return Container(
+    height: 50.h,
+    child: TextFormField(
+      obscureText: hintPass,
+      validator: myvali,
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      controller: mycontroller,
+      style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius:BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: newGrey,
+              width: 0.5,
+            ),),
+          isDense: false,
+          filled: true,
+          errorStyle: TextStyle(fontSize: 12.sp),
+          helperText: isOptional ? 'اختياري' : null,
+          helperStyle:
+              TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          hintStyle:
+              TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          fillColor: white,
+          labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1.w)),
+          suffix: child,
+          hintText: key,
+          contentPadding: EdgeInsets.all(10.h)),
+    ),
   );
 }
 
@@ -692,13 +702,19 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
       maxLength: maxLenth,
       textAlignVertical: TextAlignVertical.top,
       style:
-          TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius:BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: newGrey,
+              width: 0.5,
+            ),),
           isDense: false,
           filled: true,
           hintStyle: TextStyle(
               color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          fillColor: textFieldBlack2.withOpacity(0.70),
+          fillColor: white,
           labelStyle: TextStyle(
             color: white,
             fontSize: fontSize.sp,
@@ -706,7 +722,7 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
           alignLabelWithHint: true,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
+              OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
     ),
@@ -727,21 +743,31 @@ Widget textFieldNoIcon2(
     obscureText: hintPass,
     validator: myvali,
     controller: mycontroller,
-    style: TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+    style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
     decoration: InputDecoration(
+    enabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.only(
+      bottomRight: Radius.circular(10.0),
+      topRight: Radius.circular(10.0),
+    ),
+    borderSide: BorderSide(
+    color: newGrey,
+    width: 0.5,
+    ),),
         isDense: false,
         filled: true,
         hintStyle:
             TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-        fillColor: textFieldBlack2.withOpacity(0.70),
-        labelStyle: TextStyle(color: grey, fontSize: fontSize.sp),
-        border: OutlineInputBorder(
+        fillColor: white.withOpacity(0.70),
+        labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
+        border: const OutlineInputBorder(
             borderRadius: BorderRadius.only(
           bottomRight: Radius.circular(10.0),
           topRight: Radius.circular(10.0),
         )),
+
         focusedBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
+            OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
         hintText: key,
         contentPadding: EdgeInsets.all(10.h)),
   );
@@ -1030,6 +1056,19 @@ drowAppBar(String title, BuildContext context,
               size: 0,
             ),
     ],
+    backgroundColor: color,
+    elevation: 0,
+  );
+}
+
+appBarNoIcon(String title, BuildContext context,
+    {color = deepwhite, }) {
+  return AppBar(
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 22.sp, fontFamily: 'Cairo', color: black),
+    ),
+    centerTitle: true,
     backgroundColor: color,
     elevation: 0,
   );

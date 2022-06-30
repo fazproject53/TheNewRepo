@@ -365,34 +365,20 @@ class _profileInformaionState extends State<profileInformaion>
                                   return null;
                                 }, false),
                               ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 7,
-                                    child: paddingg(
-                                      0,
-                                      15,
-                                      12,
-                                      textFieldNoIcon(context, 'كلمة المرور',
-                                          14, true, password, (String? value) {
-                                        if (value == null || value.isEmpty) {}
-                                        return null;
-                                      }, false),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                editPassword = !editPassword;
-                                              });
-                                            },
-                                            child: Icon(Icons.edit)),
-                                      )),
-                                ],
+                              paddingg(
+                                15,
+                                15,
+                                12,
+                                textFieldNoIcon(context, 'كلمة المرور',
+                                    14, true, password, (String? value) {
+                                  if (value == null || value.isEmpty) {}
+                                  return null;
+                                }, false, child: IconButton(onPressed: (){setState(() {
+                                      editPassword = !editPassword;
+                                    });}, icon:  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(Icons.edit, color: black),
+                                    ))),
                               ),
 
                               editPassword
@@ -464,7 +450,7 @@ class _profileInformaionState extends State<profileInformaion>
                                   Expanded(
                                     flex: 7,
                                     child: paddingg(
-                                      0,
+                                      15,
                                       15,
                                       12,
                                       textFieldNoIcon(context, 'رقم الجوال', 14,
@@ -486,46 +472,81 @@ class _profileInformaionState extends State<profileInformaion>
                                         }
 
                                         return null;
-                                      }, false),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      child: CountryCodePicker(
-                                        padding: EdgeInsets.all(0),
-                                        onChanged: print,
-                                        // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                        initialSelection: country == 'السعودية'
-                                            ? 'SA'
-                                            : country == 'فلسطين'
+                                      }, false, child:Container(
+                                          width: 60.w,
+                                          child: CountryCodePicker(
+                                            padding: EdgeInsets.all(0),
+                                            onChanged: print,
+                                            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                            initialSelection: country == 'السعودية'
+                                                ? 'SA'
+                                                : country == 'فلسطين'
                                                 ? 'PS'
                                                 : country == 'الاردن'
-                                                    ? 'JO'
-                                                    : country == 'الامارات'
-                                                        ? 'AE'
-                                                        : 'SA',
-                                        countryFilter: const [
-                                          'SA',
-                                          'BH',
-                                          'KW',
-                                          'OM',
-                                          'AE',
-                                          'KW',
-                                          'QA',
-                                        ],
-                                        showFlag: true,
-                                        // optional. Shows only country name and flag
-                                        showCountryOnly: false,
-                                        textStyle: TextStyle(
-                                            color: black, fontSize: 0.sp),
-                                        // optional. Shows only country name and flag when popup is closed.
-                                        showOnlyCountryWhenClosed: false,
-                                        // optional. aligns the flag and the Text left
-                                        alignLeft: true,
-                                      ),
+                                                ? 'JO'
+                                                : country == 'الامارات'
+                                                ? 'AE'
+                                                : 'SA',
+                                            countryFilter: const [
+                                              'SA',
+                                              'BH',
+                                              'KW',
+                                              'OM',
+                                              'AE',
+                                              'KW',
+                                              'QA',
+                                            ],
+                                            showFlagDialog: true,
+                                            showFlag: false,
+                                            // optional. Shows only country name and flag
+                                            showCountryOnly: false,
+                                            textStyle: TextStyle(
+                                                color: black, fontSize: 15.sp),
+                                            // optional. Shows only country name and flag when popup is closed.
+                                            showOnlyCountryWhenClosed: false,
+                                            // optional. aligns the flag and the Text left
+                                            alignLeft: true,
+                                          ),
+                                        ), ),
                                     ),
                                   ),
+                                  // Expanded(
+                                  //   flex: 2,
+                                  //   child: Container(
+                                  //     child: CountryCodePicker(
+                                  //       padding: EdgeInsets.all(0),
+                                  //       onChanged: print,
+                                  //       // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                  //       initialSelection: country == 'السعودية'
+                                  //           ? 'SA'
+                                  //           : country == 'فلسطين'
+                                  //               ? 'PS'
+                                  //               : country == 'الاردن'
+                                  //                   ? 'JO'
+                                  //                   : country == 'الامارات'
+                                  //                       ? 'AE'
+                                  //                       : 'SA',
+                                  //       countryFilter: const [
+                                  //         'SA',
+                                  //         'BH',
+                                  //         'KW',
+                                  //         'OM',
+                                  //         'AE',
+                                  //         'KW',
+                                  //         'QA',
+                                  //       ],
+                                  //       showFlag: true,
+                                  //       // optional. Shows only country name and flag
+                                  //       showCountryOnly: false,
+                                  //       textStyle: TextStyle(
+                                  //           color: black, fontSize: 0.sp),
+                                  //       // optional. Shows only country name and flag when popup is closed.
+                                  //       showOnlyCountryWhenClosed: false,
+                                  //       // optional. aligns the flag and the Text left
+                                  //       alignLeft: true,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
 
@@ -536,13 +557,13 @@ class _profileInformaionState extends State<profileInformaion>
                                 12,
                                 DropdownBelow(
                                   itemWidth: 370.w,
-                                  dropdownColor: newGrey,
+                                  dropdownColor: white,
 
                                   ///text style inside the menu
                                   itemTextstyle: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w400,
-                                    color: white,
+                                    color: black,
                                     fontFamily: 'Cairo',
                                   ),
 
@@ -550,7 +571,7 @@ class _profileInformaionState extends State<profileInformaion>
                                   boxTextstyle: TextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w400,
-                                      color: white,
+                                      color: black,
                                       fontFamily: 'Cairo'),
 
                                   ///box style
@@ -559,13 +580,14 @@ class _profileInformaionState extends State<profileInformaion>
                                   boxWidth: 500.w,
                                   boxHeight: 45.h,
                                   boxDecoration: BoxDecoration(
-                                      color: textFieldBlack2.withOpacity(0.70),
+                                      border:  Border.all(color: newGrey, width: 0.5),
+                                      color: white,
                                       borderRadius: BorderRadius.circular(8.r)),
 
                                   ///Icons
                                   icon: const Icon(
                                     Icons.arrow_drop_down,
-                                    color: Colors.white54,
+                                    color: Colors.grey,
                                   ),
                                   hint: Text(
                                     gender,
@@ -635,13 +657,13 @@ class _profileInformaionState extends State<profileInformaion>
                                           12,
                                           DropdownBelow(
                                             itemWidth: 370.w,
-                                            dropdownColor: newGrey,
+                                            dropdownColor: white,
 
                                             ///text style inside the menu
                                             itemTextstyle: TextStyle(
                                               fontSize: 12.sp,
                                               fontWeight: FontWeight.w400,
-                                              color: white,
+                                              color: black,
                                               fontFamily: 'Cairo',
                                             ),
 
@@ -649,7 +671,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxTextstyle: TextStyle(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w400,
-                                                color: white,
+                                                color: black,
                                                 fontFamily: 'Cairo'),
 
                                             ///box style
@@ -658,7 +680,8 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxWidth: 500.w,
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
-                                                color: textFieldBlack2
+                                                border:  Border.all(color: newGrey, width: 0.5),
+                                                color: white
                                                     .withOpacity(0.70),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
@@ -666,7 +689,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             ///Icons
                                             icon: const Icon(
                                               Icons.arrow_drop_down,
-                                              color: Colors.white54,
+                                              color: Colors.grey,
                                             ),
                                             hint: Text(
                                               country,
@@ -737,13 +760,13 @@ class _profileInformaionState extends State<profileInformaion>
                                           12,
                                           DropdownBelow(
                                             itemWidth: 370.w,
-                                            dropdownColor: newGrey,
+                                            dropdownColor: white,
 
                                             ///text style inside the menu
                                             itemTextstyle: TextStyle(
                                               fontSize: 12.sp,
                                               fontWeight: FontWeight.w400,
-                                              color: white,
+                                              color: black,
                                               fontFamily: 'Cairo',
                                             ),
 
@@ -751,7 +774,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxTextstyle: TextStyle(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w400,
-                                                color: white,
+                                                color: black,
                                                 fontFamily: 'Cairo'),
 
                                             ///box style
@@ -760,7 +783,8 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxWidth: 500.w,
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
-                                                color: textFieldBlack2
+                                                border:  Border.all(color: newGrey, width: 0.5),
+                                                color: white
                                                     .withOpacity(0.70),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
@@ -768,7 +792,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             ///Icons
                                             icon: const Icon(
                                               Icons.arrow_drop_down,
-                                              color: Colors.white54,
+                                              color: Colors.grey,
                                             ),
                                             hint: Text(
                                               city,
@@ -838,13 +862,12 @@ class _profileInformaionState extends State<profileInformaion>
                                           12,
                                           DropdownBelow(
                                             itemWidth: 370.w,
-                                            dropdownColor: newGrey,
-
+                                            dropdownColor: white,
                                             ///text style inside the menu
                                             itemTextstyle: TextStyle(
                                               fontSize: 12.sp,
                                               fontWeight: FontWeight.w400,
-                                              color: white,
+                                              color: black,
                                               fontFamily: 'Cairo',
                                             ),
 
@@ -852,7 +875,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxTextstyle: TextStyle(
                                                 fontSize: 12.sp,
                                                 fontWeight: FontWeight.w400,
-                                                color: white,
+                                                color: black,
                                                 fontFamily: 'Cairo'),
 
                                             ///box style
@@ -861,7 +884,8 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxWidth: 500.w,
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
-                                                color: textFieldBlack2
+                                                border:  Border.all(color: newGrey, width: 0.5),
+                                                color: white
                                                     .withOpacity(0.70),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
@@ -869,7 +893,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             ///Icons
                                             icon: const Icon(
                                               Icons.arrow_drop_down,
-                                              color: Colors.white54,
+                                              color: Colors.grey,
                                             ),
                                             hint: Text(
                                               category,
