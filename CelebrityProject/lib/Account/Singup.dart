@@ -29,7 +29,7 @@ class _SingUpState extends State<SingUp> {
   void initState() {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized();
-    image1= Image.asset("assets/image/singUp.jpg");
+    image1= Image.asset("assets/image/singup.jpg");
     fetCelebrityCategories();
     fetCountries();
   }

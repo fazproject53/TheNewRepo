@@ -34,7 +34,7 @@ class _LoggingState extends State<Logging> {
   void initState() {
     super.initState();
     WidgetsFlutterBinding.ensureInitialized();
-    image1 = Image.asset("assets/image/singUp.jpg");
+    image1 = Image.asset("assets/image/singup.jpg");
     DatabaseHelper.getRememberUserEmail().then((email) {
       setState(() {
         isFoundEmail = email;
