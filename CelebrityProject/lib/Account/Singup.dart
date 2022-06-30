@@ -24,15 +24,20 @@ class _SingUpState extends State<SingUp> {
   bool? isChang = false;
   List<String> countries = [];
   List<String> celebrityCategories = [];
-
+  late Image image1;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    image1= Image.asset("assets/image/singUp.jpg");
     fetCelebrityCategories();
     fetCountries();
   }
-
+  @override
+  void didChangeDependencies() {
+    precacheImage(image1.image, context);
+    super.didChangeDependencies();
+  }
 //getCountries--------------------------------------------------------------------
   fetCountries() async {
     String serverUrl = 'https://mobile.celebrityads.net/api';
@@ -89,6 +94,12 @@ class _SingUpState extends State<SingUp> {
           body: Container(
         height: double.infinity,
         width: double.infinity,
+        decoration: BoxDecoration(
+          color:Colors.black ,
+            image: DecorationImage(
+                image:  image1.image,
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.darken),
+                fit: BoxFit.cover)),
         child:
 //==============================container===============================================================
 
@@ -104,16 +115,17 @@ class _SingUpState extends State<SingUp> {
                 width: 150.w,
               ),
 //استمتع يالتواصل--------------------------------------------------
-              text(context, "مرحبا بك في منصة المشاهير", 20,  black.withOpacity(0.7)),
+              text(context, "مرحبا بك في منصة المشاهير", 20,
+                 white),
 //انشاء حساب--------------------------------------------------
-              text(context, "إنشئ حسابك الآن", 17,  black.withOpacity(0.7)),
+              text(context, "إنشئ حسابك الآن", 17, white),
               SizedBox(
                 height: 22.h,
               ),
 //==============================buttoms===============================================================
 
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,7 +137,7 @@ class _SingUpState extends State<SingUp> {
                           context,
                           'متابع',
                           14,
-                          isChang! ? Colors.grey: white,
+                          white,
                           () {
                             FocusManager.instance.primaryFocus?.unfocus();
                             setState(() {
@@ -135,7 +147,7 @@ class _SingUpState extends State<SingUp> {
                           },
                         ),
                         gradient: isChang! ? true : false,
-                        color: isChang == false ? white : Colors.grey),
+                        color: isChang == false ? Colors.transparent : Colors.white),
                     SizedBox(
                       width: 21.w,
                     ),
@@ -147,7 +159,7 @@ class _SingUpState extends State<SingUp> {
                           context,
                           'مشهور',
                           14,
-                          isChang == false ? Colors.grey  : white,
+                          white,
                           () {
                             FocusManager.instance.primaryFocus?.unfocus();
                             setState(() {
@@ -157,7 +169,7 @@ class _SingUpState extends State<SingUp> {
                           },
                         ),
                         gradient: isChang! ? false : true,
-                        color: isChang! ? white : Colors.grey ),
+                        color: isChang! ? Colors.transparent : Colors.white),
                   ],
                 ),
               ),
@@ -204,7 +216,7 @@ class _SingUpState extends State<SingUp> {
                                       '$userContry');
                             },
                           ),
-                          color: white),
+                          color: Colors.transparent),
 //signup with text-----------------------------------------------------------
                       SizedBox(
                         height: 14.h,
@@ -243,13 +255,13 @@ class _SingUpState extends State<SingUp> {
                           Wrap(
                             children: [
                               text(context, "هل لديك حساب بالفعل؟", 14,
-                                  Colors.grey),
+                                  white),
                               SizedBox(
                                 width: 7.w,
                               ),
                               InkWell(
                                 child: text(context, "تسجيل الدخول", 14,
-                                    purple.withOpacity(0.5)),
+                                    Colors.grey),
                                 onTap: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   goTopageReplacement(context, Logging());
@@ -371,7 +383,7 @@ class _SingUpState extends State<SingUp> {
               context,
               "او التسجيل من خلال",
               14,
-              Colors.grey,
+              Colors.white,
               align: TextAlign.center,
             ),
           ),

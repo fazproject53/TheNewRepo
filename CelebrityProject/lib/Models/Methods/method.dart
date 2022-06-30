@@ -297,24 +297,24 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: Colors.grey, fontSize:  fontSize.sp),
+    style: TextStyle(color: Colors.white, fontSize:  fontSize.sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle: TextStyle(
-            color: Colors.grey, fontSize: fontSize.sp),
-        fillColor: white,
-        labelStyle: TextStyle(color: Colors.grey, fontSize: 15.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+            color: Colors.white, fontSize: fontSize.sp),
+        fillColor: Colors.white12,
+        labelStyle: TextStyle(color: Colors.white, fontSize: 15.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
           color: purple.withOpacity(0.6),
           width: 1.0,
         ),),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
           color: purple.withOpacity(0.6),
           width: 1.0,
         ),) ,
-        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
           color: Colors.grey.withOpacity(0.8),
           width: 1.0,
         ),),
@@ -414,7 +414,7 @@ Widget singWithsButtom(
     height: 45.h,
     width: 45.w,
     decoration: BoxDecoration(
-        boxShadow: [BoxShadow(blurRadius: 2, color: grey!)],
+        boxShadow: [BoxShadow(blurRadius: 3,)],
         color: backColor,
         image: DecorationImage(
             image: AssetImage(
@@ -1211,7 +1211,7 @@ Widget drowMenu(
     hint: Text(
       inisValue,
       style:
-          TextStyle(color: Colors.grey, fontSize:  fontSize.sp),
+          TextStyle(color: Colors.white, fontSize:  fontSize.sp),
     ),
     //dropdownColor: black,
     items: item
@@ -1221,7 +1221,7 @@ Widget drowMenu(
               child: Text(
                 type,
                 style: TextStyle(
-                    color: Colors.grey, fontSize:  fontSize.sp),
+                    color: Colors.white, fontSize:  fontSize.sp),
                 textAlign: TextAlign.center,
               ),
             ))
@@ -1233,18 +1233,18 @@ Widget drowMenu(
           prefixIcon,
           color: purple.withOpacity(0.6),
         ),
-        fillColor: white,
+        fillColor: Colors.white12,
         alignLabelWithHint: true,
-        errorStyle: TextStyle(color: Colors.red, fontSize: 12.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+        errorStyle: TextStyle(color: Colors.red, fontSize: 14.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
           color: purple.withOpacity(0.6),
           width: 1.0,
         ),),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
           color: purple.withOpacity(0.6),
           width: 1.0,
         ),) ,
-        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
           color: Colors.grey.withOpacity(0.8),
           width: 1.0,
         ),),
@@ -1253,7 +1253,7 @@ Widget drowMenu(
     dropdownMaxHeight: 140.h,
     dropdownWidth: 180.w,
     dropdownDecoration:  BoxDecoration(
-      color:white,
+      color:purple.withOpacity(0.6),
       borderRadius: BorderRadius.all(Radius.circular(4.r))
     ),
     iconDisabledColor:purple.withOpacity(0.6) ,
