@@ -69,7 +69,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                     padding: EdgeInsets.only(right: 20.w),
                     child: Row(
                       children: [
-                        text(context, '1025.27', 24, white,
+                        text(context, '1025', 24, white,
                             fontWeight: FontWeight.bold),
                         SizedBox(
                           width: 5.w,
@@ -130,7 +130,7 @@ class _UserBalanceHomeState extends State<UserBalanceHome> {
                           ),
                           Row(
                             children: [
-                              text(context, '300.27', 14, white,
+                              text(context, '300', 14, white,
                                   fontWeight: FontWeight.bold),
                               SizedBox(
                                 width: 5.w,

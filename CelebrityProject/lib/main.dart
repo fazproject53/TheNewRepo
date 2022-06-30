@@ -65,7 +65,8 @@ class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
         title: 'منصة المشاهير',
         theme: ThemeData(
           fontFamily: "Cairo",
-          colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple),
+          colorScheme: ColorScheme.fromSwatch().copyWith(primary: purple.withOpacity(0.5)),
+          scaffoldBackgroundColor: Colors.white,
         ),
         builder: (context, widget) {
           ScreenUtil.setContext(context);

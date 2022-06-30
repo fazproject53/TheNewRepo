@@ -79,7 +79,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -87,7 +86,7 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: drowAppBar(
+          appBar: appBarNoIcon(
               widget.isUpdate ? 'تعديل كود الخصم' : 'إنشاء كود خصم جديد',
               context),
           body: SafeArea(
@@ -251,17 +250,19 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                 if (value == null ||
                                                     value.isEmpty) {
                                                   return 'حقل اجباري';
-                                                }if(value.startsWith('0')){
+                                                }
+                                                if (value.startsWith('0')) {
                                                   return 'يجب ان لا يبدا بصفر';
-                                                }if(value.startsWith(RegExp(r'[0-9]'))){
+                                                }
+                                                if (value.startsWith(
+                                                    RegExp(r'[0-9]'))) {
                                                   return 'يجب ان لا يبدا برقم';
                                                 }
                                                 return null;
-                                              }, false,  inputFormatters: [
+                                              }, false, inputFormatters: [
                                                 ///letters and numbers only
                                                 FilteringTextInputFormatter(
-                                                    RegExp(
-                                                        r'[a-zA-Z]|[0-9]'),
+                                                    RegExp(r'[a-zA-Z]|[0-9]'),
                                                     allow: true)
                                               ]),
                                             ),
@@ -712,64 +713,63 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
                                                         if (saveList.isNotEmpty)
                                                           {
                                                             widget.putId != null
-                                                                ? updateDiscountCode(userToken!, snapshot
-                                                                        .data!
-                                                                        .data!
-                                                                        .promoCode![widget
-                                                                            .putId!]
-                                                                        .id!)
+                                                                ? updateDiscountCode(
+                                                                        userToken!,
+                                                                        snapshot
+                                                                            .data!
+                                                                            .data!
+                                                                            .promoCode![widget
+                                                                                .putId!]
+                                                                            .id!)
                                                                     .whenComplete(
                                                                         () => {
-
-                                                                          Flushbar(
-                                                                              flushbarPosition: FlushbarPosition.TOP,
-                                                                              backgroundColor: white,
-                                                                              margin: const EdgeInsets.all(5),
-                                                                              flushbarStyle: FlushbarStyle.FLOATING,
-                                                                              borderRadius: BorderRadius.circular(10.r),
-                                                                              duration: const Duration(seconds: 5),
-                                                                              icon: Icon(
-                                                                                right,
-                                                                                color: green,
-                                                                                size: 30,
-                                                                              ),
-                                                                              titleText: text(context,
-                                                                                  'تم', 16, purple),
-                                                                              messageText: text(
-                                                                                  context,
-                                                                                  'تم حفظ التغيرات بنجاح',
-                                                                                  14,
-                                                                                  black,
-                                                                                  fontWeight: FontWeight.w200),
-                                                                            ).show(context)
-
+                                                                              print('save change'),
+                                                                              Flushbar(
+                                                                                flushbarPosition: FlushbarPosition.TOP,
+                                                                                backgroundColor: white,
+                                                                                margin: const EdgeInsets.all(5),
+                                                                                flushbarStyle: FlushbarStyle.FLOATING,
+                                                                                borderRadius: BorderRadius.circular(10.r),
+                                                                                duration: const Duration(seconds: 5),
+                                                                                icon: Icon(
+                                                                                  right,
+                                                                                  color: green,
+                                                                                  size: 30,
+                                                                                ),
+                                                                                titleText: text(context, 'تم', 16, purple),
+                                                                                messageText: text(context, 'تم حفظ التغيرات بنجاح', 14, black, fontWeight: FontWeight.w200),
+                                                                              ).show(context),
                                                                             })
-                                                                : createNewDiscountCode(userToken!)
+                                                                : createNewDiscountCode(
+                                                                        userToken!)
                                                                     .whenComplete(
                                                                         () => {
-                                                                          Flushbar(
-                                                                              flushbarPosition: FlushbarPosition.TOP,
-                                                                              backgroundColor: white,
-                                                                              margin: const EdgeInsets.all(5),
-                                                                              flushbarStyle: FlushbarStyle.FLOATING,
-                                                                              borderRadius: BorderRadius.circular(10.r),
-                                                                              duration: const Duration(seconds: 5),
-                                                                              icon: Icon(
-                                                                                right,
-                                                                                color: green,
-                                                                                size: 30,
-                                                                              ),
-                                                                              titleText: text(context,
-                                                                                  'تم', 16, purple),
-                                                                              messageText: text(
-                                                                                  context,
-                                                                                  'تم الحفظ بنجاح',
-                                                                                  14,
-                                                                                  black,
-                                                                                  fontWeight: FontWeight.w200),
-                                                                            ).show(context)
+                                                                              print('save'),
+                                                                              Flushbar(
+                                                                                flushbarPosition: FlushbarPosition.TOP,
+                                                                                backgroundColor: white,
+                                                                                margin: const EdgeInsets.all(5),
+                                                                                flushbarStyle: FlushbarStyle.FLOATING,
+                                                                                borderRadius: BorderRadius.circular(10.r),
+                                                                                duration: const Duration(seconds: 5),
+                                                                                icon: Icon(
+                                                                                  right,
+                                                                                  color: green,
+                                                                                  size: 30,
+                                                                                ),
+                                                                                titleText: text(context, 'تم', 16, purple),
+                                                                                messageText: text(context, 'تم الحفظ بنجاح', 14, black, fontWeight: FontWeight.w200),
+                                                                              ).show(context),
                                                                             }),
-                                                            Navigator.pop(context)
+                                                            goToPagePushRefresh(
+                                                                context,
+                                                                DiscountCodes(),
+                                                                then: (value) {
+                                                              setState(() {
+                                                                fetchDiscountCode(
+                                                                    userToken!);
+                                                              });
+                                                            }),
                                                           }
                                                         else
                                                           {
@@ -816,7 +816,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
   ///POST
   Future<http.Response> createNewDiscountCode(String token) async {
-
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/promo-codes/add',
@@ -874,7 +873,6 @@ class _CreateNewDiscountCodeHomeState extends State<CreateNewDiscountCodeHome>
 
   ///UPDATE
   Future<http.Response> updateDiscountCode(String token, int id) async {
-
     final response = await http.post(
       Uri.parse(
         'https://mobile.celebrityads.net/api/celebrity/promo-codes/update/$id',

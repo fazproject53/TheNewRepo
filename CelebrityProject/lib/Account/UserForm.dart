@@ -61,7 +61,7 @@ userForm(context, List<String> countries) {
         context,
         nameIcon,
         "اسم المستخدم",
-        10,
+        14,
         false,
         userNameUserController,
         empty,
@@ -80,7 +80,7 @@ userForm(context, List<String> countries) {
         context,
         emailIcon,
         "البريد الالكتروني",
-        10,
+        14,
         false,
         emailUserController,
         valedEmile,
@@ -94,13 +94,13 @@ userForm(context, List<String> countries) {
         height: 15.h,
       ),
       //pass------------------------------------------
-      textField(context, passIcon, "كلمة المرور", 10, true, passUserController,
+      textField(context, passIcon, "كلمة المرور", 14, true, passUserController,
           valedpass),
       SizedBox(
         height: 15.h,
       ),
 //country------------------------------------------
-      drowMenu("الدولة", countryIcon, 11, countries, (va) {
+      drowMenu("الدولة", countryIcon, 14, countries, (va) {
         userContry = countries.indexOf(va!) + 1;
       }, (val) {
         if (val == null) {
@@ -127,7 +127,7 @@ celebratyForm(context, List<String> countries, List<String> catogary) {
         context,
         nameIcon,
         "اسم المستخدم",
-        10,
+        14,
         false,
         userNameCeleController,
         empty,
@@ -145,7 +145,7 @@ celebratyForm(context, List<String> countries, List<String> catogary) {
         context,
         emailIcon,
         "البريد الالكتروني",
-        10,
+        14,
         false,
         emailCeleController,
         valedEmile,
@@ -159,13 +159,13 @@ celebratyForm(context, List<String> countries, List<String> catogary) {
         height: 15.h,
       ),
       //pass------------------------------------------
-      textField(context, passIcon, "كلمة المرور", 10, true, passCeleController,
+      textField(context, passIcon, "كلمة المرور", 14, true, passCeleController,
           valedpass),
       SizedBox(
         height: 15.h,
       ),
 //country------------------------------------------
-      drowMenu("الدولة", countryIcon, 11, countries, (va) {
+      drowMenu("الدولة", countryIcon, 14, countries, (va) {
         celContry = countries.indexOf(va!) + 1;
       }, (val) {
         if (val == null) {
@@ -181,7 +181,7 @@ celebratyForm(context, List<String> countries, List<String> catogary) {
         height: 15.h,
       ),
 
-      drowMenu("التصنيف", catogaryIcon, 11, catogary, (va) {
+      drowMenu("التصنيف", catogaryIcon, 14, catogary, (va) {
         celCatogary = catogary.indexOf(va!) + 1;
       }, (val) {
         if (val == null) {

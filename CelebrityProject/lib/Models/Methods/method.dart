@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:celepraty/Models/Methods/classes/GradientIcon.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -134,13 +135,14 @@ Widget gradientContainer(double width, Widget child,
 }
 
 Widget gradientContainerNoborder(double width, Widget child,
-    {height = 40.0, double reids = 4.0,double blurRadius=5}) {
+    {height = 40.0, double reids = 4.0, double blurRadius = 5}) {
   return Container(
     width: width.w,
     child: child,
     decoration: BoxDecoration(
-      boxShadow:  [
-        BoxShadow(color: darkWhite, blurRadius: blurRadius, offset: Offset(2, 3))
+      boxShadow: [
+        BoxShadow(
+            color: darkWhite, blurRadius: blurRadius, offset: Offset(2, 3))
       ],
       borderRadius: BorderRadius.circular(reids.r),
       gradient: const LinearGradient(
@@ -192,10 +194,7 @@ Widget solidContainer(double width, Color color, Widget child) {
     // height: height.h,
 
     child: child,
-    decoration: BoxDecoration(
-      color: color,
-      shape: BoxShape.circle
-    ),
+    decoration: BoxDecoration(color: color, shape: BoxShape.circle),
   );
 }
 //============================profile buttons for listView ========================
@@ -298,19 +297,30 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
+    style: TextStyle(color: Colors.grey, fontSize:  fontSize.sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
-        hintStyle:
-            TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
-        fillColor: ligthtBlack,
-        labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
-        prefixIcon: Icon(icons, color: deepBlack, size: 25.sp),
+        hintStyle: TextStyle(
+            color: Colors.grey, fontSize: fontSize.sp),
+        fillColor: white,
+        labelStyle: TextStyle(color: Colors.grey, fontSize: 15.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+          color: purple.withOpacity(0.6),
+          width: 1.0,
+        ),),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+          color: purple.withOpacity(0.6),
+          width: 1.0,
+        ),) ,
+        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+          color: Colors.grey.withOpacity(0.8),
+          width: 1.0,
+        ),),
+        prefixIcon: Icon(icons, color: purple.withOpacity(0.6), size: 25.sp),
         labelText: key,
-        errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
+        errorStyle: TextStyle(color: Colors.red, fontSize: 12.0.sp),
         contentPadding: EdgeInsets.all(10.h)),
   );
 }
@@ -331,13 +341,13 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: white, fontSize: (textScaling + fontSize).sp),
+    style: TextStyle(color: white, fontSize: fontSize.sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
         hintStyle:
-            TextStyle(color: deepBlack, fontSize: (textScaling + fontSize).sp),
+            TextStyle(color: deepBlack, fontSize:fontSize.sp),
         fillColor: ligthtBlack,
         labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -367,7 +377,7 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: deepgrey, fontSize: (textScaling + fontSize).sp),
+    style: TextStyle(color: deepgrey, fontSize:  fontSize.sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
@@ -404,10 +414,14 @@ Widget singWithsButtom(
     height: 45.h,
     width: 45.w,
     decoration: BoxDecoration(
+        boxShadow: [BoxShadow(blurRadius: 2, color: grey!)],
         color: backColor,
-        image: DecorationImage(image: AssetImage(image,),fit:BoxFit.contain),
+        image: DecorationImage(
+            image: AssetImage(
+              image,
+            ),
+            fit: BoxFit.contain),
         borderRadius: BorderRadius.all(Radius.circular(5.r))),
-
   );
 }
 
@@ -947,8 +961,7 @@ divider({
 }) {
   return Align(
     alignment: Alignment.topCenter,
-    child:
-    VerticalDivider(
+    child: VerticalDivider(
       color: Colors.grey[400],
       thickness: thickness,
       indent: indent,
@@ -1043,6 +1056,19 @@ drowAppBar(String title, BuildContext context,
               size: 0,
             ),
     ],
+    backgroundColor: color,
+    elevation: 0,
+  );
+}
+
+appBarNoIcon(String title, BuildContext context,
+    {color = deepwhite, }) {
+  return AppBar(
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 22.sp, fontFamily: 'Cairo', color: black),
+    ),
+    centerTitle: true,
     backgroundColor: color,
     elevation: 0,
   );
@@ -1184,7 +1210,8 @@ Widget drowMenu(
     validator: validator,
     hint: Text(
       inisValue,
-      style: TextStyle(color: deepBlack, fontSize: fontSize.sp),
+      style:
+          TextStyle(color: Colors.grey, fontSize:  fontSize.sp),
     ),
     //dropdownColor: black,
     items: item
@@ -1194,9 +1221,7 @@ Widget drowMenu(
               child: Text(
                 type,
                 style: TextStyle(
-                  color: deepBlack,
-                  fontSize: 11.sp,
-                ),
+                    color: Colors.grey, fontSize:  fontSize.sp),
                 textAlign: TextAlign.center,
               ),
             ))
@@ -1206,19 +1231,33 @@ Widget drowMenu(
         filled: true,
         prefixIcon: Icon(
           prefixIcon,
-          color: deepBlack,
+          color: purple.withOpacity(0.6),
         ),
-        fillColor: ligthtBlack,
+        fillColor: white,
         alignLabelWithHint: true,
-        errorStyle: TextStyle(color: Colors.red, fontSize: 10.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        errorStyle: TextStyle(color: Colors.red, fontSize: 12.0.sp),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+          color: purple.withOpacity(0.6),
+          width: 1.0,
+        ),),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+          color: purple.withOpacity(0.6),
+          width: 1.0,
+        ),) ,
+        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(10.r),borderSide: BorderSide(
+          color: Colors.grey.withOpacity(0.8),
+          width: 1.0,
+        ),),
         contentPadding: EdgeInsets.all(10.h)),
     onChanged: onChanged,
     dropdownMaxHeight: 140.h,
-    dropdownWidth: 150.w,
-    dropdownDecoration: const BoxDecoration(
-      color: ligthtBlack,
+    dropdownWidth: 180.w,
+    dropdownDecoration:  BoxDecoration(
+      color:white,
+      borderRadius: BorderRadius.all(Radius.circular(4.r))
     ),
+    iconDisabledColor:purple.withOpacity(0.6) ,
+    iconEnabledColor: purple.withOpacity(0.6),
     scrollbarAlwaysShow: true,
   );
 }
@@ -1298,7 +1337,7 @@ BoxDecoration decoration2() {
 }
 
 //check internet Connection--------------------------------------------------------------------------
-Widget internetConnection(context,{reload}) {
+Widget internetConnection(context, {reload}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
