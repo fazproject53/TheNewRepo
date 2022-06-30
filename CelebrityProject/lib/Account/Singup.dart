@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/Celebrity/TechincalSupport/contact_with_us.dart';
 import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
@@ -88,67 +89,77 @@ class _SingUpState extends State<SingUp> {
           body: Container(
         height: double.infinity,
         width: double.infinity,
-        color: black,
         child:
 //==============================container===============================================================
 
             SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 170.h),
+              SizedBox(height: 60.h),
+//logo---------------------------------------------------------------------------
+              Image.asset(
+                'assets/image/log.png',
+                fit: BoxFit.contain,
+                height: 150.h,
+                width: 150.w,
+              ),
 //استمتع يالتواصل--------------------------------------------------
-              text(context, "استمتع بالتواصل", 20, white),
+              text(context, "مرحبا بك في منصة المشاهير", 20, Colors.grey),
 //انشاء حساب--------------------------------------------------
-              text(context, "انشاء حساب", 15, darkWhite),
+              text(context, "إنشئ حسابك الآن", 17, Colors.grey),
               SizedBox(
                 height: 22.h,
               ),
 //==============================buttoms===============================================================
 
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 20.w),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
 //famous buttom-------------------------------------
-                  gradientContainer(
-                    130,
-                    buttoms(
-                      context,
-                      'متابع',
-                      12,
-                      white,
-                      () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        setState(() {
-                          isChang = false;
-                        });
-                        // print("follower$isChang");
-                      },
+                    gradientContainer(
+                        140,
+                        buttoms(
+                          context,
+                          'متابع',
+                          14,
+                          isChang! ? Colors.grey: white,
+                          () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            setState(() {
+                              isChang = false;
+                            });
+                            // print("follower$isChang");
+                          },
+                        ),
+                        gradient: isChang! ? true : false,
+                        color: isChang == false ? white : Colors.grey),
+                    SizedBox(
+                      width: 21.w,
                     ),
-                    gradient: isChang! ? true : false,
-                  ),
-                  SizedBox(
-                    width: 21.w,
-                  ),
 //follower buttom-------------------------------------
 
-                  gradientContainer(
-                    130,
-                    buttoms(
-                      context,
-                      'مشهور',
-                      12,
-                      white,
-                      () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        setState(() {
-                          isChang = true;
-                        });
-                        print("famous$isChang");
-                      },
-                    ),
-                    gradient: isChang! ? false : true,
-                  ),
-                ],
+                    gradientContainer(
+                        140,
+                        buttoms(
+                          context,
+                          'مشهور',
+                          14,
+                          isChang == false ? Colors.grey  : white,
+                          () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            setState(() {
+                              isChang = true;
+                            });
+                            print("famous$isChang");
+                          },
+                        ),
+                        gradient: isChang! ? false : true,
+                        color: isChang! ? white : Colors.grey ),
+                  ],
+                ),
               ),
 
               SizedBox(
@@ -168,52 +179,59 @@ class _SingUpState extends State<SingUp> {
                           : userForm(context, countries),
                       gradientContainer(
                           347,
-                          buttoms(context, 'انشاء حساب', 14, white, () {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            isChang == true
-                                ?
-                                //create famous account------------------------------
-                                celebrityRegister(
-                                    userNameCeleController.text,
-                                    emailCeleController.text,
-                                    passCeleController.text,
-                                    '$celContry',
-                                    '$celCatogary')
-                                :
-                                //create user account------------------------------
-                                userRegister(
-                                    userNameUserController.text,
-                                    emailUserController.text,
-                                    passUserController.text,
-                                    '$userContry');
-                          })),
+                          buttoms(
+                            context,
+                            'انشاء حساب',
+                            15,
+                            white,
+                            () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              isChang == true
+                                  ?
+                                  //create famous account------------------------------
+                                  celebrityRegister(
+                                      userNameCeleController.text,
+                                      emailCeleController.text,
+                                      passCeleController.text,
+                                      '$celContry',
+                                      '$celCatogary')
+                                  :
+                                  //create user account------------------------------
+                                  userRegister(
+                                      userNameUserController.text,
+                                      emailUserController.text,
+                                      passUserController.text,
+                                      '$userContry');
+                            },
+                          ),
+                          color: white),
 //signup with text-----------------------------------------------------------
                       SizedBox(
                         height: 14.h,
                       ),
                       registerVi(),
- //signup with bottom----------------------------------------------------------------------------------------
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
- //google buttom-----------------------------------------------------------
-                        singWithsButtom(
-                            context, "تسجيل دخول بجوجل", black, white, () {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar(
-                              context, 'تمت العملية بنجاح', green, done));
-                        }, googelImage),
-                        SizedBox(
-                          width: 30.h,
-                        ),
+                      //signup with bottom----------------------------------------------------------------------------------------
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //google buttom-----------------------------------------------------------
+                          singWithsButtom(
+                              context, "تسجيل دخول بجوجل", black, white, () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar(
+                                context, 'تمت العملية بنجاح', green, done));
+                          }, googelImage),
+                          SizedBox(
+                            width: 30.h,
+                          ),
 //facebook buttom-----------------------------------------------------------
-                        singWithsButtom(
-                            context, "تسجيل دخول فيسبوك", white, darkBlue,
-                                () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            }, facebookImage),
-                      ],
-                    ),
+                          singWithsButtom(
+                              context, "تسجيل دخول فيسبوك", white, darkBlue,
+                              () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          }, facebookImage),
+                        ],
+                      ),
                       SizedBox(
                         height: 27.h,
                       ),
@@ -224,14 +242,14 @@ class _SingUpState extends State<SingUp> {
                         children: [
                           Wrap(
                             children: [
-                              text(context, "هل لديك حساب بالفعل؟", 13,
-                                  darkWhite),
+                              text(context, "هل لديك حساب بالفعل؟", 14,
+                                  Colors.grey),
                               SizedBox(
                                 width: 7.w,
                               ),
                               InkWell(
-                                child:
-                                    text(context, "تسجيل الدخول", 13, purple),
+                                child: text(context, "تسجيل الدخول", 14,
+                                    purple.withOpacity(0.5)),
                                 onTap: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   goTopageReplacement(context, Logging());
@@ -333,6 +351,7 @@ class _SingUpState extends State<SingUp> {
           snackBar(context, 'تاكد من تعبئة كل الحقول', red, error));
     }
   }
+
 //--------------------------------------------------------------------------------------
   Widget registerVi() {
     return SizedBox(
@@ -341,23 +360,29 @@ class _SingUpState extends State<SingUp> {
         child: Row(children: <Widget>[
           const Expanded(
               child: Divider(
-            color: Colors.white,
+            color: Colors.grey,
+            thickness: 1.3,
           )),
-          SizedBox(width: 8.w,),
+          SizedBox(
+            width: 8.w,
+          ),
           Center(
             child: text(
               context,
               "او التسجيل من خلال",
-              15,
-              red!,
+              14,
+              Colors.grey,
               align: TextAlign.center,
             ),
-          ),SizedBox(width: 8.w,),
+          ),
+          SizedBox(
+            width: 8.w,
+          ),
           const Expanded(
               child: Divider(
-            color: Colors.white,
+            color: Colors.grey,
+            thickness: 1.3,
           )),
         ]));
-
   }
 }

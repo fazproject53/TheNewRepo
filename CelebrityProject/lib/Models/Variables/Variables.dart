@@ -127,48 +127,12 @@ TextEditingController loggingEmailController=TextEditingController();
 String staticPath="assets/image/";
 String googelImage=staticPath+"google-logo.png";
 String facebookImage=staticPath+"facbok_logo.png";
-String avd1=staticPath+"avd1.jpg";
-String avd2=staticPath+"avd2.jpg";
-String avd3=staticPath+"avd3.jpg";
-String avd4=staticPath+"avd4.jpg";
 String discount =staticPath+"coupon.png";
 String explorImage=staticPath+"CreateOrder.png";
 String videoImage=staticPath+"featured.png";
 
-//lists-------------------------------------------------------------
-List<String>countryName=[ "السعودية","الامارات","البحرين","الكويت","المانيا", "ماليزيا","قطر", "الجزائر","لبنان","سنغافورة","تركيا","الصين","فرنسا","الهند","مصر","العراق""الاردن""امريكا""كوريا"];
-
-List<String>adsImage=[
- "assets/image/adv1.jpg" ,
- "assets/image/adv2.jpg" ,
- "assets/image/adv3.jpg" ,
- "assets/image/adv4.jpg"
-];
-
-List<String>giftImage=[
- "assets/image/gift1.jpg" ,
- "assets/image/gift2.jpg" ,
- "assets/image/gift3.jpg" ,
- "assets/image/gift5.jpg"
-];
-
-
-List<String>sliderImage=[
- "assets/image/image1.jpg" ,
-  "assets/image/image2.jpg" ,
-  "assets/image/image3.jpg"
-
-];
-
-List<String>giftType=[
- "عيد ميلاد" ,
- "تخرج" ,
- "عيد الام" ,
- "زواج"
-];
 
 //font textScaling
-double textScaling = 0;
 
 //App bar names------------------------------------------------------
 String requestBar="الطلبات";
