@@ -239,7 +239,7 @@ class _celebrityHomePageState extends State<celebrityHomePage>
             image: NetworkImage(
               image[index],
             ),
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
           )),
         );
       },

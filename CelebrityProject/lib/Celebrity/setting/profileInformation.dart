@@ -496,6 +496,7 @@ class _profileInformaionState extends State<profileInformaion>
                                               'KW',
                                               'QA',
                                             ],
+                                            showFlagDialog: true,
                                             showFlag: false,
                                             // optional. Shows only country name and flag
                                             showCountryOnly: false,

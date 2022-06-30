@@ -290,6 +290,7 @@ class _userInformationState extends State<userInformation> {
                                       showFlag: false,
                                       // optional. Shows only country name and flag
                                       showCountryOnly: false,
+                                      showFlagDialog: true,
                                       textStyle:  TextStyle(color: black, fontSize: 15.sp),
                                       // optional. Shows only country name and flag when popup is closed.
                                       showOnlyCountryWhenClosed: false,
