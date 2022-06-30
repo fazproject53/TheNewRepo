@@ -581,7 +581,7 @@ class _profileInformaionState extends State<profileInformaion>
                                   boxHeight: 45.h,
                                   boxDecoration: BoxDecoration(
                                       border:  Border.all(color: newGrey, width: 0.5),
-                                      color: white,
+                                      color:  lightGrey.withOpacity(0.10),
                                       borderRadius: BorderRadius.circular(8.r)),
 
                                   ///Icons
@@ -681,8 +681,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 border:  Border.all(color: newGrey, width: 0.5),
-                                                color: white
-                                                    .withOpacity(0.70),
+                                                color: lightGrey.withOpacity(0.10),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
 
@@ -784,8 +783,7 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 border:  Border.all(color: newGrey, width: 0.5),
-                                                color: white
-                                                    .withOpacity(0.70),
+                                                color:  lightGrey.withOpacity(0.10),
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
 
@@ -885,8 +883,8 @@ class _profileInformaionState extends State<profileInformaion>
                                             boxHeight: 45.h,
                                             boxDecoration: BoxDecoration(
                                                 border:  Border.all(color: newGrey, width: 0.5),
-                                                color: white
-                                                    .withOpacity(0.70),
+                                                color:  lightGrey.withOpacity(0.10),
+
                                                 borderRadius:
                                                     BorderRadius.circular(8.r)),
 

@@ -515,13 +515,13 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           12,
                           DropdownBelow(
                             itemWidth: 330.w,
-                            dropdownColor: newGrey,
+                            dropdownColor: white,
 
                             ///text style inside the menu
                             itemTextstyle: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
-                              color: white,
+                              color: black,
                               fontFamily: 'Cairo',
                             ),
 
@@ -529,7 +529,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             boxTextstyle: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: white,
+                                color: black,
                                 fontFamily: 'Cairo'),
 
                             ///box style
@@ -538,13 +538,15 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             boxWidth: 500.w,
                             boxHeight: 40.h,
                             boxDecoration: BoxDecoration(
-                                color: textFieldBlack2.withOpacity(0.70),
+                                border:  Border.all(color: newGrey, width: 0.5),
+                                color: lightGrey.withOpacity(0.10),
                                 borderRadius: BorderRadius.circular(8.r)),
+                            
 
                             ///Icons
                             icon: const Icon(
                               Icons.arrow_drop_down,
-                              color: Colors.white54,
+                              color: Colors.grey,
                             ),
                             hint: Text(
                               countryn,
@@ -602,13 +604,13 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                           12,
                           DropdownBelow(
                             itemWidth: 330.w,
-                            dropdownColor: newGrey,
+                            dropdownColor: white,
 
                             ///text style inside the menu
                             itemTextstyle: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w400,
-                              color: white,
+                              color: black,
                               fontFamily: 'Cairo',
                             ),
 
@@ -616,7 +618,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             boxTextstyle: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: white,
+                                color: black,
                                 fontFamily: 'Cairo'),
 
                             ///box style
@@ -625,13 +627,14 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                             boxWidth: 500.w,
                             boxHeight: 40.h,
                             boxDecoration: BoxDecoration(
-                                color: textFieldBlack2.withOpacity(0.70),
+                                border:  Border.all(color: newGrey, width: 0.5),
+                                color: lightGrey.withOpacity(0.10),
                                 borderRadius: BorderRadius.circular(8.r)),
 
                             ///Icons
                             icon: const Icon(
                               Icons.arrow_drop_down,
-                              color: Colors.white54,
+                              color: Colors.grey,
                             ),
                             hint: Text(
                               categoryn,
@@ -691,13 +694,13 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                 12,
                 DropdownBelow(
                   itemWidth: 330.w,
-                  dropdownColor: newGrey,
+                  dropdownColor: white,
 
                   ///text style inside the menu
                   itemTextstyle: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
-                    color: white,
+                    color: black,
                     fontFamily: 'Cairo',
                   ),
 
@@ -705,7 +708,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                   boxTextstyle: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
-                      color: white,
+                      color: black,
                       fontFamily: 'Cairo'),
 
                   ///box style
@@ -714,13 +717,14 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                   boxWidth: 500.w,
                   boxHeight: 40.h,
                   boxDecoration: BoxDecoration(
-                      color: textFieldBlack2.withOpacity(0.70),
+                      border:  Border.all(color: newGrey, width: 0.5),
+                      color: lightGrey.withOpacity(0.10),
                       borderRadius: BorderRadius.circular(8.r)),
 
                   ///Icons
                   icon: const Icon(
                     Icons.arrow_drop_down,
-                    color: Colors.white54,
+                    color: Colors.grey,
                   ),
                   hint: Text(
                     budgetn,
@@ -1136,7 +1140,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                                 itemTextstyle: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w400,
-                                  color: white,
+                                  color: black,
                                   fontFamily: 'Cairo',),
                                 ///hint style
                                 boxTextstyle: TextStyle(
@@ -1145,18 +1149,19 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
                                     color: grey,
                                     fontFamily: 'Cairo'),
                                 ///box style
-                                dropdownColor: newGrey,
+                                dropdownColor: white,
                                 boxPadding:
                                 EdgeInsets.fromLTRB(13.w, 12.h, 13.w, 12.h),
                                 boxWidth: 500.w,
                                 boxHeight: 45.h,
                                 boxDecoration: BoxDecoration(
-                                    color: textFieldBlack2.withOpacity(0.70),
+                                    border:  Border.all(color: newGrey, width: 0.5),
+                                    color: lightGrey.withOpacity(0.10),
                                     borderRadius: BorderRadius.circular(8.r)),
                                 ///Icons
                                 icon: const Icon(
                                   Icons.arrow_drop_down,
-                                  color: Colors.white54,
+                                  color: Colors.grey,
                                 ),
                                 hint:  Text(
                                   platform,

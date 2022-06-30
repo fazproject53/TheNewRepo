@@ -453,7 +453,7 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
               TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           hintStyle:
               TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          fillColor: white,
+          fillColor: lightGrey.withOpacity(0.10),
           labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           focusedBorder:
@@ -714,7 +714,7 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
           filled: true,
           hintStyle: TextStyle(
               color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          fillColor: white,
+          fillColor:  lightGrey.withOpacity(0.10),
           labelStyle: TextStyle(
             color: white,
             fontSize: fontSize.sp,
@@ -758,7 +758,7 @@ Widget textFieldNoIcon2(
         filled: true,
         hintStyle:
             TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-        fillColor: white.withOpacity(0.70),
+        fillColor:  lightGrey.withOpacity(0.10),
         labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.only(
