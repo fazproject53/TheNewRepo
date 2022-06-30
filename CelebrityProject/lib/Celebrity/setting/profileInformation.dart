@@ -1403,7 +1403,7 @@ class _profileInformaionState extends State<profileInformaion>
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                celebratyProfile()),
+                                                                MainScreen()),
                                                       ),
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(

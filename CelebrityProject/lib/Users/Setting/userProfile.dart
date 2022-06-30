@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'dart:io';
@@ -263,8 +264,20 @@ class _userProfileState extends State<userProfile>
                     ),
                   ),
                 ),
+                padding(
+                  8,
+                  8,
+                  Container(
+                    width: 30,
+                    height: 30,
+                    color: white,
+                    child: SvgPicture.asset('assets/Svg/icon-tiktok.svg',width: 30,
+                      height: 30,),
+                  ),
+                ),
               ]),
 
+              //SvgPicture.asset(assetName),
               paddingg(
                 8,
                 8,

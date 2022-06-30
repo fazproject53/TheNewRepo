@@ -20,6 +20,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 
+import '../UserRequests/UserAds/UserAdvertisments.dart';
+import '../UserRequests/UserReguistMainPage.dart';
+
 
 
 class buildAdvOrder extends StatefulWidget {
@@ -223,7 +226,12 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
       content: Text(value != null? value : 'تم ارسال الطلب',),
       )),
       
-      }).whenComplete(() =>  Navigator.pop(context));
+      }).whenComplete(() => { Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                UserRequestMainPage()),
+      ),});
 
         // == First dialog closed
     return
@@ -381,7 +389,7 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
 
   Future<Filter> fetchCelebrity(int country, int category, int budget,int status, int gender ) async {
     final response = await http.get(Uri.parse(
-        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=&account_status_id=&gender_id=&budget_id='));
+        'https://mobile.celebrityads.net/api/celebrity/search?country_id=$country&category_id=$category&account_status_id=$status&gender_id=$gender&budget_id=$budget'));
     if (response.statusCode == 200) {
       final body = response.body;
      Filter filter =Filter.fromJson(jsonDecode(body));
@@ -418,11 +426,11 @@ class _buildAdvOrderState extends State<buildAdvOrder> {
     // multipart that takes file
     // multipartFile = new http.MultipartFile('file', file!.bytes.toList(), length,
     //     filename: file!.name),
-
+    print('the id is = ' + celebrityId.toString());
     // listen for response
     request.files.add(multipartFile);
     request.headers.addAll(headers);
-    request.fields["celebrity_id"] =celebrityId != null?77.toString(): 77.toString();
+    request.fields["celebrity_id"] =celebrityId != null?celebrityId.toString(): null;
     request.fields["date"]= date.toString();
     request.fields["description"]= desc.text;
     request.fields[" platform_id"]= platformlist.indexOf(_selectedTest4).toString();

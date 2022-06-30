@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:celepraty/Account/logging.dart';
+import 'package:celepraty/MainScreen/main_screen_navigation.dart';
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 import 'package:celepraty/celebrity/setting/celebratyProfile.dart';
@@ -658,7 +659,7 @@ class _userInformationState extends State<userInformation> {
                                           MaterialPageRoute(
                                               builder:
                                                   (context) =>
-                                                  userProfile()),
+                                                  MainScreen()),
                                         );
                                         ScaffoldMessenger.of(
                                             context)
