@@ -297,27 +297,35 @@ Widget textField(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: Colors.white, fontSize:  fontSize.sp),
+    style: TextStyle(color: Colors.white, fontSize: fontSize.sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
-        hintStyle: TextStyle(
-            color: Colors.white, fontSize: fontSize.sp),
+        hintStyle: TextStyle(color: Colors.white, fontSize: fontSize.sp),
         fillColor: Colors.white12,
         labelStyle: TextStyle(color: Colors.white, fontSize: 15.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
-          color: purple.withOpacity(0.6),
-          width: 1.0,
-        ),),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
-          color: purple.withOpacity(0.6),
-          width: 1.0,
-        ),) ,
-        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
-          color: Colors.grey.withOpacity(0.8),
-          width: 1.0,
-        ),),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(
+            color: purple.withOpacity(0.6),
+            width: 1.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(
+            color: purple.withOpacity(0.6),
+            width: 1.0,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.8),
+            width: 1.0,
+          ),
+        ),
         prefixIcon: Icon(icons, color: purple.withOpacity(0.6), size: 25.sp),
         labelText: key,
         errorStyle: TextStyle(color: Colors.red, fontSize: 12.0.sp),
@@ -346,8 +354,7 @@ Widget textField3(context, icons, String key, double fontSize, bool hintPass,
         isDense: true,
         filled: true,
         suffixIcon: suffixIcon,
-        hintStyle:
-            TextStyle(color: deepBlack, fontSize:fontSize.sp),
+        hintStyle: TextStyle(color: deepBlack, fontSize: fontSize.sp),
         fillColor: ligthtBlack,
         labelStyle: TextStyle(color: deepBlack, fontSize: 12.0.sp),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -377,7 +384,7 @@ Widget textField2(context, icons, String key, double fontSize, bool hintPass,
     inputFormatters: inputFormatters,
     keyboardType: keyboardType,
     controller: mycontroller,
-    style: TextStyle(color: deepgrey, fontSize:  fontSize.sp),
+    style: TextStyle(color: deepgrey, fontSize: fontSize.sp),
     decoration: InputDecoration(
         isDense: true,
         filled: true,
@@ -414,7 +421,11 @@ Widget singWithsButtom(
     height: 45.h,
     width: 45.w,
     decoration: BoxDecoration(
-        boxShadow: [BoxShadow(blurRadius: 3,)],
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 3,
+          )
+        ],
         color: backColor,
         image: DecorationImage(
             image: AssetImage(
@@ -427,7 +438,9 @@ Widget singWithsButtom(
 
 Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
     TextEditingController mycontroller, myvali, isOptional,
-    {List<TextInputFormatter>? inputFormatters, TextInputType? keyboardType, Widget? child}) {
+    {List<TextInputFormatter>? inputFormatters,
+    TextInputType? keyboardType,
+    Widget? child}) {
   return Container(
     height: 50.h,
     child: TextFormField(
@@ -437,27 +450,29 @@ Widget textFieldNoIcon(context, String key, double fontSize, bool hintPass,
       keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: mycontroller,
-      style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style:
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderRadius:BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(8.r),
             borderSide: BorderSide(
               color: newGrey,
               width: 0.5,
-            ),),
+            ),
+          ),
           isDense: false,
           filled: true,
           errorStyle: TextStyle(fontSize: 12.sp),
           helperText: isOptional ? 'اختياري' : null,
-          helperStyle:
-              TextStyle(color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          hintStyle:
-              TextStyle(color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          helperStyle: TextStyle(
+              color: pink, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          hintStyle: TextStyle(
+              color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
           fillColor: white,
           labelStyle: TextStyle(color: black, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1.w)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: purple, width: 1.w)),
           suffix: child,
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
@@ -705,11 +720,12 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
           TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderRadius:BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(8.r),
             borderSide: BorderSide(
               color: newGrey,
               width: 0.5,
-            ),),
+            ),
+          ),
           isDense: false,
           filled: true,
           hintStyle: TextStyle(
@@ -721,8 +737,8 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
           ),
           alignLabelWithHint: true,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: purple, width: 1)),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
     ),
@@ -745,15 +761,16 @@ Widget textFieldNoIcon2(
     controller: mycontroller,
     style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
     decoration: InputDecoration(
-    enabledBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.only(
-      bottomRight: Radius.circular(10.0),
-      topRight: Radius.circular(10.0),
-    ),
-    borderSide: BorderSide(
-    color: newGrey,
-    width: 0.5,
-    ),),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+          ),
+          borderSide: BorderSide(
+            color: newGrey,
+            width: 0.5,
+          ),
+        ),
         isDense: false,
         filled: true,
         hintStyle:
@@ -765,7 +782,6 @@ Widget textFieldNoIcon2(
           bottomRight: Radius.circular(10.0),
           topRight: Radius.circular(10.0),
         )),
-
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
         hintText: key,
@@ -1021,11 +1037,25 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
 }
 
 //============================ text field curved from one side ==================================
+//Drow app bar----------------------------------------------------
 
+homePageAppBar(String title, BuildContext context,
+    {color = white, IconData? download, onPressed,Widget?leading,action}) {
+  return AppBar(
+    title: Text(
+      title,
+      style: TextStyle(fontSize: 22.sp, fontFamily: 'Cairo', color: black),
+    ),
+    leading: leading,
+    actions:action ?? const Text(''),
+    backgroundColor: color,
+    elevation: 0,
+  );
+}
 //Drow app bar----------------------------------------------------
 
 drowAppBar(String title, BuildContext context,
-    {color = deepwhite, IconData? download, onPressed}) {
+    {color = white, IconData? download, onPressed}) {
   return AppBar(
     title: Text(
       title,
@@ -1061,8 +1091,11 @@ drowAppBar(String title, BuildContext context,
   );
 }
 
-appBarNoIcon(String title, BuildContext context,
-    {color = deepwhite, }) {
+appBarNoIcon(
+  String title,
+  BuildContext context, {
+  color = white,
+}) {
   return AppBar(
     title: Text(
       title,
@@ -1074,7 +1107,7 @@ appBarNoIcon(String title, BuildContext context,
   );
 }
 
-drawAppBar(Widget title, BuildContext context, {Color color = deepwhite}) {
+drawAppBar(Widget title, BuildContext context, {Color color = white}) {
   return AppBar(
     title: title,
     centerTitle: true,
@@ -1092,7 +1125,7 @@ drawAppBar(Widget title, BuildContext context, {Color color = deepwhite}) {
 }
 
 ///app bar without back icon
-AppBarNoIcon(String title, {Color color = deepwhite}) {
+AppBarNoIcon(String title, {Color color = white}) {
   return AppBar(
     title: Text(
       title,
@@ -1210,8 +1243,7 @@ Widget drowMenu(
     validator: validator,
     hint: Text(
       inisValue,
-      style:
-          TextStyle(color: Colors.white, fontSize:  fontSize.sp),
+      style: TextStyle(color: Colors.white, fontSize: fontSize.sp),
     ),
     //dropdownColor: black,
     items: item
@@ -1220,8 +1252,7 @@ Widget drowMenu(
               value: type,
               child: Text(
                 type,
-                style: TextStyle(
-                    color: Colors.white, fontSize:  fontSize.sp),
+                style: TextStyle(color: Colors.white, fontSize: fontSize.sp),
                 textAlign: TextAlign.center,
               ),
             ))
@@ -1236,27 +1267,35 @@ Widget drowMenu(
         fillColor: Colors.white12,
         alignLabelWithHint: true,
         errorStyle: TextStyle(color: Colors.red, fontSize: 14.0.sp),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
-          color: purple.withOpacity(0.6),
-          width: 1.0,
-        ),),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
-          color: purple.withOpacity(0.6),
-          width: 1.0,
-        ),) ,
-        enabledBorder:  OutlineInputBorder(borderRadius: BorderRadius.circular(4.r),borderSide: BorderSide(
-          color: Colors.grey.withOpacity(0.8),
-          width: 1.0,
-        ),),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(
+            color: purple.withOpacity(0.6),
+            width: 1.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(
+            color: purple.withOpacity(0.6),
+            width: 1.0,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.r),
+          borderSide: BorderSide(
+            color: Colors.grey.withOpacity(0.8),
+            width: 1.0,
+          ),
+        ),
         contentPadding: EdgeInsets.all(10.h)),
     onChanged: onChanged,
     dropdownMaxHeight: 140.h,
     dropdownWidth: 180.w,
-    dropdownDecoration:  BoxDecoration(
-      color:purple.withOpacity(0.6),
-      borderRadius: BorderRadius.all(Radius.circular(4.r))
-    ),
-    iconDisabledColor:purple.withOpacity(0.6) ,
+    dropdownDecoration: BoxDecoration(
+        color: purple.withOpacity(0.6),
+        borderRadius: BorderRadius.all(Radius.circular(4.r))),
+    iconDisabledColor: purple.withOpacity(0.6),
     iconEnabledColor: purple.withOpacity(0.6),
     scrollbarAlwaysShow: true,
   );

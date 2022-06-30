@@ -140,8 +140,8 @@ class _MainScreenState extends State<MainScreen>
         children: currentuser == "celebrity" ? Famousscreens : userScreen,
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: deepwhite,
-        color: white,
+        backgroundColor: white,
+        color: deepwhite,
         index: selectedIndex,
         items: items,
         height: 50.h,

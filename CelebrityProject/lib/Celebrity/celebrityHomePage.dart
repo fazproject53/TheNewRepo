@@ -105,122 +105,191 @@ class _celebrityHomePageState extends State<celebrityHomePage>
               debugShowCheckedModeBanner: false,
               theme: ThemeData(primaryColor: purple),
               home: Scaffold(
+                  // appBar: homePageAppBar('', context,
+                  //     action: [
+                  //       Row(
+                  //         children: [
+                  //           SizedBox(width: 20.w,),
+                  //           SizedBox(
+                  //               height: 105.h,
+                  //               width: 190.w,
+                  //               child: const Image(
+                  //                 image: AssetImage(
+                  //                   "assets/image/final-logo.png",
+                  //                 ),
+                  //                 fit: BoxFit.cover,
+                  //               )),
+                  //           Container(
+                  //             width: 190.w,
+                  //             decoration: BoxDecoration(
+                  //               // color: red,
+                  //               borderRadius:
+                  //                   BorderRadius.all(Radius.circular(5.r)),
+                  //               border: Border.all(
+                  //                   color: Colors.grey.withOpacity(0.3),
+                  //                   width: 1),
+                  //             ),
+                  //             child: Row(
+                  //               children: [
+                  //                 SizedBox(
+                  //                   width: 5.w,
+                  //                 ),
+                  //                 const Icon(
+                  //                   Icons.search,
+                  //                   color: Colors.grey,
+                  //                 ),
+                  //                 SizedBox(
+                  //                   width: 5.w,
+                  //                 ),
+                  //                 text(context, 'مالذي تبحث عنه؟', 12,
+                  //                     Colors.grey)
+                  //               ],
+                  //             ),
+                  //           ),
+                  //
+                  //         ],
+                  //       )
+                  //     ],
+                  //     leading: IconButton(
+                  //       padding: EdgeInsets.only(right: 20.w),
+                  //       icon: const Icon(Icons.add),
+                  //       color: Colors.black,
+                  //       onPressed: () {
+                  //         Navigator.pop(context);
+                  //       },
+                  //     )),
+
+//-------------------------------------------------------------------------------------
                   body: RefreshIndicator(
-                onRefresh: onRefresh,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding:  EdgeInsets.only(bottom: 15.0.h),
-                    child: FutureBuilder<Section>(
-                      future: sections,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<Section> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Center(child: lodeing());
-                        } else if (snapshot.connectionState ==
-                                ConnectionState.active ||
-                            snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            //throw snapshot.error.toString();
-                            if (snapshot.error.toString() ==
-                                'تحقق من اتصالك بالانترنت') {
-                              return Center(
-                                  child: SizedBox(
-                                      height: 200.h,
-                                      width: 200.w,
-                                      child: internetConnection(context)));
-                            } else {
-                              return const Center(child: Text(''));
-                            }
-                            //---------------------------------------------------------------------------
-                          } else if (snapshot.hasData) {
-                            return Column(
-                              children: [
-                                for (int sectionIndex = 0;
-                                    sectionIndex < snapshot.data!.data!.length;
-                                    sectionIndex++)
-                                  Column(
-                                    children: [
+                    onRefresh: onRefresh,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 15.0.h),
+                        child: FutureBuilder<Section>(
+                          future: sections,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Section> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: lodeing());
+                            } else if (snapshot.connectionState ==
+                                    ConnectionState.active ||
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              if (snapshot.hasError) {
+                                //throw snapshot.error.toString();
+                                if (snapshot.error.toString() ==
+                                    'تحقق من اتصالك بالانترنت') {
+                                  return Center(
+                                      child: SizedBox(
+                                          height: 200.h,
+                                          width: 200.w,
+                                          child: internetConnection(context)));
+                                } else {
+                                  return const Center(child: Text(''));
+                                }
+                                //---------------------------------------------------------------------------
+                              } else if (snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    for (int sectionIndex = 0;
+                                        sectionIndex <
+                                            snapshot.data!.data!.length;
+                                        sectionIndex++)
+                                      Column(
+                                        children: [
 //category--------------------------------------------------------------------------
 
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'category')
-                                        categorySection(
-                                            snapshot.data?.data![sectionIndex]
-                                                .categoryId,
-                                            snapshot
-                                                .data?.data![sectionIndex].title,
-                                            snapshot.data?.data![sectionIndex]
-                                                .active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'category')
+                                            categorySection(
+                                                snapshot
+                                                    .data
+                                                    ?.data![sectionIndex]
+                                                    .categoryId,
+                                                snapshot.data
+                                                    ?.data![sectionIndex].title,
+                                                snapshot
+                                                    .data
+                                                    ?.data![sectionIndex]
+                                                    .active),
 
 //header--------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'header')
-                                        headerSection(snapshot
-                                            .data?.data![sectionIndex].active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'header')
+                                            headerSection(snapshot.data
+                                                ?.data![sectionIndex].active),
 //links--------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'links')
-                                        linksSection(snapshot
-                                            .data?.data![sectionIndex].active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'links')
+                                            linksSection(snapshot.data
+                                                ?.data![sectionIndex].active),
 //Advertising-banner--------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'Advertising-banner')
-                                        advertisingBannerSection(snapshot
-                                            .data?.data![sectionIndex].active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'Advertising-banner')
+                                            advertisingBannerSection(snapshot
+                                                .data
+                                                ?.data![sectionIndex]
+                                                .active),
 //join-us--------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'join-us')
-                                        joinUsSection(snapshot
-                                            .data?.data![sectionIndex].active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'join-us')
+                                            joinUsSection(snapshot.data
+                                                ?.data![sectionIndex].active),
 //new_section---------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'new_section')
-                                        newSection(
-                                            snapshot
-                                                .data?.data![sectionIndex].link,
-                                            snapshot
-                                                .data?.data![sectionIndex].image,
-                                            snapshot.data?.data![sectionIndex]
-                                                .active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'new_section')
+                                            newSection(
+                                                snapshot.data
+                                                    ?.data![sectionIndex].link,
+                                                snapshot.data
+                                                    ?.data![sectionIndex].image,
+                                                snapshot
+                                                    .data
+                                                    ?.data![sectionIndex]
+                                                    .active),
 //news ---------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                          .sectionName ==
-                                          'news')
-                                        newsSection(
-                                            snapshot
-                                                .data?.data![sectionIndex].link,
-                                            snapshot
-                                                .data?.data![sectionIndex].image,
-                                            snapshot.data?.data![sectionIndex]
-                                                .active),
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'news')
+                                            newsSection(
+                                                snapshot.data
+                                                    ?.data![sectionIndex].link,
+                                                snapshot.data
+                                                    ?.data![sectionIndex].image,
+                                                snapshot
+                                                    .data
+                                                    ?.data![sectionIndex]
+                                                    .active),
 //partners--------------------------------------------------------------------------
-                                      if (snapshot.data!.data![sectionIndex]
-                                              .sectionName ==
-                                          'partners')
-                                        partnersSection(snapshot
-                                            .data?.data![sectionIndex].active),
-                                    ],
-                                  )
-                              ],
-                            );
-                          } else {
-                            return const Center(child: Text('Empty data'));
-                          }
-                        } else {
-                          return Center(
-                              child: Text('State: ${snapshot.connectionState}'));
-                        }
-                      },
+                                          if (snapshot.data!.data![sectionIndex]
+                                                  .sectionName ==
+                                              'partners')
+                                            partnersSection(snapshot.data
+                                                ?.data![sectionIndex].active),
+                                        ],
+                                      )
+                                  ],
+                                );
+                              } else {
+                                return const Center(child: Text('Empty data'));
+                              }
+                            } else {
+                              return Center(
+                                  child: Text(
+                                      'State: ${snapshot.connectionState}'));
+                            }
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )),
+                  )),
             ),
           );
   }
@@ -280,18 +349,18 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 )
               : const SizedBox(),
           const Spacer(),
-          Padding(
-            padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
-            child: SizedBox(
-                height: 105.h,
-                width: 190.w,
-                child: const Image(
-                  image: AssetImage(
-                    "assets/image/final-logo.png",
-                  ),
-                  fit: BoxFit.cover,
-                )),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
+          //   child: SizedBox(
+          //       height: 105.h,
+          //       width: 190.w,
+          //       child: const Image(
+          //         image: AssetImage(
+          //           "assets/image/final-logo.png",
+          //         ),
+          //         fit: BoxFit.cover,
+          //       )),
+          // ),
         ]);
   }
 
@@ -473,7 +542,8 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 )),
           ],
         ),
-        height: 120.h,blurRadius:1);
+        height: 120.h,
+        blurRadius: 1);
   }
 
 //categorySection---------------------------------------------------------------------------
@@ -508,7 +578,10 @@ class _celebrityHomePageState extends State<celebrityHomePage>
 //category name-----------------------------------------------------------
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 7.0.w,right: 7.0.w ,top: 20.h,bottom:4.h),
+                                      left: 7.0.w,
+                                      right: 7.0.w,
+                                      top: 20.h,
+                                      bottom: 4.h),
                                   child: text(context, title!, 20, black,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -561,14 +634,14 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                                                                 .image!),
                                                         child: Stack(
                                                           children: [
-
 // image------------------------------------------------------------------------------
                                                             ClipRRect(
-                                                              borderRadius: BorderRadius.all(
-                                                                   Radius
-                                                                      .circular(
-                                                                          10.r),
-                                                                  ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    10.r),
+                                                              ),
                                                               child:
                                                                   Image.network(
                                                                 snapshot
@@ -887,21 +960,21 @@ class _celebrityHomePageState extends State<celebrityHomePage>
         ? Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 3.5.w),
             child: InkWell(
-
               onTap: () async {
                 var url = 'https://www.faz.education/';
                 await launch(url, forceWebView: true);
               },
               child: SizedBox(
-                  width: double.infinity, height: 196.h, child:
-              ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius
-                        .circular(
-                        4.r),
-                  ),
-                  child: Image.asset('assets/image/Famous.jpg',fit: BoxFit.cover,))
-              ),
+                  width: double.infinity,
+                  height: 196.h,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4.r),
+                      ),
+                      child: Image.asset(
+                        'assets/image/Famous.jpg',
+                        fit: BoxFit.cover,
+                      ))),
             ),
           )
         : const SizedBox();
@@ -1025,48 +1098,51 @@ class _celebrityHomePageState extends State<celebrityHomePage>
                 },
                 child: gradientContainerNoborder(
                     double.infinity,
-
                     ClipRRect(
                         borderRadius: BorderRadius.all(
-                          Radius
-                              .circular(
-                              4.r),
+                          Radius.circular(4.r),
                         ),
-                        child: Image.asset('assets/image/news.jpg',fit: BoxFit.cover,)),
-                    blurRadius:1),
+                        child: Image.asset(
+                          'assets/image/news.jpg',
+                          fit: BoxFit.cover,
+                        )),
+                    blurRadius: 1),
               ),
             ),
           )
         : const SizedBox();
   }
+
 //new section----------------------------------------------------------------------
   newSection(String? link, String? image, int? active) {
-
     return active == 1
         ? Padding(
-      padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 10.h),
-      child: SizedBox(
-        width: double.infinity,
-        height: 150.h,
-        child: InkWell(
-          onTap: () async {
-            var url = link.toString();
-            await launch(url.toString(), forceWebView: true);
-          },
-          child: gradientContainerNoborder(
-              double.infinity,
-              ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius
-                        .circular(
-                        4.r),
-                  ),
-                  child: Image.asset(image!,fit: BoxFit.cover,)),blurRadius:1),
-        ),
-      ),
-    )
+            padding: EdgeInsets.symmetric(horizontal: 3.5.w, vertical: 10.h),
+            child: SizedBox(
+              width: double.infinity,
+              height: 150.h,
+              child: InkWell(
+                onTap: () async {
+                  var url = link.toString();
+                  await launch(url.toString(), forceWebView: true);
+                },
+                child: gradientContainerNoborder(
+                    double.infinity,
+                    ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(4.r),
+                        ),
+                        child: Image.network(
+                          image!,
+                          fit: BoxFit.cover,
+                        )),
+                    blurRadius: 1),
+              ),
+            ),
+          )
         : const SizedBox();
   }
+
 //loading methode---------------------------------------------------------------------------
   Widget lodeing() {
     return SizedBox(
