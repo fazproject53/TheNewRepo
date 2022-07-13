@@ -70,7 +70,7 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                if(oldAdvertisingOrder.length > i){
                  return InkWell(
                      onTap: () {
-                       goTopagepush(
+                       goToPagePushRefresh(
                            context,
                            GiftDetials(
                              i: i,
@@ -85,7 +85,14 @@ class _GiftState extends State<Gift> with AutomaticKeepAliveClientMixin {
                              rejectResonId: oldAdvertisingOrder[i].rejectReson?.id,
                              from: oldAdvertisingOrder[i].from!,
                              to: oldAdvertisingOrder[i].to!,
-                           ));
+                           ),then: (value) {
+                         if (clickGift) {
+                           setState(() {
+                             refreshRequest();
+                             clickGift = false;
+                           });
+                         }
+                       });
                      },
                      child: Column(
                        children: [

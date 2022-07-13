@@ -158,6 +158,60 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                     ),
                   ),
                   const Spacer(),
+                  Visibility(
+                      visible: isReject,
+                      child: widget.state == 3 || widget.state == 5
+                          ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.r),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.quiz,
+                                    color: pink,
+                                    size: 25.r,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  text(
+                                    context,
+                                    'سبب الرفض',
+                                    17,
+                                    black,
+                                    //fontWeight: FontWeight.bold,
+                                    align: TextAlign.right,
+                                  ),
+                                ],
+                              ),
+                              //-------------------------------
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 36.r),
+                                child: text(
+                                  context,
+                                  widget.rejectResonName!,
+                                  15,
+                                  deepBlack,
+                                  //fontWeight: FontWeight.bold,
+                                  align: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                          :
+//p-------------------------------------------------------------------------------
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.r),
+                        child: SingleChildScrollView(
+
+                        ),
+                      )),
 //Accept and Reject bottom----------------------------------------------------------------------------
                   isReject
                       ? Container(

@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../Ads/AdvertisinApi.dart';
-
+bool clickGift = false;
 class GiftDetials extends StatefulWidget {
   int? i;
   final String? description;
@@ -199,6 +199,60 @@ class _GiftDetialsState extends State<GiftDetials> {
               ),
 //------------------------------------------------------------------------------------
               const Spacer(),
+                  Visibility(
+                      visible: isReject,
+                      child: widget.state == 3 || widget.state == 5
+                          ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.r),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.quiz,
+                                    color: pink,
+                                    size: 25.r,
+                                  ),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  text(
+                                    context,
+                                    'سبب الرفض',
+                                    17,
+                                    black,
+                                    //fontWeight: FontWeight.bold,
+                                    align: TextAlign.right,
+                                  ),
+                                ],
+                              ),
+                              //-------------------------------
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 36.r),
+                                child: text(
+                                  context,
+                                  widget.rejectResonName!,
+                                  15,
+                                  deepBlack,
+                                  //fontWeight: FontWeight.bold,
+                                  align: TextAlign.right,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                          :
+//p-------------------------------------------------------------------------------
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.r),
+                        child: SingleChildScrollView(
+
+                        ),
+                      )),
               isReject
                   ? Container(
                       width: double.infinity,
@@ -243,12 +297,17 @@ class _GiftDetialsState extends State<GiftDetials> {
                                       result.then((value) {
                                         if (value == true) {
                                           Navigator.pop(context);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar(
-                                                  context,
-                                                  'تم قبول الطلب',
-                                                  green,
-                                                  done));
+                                          setState(() {
+                                            clickGift = true;
+                                          });
+                                          successfullyDialog(
+                                              context,
+                                              'تم قبول الطلب بنجاح',
+                                              "assets/lottie/SuccessfulCheck.json",
+                                              'حسناً', () {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          });
                                         } else {
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)
@@ -429,17 +488,30 @@ class _GiftDetialsState extends State<GiftDetials> {
                                     result.then((value) {
                                       if (value == true) {
                                         Navigator.pop(context);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar(context,
-                                                'تم رفض الطلب', green, done));
+                                        setState(() {
+                                          clickGift = true;
+                                        });
+                                        successfullyDialog(
+                                            context,
+                                            'تم رفض الطلب بنجاح',
+                                            "assets/lottie/SuccessfulCheck.json",
+                                            'حسناً', () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        });
                                       } else {
                                         Navigator.pop(context);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(snackBar(
-                                                context,
-                                                'تم رفض الطلب مسبقا',
-                                                red,
-                                                error));
+                                        setState(() {
+                                          clickGift = true;
+                                        });
+                                        successfullyDialog(
+                                            context,
+                                            'تم رفض الطلب بنجاح',
+                                            "assets/lottie/SuccessfulCheck.json",
+                                            'حسناً', () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        });
                                       }
                                     });
                                   }
@@ -453,17 +525,30 @@ class _GiftDetialsState extends State<GiftDetials> {
                                   result.then((value) {
                                     if (value == true) {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(context,
-                                              'تم رفض الطلب', green, done));
+                                      setState(() {
+                                        clickGift = true;
+                                      });
+                                      successfullyDialog(
+                                          context,
+                                          'تم رفض الطلب بنجاح',
+                                          "assets/lottie/SuccessfulCheck.json",
+                                          'حسناً', () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      });
                                     } else {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(
-                                              context,
-                                              'تم رفض الطلب مسبقا',
-                                              red,
-                                              error));
+                                      setState(() {
+                                        clickGift = true;
+                                      });
+                                      successfullyDialog(
+                                          context,
+                                          'تم رفض الطلب بنجاح',
+                                          "assets/lottie/SuccessfulCheck.json",
+                                          'حسناً', () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      });
                                     }
                                   });
                                 }
