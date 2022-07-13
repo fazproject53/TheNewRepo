@@ -7,11 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import '../../Celebrity/Balance/radioListTile.dart';
 import '../../Models/Methods/method.dart';
-
-import 'package:flutter_credit_card/credit_card_form.dart';
-import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class UserRechargeBalance extends StatefulWidget {
@@ -102,7 +98,11 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                       18,
                       false,
                       amount,
-                      (String? value) {},
+                      (String? value) {
+                        if (value!.startsWith('0')) {
+                          return 'يجب ان لا يبدا بصفر';
+                        }
+                      },
                       keyboardType: TextInputType.phone,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
@@ -191,7 +191,7 @@ class _UserRechargeBalanceState extends State<UserRechargeBalance> {
                           //applePayIcon.png
                           Column(
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 20.h,
                                 width: 30.w,
                                 child: Image.asset(

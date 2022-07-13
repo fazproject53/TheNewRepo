@@ -106,7 +106,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                               alignment: Alignment.topRight,
                               child: Padding(
                                 padding:
-                                EdgeInsets.only(top: 20.h, right: 20.w),
+                                    EdgeInsets.only(top: 20.h, right: 20.w),
                                 child: text(context, "قم بملئ البيانات التالية",
                                     20, ligthtBlack,
                                     fontWeight: FontWeight.bold),
@@ -149,15 +149,21 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                         boxWidth: 500.w,
                                         boxHeight: 46.h,
                                         boxDecoration: BoxDecoration(
-                                            color: textFieldBlack2
-                                                .withOpacity(0.70),
-                                            borderRadius:
-                                            BorderRadius.circular(8.r)),
+                                          color:
+                                              textFieldBlack2.withOpacity(0.70),
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                          border: Border.all(
+                                            color: newGrey,
+                                            width: 0.5,
+                                          ),
+
+                                        ),
 
                                         ///Icons
                                         icon: const Icon(
                                           Icons.arrow_drop_down,
-                                          color: Colors.white54,
+                                          color: lightGrey,
                                         ),
                                         hint: Text(
                                           complaintText,
@@ -169,37 +175,37 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                       ),
                                     );
                                   } else if (snapshot.connectionState ==
-                                      ConnectionState.active ||
+                                          ConnectionState.active ||
                                       snapshot.connectionState ==
                                           ConnectionState.done) {
                                     if (snapshot.hasError) {
                                       return Center(
                                           child:
-                                          Text(snapshot.error.toString()));
+                                              Text(snapshot.error.toString()));
                                     } else if (snapshot.hasData) {
                                       _dropdownTestItems.isEmpty
                                           ? {
-                                        complaintList.add({
-                                          'no': 0,
-                                          'keyword': 'اختر نوع الشكوى'
-                                        }),
-                                        for (int i = 0;
-                                        i <
-                                            snapshot
-                                                .data!.data!.length;
-                                        i++)
-                                          {
-                                            complaintList.add({
-                                              'no': snapshot
-                                                  .data!.data![i].id!,
-                                              'keyword':
-                                              '${snapshot.data!.data![i].name!}'
-                                            }),
-                                          },
-                                        _dropdownTestItems =
-                                            buildDropdownTestItems(
-                                                complaintList),
-                                      }
+                                              complaintList.add({
+                                                'no': 0,
+                                                'keyword': 'اختر نوع الشكوى'
+                                              }),
+                                              for (int i = 0;
+                                                  i <
+                                                      snapshot
+                                                          .data!.data!.length;
+                                                  i++)
+                                                {
+                                                  complaintList.add({
+                                                    'no': snapshot
+                                                        .data!.data![i].id!,
+                                                    'keyword':
+                                                        '${snapshot.data!.data![i].name!}'
+                                                  }),
+                                                },
+                                              _dropdownTestItems =
+                                                  buildDropdownTestItems(
+                                                      complaintList),
+                                            }
                                           : null;
 
                                       return paddingg(
@@ -230,15 +236,19 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                           boxWidth: 500.w,
                                           boxHeight: 46.h,
                                           boxDecoration: BoxDecoration(
-                                              color: textFieldBlack2
-                                                  .withOpacity(0.70),
-                                              borderRadius:
-                                              BorderRadius.circular(8.r)),
+                                            color: lightGrey.withOpacity(0.10),
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                            border: Border.all(
+                                              color: newGrey,
+                                              width: 0.5,
+                                            ),
+                                          ),
 
                                           ///Icons
                                           icon: const Icon(
                                             Icons.arrow_drop_down,
-                                            color: Colors.white54,
+                                            color: lightGrey,
                                           ),
                                           hint: Text(
                                             complaintText,
@@ -252,7 +262,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                     } else {
                                       return const Center(
                                           child:
-                                          Text('لايوجد لينك لعرضهم حاليا'));
+                                              Text('لايوجد لينك لعرضهم حاليا'));
                                     }
                                   } else {
                                     return Center(
@@ -272,7 +282,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                 12,
                                 false,
                                 supportTitle,
-                                    (String? value) {
+                                (String? value) {
                                   /// Validation text field
                                   if (value == null || value.isEmpty) {
                                     return 'حقل اجباري';
@@ -300,7 +310,7 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                 12,
                                 false,
                                 supportDescription,
-                                    (String? value) {
+                                (String? value) {
                                   if (value!.startsWith('0')) {
                                     return 'يجب ان لا يبدا بصفر';
                                   }
@@ -320,14 +330,14 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                 },
                                 counter: (context,
                                     {required currentLength,
-                                      required isFocused,
-                                      maxLength}) {
+                                    required isFocused,
+                                    maxLength}) {
                                   return Text(
                                     '$maxLength'
-                                        '/'
-                                        '$currentLength',
+                                    '/'
+                                    '$currentLength',
                                     style:
-                                    TextStyle(fontSize: 12.sp, color: grey),
+                                        TextStyle(fontSize: 12.sp, color: grey),
                                   );
                                 },
                                 maxLenth: 500,
@@ -352,45 +362,77 @@ class _ContactWithUsHomeState extends State<ContactWithUsHome> {
                                   buttoms(context, 'إرسال', 15, white, () {
                                     _formKey.currentState!.validate()
                                         ? {
-                                      _selectedTest == null
-                                          ? Flushbar(
-                                        flushbarPosition: FlushbarPosition.TOP,
-                                        backgroundColor: white,
-                                        margin: const EdgeInsets.all(5),
-                                        flushbarStyle: FlushbarStyle.FLOATING,
-                                        borderRadius: BorderRadius.circular(15.r),
-                                        duration: const Duration(seconds: 5),
-                                        icon: Icon(
-                                          error,
-                                          color: red!,
-                                          size: 25.sp,
-                                        ),
-                                        titleText: text(context, 'خطأ', 16, purple),
-                                        messageText: text(context,
-                                            'قم بإختيار نوع الشكوى', 14, black,
-                                            fontWeight: FontWeight.w200),
-                                      ).show(context)
-                                          : postContactWithUs(userToken!)
-                                          .whenComplete(() => {
-                                        Flushbar(
-                                          flushbarPosition: FlushbarPosition.TOP,
-                                          backgroundColor: white,
-                                          margin: const EdgeInsets.all(5),
-                                          flushbarStyle: FlushbarStyle.FLOATING,
-                                          borderRadius: BorderRadius.circular(15.r),
-                                          duration: const Duration(seconds: 5),
-                                          icon: Icon(
-                                            right,
-                                            color: green,
-                                            size: 30,
-                                          ),
-                                          titleText: text(context, 'تم الارسال بنجاح', 16, purple),
-                                          messageText: text(context,
-                                              'سوف يتم التواصل معك عبر البريد الالكتروني', 14, black,
-                                              fontWeight: FontWeight.w200),
-                                        ).show(context)
-                                      })
-                                    }
+                                            _selectedTest == null
+                                                ? Flushbar(
+                                                    flushbarPosition:
+                                                        FlushbarPosition.TOP,
+                                                    backgroundColor: white,
+                                                    margin:
+                                                        const EdgeInsets.all(5),
+                                                    flushbarStyle:
+                                                        FlushbarStyle.FLOATING,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.r),
+                                                    duration: const Duration(
+                                                        seconds: 5),
+                                                    icon: Icon(
+                                                      error,
+                                                      color: red!,
+                                                      size: 25.sp,
+                                                    ),
+                                                    titleText: text(context,
+                                                        'خطأ', 16, purple),
+                                                    messageText: text(
+                                                        context,
+                                                        'قم بإختيار نوع الشكوى',
+                                                        14,
+                                                        black,
+                                                        fontWeight:
+                                                            FontWeight.w200),
+                                                  ).show(context)
+                                                : postContactWithUs(userToken!)
+                                                    .whenComplete(() => {
+                                                          Flushbar(
+                                                            flushbarPosition:
+                                                                FlushbarPosition
+                                                                    .TOP,
+                                                            backgroundColor:
+                                                                white,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            flushbarStyle:
+                                                                FlushbarStyle
+                                                                    .FLOATING,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.r),
+                                                            duration:
+                                                                const Duration(
+                                                                    seconds: 5),
+                                                            icon: Icon(
+                                                              right,
+                                                              color: green,
+                                                              size: 30,
+                                                            ),
+                                                            titleText: text(
+                                                                context,
+                                                                'تم الارسال بنجاح',
+                                                                16,
+                                                                purple),
+                                                            messageText: text(
+                                                                context,
+                                                                'سوف يتم التواصل معك عبر البريد الالكتروني',
+                                                                14,
+                                                                black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w200),
+                                                          ).show(context)
+                                                        })
+                                          }
                                         : null;
                                   })),
                             ),

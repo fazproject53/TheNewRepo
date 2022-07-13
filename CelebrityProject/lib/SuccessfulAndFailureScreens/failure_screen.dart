@@ -43,7 +43,7 @@ class _FailureScreenState extends State<FailureScreen> {
                       context,
                       'حاول مجددا', 14, black, () {
                       ///determine the amount of money
-                      goTopagepush(context, UserRechargeBalance());
+                      goTopagepush(context, const UserRechargeBalance());
                     },
                     ),
                     gradient: true,color: grey!, height: 45,
@@ -58,7 +58,7 @@ class _FailureScreenState extends State<FailureScreen> {
                     400.w,
                     buttoms(context, 'العودة للصفحة الرئيسية', 15, white, () {
                       ///Go to Balance Screen with change in balance
-                      goTopagepush(context, MainScreen() );
+                      goTopagepush(context, const MainScreen() );
                     })),
               ),
             ],

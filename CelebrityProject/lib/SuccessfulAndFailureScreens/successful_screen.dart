@@ -36,7 +36,7 @@ class _SuccessfulScreenState extends State<SuccessfulScreen> {
                 gradientContainerNoborder(
                     400.w, buttoms(context, 'تم', 15, white, () {
                       ///Go to Balance Screen with change in balance
-                      goTopagepush(context, UserBalance());
+                      goTopagepush(context, const UserBalance());
                 })),
               ),
             ],
