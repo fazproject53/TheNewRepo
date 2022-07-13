@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import '../../../Account/LoggingSingUpAPI.dart';
 import 'AdSpaceApi.dart';
 import 'AdSpaceDetails.dart';
@@ -15,99 +20,98 @@ class AdSpace extends StatefulWidget {
 
 class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
   String token = '';
-  Future<AdSpaceOrder>? celebrityAdSpaceRequests;
 
+  bool isConnectAdvertisingOrder = true;
+  bool hasMore = true;
+  bool isLoading = false;
+  int page = 1;
+  int pageCount = 2;
+  bool empty = false;
+  int? newItemLength;
+  List<AdSpaceOrders> oldAdvertisingOrder = [];
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
     DatabaseHelper.getToken().then((value) {
       setState(() {
         token = value;
-        celebrityAdSpaceRequests = getAdSpaceOrder(token);
+        getAdSpaceOrder(token);
       });
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+              scrollController.offset &&
+          hasMore == false) {
+        print('getNew Data');
+        getAdSpaceOrder(token);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-            future: celebrityAdSpaceRequests,
-            builder: ((context, AsyncSnapshot<AdSpaceOrder> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return  Center(
-                  child: mainLoad(context),
-                );
-              } else if (snapshot.connectionState == ConnectionState.active ||
-                  snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  if(snapshot.error.toString()=='تحقق من اتصالك بالانترنت'){
-                    return internetConnection(context);
-                  }else{
-                    return Center(child: Text(snapshot.error.toString()));
-                  }
-                  //---------------------------------------------------------------------------
-                } else if (snapshot.hasData) {
-                  return snapshot.data!.data!.adSpaceOrders!.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: snapshot.data!.data!.adSpaceOrders!.length,
-                          itemBuilder: (context, i) {
-                            return InkWell(
-                                onTap: () {
-                                  goTopagepush(
-                                      context,
-                                      AdSpaceDetails(
-                                        i: i,
-                                        image: snapshot.data!.data!
-                                            .adSpaceOrders![i].image,
-                                        link: snapshot
-                                            .data!.data!.adSpaceOrders![i].link,
-                                        price: snapshot.data!.data!
-                                            .adSpaceOrders![i].price,
-                                        orderId: snapshot
-                                            .data!.data!.adSpaceOrders![i].id,
-                                        token: token,
-                                        state: snapshot.data!.data!
-                                            .adSpaceOrders![i].status?.id,
-                                        rejectResonName: snapshot
-                                            .data!
-                                            .data!
-                                            .adSpaceOrders![i]
-                                            .rejectReson
-                                            ?.name!,
-                                        rejectResonId: snapshot.data!.data!
-                                            .adSpaceOrders![i].rejectReson?.id,
-                                      ));
-                                },
-                                child: Column(
-                                  children: [
-                                    getData(
-                                        i, snapshot.data!.data!.adSpaceOrders),
-                                  ],
-                                ));
-                          })
-                      : Center(
-                          child: Center(
-                              child: text(
-                          context,
-                          "لاتوجد طلبات لعرضها حاليا",
-                          15,
-                          black,
-                        )));
-                } else {
-                  return text(
-                    context,
-                    "لاتوجد طلبات لعرضها حاليا",
-                    15,
-                    black,
-                  );
-                }
-              } else {
-                return Center(
-                    child: Text('State: ${snapshot.connectionState}'));
-              }
-            })));
+    return RefreshIndicator(
+      onRefresh: refreshRequest,
+      child: isConnectAdvertisingOrder == false
+          ? Center(
+              child: internetConnection(context, reload: () {
+                setState(() {
+                  refreshRequest();
+                  isConnectAdvertisingOrder = true;
+                });
+              }),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: empty
+                  ? noData(context)
+                  : ListView.builder(
+                      controller: scrollController,
+                      itemCount: oldAdvertisingOrder.length + 1,
+                      itemBuilder: (context, i) {
+                        if (oldAdvertisingOrder.length > i) {
+                          return InkWell(
+                              onTap: () {
+                                goToPagePushRefresh(
+                                    context,
+                                    AdSpaceDetails(
+                                      i: i,
+                                      image: oldAdvertisingOrder[i].image,
+                                      link: oldAdvertisingOrder[i].link,
+                                      price: oldAdvertisingOrder[i].price,
+                                      orderId: oldAdvertisingOrder[i].id,
+                                      token: token,
+                                      state: oldAdvertisingOrder[i].status?.id,
+                                      rejectResonName: oldAdvertisingOrder[i]
+                                          .rejectReson
+                                          ?.name!,
+                                      rejectResonId: oldAdvertisingOrder[i]
+                                          .rejectReson
+                                          ?.id,
+                                    ), then: (value) {
+                                  if (clickAdvSpace) {
+                                    setState(() {
+                                      refreshRequest();
+                                      clickAdvSpace = false;
+                                    });
+                                  }
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  getData(i, oldAdvertisingOrder),
+                                ],
+                              ));
+                        } else {
+                          return isLoading &&
+                                  pageCount >= page &&
+                                  oldAdvertisingOrder.isNotEmpty
+                              ? lodeOneData()
+                              : const SizedBox();
+                        }
+                      })),
+    );
   }
 
 //----------------------------------------------------------------------------------------
@@ -120,30 +124,67 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
         Colors.white,
         Column(
           children: [
-//image-----------------------------------------
+//image----------------------
+//
             Expanded(
               flex: 2,
               child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.h),
-                      topRight: Radius.circular(10.h),
-                      bottomRight: Radius.circular(10.h),
-                      bottomLeft: Radius.circular(10.h),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.h),
                     ),
-                    image: DecorationImage(
-                        image: NetworkImage(adSpaceOrders![i].image!),
-                        fit: BoxFit.cover,
-                        colorFilter: const ColorFilter.mode(
-                            Colors.black45, BlendMode.darken)),
                   ),
-//status-----------------------------------------------------------------------------------
 
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Stack(
                     children: [
+// image------------------------------------------------------------------------------
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.r),
+                            topRight: Radius.circular(10.r)),
+                        child: Image.network(
+                          adSpaceOrders![i].image!,
+                          color: black.withOpacity(0.4),
+                          colorBlendMode: BlendMode.darken,
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                                child: Lottie.asset('assets/lottie/grey.json',
+                                    height: 70.h, width: 70.w));
+                          },
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.sync_problem,
+                                    size: 25.r,
+                                    color: pink,
+                                  ),
+                                  text(
+                                    context,
+                                    '  اضغط لاعادة تحميل الصورة',
+                                    12,
+                                    Colors.grey,
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+//status-----------------------------------------------------------------------------------
                       Padding(
                         padding: EdgeInsets.all(8.0.r),
                         child: Align(
@@ -164,7 +205,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-// celebrity name---------------------------------------------------------------------------------
+// user name---------------------------------------------------------------------------------
 
                           Align(
                               alignment: Alignment.bottomRight,
@@ -184,7 +225,7 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                               alignment: Alignment.bottomLeft,
                               child: Padding(
                                 padding:
-                                    EdgeInsets.only(right: 16.w, bottom: 10.h),
+                                EdgeInsets.only(right: 16.w, bottom: 10.h),
                                 child: text(
                                   context,
                                   adSpaceOrders[i].date!,
@@ -200,6 +241,8 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
                     ],
                   )),
             ),
+
+
           ],
         ),
         bottomLeft: 10,
@@ -209,6 +252,86 @@ class _AdSpaceState extends State<AdSpace> with AutomaticKeepAliveClientMixin {
         marginB: 15,
         blur: 5,
         marginT: 5);
+  }
+
+//get Advertising Orders------------------------------------------------------------------------
+  getAdSpaceOrder(String token) async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
+    print('pageApi $pageCount pagNumber $page');
+    String url =
+        "https://mobile.celebrityads.net/api/celebrity/AdSpaceOrders?page=$page";
+    if (page == 1) {
+      loadingRequestDialogue(context);
+    }
+    try {
+      final respons = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+
+      if (respons.statusCode == 200) {
+        final body = respons.body;
+        AdSpaceOrder advertising = AdSpaceOrder.fromJson(jsonDecode(body));
+        var newItem = advertising.data!.adSpaceOrders!;
+        pageCount = advertising.data!.pageCount!;
+        print('length ${newItem.length}');
+        if (!mounted) return;
+        setState(() {
+          if (newItem.isNotEmpty) {
+            hasMore = newItem.isEmpty;
+            oldAdvertisingOrder.addAll(newItem);
+            isLoading = false;
+            newItemLength = newItem.length;
+            if (page == 1) {
+              Navigator.pop(context);
+            }
+            page++;
+          } else if (newItem.isEmpty && page == 1) {
+            if (page == 1) {
+              Navigator.pop(context);
+            }
+            setState(() {
+              empty = true;
+            });
+          }
+        });
+        return advertising;
+      } else {
+        throw Exception('ggg');
+        return Future.error('حدثت مشكله في السيرفر');
+      }
+    } catch (e) {
+      if (page == 1) {
+        Navigator.pop(context);
+      }
+      if (e is SocketException) {
+        setState(() {
+          isConnectAdvertisingOrder = false;
+        });
+        return Future.error('SocketException');
+      } else if (e is TimeoutException) {
+        return Future.error('TimeoutException');
+      } else {
+        //throw Exception('ggg');
+        return Future.error('حدثت مشكله في السيرفر');
+      }
+    }
+  } //refreshRequest-----------------------------------------------------------------
+
+  Future refreshRequest() async {
+    setState(() {
+      hasMore = true;
+      isLoading = false;
+      page = 1;
+      oldAdvertisingOrder.clear();
+    });
+    getAdSpaceOrder(token);
   }
 
   @override

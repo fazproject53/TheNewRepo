@@ -137,7 +137,7 @@ class Celebrity {
   String? email;
   String? phonenumber;
   Country? country;
-  City? city;
+  //City? city;
   Gender? gender;
   String? description;
   String? pageUrl;
@@ -161,7 +161,7 @@ class Celebrity {
         this.email,
         this.phonenumber,
         this.country,
-        this.city,
+        //this.city,
         this.gender,
         this.description,
         this.pageUrl,
@@ -186,7 +186,7 @@ class Celebrity {
     phonenumber = json['phonenumber'];
     country =
     json['country'] != null ? new Country.fromJson(json['country']) : null;
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+   // city = json['city'] != null ? new City.fromJson(json['city']) : null;
     gender = json['gender'] != null ? new Gender.fromJson(json['gender']) : null;
     description = json['description'];
     pageUrl = json['page_url'];
@@ -216,7 +216,7 @@ class Celebrity {
     if (this.country != null) {
       data['country'] = this.country!.toJson();
     }
-    data['city'] = this.city;
+    //data['city'] = this.city;
     data['gender'] = this.gender;
     data['description'] = this.description;
     data['page_url'] = this.pageUrl;

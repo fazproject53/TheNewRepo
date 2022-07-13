@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:celepraty/Models/Methods/method.dart';
 import 'package:celepraty/Models/Variables/Variables.dart';
-import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +11,8 @@ import '../../../Account/UserForm.dart';
 import '../../chat/chat_Screen.dart';
 import '../Ads/AdvertisinApi.dart';
 import '../DownloadImages.dart';
+
+bool clickAdvSpace = false;
 
 class AdSpaceDetails extends StatefulWidget {
   int? i;
@@ -62,7 +63,6 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
     super.initState();
     getRejectReson();
     print(widget.state);
-
   }
 
   @override
@@ -88,7 +88,7 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                     margin: EdgeInsets.symmetric(horizontal: 20.r),
                     child: text(
                       context,
-                      'رقم الطلب: '+widget.orderId!.toString(),
+                      'رقم الطلب: ' + widget.orderId!.toString(),
                       18,
                       black,
                       //fontWeight: FontWeight.bold,
@@ -112,7 +112,8 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                         margin: EdgeInsets.symmetric(
                             vertical: 20.h, horizontal: 20.r),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.r)),
                             image: DecorationImage(
                                 image: NetworkImage(
                                   widget.image!,
@@ -135,18 +136,14 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                         ),
                         InkWell(
                           onTap: () async {
-                            var url =  widget.link!;
-                            if(await canLaunch(url.toString())){
-                               await launch(url.toString(),forceWebView: true);
-                            }else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar(
-                                  context,
-                                  'الرابط غير صالح',
-                                  red,
-                                  error));
+                            var url = widget.link!;
+                            if (await canLaunch(url.toString())) {
+                              await launch(url.toString(), forceWebView: true);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar(
+                                      context, 'الرابط غير صالح', red, error));
                             }
-
                           },
                           child: text(
                             context,
@@ -178,25 +175,25 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   widget.state == 4
                                       ? "لقد قبلت الطلب"
                                       : widget.state == 3
-                                      ? 'قبول'
-                                      : widget.state == 2
-                                      ? 'قبول من المتابع'
-                                      : widget.state == 6
-                                      ? 'تم الدفع'
-                                      : 'قبول',
+                                          ? 'قبول'
+                                          : widget.state == 2
+                                              ? 'قبول من المتابع'
+                                              : widget.state == 6
+                                                  ? 'تم الدفع'
+                                                  : 'قبول',
                                   15,
                                   widget.state == 4 ||
-                                      widget.state == 3 ||
-                                      widget.state == 2 ||
-                                      widget.state == 5 ||
-                                      widget.state == 6
+                                          widget.state == 3 ||
+                                          widget.state == 2 ||
+                                          widget.state == 5 ||
+                                          widget.state == 6
                                       ? deepBlack
                                       : white,
                                   widget.state == 4 ||
-                                      widget.state == 3 ||
-                                      widget.state == 2 ||
-                                      widget.state == 5 ||
-                                      widget.state == 6
+                                          widget.state == 3 ||
+                                          widget.state == 2 ||
+                                          widget.state == 5 ||
+                                          widget.state == 6
                                       ? null
                                       : () {
                                           loadingDialogue(context);
@@ -208,12 +205,17 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                           result.then((value) {
                                             if (value == true) {
                                               Navigator.pop(context);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(snackBar(
-                                                      context,
-                                                      'تم قبول الطلب',
-                                                      green,
-                                                      done));
+                                              setState(() {
+                                                clickAdvSpace = true;
+                                              });
+                                              successfullyDialog(
+                                                  context,
+                                                  'تم قبول الطلب بنجاح',
+                                                  "assets/lottie/SuccessfulCheck.json",
+                                                  'حسناً', () {
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              });
                                             } else {
                                               Navigator.pop(context);
                                               ScaffoldMessenger.of(context)
@@ -229,17 +231,17 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 ),
                                 height: 50,
                                 color: widget.state == 4 ||
-                                    widget.state == 3 ||
-                                    widget.state == 2 ||
-                                    widget.state == 5 ||
-                                    widget.state == 6
+                                        widget.state == 3 ||
+                                        widget.state == 2 ||
+                                        widget.state == 5 ||
+                                        widget.state == 6
                                     ? deepBlack
                                     : Colors.transparent,
                                 gradient: widget.state == 4 ||
-                                    widget.state == 3 ||
-                                    widget.state == 2 ||
-                                    widget.state == 5 ||
-                                    widget.state == 6
+                                        widget.state == 3 ||
+                                        widget.state == 2 ||
+                                        widget.state == 5 ||
+                                        widget.state == 6
                                     ? true
                                     : false,
                               ),
@@ -259,25 +261,25 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                   widget.state == 3
                                       ? "لقد رفضت الطلب "
                                       : widget.state == 4
-                                      ? 'رفض'
-                                      : widget.state == 5
-                                      ? 'رفض من المتابع'
-                                      : widget.state == 6
-                                      ? 'رفض'
-                                      : 'رفض',
+                                          ? 'رفض'
+                                          : widget.state == 5
+                                              ? 'رفض من المتابع'
+                                              : widget.state == 6
+                                                  ? 'رفض'
+                                                  : 'رفض',
                                   15,
                                   widget.state == 3 ||
-                                      widget.state == 4 ||
-                                      widget.state == 5 ||
-                                      widget.state == 2 ||
-                                      widget.state == 6
+                                          widget.state == 4 ||
+                                          widget.state == 5 ||
+                                          widget.state == 2 ||
+                                          widget.state == 6
                                       ? deepgrey!
                                       : black,
                                   widget.state == 4 ||
-                                      widget.state == 3 ||
-                                      widget.state == 5 ||
-                                      widget.state == 2 ||
-                                      widget.state == 6
+                                          widget.state == 3 ||
+                                          widget.state == 5 ||
+                                          widget.state == 2 ||
+                                          widget.state == 6
                                       ? null
                                       : () {
                                           rejectResonsList.isNotEmpty
@@ -289,10 +291,10 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                 height: 50,
                                 gradient: true,
                                 color: widget.state == 3 ||
-                                    widget.state == 4 ||
-                                    widget.state == 5 ||
-                                    widget.state == 2 ||
-                                    widget.state == 6
+                                        widget.state == 4 ||
+                                        widget.state == 5 ||
+                                        widget.state == 2 ||
+                                        widget.state == 6
                                     ? deepBlack
                                     : pink,
                               ),
@@ -400,12 +402,17 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                         result.then((value) {
                                           if (value == true) {
                                             Navigator.pop(context);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(snackBar(
-                                                    context,
-                                                    'تم رفض الطلب',
-                                                    green,
-                                                    done));
+                                            setState(() {
+                                              clickAdvSpace = true;
+                                            });
+                                            successfullyDialog(
+                                                context,
+                                                'تم رفض الطلب بنجاح',
+                                                "assets/lottie/SuccessfulCheck.json",
+                                                'حسناً', () {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            });
                                           } else {
                                             Navigator.pop(context);
                                             ScaffoldMessenger.of(context)
@@ -428,9 +435,17 @@ class _AdSpaceDetailsState extends State<AdSpaceDetails> {
                                       result.then((value) {
                                         if (value == true) {
                                           Navigator.pop(context);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar(context,
-                                                  'تم رفض الطلب', green, done));
+                                          setState(() {
+                                            clickAdvSpace = true;
+                                          });
+                                          successfullyDialog(
+                                              context,
+                                              'تم رفض الطلب بنجاح',
+                                              "assets/lottie/SuccessfulCheck.json",
+                                              'حسناً', () {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          });
                                         } else {
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context)

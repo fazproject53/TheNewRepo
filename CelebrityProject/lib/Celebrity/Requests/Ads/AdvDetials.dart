@@ -325,14 +325,12 @@ class _AdvDetialsState extends State<AdvDetials>
                                       result.then((value) {
                                         if (value == true) {
                                           Navigator.pop(context);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar(
-                                                  context,
-                                                  'تم قبول الطلب',
-                                                  green,
-                                                  done));
                                           setState(() {
                                             clickAdv=true;
+                                          });
+                                          successfullyDialog(context,'تم قبول الطلب بنجاح',"assets/lottie/SuccessfulCheck.json",'حسناً',(){
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
                                           });
                                         } else {
                                           Navigator.pop(context);
@@ -424,7 +422,7 @@ class _AdvDetialsState extends State<AdvDetials>
                       SizedBox(
                         width: 10.w,
                       ),
-//---------------------------------------------------------
+//chat---------------------------------------------------------
                       Expanded(
                         child: Row(
                           children: [
@@ -512,11 +510,13 @@ class _AdvDetialsState extends State<AdvDetials>
                                   result.then((value) {
                                     if (value == true) {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(snackBar(context,
-                                              'تم رفض الطلب', green, done));
+
                                       setState(() {
                                         clickAdv=true;
+                                      });
+                                      successfullyDialog(context,'تم رفض الطلب بنجاح',"assets/lottie/SuccessfulCheck.json",'حسناً',(){
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
                                       });
                                     } else {
                                       Navigator.pop(context);
@@ -540,13 +540,13 @@ class _AdvDetialsState extends State<AdvDetials>
                                 result.then((value) {
                                   if (value == true) {
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        snackBar(context, 'تم رفض الطلب', green,
-                                            done));
                                     setState(() {
                                       clickAdv=true;
                                     });
-                                    print('clickAdv $clickAdv');
+                                    successfullyDialog(context,'تم رفض الطلب بنجاح',"assets/lottie/SuccessfulCheck.json",'حسناً',(){
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    });
                                   } else {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -554,8 +554,8 @@ class _AdvDetialsState extends State<AdvDetials>
                                             red, error));
                                   }
                                 });
-
-                              }
+                              //
+                               }
 
                             },
                             evaluation: 0,
@@ -619,7 +619,7 @@ class _AdvDetialsState extends State<AdvDetials>
                             onTap: () {
                               setState(() {
                                 resonReject = rejectResonsList[i];
-                                resonRejectId = i;
+                                resonRejectId = i+1;
                                 isReject = false;
                               });
                               Navigator.pop(context);

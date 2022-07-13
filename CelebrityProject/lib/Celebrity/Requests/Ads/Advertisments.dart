@@ -25,15 +25,18 @@ class _AdvertismentState extends State<Advertisment>
   bool isLoading = false;
   int page = 1;
   int pageCount = 2;
+  bool empty=false;
   int? newItemLength;
   List<AdvertisingOrders> oldAdvertisingOrder = [];
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
+
     DatabaseHelper.getToken().then((value) {
       setState(() {
         token = value;
+
         getAdvertisingOrder(token);
       });
     });
@@ -52,63 +55,64 @@ class _AdvertismentState extends State<Advertisment>
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: refreshRequest,
-      child: Padding(
+      child: isConnectAdvertisingOrder == false
+          ? Center(
+        child: internetConnection(context, reload: () {
+          setState(() {
+            refreshRequest();
+            isConnectAdvertisingOrder = true;
+          });
+        }),
+      ):Padding(
           padding: const EdgeInsets.all(8.0),
-          child: oldAdvertisingOrder.isEmpty
-              ? lodeNextData()
-              : newItemLength == 0
-                  ? noData()
-                  : ListView.builder(
-                      controller: scrollController,
-                      itemCount: oldAdvertisingOrder.length + 1,
-                      itemBuilder: (context, i) {
-                        if (oldAdvertisingOrder.length > i) {
-                          return InkWell(
-                              onTap: () {
-                                goToPagePushRefresh(
-                                    context,
-                                    AdvDetials(
-                                      i: i,
-                                      image: oldAdvertisingOrder[i].file,
-                                      advTitle: oldAdvertisingOrder[i]
-                                          .advertisingAdType!
-                                          .name,
-                                      description:
-                                          oldAdvertisingOrder[i].description,
-                                      orderId: oldAdvertisingOrder[i].id,
-                                      token: token,
-                                      platform:
-                                          oldAdvertisingOrder[i].platform?.name,
-                                      state: oldAdvertisingOrder[i].status?.id,
-                                      price: oldAdvertisingOrder[i].price,
-                                      rejectResonName: oldAdvertisingOrder[i]
-                                          .rejectReson
-                                          ?.name!,
-                                      rejectResonId: oldAdvertisingOrder[i]
-                                          .rejectReson
-                                          ?.id,
-                                    ), then: (value) {
-                                  if (clickAdv) {
-                                    setState(() {
-                                      refreshRequest();
-                                      clickAdv = false;
-                                    });
-                                  }
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  body(i, oldAdvertisingOrder),
-                                ],
-                              ));
-                        } else {
-                          return isLoading &&
-                                  pageCount >= page &&
-                                  oldAdvertisingOrder.isNotEmpty
-                              ? lodeOneData()
-                              : const SizedBox();
-                        }
-                      })),
+          child: empty?noData(context):ListView.builder(
+              controller: scrollController,
+              itemCount: oldAdvertisingOrder.length + 1,
+              itemBuilder: (context, i) {
+                if (oldAdvertisingOrder.length > i) {
+
+                  return InkWell(
+                      onTap: () {
+                        goToPagePushRefresh(
+                            context,
+                            AdvDetials(
+                              i: i,
+                              image: oldAdvertisingOrder[i].file,
+                              advTitle: oldAdvertisingOrder[i]
+                                  .advertisingAdType!
+                                  .name,
+                              description: oldAdvertisingOrder[i].description,
+                              orderId: oldAdvertisingOrder[i].id,
+                              token: token,
+                              platform: oldAdvertisingOrder[i].platform?.name,
+                              state: oldAdvertisingOrder[i].status?.id,
+                              price: oldAdvertisingOrder[i].price,
+                              rejectResonName:
+                                  oldAdvertisingOrder[i].rejectReson?.name!,
+                              rejectResonId:
+                                  oldAdvertisingOrder[i].rejectReson?.id,
+                            ), then: (value) {
+                          if (clickAdv) {
+                            setState(() {
+                              refreshRequest();
+                              clickAdv = false;
+                            });
+                          }
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          body(i, oldAdvertisingOrder),
+                        ],
+                      ));
+                } else {
+                  return isLoading &&
+                          pageCount >= page &&
+                          oldAdvertisingOrder.isNotEmpty
+                      ? lodeOneData()
+                      : const SizedBox();
+                }
+              })),
     );
   }
 
@@ -167,7 +171,8 @@ class _AdvertismentState extends State<Advertisment>
                                 return Center(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.sync_problem,
@@ -364,6 +369,9 @@ class _AdvertismentState extends State<Advertisment>
 
     String url =
         "https://mobile.celebrityads.net/api/celebrity/AdvertisingOrders?page=$page";
+    if (page == 1) {
+      loadingRequestDialogue(context);
+    }
     try {
       final respons = await http.get(Uri.parse(url), headers: {
         'Content-Type': 'application/json',
@@ -384,16 +392,27 @@ class _AdvertismentState extends State<Advertisment>
             oldAdvertisingOrder.addAll(newItem);
             isLoading = false;
             newItemLength = newItem.length;
-            //page++;
+            if (page == 1) {
+              Navigator.pop(context);
+            }
             page++;
+          } else if(newItem.isEmpty&& page==1){
+            if (page == 1) {
+              Navigator.pop(context);
+            }
+            setState(() {
+              empty = true;
+            });
           }
         });
         return advertising;
       } else {
-        //throw  Exception('حدثت مشكله في السيرفر');
         return Future.error('حدثت مشكله في السيرفر');
       }
     } catch (e) {
+      if (page == 1) {
+        Navigator.pop(context);
+      }
       if (e is SocketException) {
         setState(() {
           isConnectAdvertisingOrder = false;
@@ -417,73 +436,6 @@ class _AdvertismentState extends State<Advertisment>
     getAdvertisingOrder(token);
   }
 
-//---------------------------------------------------------------------------------
-  Widget lodeNextData() {
-    return ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, i) {
-          return Container(
-            margin: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h),
-            height: 200.h,
-            width: 200.w,
-            child: Shimmer(
-                enabled: true,
-                gradient: LinearGradient(
-                  tileMode: TileMode.mirror,
-                  // begin: Alignment(0.7, 2.0),
-                  //end: Alignment(-0.69, -1.0),
-                  colors: [mainGrey, Colors.white],
-                  stops: const [0.1, 0.88],
-                ),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.h),
-                    ),
-                  ),
-                )),
-          );
-        });
-  }
 
-//show no data----------------------------------------------------------------------
-  Widget noData() {
-    return Center(
-      child: text(
-        context,
-        "لاتوجد طلبات لعرضها حاليا",
-        15,
-        black,
-      ),
-    );
-  }
 
-  //lode one card----------------------------------------------------------------------------
-  Widget lodeOneData() {
-    return Container(
-      margin: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h),
-      height: 200.h,
-      width: 200.w,
-      child: Shimmer(
-          enabled: true,
-          gradient: LinearGradient(
-            tileMode: TileMode.mirror,
-            // begin: Alignment(0.7, 2.0),
-            //end: Alignment(-0.69, -1.0),
-            colors: [mainGrey, Colors.white],
-            stops: const [0.1, 0.88],
-          ),
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.h),
-              ),
-            ),
-          )),
-    );
-  }
 }

@@ -13,6 +13,7 @@ import 'package:flutter_flushbar/flutter_flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 //===============================Text===============================
 
@@ -1285,7 +1286,110 @@ loadingDialogue(context) {
         );
       });
 }
+loadingRequestDialogue(context) {
+  return showDialog(
+   // barrierDismissible: false,
+    barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return Center(
+          child: AlertDialog(
+            titlePadding: EdgeInsets.zero,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            contentPadding: EdgeInsets.only(top: 170.h),
+            content: SizedBox(
+              width: double.infinity,
+              height: 150.h,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Lottie.asset(
+                  "assets/lottie/grey.json",
+                  fit: BoxFit.contain,
+                  height: 90.h
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+}
 
+//lode one card----------------------------------------------------------------------------
+Widget lodeOneData() {
+  return Container(
+    margin: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h),
+    height: 200.h,
+    width: 200.w,
+    child: Shimmer(
+        enabled: true,
+        gradient: LinearGradient(
+          tileMode: TileMode.mirror,
+          // begin: Alignment(0.7, 2.0),
+          //end: Alignment(-0.69, -1.0),
+          colors: [mainGrey, Colors.white],
+          stops: const [0.1, 0.88],
+        ),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.h),
+            ),
+          ),
+        )),
+  );
+}
+//show no data----------------------------------------------------------------------
+Widget noData(context) {
+  return Center(
+    child: text(
+      context,
+      "لاتوجد طلبات لعرضها حاليا",
+      15,
+      black,
+    ),
+  );
+}
+
+successfullyDialog(context,String massage,String lottie,String bottomName,action) {
+  return showDialog(
+     barrierDismissible: false,
+      //barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.zero,
+          elevation: 5,
+          backgroundColor: white,
+          contentPadding: EdgeInsets.only(top: 30.h),
+          actionsPadding: EdgeInsets.zero,
+          content: SizedBox(
+            height: 200.h,
+            child: Column(
+
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                text(context, massage, 18, black),
+                Lottie.asset(
+                    lottie,
+                    fit: BoxFit.cover,
+                    //height: 90.h
+                ),
+              ],
+            ),
+          ),
+           actions: [
+             Padding(
+               padding:  EdgeInsets.only(bottom: 10.h),
+               child: Center(child: buttoms(context, bottomName, 18, Colors.grey, action,backgrounColor: white)),
+             )
+           ],
+        );
+      });
+}
 //snackBar------------------------------------------------------------------------------------
 SnackBar snackBar(context, String title, Color? color, IconData? icon) {
   return SnackBar(
