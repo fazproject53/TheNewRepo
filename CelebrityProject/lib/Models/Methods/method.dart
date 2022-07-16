@@ -702,8 +702,7 @@ Widget textFieldDesc(context, String key, double fontSize, bool hintPass,
       minLines: 10,
       maxLength: maxLenth,
       textAlignVertical: TextAlignVertical.top,
-      style:
-          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+      style: TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius:BorderRadius.circular(8.r),
@@ -1000,21 +999,27 @@ Widget textFieldDescOnChange(context, String key, double fontSize,
       maxLength: maxLenth,
       textAlignVertical: TextAlignVertical.top,
       style:
-          TextStyle(color: white, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          TextStyle(color: black, fontSize: fontSize.sp, fontFamily: 'Cairo'),
       decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius:BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: newGrey,
+              width: 0.5,
+            ),),
           isDense: false,
           filled: true,
           hintStyle: TextStyle(
-              color: Colors.grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
-          fillColor: textFieldBlack2.withOpacity(0.70),
+              color: grey, fontSize: fontSize.sp, fontFamily: 'Cairo'),
+          fillColor:  lightGrey.withOpacity(0.10),
           labelStyle: TextStyle(
-            color: Colors.grey,
+            color: white,
             fontSize: fontSize.sp,
           ),
           alignLabelWithHint: true,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
           focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: pink, width: 1)),
+          OutlineInputBorder(borderSide: BorderSide(color: purple, width: 1)),
           hintText: key,
           contentPadding: EdgeInsets.all(10.h)),
     ),
