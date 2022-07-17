@@ -122,12 +122,11 @@ class _HomeBodyDiscountState extends State<HomeBodyDiscount> {
                         } else if (snapshot.hasData) {
                           return snapshot.data!.data!.promoCode!.isNotEmpty ? Stack(
                             children:[
-                              Positioned(
-                                child: Padding(
+                              Padding(
                                   padding: EdgeInsets.only(top: 50.h, right: 20.w),
                                   child: text(context, "الاكواد الحالية", 25, ligthtBlack),
                                 ),
-                              ),
+
                               Positioned(
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 100.h),

@@ -8,13 +8,13 @@ import 'package:celepraty/Users/Exploer/viewData.dart';
 import 'package:celepraty/Users/Exploer/viewDataImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../ModelAPI/CelebrityScreenAPI.dart';
 import '../../Models/Methods/classes/GradientIcon.dart';
-import '../../celebrity/HomeScreen/celebrity_home_page.dart';
+
 import '../orders/advArea.dart';
 import '../orders/advForm.dart';
 import '../orders/gifttingForm.dart';
@@ -37,16 +37,37 @@ class _CelebrityHomeState extends State<CelebrityHome>
   ///list of string to store the advertising area images
   List<String> advImage = [];
 
+  ///Pagination Variable Section
+
+  bool isHasMore = true;
+  bool isLoading = false; ///Waiting Process
+  bool empty = false;
+
+  int basicPage = 1;
+  int pageCount = 2;
+  int? newItemLength;
+
+  List<News> oldNews = []; ///To Store all news
+  ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     celebrityHome = getSectionsData(widget.pageUrl!);
+    getNews();
+    scrollController.addListener(() {
+      if(scrollController.position.maxScrollExtent == scrollController.offset
+      &&
+      isHasMore == false){
+        getNews();
+      }
+    });
     super.initState();
   }
 
-  Future<introModel> getSectionsData(String pageurl) async {
+  Future<introModel> getSectionsData(String pageUrl) async {
     final response = await http.get(
         Uri.parse(
-            'https://mobile.celebrityads.net/api/celebrity-page/$pageurl'),
+            'https://mobile.celebrityads.net/api/celebrity-page/$pageUrl'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -367,15 +388,15 @@ class _CelebrityHomeState extends State<CelebrityHome>
 
                           ///horizontal listView for news
                           Visibility(
-                            visible: snapshot.data!.data!.news!.isEmpty
-                                ? false
-                                : true,
+                            visible: oldNews.isEmpty ? true : false,
                             child: SizedBox(
                               height: 90.h,
                               child: ListView.builder(
+                                controller: scrollController,
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: snapshot.data!.data!.news!.length,
+                                  itemCount: oldNews.length + 1,
                                   itemBuilder: (context, index) {
+                                  if(oldNews.length > index){
                                     return Row(children: [
                                       Padding(
                                         padding: EdgeInsets.only(right: 8.w),
@@ -386,7 +407,7 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                             borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(50.r),
                                               bottomRight:
-                                                  Radius.circular(50.r),
+                                              Radius.circular(50.r),
                                               topLeft: Radius.circular(15.r),
                                               bottomLeft: Radius.circular(15.r),
                                             ),
@@ -402,17 +423,17 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                           ),
                                           child: Padding(
                                             padding:
-                                                EdgeInsets.only(right: 8.w),
+                                            EdgeInsets.only(right: 8.w),
                                             child: Row(
                                               children: [
                                                 CircleAvatar(
                                                   backgroundImage:
-                                                      Image.network(snapshot
-                                                              .data!
-                                                              .data!
-                                                              .celebrity!
-                                                              .image!)
-                                                          .image,
+                                                  Image.network(snapshot
+                                                      .data!
+                                                      .data!
+                                                      .celebrity!
+                                                      .image!)
+                                                      .image,
                                                   radius: 30.r,
                                                 ),
                                                 SizedBox(
@@ -423,8 +444,8 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                                   width: 110.w,
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    MainAxisAlignment
+                                                        .center,
                                                     children: [
                                                       text(
                                                         context,
@@ -445,6 +466,10 @@ class _CelebrityHomeState extends State<CelebrityHome>
                                         ),
                                       ),
                                     ]);
+                                  }else{
+                                    return isLoading && pageCount >= basicPage && oldNews.isNotEmpty ? lodeOneData() : SizedBox();
+                                  }
+
                                   }),
                             ),
                           ),
@@ -1043,6 +1068,66 @@ class _CelebrityHomeState extends State<CelebrityHome>
         );
       },
     );
+  }
+
+  ///Pagination of news
+  getNews() async {
+    if(isLoading){
+      return ;
+    }
+    setState(() {
+      isLoading = true;
+    });
+
+    ///page url check
+    String url = "";
+    if(basicPage == 1){
+      loadingRequestDialogue(context);
+    }
+
+    try{
+      final response = await http.get(Uri.parse(url), headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+
+      });
+      if(response.statusCode == 20){
+        final body = response.body;
+        introModel newsPagination = introModel.fromJson(jsonDecode(body));
+
+        var newNews = newsPagination.data!.news!;
+        pageCount = newsPagination.data!.newsPageCount!;
+        if (!mounted) return;
+print('boooooodyyyyy: $body');
+        setState(() {
+          if(newNews.isNotEmpty){
+            isHasMore = newNews.isEmpty;
+            oldNews.addAll(newNews);
+
+            isLoading = false;
+            newItemLength = newNews.length;
+            if(basicPage == 1){
+              Navigator.pop(context);
+            }
+            basicPage++;
+          }else if(newNews.isEmpty && basicPage == 1){
+            if(basicPage == 1){
+              Navigator.pop(context);
+            }
+            setState(() {
+              empty = true;
+            });
+          }
+        });
+        return newsPagination;
+      }else{
+        return Future.error('error');
+      }
+    }catch (error){
+      if (basicPage == 1) {
+        Navigator.pop(context);
+      }
+    }
   }
 }
 

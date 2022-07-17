@@ -22,10 +22,10 @@ class _AdvertismentState extends State<Advertisment>
   String token = '';
   bool isConnectAdvertisingOrder = true;
   bool hasMore = true;
-  bool isLoading = false;
+  bool isLoading = false; //wating process
   int page = 1;
   int pageCount = 2;
-  bool empty=false;
+  bool empty=false; ///
   int? newItemLength;
   List<AdvertisingOrders> oldAdvertisingOrder = [];
   ScrollController scrollController = ScrollController();
@@ -41,7 +41,7 @@ class _AdvertismentState extends State<Advertisment>
       });
     });
     scrollController.addListener(() {
-      if (scrollController.position.maxScrollExtent ==
+      if (scrollController.position.maxScrollExtent == //reach to bootom
               scrollController.offset &&
           hasMore == false) {
         print('getNew Data');
@@ -57,7 +57,8 @@ class _AdvertismentState extends State<Advertisment>
       onRefresh: refreshRequest,
       child: isConnectAdvertisingOrder == false
           ? Center(
-        child: internetConnection(context, reload: () {
+
+            child: internetConnection(context, reload: () {
           setState(() {
             refreshRequest();
             isConnectAdvertisingOrder = true;
@@ -65,7 +66,7 @@ class _AdvertismentState extends State<Advertisment>
         }),
       ):Padding(
           padding: const EdgeInsets.all(8.0),
-          child: empty?noData(context):ListView.builder(
+          child: empty? noData(context):ListView.builder(
               controller: scrollController,
               itemCount: oldAdvertisingOrder.length + 1,
               itemBuilder: (context, i) {
@@ -360,7 +361,7 @@ class _AdvertismentState extends State<Advertisment>
 //get Advertising Orders------------------------------------------------------------------------
   getAdvertisingOrder(String token) async {
     print('pageApi $pageCount pagNumber $page');
-    if (isLoading) {
+    if (isLoading) { //false
       return;
     }
     setState(() {
@@ -382,13 +383,13 @@ class _AdvertismentState extends State<Advertisment>
       if (respons.statusCode == 200) {
         final body = respons.body;
         Advertising advertising = Advertising.fromJson(jsonDecode(body));
-        var newItem = advertising.data!.advertisingOrders!;
+        var newItem = advertising.data!.advertisingOrders!; //2
         pageCount = advertising.data!.pageCount!;
         print('length ${newItem.length}');
         if (!mounted) return;
         setState(() {
           if (newItem.isNotEmpty) {
-            hasMore = newItem.isEmpty;
+            hasMore = newItem.isEmpty; // if there is element = true
             oldAdvertisingOrder.addAll(newItem);
             isLoading = false;
             newItemLength = newItem.length;
@@ -435,7 +436,4 @@ class _AdvertismentState extends State<Advertisment>
     });
     getAdvertisingOrder(token);
   }
-
-
-
 }
